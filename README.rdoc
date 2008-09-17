@@ -89,11 +89,11 @@ If you want to set the title and display another text, use this:
 
 Use these options to customize the title format:
 
-* +:prefix+ - text between site name and separator
-* +:separator+ - text used to separate website name from page title
-* +:suffix+ - text between separator and page title
-* +:lowercase+ - when true, the page name will be lowercase
-* +:reverse+ - when true, the page and site names will be reversed
+* <tt>:prefix</tt> - text between site name and separator
+* <tt>:separator</tt> - text used to separate website name from page title
+* <tt>:suffix</tt> - text between separator and page title
+* <tt>:lowercase</tt> - when true, the page name will be lowercase
+* <tt>:reverse</tt> - when true, the page and site names will be reversed
 
 And here are a few examples to give you ideas.
 
