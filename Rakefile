@@ -1,15 +1,16 @@
 require 'rake'
-require 'rake/testtask'
+require 'spec/rake/spectask'
 require 'rake/rdoctask'
 
 desc 'Default: run unit tests.'
-task :default => :test
+task :default => :spec
 
 desc 'Test the meta_tags plugin.'
-Rake::TestTask.new(:test) do |t|
+Spec::Rake::SpecTask.new(:spec) do |t|
   t.libs << 'lib'
-  t.pattern = 'test/**/*_test.rb'
+  t.pattern = 'spec/**/*_spec.rb'
   t.verbose = true
+  t.spec_opts = ['-cfs']
 end
 
 desc 'Generate documentation for the meta_tags plugin.'

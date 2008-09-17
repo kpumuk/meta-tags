@@ -11,10 +11,12 @@ module MetaTags
   
   def keywords(keywords)
     set_meta_tags(:keywords => keywords)
+    keywords
   end
   
   def description(description)
     set_meta_tags(:description => description)
+    description
   end
   
   def display_meta_tags(default = {})
@@ -54,12 +56,13 @@ module MetaTags
     if title.blank?
       result = content_tag :title, meta_tags[:site]
     else
+      title = normalize_title(title)
       if meta_tags[:reverse] === true
         # Reverse order => "Page : Website"
-        result = content_tag(:title, h(title + prefix + separator + suffix + meta_tags[:site]))
+        result = content_tag(:title, title + prefix + separator + suffix + meta_tags[:site])
       else
         # Standard order => "Website : Page"
-        result = content_tag(:title, h(meta_tags[:site] + prefix + separator + suffix + title))
+        result = content_tag(:title, meta_tags[:site] + prefix + separator + suffix + title)
       end
     end
 
@@ -74,8 +77,8 @@ module MetaTags
   
   private
   
-    def normalize(s)
-      s.gsub(/<\/?[^>]*>/, '')
+    def normalize_title(title)
+      h(strip_tags(title))
     end
     
     def normalize_description(description)
@@ -86,6 +89,6 @@ module MetaTags
     def normalize_keywords(keywords)
       return '' unless keywords
       keywords = keywords.flatten.join(', ') if keywords.is_a?(Array)
-      keywords.chars.downcase
+      strip_tags(keywords).chars.downcase
     end
 end
