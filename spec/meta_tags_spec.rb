@@ -139,6 +139,10 @@ describe MetaTags do
     it 'should strip multiple spaces' do
       @view.display_meta_tags(:site => 'someSite', :description => "some \n\r\t description").should include('<meta content="some description" name="description" />')
     end
+
+    it 'should strip HTML' do
+      @view.display_meta_tags(:site => 'someSite', :description => "<p>some <b>description</b></p>").should include('<meta content="some description" name="description" />')
+    end
   end
   
   describe 'displaying keywords' do
