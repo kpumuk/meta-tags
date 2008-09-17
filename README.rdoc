@@ -1,0 +1,103 @@
+=MetaTags
+
+Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
+
+==Titles
+
+Page Titles are very important for Search engines. The titles in the
+browser are displayed in the title bar. The search engines would look at
+the this title bar to determine what the page is all about.
+
+Recommended title tag length: <b>63 characters</b>
+
+==Description
+
+Description tags are called meta tags as they are not displayed by the
+browsers as that of titles. But these descriptions may be displayed by
+some search engines. They are used to describe the contents of a page in
+2 or 3 sentences.
+
+Recommended description tag length: <b>156 characters</b>
+
+==Keywords
+
+Meta Keywords tag are used to place your keywords that you think a
+surfer would search in Search engines. Repeating keywords unnecessarily
+would be considered spam and you may get permanently banned from SERP's
+
+Recommended keywords tag length: <b>256 characters</b>
+
+==MetaTags Usage
+
+First, add this code to your main layout:
+
+	<head>
+		<%= display_meta_tags :site => 'My website' %>
+	</head>
+
+Then, to set the page title, add this to each of your views (see below for other options):
+
+	<h1><%= title 'My page title' %></h1>
+
+When views are rendered, the page title will be included in the right spots:
+
+	<head>
+		<title>My website | My page title</title>
+	</head>
+	<body>
+		<h1>My page title</h1>
+	</body>
+
+===Using MetaTags in controller
+
+You can define following instance variables:
+
+	@page_title = 'Member Login'
+	@page_description = 'Member login page.'
+	@page_keywords = 'Site, Login, Members'
+	
+Also you could use +set_meta_tags+ method to define all meta tags simultaneously:
+	
+	set_meta_tags :title => 'Member Login',
+				  :description => 'Member login page.',
+				  :keywords => 'Site, Login, Members'
+
+===Using MetaTags in view
+
+To set meta tags you can use following methods:
+
+	<% title 'Member Login %>
+	<% description 'Member login page.' %>
+	<% keywords 'Member login page.' %>
+
+Also there is +set_meta_tags+ method exists:
+
+	<% set_meta_tags :title => 'Member Login',
+					 :description => 'Member login page.',
+					 :keywords => 'Site, Login, Members' %>
+
+The +title+ methods returns title itself, so you can use it to show the title
+somewhere on the page:
+
+	<h1><%= title 'Member Login' %></h1>
+
+If you want to set the title and display another text, use this:
+
+	<h1><%= title 'Member Login', 'Here you can login to the site:' %></h1>
+
+===Additional options for +display_meta_tags+
+
+Use these options to customize the title format:
+
+	* +:prefix+ - text between site name and separator
+	* +:separator+ - text used to separate website name from page title
+	* +:suffix+ - text between separator and page title
+	* +:lowercase+ - when true, the page name will be lowercase
+	* +:reverse+ - when true, the page and site names will be reversed
+
+And here are a few examples to give you ideas.
+
+	<%= title :separator => "&mdash;" %>
+	<%= title :prefix => false, :separator => ":" %>
+	<%= title :lowercase => true %>
+	<%= title :reverse => true, :prefix => false %>
