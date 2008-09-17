@@ -57,13 +57,10 @@ module MetaTags
       result = content_tag :title, meta_tags[:site]
     else
       title = normalize_title(title)
-      if meta_tags[:reverse] === true
-        # Reverse order => "Page : Website"
-        result = content_tag(:title, title + prefix + separator + suffix + meta_tags[:site])
-      else
-        # Standard order => "Website : Page"
-        result = content_tag(:title, meta_tags[:site] + prefix + separator + suffix + title)
-      end
+      title = [meta_tags[:site]] + title
+      title.reverse! if meta_tags[:reverse] === true
+      sep = prefix + separator + suffix
+      result = content_tag(:title, title.join(sep))
     end
 
     description = normalize_description(meta_tags[:description])
@@ -78,7 +75,10 @@ module MetaTags
   private
   
     def normalize_title(title)
-      h(strip_tags(title))
+      if title.is_a? String
+        title = [title]
+      end
+      title.map { |t| h(strip_tags(t)) }
     end
     
     def normalize_description(description)

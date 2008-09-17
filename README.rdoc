@@ -102,6 +102,22 @@ And here are a few examples to give you ideas.
   <%= title :lowercase => true %>
   <%= title :reverse => true, :prefix => false %>
 
+=== Allowed values
+
+You can specify +title+ as a string or array:
+
+  set_meta_tags :title => ['part1', 'part2'], :site => 'site'
+  # site | part1 | part2
+  set_meta_tags :title => ['part1', 'part2'], :reverse => true, :site => 'site'
+  # part2 | part1 | site
+
+Keywords can be passed as string of comma-separated values, or as an array:
+
+  set_meta_tags :keywords => ['tag1', 'tag2']
+  # tag1, tag2
+
+Description is a string (HTMl will be stripped from output string).
+
 == Alternatives
 
 There are several plugins influenced me to create this one:

@@ -114,6 +114,19 @@ describe MetaTags do
                               :lowercase => true,
                               :reverse => true).should == '<title>sometitle -:+ someSite</title>'
     end
+    
+    it 'shold allow Arrays in title' do
+      @view.display_meta_tags(:site => 'someSite', :title => ['someTitle', 'anotherTitle']).should == '<title>someSite | someTitle | anotherTitle</title>'
+    end
+
+    it 'shold build title in reverse order if :reverse' do
+      @view.display_meta_tags(:site => 'someSite',
+                              :title => ['someTitle', 'anotherTitle'],
+                              :prefix => ' -',
+                              :suffix => '+ ',
+                              :separator => ':',
+                              :reverse => true).should == '<title>anotherTitle -:+ someTitle -:+ someSite</title>'
+    end
   end
   
   describe 'displaying description' do
