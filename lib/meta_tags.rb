@@ -1,24 +1,86 @@
+# Contains methods to use in views and helpers.
 module MetaTags
+  # Set meta tags for the page.
+  #
+  # Method could be used several times, and all options passed will
+  # be merged. If you will set the same property several times, last one
+  # will take precedence.
+  #
+  # Examples:
+  #   set_meta_tags :title => 'Login Page', :description => 'Here you can login'
+  #   set_meta_tags :keywords => 'authorization, login'
+  #
+  # Usually you will not call this method directly. Use +title+, +keywords+,
+  # +description+ for your daily tasks.
+  #
+  # See +display_meta_tags+ for allowed options.
   def set_meta_tags(meta_tags = {})
     @meta_tags ||= {}
     @meta_tags.merge!(meta_tags || {})
   end
   
+  # Set the page title and return it back.
+  #
+  # This method is best suited for use in helpers. It sets the page title
+  # and returns it (or +headline+ if specified).
+  #
+  # Examples:
+  #   <%= title 'Login Page' %> => title='Login Page', return='Login Page'
+  #   <%= title 'Login Page', 'Please login' %> => title='Login Page', return='Please Login'
+  #
+  # You can specify +title+ as a string or array:
+  #   title :title => ['part1', 'part2']
+  #   # part1 | part2
   def title(title, headline = '')
     set_meta_tags(:title => title)
     headline.blank? ? title : headline
   end
   
+  # Set the page keywords.
+  #
+  # Keywords can be passed as string of comma-separated values, or as an array:
+  #
+  #   set_meta_tags :keywords => ['tag1', 'tag2']
+  #   # tag1, tag2
+  #
+  # Examples:
+  #   <% keywords 'keyword1, keyword2' %>
+  #   <% keywords %w(keyword1 keyword2) %>
   def keywords(keywords)
     set_meta_tags(:keywords => keywords)
     keywords
   end
   
+  # Set the page description.
+  #
+  # Description is a string (HTML will be stripped from output string).
+  #
+  # Examples:
+  #   <% description 'This is login page' %>
   def description(description)
     set_meta_tags(:description => description)
     description
   end
-  
+
+  # Set default meta tag values and display meta tags.
+  #
+  # This method should be used in layout file.
+  #
+  # Examples:
+  #   <head>
+  #     <%= display_meta_tags :site => 'My website' %>
+  #   </head>
+  #
+  # Allowed options:
+  # * <tt>:site</tt> -- site title;
+  # * <tt>:title</tt> -- page title;
+  # * <tt>:description</tt> -- page description;
+  # * <tt>:keywords</tt> -- page keywords;
+  # * <tt>:prefix</tt> -- text between site name and separator;
+  # * <tt>:separator</tt> -- text used to separate website name from page title;
+  # * <tt>:suffix</tt> -- text between separator and page title;
+  # * <tt>:lowercase</tt> -- when true, the page name will be lowercase;
+  # * <tt>:reverse</tt> -- when true, the page and site names will be reversed.
   def display_meta_tags(default = {})
     meta_tags = (default || {}).merge(@meta_tags || {})
 
@@ -57,7 +119,6 @@ module MetaTags
       result = content_tag :title, meta_tags[:site]
     else
       title = normalize_title(title)
-      title = [meta_tags[:site]] + title
       title.reverse! if meta_tags[:reverse] === true
       sep = prefix + separator + suffix
       result = content_tag(:title, title.join(sep))

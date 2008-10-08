@@ -2,13 +2,42 @@
 
 Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 
+== Download
+
+If you're using Rails 2.1, you can simply use "script/plugin". It will export
+all the code from GitHub into "vendor/plugins":
+
+  script/plugin install git://github.com/kpumuk/meta-tags.git
+
+If you are using Rails prior to 2.1, use the following:
+
+  cd vendor/plugins
+  git clone git://github.com/kpumuk/meta-tags.git
+  rm -rf meta-tags/.git
+  cd ../..  
+
+To continuously track meta-tags development, it's probably best to install it
+as a plugin using some vendor branch management tool like Braid:
+
+  gem install evilchelu-braid
+
+Using Braid to add a Rails plugin is simple:
+
+  # (make sure you've commited everything first)
+  braid add -p git://github.com/kpumuk/meta-tags.git
+  
+  # now you should have the library in vendor/plugins/meta-tags
+
 == Titles
 
 Page titles are very important for Search engines. The titles in the
 browser are displayed in the title bar. The search engines would look at
 the this title bar to determine what the page is all about.
 
-Recommended title tag length: <b>63 characters</b>
+  <title>Some Page Title</title>
+  <title>Page Title | Site Title</title>
+
+Recommended title tag length: up to <b>70 characters</b>, <b>10 words</b>.
 
 == Description
 
@@ -17,7 +46,9 @@ browsers as that of titles. But these descriptions may be displayed by
 some search engines. They are used to describe the contents of a page in
 2 or 3 sentences.
 
-Recommended description tag length: <b>156 characters</b>
+  <meta name="description" content="All text about keywords, other keywords" />
+
+Recommended description tag length: up to <b>160 characters</b>.
 
 == Keywords
 
@@ -25,7 +56,9 @@ Meta keywords tag are used to place your keywords that you think a
 surfer would search in Search engines. Repeating keywords unnecessarily
 would be considered spam and you may get permanently banned from SERP's
 
-Recommended keywords tag length: <b>256 characters</b>
+  <meta name="keywords" content="keyword1, keyword2, keyword3" />
+
+Recommended keywords tag length: up to <b>255 characters</b>, <b>20 words</b>.
 
 == MetaTags Usage
 
@@ -48,6 +81,8 @@ When views are rendered, the page title will be included in the right spots:
     <h1>My page title</h1>
   </body>
 
+You can find allowed options for +display_meta_tags+ method below.
+
 === Using MetaTags in controller
 
 You can define following instance variables:
@@ -62,11 +97,13 @@ Also you could use +set_meta_tags+ method to define all meta tags simultaneously
                 :description => 'Member login page.',
                 :keywords => 'Site, Login, Members'
 
+You can find allowed options for +set_meta_tags+ method below.
+
 === Using MetaTags in view
 
 To set meta tags you can use following methods:
 
-  <% title 'Member Login %>
+  <% title 'Member Login' %>
   <% description 'Member login page.' %>
   <% keywords 'Member login page.' %>
 
@@ -85,15 +122,19 @@ If you want to set the title and display another text, use this:
 
   <h1><%= title 'Member Login', 'Here you can login to the site:' %></h1>
 
-=== Additional options for +display_meta_tags+
+=== Allowed options for +display_meta_tags+ and +set_meta_tags+ methods
 
 Use these options to customize the title format:
 
-* <tt>:prefix</tt> - text between site name and separator
-* <tt>:separator</tt> - text used to separate website name from page title
-* <tt>:suffix</tt> - text between separator and page title
-* <tt>:lowercase</tt> - when true, the page name will be lowercase
-* <tt>:reverse</tt> - when true, the page and site names will be reversed
+* <tt>:site</tt> -- site title;
+* <tt>:title</tt> -- page title;
+* <tt>:description</tt> -- page description;
+* <tt>:keywords</tt> -- page keywords;
+* <tt>:prefix</tt> -- text between site name and separator;
+* <tt>:separator</tt> -- text used to separate website name from page title;
+* <tt>:suffix</tt> -- text between separator and page title;
+* <tt>:lowercase</tt> -- when true, the page name will be lowercase;
+* <tt>:reverse</tt> -- when true, the page and site names will be reversed.
 
 And here are a few examples to give you ideas.
 
@@ -116,7 +157,7 @@ Keywords can be passed as string of comma-separated values, or as an array:
   set_meta_tags :keywords => ['tag1', 'tag2']
   # tag1, tag2
 
-Description is a string (HTMl will be stripped from output string).
+Description is a string (HTML will be stripped from output string).
 
 == Alternatives
 

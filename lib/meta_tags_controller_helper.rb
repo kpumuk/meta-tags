@@ -1,3 +1,12 @@
+# Contains methods to use in controllers.
+#
+# You can define several instance variables to set meta tags:
+#   @page_title = 'Member Login'
+#   @page_description = 'Member login page.'
+#   @page_keywords = 'Site, Login, Members'
+#
+# Also you can use +set_meta_tags+ method, that have the same parameters
+# as <tt>MetaTags.set_meta_tags</tt>.
 module MetaTagsControllerHelper
   def self.included(base)
     base.send :include, InstanceMethods
@@ -9,6 +18,8 @@ module MetaTagsControllerHelper
   module InstanceMethods
     protected
 
+      # Processes the <tt>@page_title</tt>, <tt>@page_keywords</tt>, and
+      # <tt>@page_description</tt> instance variables and calls +render+.
       def render_with_meta_tags(options = nil, extra_options = {}, &block)
         meta_tags = {}
         meta_tags[:title] = @page_title if @page_title
@@ -19,6 +30,9 @@ module MetaTagsControllerHelper
         render_without_meta_tags(options, extra_options, &block)
       end
       
+      # Set meta tags for the page.
+      #
+      # See <tt>MetaTags.set_meta_tags</tt> for details.
       def set_meta_tags(meta_tags)
         @meta_tags ||= {}
         @meta_tags.merge!(meta_tags || {})
