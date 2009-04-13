@@ -119,6 +119,7 @@ module MetaTags
       result = content_tag :title, meta_tags[:site]
     else
       title = normalize_title(title)
+      title = [meta_tags[:site]] + title
       title.reverse! if meta_tags[:reverse] === true
       sep = prefix + separator + suffix
       result = content_tag(:title, title.join(sep))
@@ -144,12 +145,12 @@ module MetaTags
     
     def normalize_description(description)
       return '' unless description
-      truncate(strip_tags(description).gsub(/\s+/, ' '), 200, '...')
+      truncate(strip_tags(description).gsub(/\s+/, ' '), :length => 200)
     end
     
     def normalize_keywords(keywords)
       return '' unless keywords
       keywords = keywords.flatten.join(', ') if keywords.is_a?(Array)
-      strip_tags(keywords).chars.downcase
+      strip_tags(keywords).mb_chars.downcase
     end
 end
