@@ -60,6 +60,20 @@ would be considered spam and you may get permanently banned from SERP's
 
 Recommended keywords tag length: up to <b>255 characters</b>, <b>20 words</b>.
 
+== Noindex
+
+By using the noindex meta tag, you can signal to search engines to not 
+include specific pages in their indexes.
+
+  <meta name="robots" content="noindex">
+  <meta name="googlebot" content="noindex">
+
+This is useful for pages like login, password reset, privacy policy, etc.  
+
+Further reading:
+* Blocking Google http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=93708
+* Using meta tags to block access to your site http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=93710
+
 == MetaTags Usage
 
 First, add this code to your main layout:
@@ -135,6 +149,7 @@ Use these options to customize the title format:
 * <tt>:suffix</tt> -- text between separator and page title;
 * <tt>:lowercase</tt> -- when true, the page name will be lowercase;
 * <tt>:reverse</tt> -- when true, the page and site names will be reversed.
+* <tt>:noindex</tt> -- when true, 'robots' will be used, otherwise the string will be used
 
 And here are a few examples to give you ideas.
 
@@ -168,4 +183,5 @@ There are several plugins influenced me to create this one:
 
 == Credits
 
-Dmytro Shteflyuk <kpumuk@kpumuk.info> http://kpumuk.info
+Dmytro Shteflyuk (author) <kpumuk@kpumuk.info> http://kpumuk.info
+Morgan Roderick (contributor) <morgan@roderick.dk> http://roderick.dk
