@@ -183,5 +183,5 @@ There are several plugins influenced me to create this one:
 
 == Credits
 
-Dmytro Shteflyuk (author) <kpumuk@kpumuk.info> http://kpumuk.info
-Morgan Roderick (contributor) <morgan@roderick.dk> http://roderick.dk
+* Dmytro Shteflyuk (author) <kpumuk@kpumuk.info> http://kpumuk.info
+* Morgan Roderick (contributor) <morgan@roderick.dk> http://roderick.dk
