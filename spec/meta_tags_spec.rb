@@ -22,6 +22,11 @@ describe MetaTags do
       @view.should respond_to(:keywords)
     end
 
+    it 'should respond to "noindex" helper' do
+      @view.should respond_to(:noindex)
+    end
+
+
     it 'should respond to "set_meta_tags" helper' do
       @view.should respond_to(:set_meta_tags)
     end
@@ -45,7 +50,11 @@ describe MetaTags do
     end
 
     it 'should return keywords' do
-      @view.description('someKeywords').should == 'someKeywords'
+      @view.keywords('someKeywords').should == 'someKeywords'
+    end
+
+    it 'should return noindex' do
+      @view.noindex('someNoindex').should == 'someNoindex'
     end
   end
   
@@ -190,4 +199,26 @@ describe MetaTags do
       @view.display_meta_tags(:site => 'someSite', :keywords => [%w(keyword1 keyword2), 'keyword3']).should include('<meta content="keyword1, keyword2, keyword3" name="keywords" />')
     end
   end
+  
+  describe 'displaying noindex' do
+    it 'should display noindex when "noindex" used' do
+      @view.noindex( true )
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="noindex" name="robots" />')
+    end
+
+    it 'should display noindex when "set_meta_tags" used' do
+      @view.set_meta_tags(:noindex => true)
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="noindex" name="robots" />')
+    end
+
+    it 'should use custom noindex if given' do
+      @view.noindex( 'some-noindex' )
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="noindex" name="some-noindex" />')
+    end
+
+    it 'should display nothing by default' do
+      @view.display_meta_tags(:site => 'someSite').should_not include('<meta content="noindex"')
+    end
+  end
+  
 end

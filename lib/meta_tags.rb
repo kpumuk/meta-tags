@@ -62,6 +62,20 @@ module MetaTags
     description
   end
 
+
+  # Set the noindex meta tag
+  #
+  # You can specify noindex as a boolean or string 
+  #
+  # Examples:
+  #   <% noindex true %>
+  #   <% noindex 'googlebot' %>
+  def noindex(noindex)
+    set_meta_tags(:noindex => noindex)
+    noindex
+  end
+  
+
   # Set default meta tag values and display meta tags.
   #
   # This method should be used in layout file.
@@ -81,6 +95,7 @@ module MetaTags
   # * <tt>:suffix</tt> -- text between separator and page title;
   # * <tt>:lowercase</tt> -- when true, the page name will be lowercase;
   # * <tt>:reverse</tt> -- when true, the page and site names will be reversed.
+  # * <tt>:noindex</tt> -- when true, 'robots' will be used, otherwise the string will be used
   def display_meta_tags(default = {})
     meta_tags = (default || {}).merge(@meta_tags || {})
 
@@ -130,6 +145,10 @@ module MetaTags
     
     keywords = normalize_keywords(meta_tags[:keywords])
     result << "\n" + tag(:meta, :name => :keywords, :content => keywords) unless keywords.blank?
+
+    # noindex
+    noindex_name = meta_tags[:noindex].is_a?( String ) ? meta_tags[:noindex] : 'robots'
+    result << "\n" + tag(:meta, :name => noindex_name, :content => 'noindex') unless meta_tags[:noindex].blank?
 
     return result
   end
