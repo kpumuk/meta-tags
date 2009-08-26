@@ -147,7 +147,7 @@ module MetaTags
     result << "\n" + tag(:meta, :name => :keywords, :content => keywords) unless keywords.blank?
 
     # noindex
-    noindex_name = meta_tags[:noindex].is_a?( String ) ? meta_tags[:noindex] : 'robots'
+    noindex_name = meta_tags[:noindex].is_a?(String) ? meta_tags[:noindex] : 'robots'
     result << "\n" + tag(:meta, :name => noindex_name, :content => 'noindex') unless meta_tags[:noindex].blank?
 
     return result
