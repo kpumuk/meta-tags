@@ -74,6 +74,20 @@ Further reading:
 * Blocking Google http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=93708
 * Using meta tags to block access to your site http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=93710
 
+== Nofollow
+
+Nofollow meta tag tells a search engine not to follow the links on a specific
+page. It's entirely likely that a robot might find the same links on some
+other page without a nofollow (perhaps on some other site), and so
+still arrives at your undesired page.
+
+  <meta name="robots" content="nofollow">
+  <meta name="googlebot" content="nofollow">
+
+Further reading:
+* About rel="nofollow" http://www.google.com/support/webmasters/bin/answer.py?answer=96569
+* Meta tags http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=79812
+
 == MetaTags Usage
 
 First, add this code to your main layout:
@@ -148,8 +162,9 @@ Use these options to customize the title format:
 * <tt>:separator</tt> -- text used to separate website name from page title;
 * <tt>:suffix</tt> -- text between separator and page title;
 * <tt>:lowercase</tt> -- when true, the page name will be lowercase;
-* <tt>:reverse</tt> -- when true, the page and site names will be reversed.
-* <tt>:noindex</tt> -- when true, 'robots' will be used, otherwise the string will be used
+* <tt>:reverse</tt> -- when true, the page and site names will be reversed;
+* <tt>:noindex</tt> -- add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
+* <tt>:nofollow</tt> -- add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used.
 
 And here are a few examples to give you ideas.
 

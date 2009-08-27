@@ -5,7 +5,7 @@ describe MetaTags do
     @view = ActionView::Base.new
   end
   
-  describe 'loading' do
+  context 'module' do
     it 'should be mixed into ActionView::Base' do
       ActionView::Base.included_modules.should include(MetaTags)
     end
@@ -26,6 +26,9 @@ describe MetaTags do
       @view.should respond_to(:noindex)
     end
 
+    it 'should respond to "nofollow" helper' do
+      @view.should respond_to(:nofollow)
+    end
 
     it 'should respond to "set_meta_tags" helper' do
       @view.should respond_to(:set_meta_tags)
@@ -36,29 +39,33 @@ describe MetaTags do
     end
   end
   
-  describe 'returning values' do
+  context 'returning values' do
     it 'should return title' do
-      @view.title('someTitle').should == 'someTitle'
+      @view.title('some-title').should == 'some-title'
     end
 
     it 'should return headline if specified' do
-      @view.title('someTitle', 'someHeadline').should == 'someHeadline'
+      @view.title('some-title', 'some-headline').should == 'some-headline'
     end
     
     it 'should return description' do
-      @view.description('someDescription').should == 'someDescription'
+      @view.description('some-description').should == 'some-description'
     end
 
     it 'should return keywords' do
-      @view.keywords('someKeywords').should == 'someKeywords'
+      @view.keywords('some-keywords').should == 'some-keywords'
     end
 
     it 'should return noindex' do
-      @view.noindex('someNoindex').should == 'someNoindex'
+      @view.noindex('some-noindex').should == 'some-noindex'
+    end
+
+    it 'should return nofollow' do
+      @view.noindex('some-nofollow').should == 'some-nofollow'
     end
   end
   
-  describe 'displaying title' do
+  context 'title' do
     it 'should use website name if title is empty' do
       @view.display_meta_tags(:site => 'someSite').should == '<title>someSite</title>'
     end
@@ -138,7 +145,7 @@ describe MetaTags do
     end
   end
   
-  describe 'displaying description' do
+  context 'displaying description' do
     it 'should display description when "description" used' do
       @view.description('someDescription')
       @view.display_meta_tags(:site => 'someSite').should include('<meta content="someDescription" name="description" />')
@@ -167,7 +174,7 @@ describe MetaTags do
     end
   end
   
-  describe 'displaying keywords' do
+  context 'displaying keywords' do
     it 'should display keywords when "keywords" used' do
       @view.keywords('some-keywords')
       @view.display_meta_tags(:site => 'someSite').should include('<meta content="some-keywords" name="keywords" />')
@@ -200,9 +207,9 @@ describe MetaTags do
     end
   end
   
-  describe 'displaying noindex' do
+  context 'displaying noindex' do
     it 'should display noindex when "noindex" used' do
-      @view.noindex( true )
+      @view.noindex(true)
       @view.display_meta_tags(:site => 'someSite').should include('<meta content="noindex" name="robots" />')
     end
 
@@ -212,7 +219,7 @@ describe MetaTags do
     end
 
     it 'should use custom noindex if given' do
-      @view.noindex( 'some-noindex' )
+      @view.noindex('some-noindex')
       @view.display_meta_tags(:site => 'someSite').should include('<meta content="noindex" name="some-noindex" />')
     end
 
@@ -220,5 +227,52 @@ describe MetaTags do
       @view.display_meta_tags(:site => 'someSite').should_not include('<meta content="noindex"')
     end
   end
+
+  context 'displaying nofollow' do
+    it 'should display nofollow when "nofollow" used' do
+      @view.nofollow(true)
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="nofollow" name="robots" />')
+    end
+
+    it 'should display nofollow when "set_meta_tags" used' do
+      @view.set_meta_tags(:nofollow => true)
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="nofollow" name="robots" />')
+    end
+
+    it 'should use custom nofollow if given' do
+      @view.nofollow('some-nofollow')
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="nofollow" name="some-nofollow" />')
+    end
+
+    it 'should display nothing by default' do
+      @view.display_meta_tags(:site => 'someSite').should_not include('<meta content="nofollow"')
+    end
+  end
   
+  context 'displaying both nofollow and noindex' do
+    it 'should be displayed when set using helpers' do
+      @view.noindex(true)
+      @view.nofollow(true)
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="noindex, nofollow" name="robots" />')
+    end
+
+    it 'should be displayed when "set_meta_tags" used' do
+      @view.set_meta_tags(:nofollow => true, :noindex => true)
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="noindex, nofollow" name="robots" />')
+    end
+
+    it 'should use custom name if string is used' do
+      @view.noindex('some-name')
+      @view.nofollow('some-name')
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="noindex, nofollow" name="some-name" />')
+    end
+
+    it 'should display two meta tags when different names used' do
+      @view.noindex('some-noindex')
+      @view.nofollow('some-nofollow')
+      content = @view.display_meta_tags(:site => 'someSite')
+      content.should include('<meta content="noindex" name="some-noindex" />')
+      content.should include('<meta content="nofollow" name="some-nofollow" />')
+    end
+  end
 end
