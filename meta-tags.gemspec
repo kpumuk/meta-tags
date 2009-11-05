@@ -20,8 +20,12 @@ Gem::Specification.new do |s|
      "MIT-LICENSE",
      "README.rdoc",
      "Rakefile",
+     "VERSION.yml",
      "init.rb",
      "lib/meta_tags.rb",
+     "lib/meta_tags/controller_helper.rb",
+     "lib/meta_tags/view_helper.rb",
+     "meta-tags.gemspec",
      "spec/meta_tags_spec.rb",
      "spec/spec_helper.rb"
   ]
