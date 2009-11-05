@@ -1,13 +1,13 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
-describe MetaTags do
+describe MetaTags::ViewHelper do
   before :each do
     @view = ActionView::Base.new
   end
   
   context 'module' do
     it 'should be mixed into ActionView::Base' do
-      ActionView::Base.included_modules.should include(MetaTags)
+      ActionView::Base.included_modules.should include(MetaTags::ViewHelper)
     end
     
     it 'should respond to "title" helper' do
