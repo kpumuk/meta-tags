@@ -107,7 +107,8 @@ module MetaTags
     # * <tt>:lowercase</tt> -- when true, the page name will be lowercase;
     # * <tt>:reverse</tt> -- when true, the page and site names will be reversed;
     # * <tt>:noindex</tt> -- add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
-    # * <tt>:nofollow</tt> -- add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used.
+    # * <tt>:nofollow</tt> -- add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
+    # * <tt>:canonical</tt> -- add canonical link tag.
     def display_meta_tags(default = {})
       meta_tags = (default || {}).merge(@meta_tags || {})
 
@@ -172,6 +173,9 @@ module MetaTags
         result << "\n" + tag(:meta, :name => noindex_name, :content => 'noindex') if meta_tags[:noindex]
         result << "\n" + tag(:meta, :name => nofollow_name, :content => 'nofollow') if meta_tags[:nofollow]
       end
+
+      # canonical
+      result << "\n" + tag(:link, :rel => :canonical, :href => meta_tags[:canonical]) unless meta_tags[:canonical].blank?
 
       return result
     end

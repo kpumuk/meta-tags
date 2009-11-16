@@ -58,8 +58,8 @@ Recommended keywords tag length: up to <b>255 characters</b>, <b>20 words</b>.
 By using the noindex meta tag, you can signal to search engines to not 
 include specific pages in their indexes.
 
-  <meta name="robots" content="noindex">
-  <meta name="googlebot" content="noindex">
+  <meta name="robots" content="noindex" />
+  <meta name="googlebot" content="noindex" />
 
 This is useful for pages like login, password reset, privacy policy, etc.  
 
@@ -74,12 +74,24 @@ page. It's entirely likely that a robot might find the same links on some
 other page without a nofollow (perhaps on some other site), and so
 still arrives at your undesired page.
 
-  <meta name="robots" content="nofollow">
-  <meta name="googlebot" content="nofollow">
+  <meta name="robots" content="nofollow" />
+  <meta name="googlebot" content="nofollow" />
 
 Further reading:
 * About rel="nofollow" http://www.google.com/support/webmasters/bin/answer.py?answer=96569
 * Meta tags http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=79812
+
+== Canonical URL
+
+Canonical link element tells a search engine what is the canonical or main URL
+for a content which have multiple URLs. The search engine will always return
+that URL, and link popularity and authority will be applied to that URL.
+
+  <link rel="canonical" href="http://yoursite.com/canonical/url" />
+
+Further reading:
+* About rel="canonical" http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139394
+* Canonicalization http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139066
 
 == MetaTags Usage
 
@@ -157,7 +169,8 @@ Use these options to customize the title format:
 * <tt>:lowercase</tt> -- when true, the page name will be lowercase;
 * <tt>:reverse</tt> -- when true, the page and site names will be reversed;
 * <tt>:noindex</tt> -- add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
-* <tt>:nofollow</tt> -- add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used.
+* <tt>:nofollow</tt> -- add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
+* <tt>:canonical</tt> -- add canonical link tag.
 
 And here are a few examples to give you ideas.
 
