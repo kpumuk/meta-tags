@@ -1,6 +1,4 @@
 require 'rake'
-require 'spec/rake/spectask'
-require 'rake/rdoctask'
 
 begin
   require 'jeweler'
@@ -17,22 +15,33 @@ rescue LoadError
   puts 'Jeweler not available. Install it with: sudo gem install jeweler'
 end
 
-desc 'Default: run unit tests.'
-task :default => :spec
+begin
+  require 'spec/rake/spectask'
 
-desc 'Test the meta-tags plugin.'
-Spec::Rake::SpecTask.new(:spec) do |t|
-  t.libs << 'lib'
-  t.pattern = 'spec/**/*_spec.rb'
-  t.verbose = true
-  t.spec_opts = ['-cfs']
+  desc 'Default: run specs'
+  task :default => :spec
+
+  desc 'Test the sphinx plugin'
+  Spec::Rake::SpecTask.new do |t|
+    t.libs << 'lib'
+    t.pattern = 'spec/*_spec.rb'
+    t.verbose = true
+    t.spec_opts = ['-cfs']
+  end
+rescue LoadError
+  puts 'RSpec not available. Install it with: sudo gem install rspec'
 end
 
-desc 'Generate documentation for the meta-tags plugin.'
-Rake::RDocTask.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'MetaTags'
-  rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README.rdoc')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+begin
+  require 'yard'
+  YARD::Rake::YardocTask.new(:yard) do |t|
+    t.options = ['--title', 'MetaTags Documentation']
+    if ENV['PRIVATE']
+      t.options.concat ['--protected', '--private']
+    else
+      t.options << '--no-private' 
+    end
+  end
+rescue LoadError
+  puts 'Yard not available. Install it with: sudo gem install yard'
 end
