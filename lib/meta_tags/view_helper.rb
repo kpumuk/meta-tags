@@ -127,9 +127,9 @@ module MetaTags
     # @option default [String] :title ("") page title;
     # @option default [String] :description (nil) page description;
     # @option default [String] :keywords (nil) page keywords;
-    # @option default [String] :prefix (" ") text between site name and separator;
+    # @option default [String, Boolean] :prefix (" ") text between site name and separator; when +false+, no prefix will be rendered;
     # @option default [String] :separator ("|") text used to separate website name from page title;
-    # @option default [String] :suffix (" ") text between separator and page title;
+    # @option default [String, Boolean] :suffix (" ") text between separator and page title; when +false+, no suffix will be rendered;
     # @option default [Boolean] :lowercase (false) when true, the page name will be lowercase;
     # @option default [Boolean] :reverse (false) when true, the page and site names will be reversed;
     # @option default [Boolean, String] :noindex (false) add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
@@ -147,34 +147,22 @@ module MetaTags
       meta_tags = (default || {}).merge(@meta_tags || {})
 
       # Prefix (leading space)
-      if meta_tags[:prefix]
-        prefix = meta_tags[:prefix]
-      elsif meta_tags[:prefix] === false
-        prefix = ''
-      else
-        prefix = ' '
-      end
+      prefix = meta_tags[:prefix] === false ? '' : (meta_tags[:prefix] || ' ')
     
       # Separator
-      unless meta_tags[:separator].blank?
-        separator = meta_tags[:separator]
-      else
-        separator = '|'
-      end
+      separator = meta_tags[:separator].blank? ? '|' : meta_tags[:separator]
     
       # Suffix (trailing space)
-      if meta_tags[:suffix]
-        suffix = meta_tags[:suffix]
-      elsif meta_tags[:suffix] === false
-        suffix = ''
-      else
-        suffix = ' '
-      end
+      suffix = meta_tags[:suffix] === false ? '' : (meta_tags[:suffix] || ' ')
     
       # Title
       title = meta_tags[:title]
-      if meta_tags[:lowercase] === true
-        title = title.downcase unless title.blank?
+      if meta_tags[:lowercase] === true and !title.blank?
+        title = if title.is_a?(Array)
+          title.map { |t| t.downcase }
+        else
+          title.downcase
+        end
       end
     
       # title

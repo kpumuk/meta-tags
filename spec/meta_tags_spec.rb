@@ -135,6 +135,10 @@ describe MetaTags::ViewHelper do
       @view.display_meta_tags(:site => 'someSite', :title => ['someTitle', 'anotherTitle']).should == '<title>someSite | someTitle | anotherTitle</title>'
     end
 
+    it 'shold allow Arrays in title with :lowercase' do
+      @view.display_meta_tags(:site => 'someSite', :title => ['someTitle', 'anotherTitle'], :lowercase => true).should == '<title>someSite | sometitle | anothertitle</title>'
+    end
+
     it 'shold build title in reverse order if :reverse' do
       @view.display_meta_tags(:site => 'someSite',
                               :title => ['someTitle', 'anotherTitle'],
