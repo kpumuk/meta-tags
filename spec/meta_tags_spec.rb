@@ -275,4 +275,19 @@ describe MetaTags::ViewHelper do
       content.should include('<meta content="nofollow" name="some-nofollow" />')
     end
   end
+
+  context 'displaying canonical url' do
+    it 'should not display canonical url by default' do
+      @view.display_meta_tags(:site => 'someSite').should_not include('<link href="http://example.com/base/url" rel="canonical" />')
+    end
+
+    it 'should display canonical url when "set_meta_tags" used' do
+      @view.set_meta_tags(:canonical => 'http://example.com/base/url')
+      @view.display_meta_tags(:site => 'someSite').should include('<link href="http://example.com/base/url" rel="canonical" />')
+    end
+
+    it 'should display default canonical url' do
+      @view.display_meta_tags(:site => 'someSite', :canonical => 'http://example.com/base/url').should include('<link href="http://example.com/base/url" rel="canonical" />')
+    end
+  end
 end
