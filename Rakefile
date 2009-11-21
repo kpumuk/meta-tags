@@ -39,7 +39,7 @@ begin
     if ENV['PRIVATE']
       t.options.concat ['--protected', '--private']
     else
-      t.options << '--no-private' 
+      t.options.concat ['--protected', '--no-private']
     end
   end
 rescue LoadError

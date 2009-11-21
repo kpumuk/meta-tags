@@ -1,5 +1,6 @@
-# Contains methods to use in views and helpers.
 module MetaTags
+  # Contains methods to use in views and helpers.
+  #
   module ViewHelper
     # Set meta tags for the page.
     #
@@ -7,14 +8,18 @@ module MetaTags
     # be merged. If you will set the same property several times, last one
     # will take precedence.
     #
-    # Examples:
+    # Usually you will not call this method directly. Use {#title}, {#keywords},
+    # {#description} for your daily tasks.
+    #
+    # @param [Hash] meta_tags list of meta tags. See {#display_meta_tags}
+    #   for allowed options.
+    #
+    # @example
     #   set_meta_tags :title => 'Login Page', :description => 'Here you can login'
     #   set_meta_tags :keywords => 'authorization, login'
     #
-    # Usually you will not call this method directly. Use +title+, +keywords+,
-    # +description+ for your daily tasks.
+    # @see #display_meta_tags
     #
-    # See +display_meta_tags+ for allowed options.
     def set_meta_tags(meta_tags = {})
       @meta_tags ||= {}
       @meta_tags.merge!(meta_tags || {})
@@ -25,13 +30,23 @@ module MetaTags
     # This method is best suited for use in helpers. It sets the page title
     # and returns it (or +headline+ if specified).
     #
-    # Examples:
-    #   <%= title 'Login Page' %> => title='Login Page', return='Login Page'
-    #   <%= title 'Login Page', 'Please login' %> => title='Login Page', return='Please Login'
+    # @param [String, Array] title page title. When passed as an
+    #   +Array+, parts will be joined divided with configured
+    #   separator value (see {#display_meta_tags}).
+    # @param [String] headline the value to return from method. Useful
+    #   for using this method in views to set both page title
+    #   and the content of heading tag.
+    # @return [String] returns +title+ value or +headline+ if passed.
     #
-    # You can specify +title+ as a string or array:
-    #   title :title => ['part1', 'part2']
-    #   # part1 | part2
+    # @example Set HTML title to "Please login", return "Please login"
+    #   title 'Login Page'
+    # @example Set HTML title to "Login Page", return "Please login"
+    #   title 'Login Page', 'Please login'
+    # @example Set title as array of strings
+    #   title :title => ['part1', 'part2'] # => "part1 | part2"
+    #
+    # @see #display_meta_tags
+    #
     def title(title, headline = '')
       set_meta_tags(:title => title)
       headline.blank? ? title : headline
@@ -39,14 +54,16 @@ module MetaTags
   
     # Set the page keywords.
     #
-    # Keywords can be passed as string of comma-separated values, or as an array:
+    # @param [String, Array] keywords meta keywords to render in HEAD
+    #   section of the HTML document.
+    # @return [String, Array] passed value.
     #
-    #   set_meta_tags :keywords => ['tag1', 'tag2']
-    #   # tag1, tag2
+    # @example
+    #   keywords 'keyword1, keyword2'
+    #   keywords %w(keyword1 keyword2)
     #
-    # Examples:
-    #   <% keywords 'keyword1, keyword2' %>
-    #   <% keywords %w(keyword1 keyword2) %>
+    # @see #display_meta_tags
+    #
     def keywords(keywords)
       set_meta_tags(:keywords => keywords)
       keywords
@@ -54,10 +71,17 @@ module MetaTags
   
     # Set the page description.
     #
-    # Description is a string (HTML will be stripped from output string).
+    # @param [String] page description to be set in HEAD section of
+    #   the HTML document. Please note, any HTML tags will be stripped
+    #   from output string, and string will be truncated to 200
+    #   characters.
+    # @return [String] passed value.
     #
-    # Examples:
-    #   <% description 'This is login page' %>
+    # @example
+    #   description 'This is login page'
+    #
+    # @see #display_meta_tags
+    #
     def description(description)
       set_meta_tags(:description => description)
       description
@@ -65,11 +89,15 @@ module MetaTags
 
     # Set the noindex meta tag
     #
-    # You can specify noindex as a boolean or string 
+    # @param [Boolean, String] noindex a noindex value.
+    # @return [Boolean, String] passed value.
     #
-    # Examples:
-    #   <% noindex true %>
-    #   <% noindex 'googlebot' %>
+    # @example
+    #   noindex true
+    #   noindex 'googlebot'
+    #
+    # @see #display_meta_tags
+    #
     def noindex(noindex)
       set_meta_tags(:noindex => noindex)
       noindex
@@ -77,38 +105,44 @@ module MetaTags
 
     # Set the nofollow meta tag
     #
-    # You can specify nofollow as a boolean or string 
+    # @param [Boolean, String] nofollow a nofollow value.
+    # @return [Boolean, String] passed value.
     #
-    # Examples:
-    #   <% nofollow true %>
-    #   <% nofollow 'googlebot' %>
+    # @example
+    #   nofollow true
+    #   nofollow 'googlebot'
+    #
+    # @see #display_meta_tags
+    #
     def nofollow(nofollow)
       set_meta_tags(:nofollow => nofollow)
       nofollow
     end
   
-    # Set default meta tag values and display meta tags.
+    # Set default meta tag values and display meta tags. This method
+    # should be used in layout file.
     #
-    # This method should be used in layout file.
+    # @param [Hash] default default meta tag values.
+    # @option default [String] :site (nil) site title;
+    # @option default [String] :title ("") page title;
+    # @option default [String] :description (nil) page description;
+    # @option default [String] :keywords (nil) page keywords;
+    # @option default [String] :prefix (" ") text between site name and separator;
+    # @option default [String] :separator ("|") text used to separate website name from page title;
+    # @option default [String] :suffix (" ") text between separator and page title;
+    # @option default [Boolean] :lowercase (false) when true, the page name will be lowercase;
+    # @option default [Boolean] :reverse (false) when true, the page and site names will be reversed;
+    # @option default [Boolean, String] :noindex (false) add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
+    # @option default [Boolean, String] :nofollow (false) add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
+    # @option default [String] :canonical (nil) add canonical link tag.
+    # @return [String] HTML meta tags to render in HEAD section of the
+    #   HTML document.
     #
-    # Examples:
+    # @example
     #   <head>
     #     <%= display_meta_tags :site => 'My website' %>
     #   </head>
     #
-    # Allowed options:
-    # * <tt>:site</tt> -- site title;
-    # * <tt>:title</tt> -- page title;
-    # * <tt>:description</tt> -- page description;
-    # * <tt>:keywords</tt> -- page keywords;
-    # * <tt>:prefix</tt> -- text between site name and separator;
-    # * <tt>:separator</tt> -- text used to separate website name from page title;
-    # * <tt>:suffix</tt> -- text between separator and page title;
-    # * <tt>:lowercase</tt> -- when true, the page name will be lowercase;
-    # * <tt>:reverse</tt> -- when true, the page and site names will be reversed;
-    # * <tt>:noindex</tt> -- add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
-    # * <tt>:nofollow</tt> -- add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
-    # * <tt>:canonical</tt> -- add canonical link tag.
     def display_meta_tags(default = {})
       meta_tags = (default || {}).merge(@meta_tags || {})
 
