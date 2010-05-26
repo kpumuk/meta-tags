@@ -24,7 +24,7 @@ module MetaTags
       @meta_tags ||= {}
       @meta_tags.merge!(meta_tags || {})
     end
-  
+
     # Set the page title and return it back.
     #
     # This method is best suited for use in helpers. It sets the page title
@@ -51,7 +51,7 @@ module MetaTags
       set_meta_tags(:title => title)
       headline.blank? ? title : headline
     end
-  
+
     # Set the page keywords.
     #
     # @param [String, Array] keywords meta keywords to render in HEAD
@@ -68,7 +68,7 @@ module MetaTags
       set_meta_tags(:keywords => keywords)
       keywords
     end
-  
+
     # Set the page description.
     #
     # @param [String] page description to be set in HEAD section of
@@ -118,7 +118,7 @@ module MetaTags
       set_meta_tags(:nofollow => nofollow)
       nofollow
     end
-  
+
     # Set default meta tag values and display meta tags. This method
     # should be used in layout file.
     #
@@ -148,13 +148,13 @@ module MetaTags
 
       # Prefix (leading space)
       prefix = meta_tags[:prefix] === false ? '' : (meta_tags[:prefix] || ' ')
-    
+
       # Separator
       separator = meta_tags[:separator].blank? ? '|' : meta_tags[:separator]
-    
+
       # Suffix (trailing space)
       suffix = meta_tags[:suffix] === false ? '' : (meta_tags[:suffix] || ' ')
-    
+
       # Title
       title = meta_tags[:title]
       if meta_tags[:lowercase] === true and !title.blank?
@@ -164,58 +164,60 @@ module MetaTags
           title.downcase
         end
       end
-    
+
+      result = []
+
       # title
       if title.blank?
-        result = content_tag :title, meta_tags[:site]
+        result << content_tag(:title, meta_tags[:site])
       else
         title = normalize_title(title)
         title = [meta_tags[:site]] + title
         title.reverse! if meta_tags[:reverse] === true
         sep = prefix + separator + suffix
-        result = content_tag(:title, title.join(sep))
+        result << content_tag(:title, title.join(sep))
       end
 
       # description
       description = normalize_description(meta_tags[:description])
-      result << "\n" + tag(:meta, :name => :description, :content => description) unless description.blank?
-    
+      result << tag(:meta, :name => :description, :content => description) unless description.blank?
+
       # keywords
       keywords = normalize_keywords(meta_tags[:keywords])
-      result << "\n" + tag(:meta, :name => :keywords, :content => keywords) unless keywords.blank?
+      result << tag(:meta, :name => :keywords, :content => keywords) unless keywords.blank?
 
       # noindex & nofollow
       noindex_name = meta_tags[:noindex].is_a?(String) ? meta_tags[:noindex] : 'robots'
       nofollow_name = meta_tags[:nofollow].is_a?(String) ? meta_tags[:nofollow] : 'robots'
-  
+
       if noindex_name == nofollow_name
         content = [(meta_tags[:noindex] ? 'noindex' : nil), (meta_tags[:nofollow] ? 'nofollow' : nil)].compact.join(', ')
-        result << "\n" + tag(:meta, :name => noindex_name, :content => content) unless content.blank?
+        result << tag(:meta, :name => noindex_name, :content => content) unless content.blank?
       else
-        result << "\n" + tag(:meta, :name => noindex_name, :content => 'noindex') if meta_tags[:noindex]
-        result << "\n" + tag(:meta, :name => nofollow_name, :content => 'nofollow') if meta_tags[:nofollow]
+        result << tag(:meta, :name => noindex_name, :content => 'noindex') if meta_tags[:noindex]
+        result << tag(:meta, :name => nofollow_name, :content => 'nofollow') if meta_tags[:nofollow]
       end
 
       # canonical
-      result << "\n" + tag(:link, :rel => :canonical, :href => meta_tags[:canonical]) unless meta_tags[:canonical].blank?
+      result << tag(:link, :rel => :canonical, :href => meta_tags[:canonical]) unless meta_tags[:canonical].blank?
 
-      return result
+      return result.join("\n")
     end
-  
+
     private
-  
+
       def normalize_title(title)
         if title.is_a? String
           title = [title]
         end
         title.map { |t| h(strip_tags(t)) }
       end
-    
+
       def normalize_description(description)
         return '' unless description
         truncate(strip_tags(description).gsub(/\s+/, ' '), :length => 200)
       end
-    
+
       def normalize_keywords(keywords)
         return '' unless keywords
         keywords = keywords.flatten.join(', ') if keywords.is_a?(Array)
