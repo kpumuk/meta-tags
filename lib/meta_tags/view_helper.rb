@@ -201,7 +201,9 @@ module MetaTags
       # canonical
       result << tag(:link, :rel => :canonical, :href => meta_tags[:canonical]) unless meta_tags[:canonical].blank?
 
-      return result.join("\n")
+      result = result.join("\n")
+      result.html_safe! if result.respond_to?(:html_safe!)
+      result
     end
 
     private
