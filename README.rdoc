@@ -2,6 +2,11 @@
 
 Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 
+== Rails 3
+
+MetaTags master branch is now fully supports Rails 3 and is backward
+compatible.
+
 == Installation
 
 There are two options when approaching meta-tags installation:
@@ -11,7 +16,7 @@ There are two options when approaching meta-tags installation:
 
 To install as a gem, add this to your environment.rb:
 
-  config.gem 'meta-tags', :lib => 'meta_tags', :source => 'http://gemcutter.org'
+  config.gem 'meta-tags', :lib => 'meta_tags'
 
 And then run the command:
 
@@ -146,7 +151,7 @@ Also there is +set_meta_tags+ method exists:
                    :description => 'Member login page.',
                    :keywords => 'Site, Login, Members' %>
 
-The +title+ methods returns title itself, so you can use it to show the title
+The +title+ method returns title itself, so you can use it to show the title
 somewhere on the page:
 
   <h1><%= title 'Member Login' %></h1>
@@ -174,14 +179,14 @@ Use these options to customize the title format:
 
 And here are a few examples to give you ideas.
 
-  <%= title :separator => "&mdash;" %>
-  <%= title :prefix => false, :separator => ":" %>
-  <%= title :lowercase => true %>
-  <%= title :reverse => true, :prefix => false %>
+  <%= display_meta_tags :separator => "&mdash;" %>
+  <%= display_meta_tags :prefix => false, :separator => ":" %>
+  <%= display_meta_tags :lowercase => true %>
+  <%= display_meta_tags :reverse => true, :prefix => false %>
 
 === Allowed values
 
-You can specify +title+ as a string or array:
+You can specify <tt>:title</tt> as a string or array:
 
   set_meta_tags :title => ['part1', 'part2'], :site => 'site'
   # site | part1 | part2
@@ -207,3 +212,4 @@ There are several plugins influenced me to create this one:
 * Dmytro Shteflyuk (author) <kpumuk@kpumuk.info> http://kpumuk.info
 * Morgan Roderick (contributor) <morgan@roderick.dk> http://roderick.dk
 * Sergio Cambra (contributor) <sergio@entrecables.com>
+* Kristoffer Renholm (contributor) <kristoffer@renholm.se>

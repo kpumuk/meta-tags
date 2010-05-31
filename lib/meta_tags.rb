@@ -1,8 +1,10 @@
-module MetaTags
-end
+require 'action_controller'
+require 'action_view'
 
-require File.dirname(__FILE__) + '/meta_tags/view_helper'
-require File.dirname(__FILE__) + '/meta_tags/controller_helper'
+module MetaTags
+  autoload :ViewHelper,       'meta_tags/view_helper'
+  autoload :ControllerHelper, 'meta_tags/controller_helper'
+end
 
 ActionView::Base.send :include, MetaTags::ViewHelper
 ActionController::Base.send :include, MetaTags::ControllerHelper
