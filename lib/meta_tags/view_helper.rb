@@ -158,11 +158,7 @@ module MetaTags
       # Title
       title = meta_tags[:title]
       if meta_tags[:lowercase] === true and !title.blank?
-        title = if title.is_a?(Array)
-          title.map { |t| t.downcase }
-        else
-          title.downcase
-        end
+        title = [*title].map { |t| t.downcase }
       end
 
       result = []
@@ -171,8 +167,7 @@ module MetaTags
       if title.blank?
         result << content_tag(:title, meta_tags[:site])
       else
-        title = normalize_title(title)
-        title = [meta_tags[:site]] + title
+        title = normalize_title(title).unshift(meta_tags[:site])
         title.reverse! if meta_tags[:reverse] === true
         sep = prefix + separator + suffix
         result << content_tag(:title, title.join(sep))
@@ -187,14 +182,14 @@ module MetaTags
       result << tag(:meta, :name => :keywords, :content => keywords) unless keywords.blank?
 
       # noindex & nofollow
-      noindex_name = meta_tags[:noindex].is_a?(String) ? meta_tags[:noindex] : 'robots'
-      nofollow_name = meta_tags[:nofollow].is_a?(String) ? meta_tags[:nofollow] : 'robots'
+      noindex_name  = String === meta_tags[:noindex]  ? meta_tags[:noindex]  : 'robots'
+      nofollow_name = String === meta_tags[:nofollow] ? meta_tags[:nofollow] : 'robots'
 
       if noindex_name == nofollow_name
-        content = [(meta_tags[:noindex] ? 'noindex' : nil), (meta_tags[:nofollow] ? 'nofollow' : nil)].compact.join(', ')
+        content = [meta_tags[:noindex] && 'noindex', meta_tags[:nofollow] && 'nofollow'].compact.join(', ')
         result << tag(:meta, :name => noindex_name, :content => content) unless content.blank?
       else
-        result << tag(:meta, :name => noindex_name, :content => 'noindex') if meta_tags[:noindex]
+        result << tag(:meta, :name => noindex_name,  :content => 'noindex')  if meta_tags[:noindex]
         result << tag(:meta, :name => nofollow_name, :content => 'nofollow') if meta_tags[:nofollow]
       end
 
@@ -208,10 +203,7 @@ module MetaTags
     private
 
       def normalize_title(title)
-        if title.is_a? String
-          title = [title]
-        end
-        title.map { |t| h(strip_tags(t)) }
+        [*title].map { |t| h(strip_tags(t)) }
       end
 
       def normalize_description(description)
@@ -221,7 +213,7 @@ module MetaTags
 
       def normalize_keywords(keywords)
         return '' unless keywords
-        keywords = keywords.flatten.join(', ') if keywords.is_a?(Array)
+        keywords = keywords.flatten.join(', ') if Array === keywords
         strip_tags(keywords).mb_chars.downcase
       end
   end
