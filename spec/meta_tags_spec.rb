@@ -4,20 +4,20 @@ describe MetaTags::ViewHelper do
   before :each do
     @view = ActionView::Base.new
   end
-  
+
   context 'module' do
     it 'should be mixed into ActionView::Base' do
       ActionView::Base.included_modules.should include(MetaTags::ViewHelper)
     end
-    
+
     it 'should respond to "title" helper' do
       @view.should respond_to(:title)
     end
-    
+
     it 'should respond to "description" helper' do
       @view.should respond_to(:description)
     end
-    
+
     it 'should respond to "keywords" helper' do
       @view.should respond_to(:keywords)
     end
@@ -38,7 +38,7 @@ describe MetaTags::ViewHelper do
       @view.should respond_to(:display_meta_tags)
     end
   end
-  
+
   context 'returning values' do
     it 'should return title' do
       @view.title('some-title').should == 'some-title'
@@ -47,7 +47,7 @@ describe MetaTags::ViewHelper do
     it 'should return headline if specified' do
       @view.title('some-title', 'some-headline').should == 'some-headline'
     end
-    
+
     it 'should return description' do
       @view.description('some-description').should == 'some-description'
     end
@@ -64,12 +64,12 @@ describe MetaTags::ViewHelper do
       @view.noindex('some-nofollow').should == 'some-nofollow'
     end
   end
-  
+
   context 'title' do
     it 'should use website name if title is empty' do
       @view.display_meta_tags(:site => 'someSite').should == '<title>someSite</title>'
     end
-    
+
     it 'should display title when "title" used' do
       @view.title('someTitle')
       @view.display_meta_tags(:site => 'someSite').should == '<title>someSite | someTitle</title>'
@@ -130,7 +130,7 @@ describe MetaTags::ViewHelper do
                               :lowercase => true,
                               :reverse => true).should == '<title>sometitle -:+ someSite</title>'
     end
-    
+
     it 'shold allow Arrays in title' do
       @view.display_meta_tags(:site => 'someSite', :title => ['someTitle', 'anotherTitle']).should == '<title>someSite | someTitle | anotherTitle</title>'
     end
@@ -148,7 +148,7 @@ describe MetaTags::ViewHelper do
                               :reverse => true).should == '<title>anotherTitle -:+ someTitle -:+ someSite</title>'
     end
   end
-  
+
   context 'displaying description' do
     it 'should display description when "description" used' do
       @view.description('someDescription')
@@ -176,12 +176,12 @@ describe MetaTags::ViewHelper do
     it 'should strip HTML' do
       @view.display_meta_tags(:site => 'someSite', :description => "<p>some <b>description</b></p>").should include('<meta content="some description" name="description" />')
     end
-    
+
     it 'should truncate correctly' do
       @view.display_meta_tags(:site => 'someSite', :description => "Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.").should include('<meta content="Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dol..." name="description" />')
     end
   end
-  
+
   context 'displaying keywords' do
     it 'should display keywords when "keywords" used' do
       @view.keywords('some-keywords')
@@ -214,7 +214,7 @@ describe MetaTags::ViewHelper do
       @view.display_meta_tags(:site => 'someSite', :keywords => [%w(keyword1 keyword2), 'keyword3']).should include('<meta content="keyword1, keyword2, keyword3" name="keywords" />')
     end
   end
-  
+
   context 'displaying noindex' do
     it 'should display noindex when "noindex" used' do
       @view.noindex(true)
@@ -256,7 +256,7 @@ describe MetaTags::ViewHelper do
       @view.display_meta_tags(:site => 'someSite').should_not include('<meta content="nofollow"')
     end
   end
-  
+
   context 'displaying both nofollow and noindex' do
     it 'should be displayed when set using helpers' do
       @view.noindex(true)
