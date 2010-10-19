@@ -3,3 +3,4 @@ doc
 pkg
 .yardoc
 .DS_Store
+*.tmproj

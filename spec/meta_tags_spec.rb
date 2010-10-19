@@ -298,4 +298,11 @@ describe MetaTags::ViewHelper do
       @view.display_meta_tags(:site => 'someSite', :canonical => 'http://example.com/base/url').should include('<link href="http://example.com/base/url" rel="canonical" />')
     end
   end
+  
+  context 'displaying arbitrary meta-tag' do
+    it 'should display any arbitrary meta-tags' do
+      @view.set_meta_tags(:"og:title" => 'Facebook Share Title')
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Title" name="og:title" />')
+    end
+  end
 end

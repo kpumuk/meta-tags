@@ -1,3 +1,5 @@
+require 'ruby-debug'
+
 module MetaTags
   # Contains methods to use in views and helpers.
   #
@@ -147,55 +149,67 @@ module MetaTags
       meta_tags = (default || {}).merge(@meta_tags || {})
 
       # Prefix (leading space)
-      prefix = meta_tags[:prefix] === false ? '' : (meta_tags[:prefix] || ' ')
+      prefix = meta_tags.delete :prefix
+      prefix = prefix === false ? '' : (prefix || ' ')
 
       # Separator
-      separator = meta_tags[:separator].blank? ? '|' : meta_tags[:separator]
+      separator = meta_tags.delete :separator
+      separator = separator.blank? ? '|' : separator
 
       # Suffix (trailing space)
-      suffix = meta_tags[:suffix] === false ? '' : (meta_tags[:suffix] || ' ')
+      suffix = meta_tags.delete :suffix
+      suffix = suffix === false ? '' : (suffix || ' ')
 
       # Title
-      title = meta_tags[:title]
-      if meta_tags[:lowercase] === true and !title.blank?
+      title = meta_tags.delete :title
+      if meta_tags.delete(:lowercase) === true and !title.blank?
         title = [*title].map { |t| t.downcase }
       end
 
       result = []
 
       # title
+      site = meta_tags.delete :site
       if title.blank?
-        result << content_tag(:title, meta_tags[:site])
+        result << content_tag(:title, site)
       else
-        title = normalize_title(title).unshift(meta_tags[:site])
-        title.reverse! if meta_tags[:reverse] === true
+        title = normalize_title(title).unshift(site)
+        title.reverse! if meta_tags.delete(:reverse) === true
         sep = prefix + separator + suffix
         result << content_tag(:title, title.join(sep))
       end
 
       # description
-      description = normalize_description(meta_tags[:description])
+      description = normalize_description(meta_tags.delete(:description))
       result << tag(:meta, :name => :description, :content => description) unless description.blank?
 
       # keywords
-      keywords = normalize_keywords(meta_tags[:keywords])
+      keywords = normalize_keywords(meta_tags.delete(:keywords) )
       result << tag(:meta, :name => :keywords, :content => keywords) unless keywords.blank?
 
       # noindex & nofollow
-      noindex_name  = String === meta_tags[:noindex]  ? meta_tags[:noindex]  : 'robots'
-      nofollow_name = String === meta_tags[:nofollow] ? meta_tags[:nofollow] : 'robots'
+      noindex = meta_tags.delete :noindex
+      nofollow = meta_tags.delete :nofollow
+      noindex_name  = String === noindex  ? noindex  : 'robots'
+      nofollow_name = String === nofollow ? nofollow : 'robots'
 
       if noindex_name == nofollow_name
-        content = [meta_tags[:noindex] && 'noindex', meta_tags[:nofollow] && 'nofollow'].compact.join(', ')
+        content = [noindex && 'noindex', nofollow && 'nofollow'].compact.join(', ')
         result << tag(:meta, :name => noindex_name, :content => content) unless content.blank?
       else
-        result << tag(:meta, :name => noindex_name,  :content => 'noindex')  if meta_tags[:noindex]
-        result << tag(:meta, :name => nofollow_name, :content => 'nofollow') if meta_tags[:nofollow]
+        result << tag(:meta, :name => noindex_name,  :content => 'noindex')  if noindex
+        result << tag(:meta, :name => nofollow_name, :content => 'nofollow') if nofollow
       end
 
       # canonical
-      result << tag(:link, :rel => :canonical, :href => meta_tags[:canonical]) unless meta_tags[:canonical].blank?
+      canonical = meta_tags.delete :canonical
+      result << tag(:link, :rel => :canonical, :href => canonical) unless canonical.blank?
 
+      # arbitrary meta tags
+      meta_tags.each do |key, value|
+        result << tag(:meta, :name => key, :content => value)
+      end
+      
       result = result.join("\n")
       result.respond_to?(:html_safe) ? result.html_safe : result
     end
