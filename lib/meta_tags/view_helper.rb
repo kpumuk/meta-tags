@@ -205,7 +205,13 @@ module MetaTags
       canonical = meta_tags.delete :canonical
       result << tag(:link, :rel => :canonical, :href => canonical) unless canonical.blank?
 
-      # arbitrary meta tags
+      # non-standard meta tags ( I'm scowling at you Facebook )
+      non_standard = meta_tags.delete(:non_standard)
+      non_standard.each do |tags|   
+        result << tag(:meta, tags[0][0].to_sym => tags[0][1], tags[1][0].to_sym => tags[1][1])
+      end unless non_standard.nil?
+      
+      # arbitrary meta tags, assumes that anything not specifically labeled should be displayed as a name content pair
       meta_tags.each do |key, value|
         result << tag(:meta, :name => key, :content => value)
       end
