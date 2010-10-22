@@ -309,7 +309,19 @@ describe MetaTags::ViewHelper do
       @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Description" property="og:description" />')
     end
   end
-    
+  
+  context 'displaying FB open graph meta tags' do
+    it 'should display FB OG meta tags' do
+      @view.set_open_graph_meta_tags( { 
+        :title => "Facebook Share Title", 
+        :description => "Facebook Share Description"
+        })
+            
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Title" property="og:title" />')
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Description" property="og:description" />')
+    end
+  end
+      
   context 'displaying arbitrary meta tags' do
     it 'should display any arbitrary meta tags' do
       @view.set_meta_tags(:"og:title" => 'Facebook Share Title')

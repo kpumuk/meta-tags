@@ -27,6 +27,19 @@ module MetaTags
       @meta_tags.merge!(meta_tags || {})
     end
 
+    # TODO: KLUDGE: Duplicating this here in the interest of time and easy testing. See controller_helper.
+    # Set Facebook Open Graph meta tags for the page.
+    #
+    # See <tt>MetaTags.set_meta_tags</tt> for details.
+    def set_open_graph_meta_tags(fb_meta_tags)
+      fb_formatted = fb_meta_tags.inject([]) do |collector, (key, value)|
+        collector << [[:property, "og:#{key}"], [:content, value]]
+      end
+      
+      # TODO: Maybe non_standard should be an accumulator rather than a merge?
+      set_meta_tags :non_standard => fb_formatted
+    end
+    
     # Set the page title and return it back.
     #
     # This method is best suited for use in helpers. It sets the page title
