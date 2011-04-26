@@ -23,6 +23,7 @@ GEM
       builder (~> 2.1.2)
       i18n (~> 0.5.0)
     activesupport (3.0.7)
+    bluecloth (2.1.0)
     builder (2.1.2)
     diff-lcs (1.1.2)
     erubis (2.6.6)
@@ -48,6 +49,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bluecloth
   meta-tags!
   rspec
   yard
