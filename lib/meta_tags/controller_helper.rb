@@ -35,7 +35,6 @@ module MetaTags
         @meta_tags ||= {}
         @meta_tags.merge!(meta_tags || {})
       end
-
       protected :set_meta_tags
     end
   end

@@ -158,7 +158,7 @@ module MetaTags
       # Title
       title = meta_tags[:title]
       if meta_tags[:lowercase] === true and !title.blank?
-        title = [*title].map { |t| t.downcase }
+        title = Array(title).map { |t| t.downcase }
       end
 
       result = []
@@ -167,10 +167,13 @@ module MetaTags
       if title.blank?
         result << content_tag(:title, meta_tags[:site])
       else
-        title = normalize_title(title).unshift(meta_tags[:site])
+        title = normalize_title(title).unshift(h(meta_tags[:site]))
         title.reverse! if meta_tags[:reverse] === true
-        sep = prefix + separator + suffix
-        result << content_tag(:title, title.join(sep))
+        sep = h(prefix) + h(separator) + h(suffix)
+        title = title.join(sep)
+        # We escaped every chunk of the title, so the whole title should be HTML safe
+        title = title.html_safe if title.respond_to?(:html_safe)
+        result << content_tag(:title, title)
       end
 
       # description
@@ -206,10 +209,14 @@ module MetaTags
       result.respond_to?(:html_safe) ? result.html_safe : result
     end
 
+    if respond_to? :safe_helper
+      safe_helper :display_meta_tags
+    end
+
     private
 
       def normalize_title(title)
-        [*title].map { |t| h(strip_tags(t)) }
+        Array(title).map { |t| h(strip_tags(t)) }
       end
 
       def normalize_description(description)
