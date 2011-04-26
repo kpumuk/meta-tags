@@ -13,6 +13,8 @@ module MetaTags
     def self.included(base)
       base.send :include, InstanceMethods
       base.alias_method_chain :render, :meta_tags
+      # TODO: It would be cleaner to use helper_method rather than repeat the methods in the view. Need to figure out how to test though.
+      # base.send :helper_method, :set_meta_tags, :set_open_graph_meta_tags
     end
 
     module InstanceMethods
@@ -36,7 +38,19 @@ module MetaTags
         @meta_tags.merge!(meta_tags || {})
       end
 
-      protected :set_meta_tags
+      # Set Facebook Open Graph meta tags for the page.
+      #
+      # See <tt>MetaTags.set_meta_tags</tt> for details.
+      def set_open_graph_meta_tags(fb_meta_tags)
+        fb_formatted = fb_meta_tags.inject([]) do |collector, (key, value)|
+          collector << [[:property, "og:#{key}"], [:content, value]]
+        end
+        
+        # TODO: Maybe non_standard should be an accumulator rather than a merge?
+        set_meta_tags :non_standard => fb_formatted
+      end
+      
+      protected :set_meta_tags, :set_open_graph_meta_tags
     end
   end
 end

@@ -298,4 +298,34 @@ describe MetaTags::ViewHelper do
       @view.display_meta_tags(:site => 'someSite', :canonical => 'http://example.com/base/url').should include('<link href="http://example.com/base/url" rel="canonical" />')
     end
   end
+  
+  context 'displaying non-standard meta tags' do
+    it 'should display non-standard meta tags' do
+      @view.set_meta_tags(:non_standard => [
+        [[:property, "og:title"], [:content, 'Facebook Share Title']], 
+        [[:property, "og:description"], [:content, 'Facebook Share Description']]
+        ])
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Title" property="og:title" />')
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Description" property="og:description" />')
+    end
+  end
+  
+  context 'displaying FB open graph meta tags' do
+    it 'should display FB OG meta tags' do
+      @view.set_open_graph_meta_tags( { 
+        :title => "Facebook Share Title", 
+        :description => "Facebook Share Description"
+        })
+            
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Title" property="og:title" />')
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Description" property="og:description" />')
+    end
+  end
+      
+  context 'displaying arbitrary meta tags' do
+    it 'should display any arbitrary meta tags' do
+      @view.set_meta_tags(:"og:title" => 'Facebook Share Title')
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Title" name="og:title" />')
+    end
+  end
 end
