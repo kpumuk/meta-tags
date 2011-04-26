@@ -150,7 +150,7 @@ module MetaTags
       prefix = meta_tags[:prefix] === false ? '' : (meta_tags[:prefix] || ' ')
 
       # Separator
-      separator = meta_tags[:separator].blank? ? '|' : meta_tags[:separator]
+      separator = meta_tags[:separator] || '|'
 
       # Suffix (trailing space)
       suffix = meta_tags[:suffix] === false ? '' : (meta_tags[:suffix] || ' ')
