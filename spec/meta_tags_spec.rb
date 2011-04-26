@@ -108,6 +108,7 @@ describe MetaTags::ViewHelper do
       @view.display_meta_tags(:site => 'someSite', :separator => ':').should == '<title>someSite : someTitle</title>'
       @view.display_meta_tags(:site => 'someSite', :separator => '&mdash;').should == '<title>someSite &amp;mdash; someTitle</title>'
       @view.display_meta_tags(:site => 'someSite', :separator => '&mdash;'.html_safe).should == '<title>someSite &mdash; someTitle</title>'
+      @view.display_meta_tags(:site => 'someSite: ', :separator => false).should == '<title>someSite: someTitle</title>'
     end
 
     it 'should use custom prefix and suffix if available' do

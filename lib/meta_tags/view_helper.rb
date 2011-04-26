@@ -135,6 +135,7 @@ module MetaTags
     # @option default [Boolean, String] :noindex (false) add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
     # @option default [Boolean, String] :nofollow (false) add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
     # @option default [String] :canonical (nil) add canonical link tag.
+    # @option default [Hash] :open_graph ({}) add Open Graph meta tags.
     # @return [String] HTML meta tags to render in HEAD section of the
     #   HTML document.
     #
@@ -150,10 +151,15 @@ module MetaTags
       prefix = meta_tags[:prefix] === false ? '' : (meta_tags[:prefix] || ' ')
 
       # Separator
-      separator = meta_tags[:separator].blank? ? '|' : meta_tags[:separator]
+      separator = meta_tags[:separator] === false ? '' : (meta_tags[:separator] || '|')
 
       # Suffix (trailing space)
       suffix = meta_tags[:suffix] === false ? '' : (meta_tags[:suffix] || ' ')
+
+      # Special case: if separator is hidden, do not display suffix/prefix
+      if meta_tags[:separator] == false
+        prefix = suffix = ''
+      end
 
       # Title
       title = meta_tags[:title]
