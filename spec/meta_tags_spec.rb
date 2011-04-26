@@ -298,4 +298,24 @@ describe MetaTags::ViewHelper do
       @view.display_meta_tags(:site => 'someSite', :canonical => 'http://example.com/base/url').should include('<link href="http://example.com/base/url" rel="canonical" />')
     end
   end
+
+  context 'displaying Open Graph meta tags' do
+    it 'should display meta tags specified with :open_graph' do
+      @view.set_meta_tags(:open_graph => {
+        :title       => 'Facebook Share Title',
+        :description => 'Facebook Share Description'
+      })
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Title" property="og:title" />')
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Description" property="og:description" />')
+    end
+
+    it 'should display meta tags specified with :og' do
+      @view.set_meta_tags(:og => {
+        :title       => 'Facebook Share Title',
+        :description => 'Facebook Share Description'
+      })
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Title" property="og:title" />')
+      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Description" property="og:description" />')
+    end
+  end
 end

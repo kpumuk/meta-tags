@@ -193,6 +193,12 @@ module MetaTags
         result << tag(:meta, :name => nofollow_name, :content => 'nofollow') if meta_tags[:nofollow]
       end
 
+      # Open Graph
+      open_graph = meta_tags[:open_graph] || meta_tags[:og] || {}
+      open_graph.each do |property, content|
+        result << tag(:meta, :property => "og:#{property}", :content => content)
+      end
+
       # canonical
       result << tag(:link, :rel => :canonical, :href => meta_tags[:canonical]) unless meta_tags[:canonical].blank?
 
