@@ -9,22 +9,11 @@ compatible.
 
 == Installation
 
-There are two options when approaching meta-tags installation:
+Add the "meta-tags" gem to your +Gemfile+.
 
-* using the gem (recommended)
-* install as a Rails plugin
+  gem 'meta-tags', :require => 'meta_tags'
 
-To install as a gem, add this to your environment.rb:
-
-  config.gem 'meta-tags', :lib => 'meta_tags'
-
-And then run the command:
-
-  sudo rake gems:install
-
-To install meta-tags as a Rails plugin use this:
-
-  script/plugin install git://github.com/kpumuk/meta-tags.git
+And run +bundle install+ command.
 
 == Titles
 
@@ -98,6 +87,22 @@ Further reading:
 * About rel="canonical" http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139394
 * Canonicalization http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139066
 
+== Open Graph
+
+To turn your web pages into graph objects, you'll need to add Open Graph protocol
+<meta> tags to your webpages. The tags allow you to specify structured information
+about your web pages. The more information you provide, the more opportunities your
+web pages can be surfaced within Facebook today and in the future. Here's an example
+for a movie page:
+
+  <meta property="og:title" content="The Rock"/>
+  <meta property="og:type" content="movie"/>
+  <meta property="og:url" content="http://www.imdb.com/title/tt0117500/"/>
+  <meta property="og:image" content="http://ia.media-imdb.com/rock.jpg"/>
+
+Further reading:
+* Open Graph protocol http://developers.facebook.com/docs/opengraph/
+
 == MetaTags Usage
 
 First, add this code to your main layout:
@@ -125,9 +130,9 @@ You can find allowed options for +display_meta_tags+ method below.
 
 You can define following instance variables:
 
-  @page_title = 'Member Login'
+  @page_title       = 'Member Login'
   @page_description = 'Member login page.'
-  @page_keywords = 'Site, Login, Members'
+  @page_keywords    = 'Site, Login, Members'
   
 Also you could use +set_meta_tags+ method to define all meta tags simultaneously:
   
@@ -175,14 +180,16 @@ Use these options to customize the title format:
 * <tt>:reverse</tt> -- when true, the page and site names will be reversed;
 * <tt>:noindex</tt> -- add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * <tt>:nofollow</tt> -- add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
-* <tt>:canonical</tt> -- add canonical link tag.
+* <tt>:canonical</tt> -- add canonical link tag;
+* <tt>:open_graph</tt> -- add Open Graph tags (Hash).
 
 And here are a few examples to give you ideas.
 
-  <%= display_meta_tags :separator => "&mdash;" %>
+  <%= display_meta_tags :separator => "&mdash;".html_safe %>
   <%= display_meta_tags :prefix => false, :separator => ":" %>
   <%= display_meta_tags :lowercase => true %>
   <%= display_meta_tags :reverse => true, :prefix => false %>
+  <%= display_meta_tags :open_graph => { :title => 'The Rock', :type => 'movie' } %>
 
 === Allowed values
 
@@ -213,3 +220,4 @@ There are several plugins influenced me to create this one:
 * Morgan Roderick (contributor) <morgan@roderick.dk> http://roderick.dk
 * Sergio Cambra (contributor) <sergio@entrecables.com>
 * Kristoffer Renholm (contributor) <kristoffer@renholm.se>
+* Jesse Clark (contributor) <jesse@jesseclark.com> http://jesseclark.com/blog
