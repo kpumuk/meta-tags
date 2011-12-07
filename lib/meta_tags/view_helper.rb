@@ -232,7 +232,7 @@ module MetaTags
 
       def normalize_keywords(keywords)
         return '' unless keywords
-        keywords = keywords.flatten.join(', ') if Array === keywords
+        keywords = keywords.flatten.join(',') if Array === keywords
         strip_tags(keywords).mb_chars.downcase
       end
   end
