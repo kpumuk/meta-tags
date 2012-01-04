@@ -51,6 +51,48 @@ module MetaTags
       set_meta_tags(:title => title)
       headline.blank? ? title : headline
     end
+    
+    # Return the full title as will be displayed in the <title> tag
+    #
+    # This method is useful if you need to know what the full title including 
+    # the site + separator section will be (e.g. for pjax)
+    #
+    # @param [Hash] title values to use here
+    def full_title(default = {})
+      meta_tags = (default || {}).merge(@meta_tags || {})
+      
+      # Prefix (leading space)
+      prefix = meta_tags[:prefix] === false ? '' : (meta_tags[:prefix] || ' ')
+      
+      # Separator
+      separator = meta_tags[:separator] === false ? '' : (meta_tags[:separator] || '|')
+      
+      # Suffix (trailing space)
+      suffix = meta_tags[:suffix] === false ? '' : (meta_tags[:suffix] || ' ')
+      
+      # Special case: if separator is hidden, do not display suffix/prefix
+      if meta_tags[:separator] == false
+        prefix = suffix = ''
+      end
+
+      title = meta_tags[:title]
+      if meta_tags[:lowercase] === true and !title.blank?
+        title = Array(title).map { |t| t.downcase }
+      end
+      
+      # title
+      if title.blank?
+        meta_tags[:site]
+      else
+        title = normalize_title(title).unshift(h(meta_tags[:site]))
+        title.reverse! if meta_tags[:reverse] === true
+        sep = h(prefix) + h(separator) + h(suffix)
+        title = title.join(sep)
+        # We escaped every chunk of the title, so the whole title should be HTML safe
+        title = title.html_safe if title.respond_to?(:html_safe)
+        title
+      end
+    end
 
     # Set the page keywords.
     #
@@ -146,42 +188,12 @@ module MetaTags
     #
     def display_meta_tags(default = {})
       meta_tags = (default || {}).merge(@meta_tags || {})
-
-      # Prefix (leading space)
-      prefix = meta_tags[:prefix] === false ? '' : (meta_tags[:prefix] || ' ')
-
-      # Separator
-      separator = meta_tags[:separator] === false ? '' : (meta_tags[:separator] || '|')
-
-      # Suffix (trailing space)
-      suffix = meta_tags[:suffix] === false ? '' : (meta_tags[:suffix] || ' ')
-
-      # Special case: if separator is hidden, do not display suffix/prefix
-      if meta_tags[:separator] == false
-        prefix = suffix = ''
-      end
-
-      # Title
-      title = meta_tags[:title]
-      if meta_tags[:lowercase] === true and !title.blank?
-        title = Array(title).map { |t| t.downcase }
-      end
-
+      
       result = []
-
-      # title
-      if title.blank?
-        result << content_tag(:title, meta_tags[:site])
-      else
-        title = normalize_title(title).unshift(h(meta_tags[:site]))
-        title.reverse! if meta_tags[:reverse] === true
-        sep = h(prefix) + h(separator) + h(suffix)
-        title = title.join(sep)
-        # We escaped every chunk of the title, so the whole title should be HTML safe
-        title = title.html_safe if title.respond_to?(:html_safe)
-        result << content_tag(:title, title)
-      end
-
+      
+      # Title
+      result << content_tag(:title, full_title(default))
+      
       # description
       description = normalize_description(meta_tags[:description])
       result << tag(:meta, :name => :description, :content => description) unless description.blank?
