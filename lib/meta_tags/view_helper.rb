@@ -25,10 +25,6 @@ module MetaTags
       @meta_tags.deep_merge!(meta_tags || {})
     end
 
-    def get_meta_tag(key)
-      @meta_tags[key]
-    end
-
     # Set the page title and return it back.
     #
     # This method is best suited for use in helpers. It sets the page title
@@ -209,6 +205,8 @@ module MetaTags
       # Open Graph
       open_graph = meta_tags[:open_graph] || meta_tags[:og] || {}
       open_graph.each do |property, content|
+        # If content is a symbol, it references a meta-tag value:
+        content = meta_tags[content] if content.is_a? Symbol
         result << tag(:meta, :property => "og:#{property}", :content => content)
       end
 
