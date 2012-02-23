@@ -22,7 +22,7 @@ module MetaTags
     #
     def set_meta_tags(meta_tags = {})
       @meta_tags ||= {}
-      @meta_tags.merge!(meta_tags || {})
+      @meta_tags.deep_merge!(meta_tags || {})
     end
 
     # Set the page title and return it back.
@@ -145,7 +145,7 @@ module MetaTags
     #   </head>
     #
     def display_meta_tags(default = {})
-      meta_tags = (default || {}).merge(@meta_tags || {})
+      meta_tags = (default || {}).deep_merge(@meta_tags || {})
 
       # Prefix (leading space)
       prefix = meta_tags[:prefix] === false ? '' : (meta_tags[:prefix] || ' ')
@@ -205,6 +205,8 @@ module MetaTags
       # Open Graph
       open_graph = meta_tags[:open_graph] || meta_tags[:og] || {}
       open_graph.each do |property, content|
+        # If content is a symbol, it references a meta-tag value:
+        content = meta_tags[content] if content.is_a? Symbol
         result << tag(:meta, :property => "og:#{property}", :content => content)
       end
 
