@@ -25,6 +25,10 @@ module MetaTags
       @meta_tags.deep_merge!(meta_tags || {})
     end
 
+    def get_meta_tag(key)
+      @meta_tags[key]
+    end
+
     # Set the page title and return it back.
     #
     # This method is best suited for use in helpers. It sets the page title
