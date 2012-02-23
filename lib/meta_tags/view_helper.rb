@@ -22,7 +22,7 @@ module MetaTags
     #
     def set_meta_tags(meta_tags = {})
       @meta_tags ||= {}
-      @meta_tags.merge!(meta_tags || {})
+      @meta_tags.deep_merge!(meta_tags || {})
     end
 
     # Set the page title and return it back.
