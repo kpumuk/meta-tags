@@ -1,5 +1,7 @@
 # MetaTags: a gem to make your Rails application SEO-friendly
 
+[![Travis-CI build status](https://secure.travis-ci.org/kpumuk/meta-tags.png)](http://travis-ci.org/kpumuk/meta-tags)
+
 Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 
 ## Rails 3
@@ -57,7 +59,7 @@ Recommended keywords tag length: up to <b>255 characters</b>, <b>20 words</b>.
 
 ### Noindex
 
-By using the noindex meta tag, you can signal to search engines to not 
+By using the noindex meta tag, you can signal to search engines to not
 include specific pages in their indexes.
 
     set_meta_tags :noindex => true
@@ -65,7 +67,7 @@ include specific pages in their indexes.
     set_meta_tags :noindex => 'googlebot'
     # <meta name="googlebot" content="noindex" />
 
-This is useful for pages like login, password reset, privacy policy, etc.  
+This is useful for pages like login, password reset, privacy policy, etc.
 
 Further reading:
 
@@ -155,9 +157,9 @@ You can define following instance variables:
     @page_title       = 'Member Login'
     @page_description = 'Member login page.'
     @page_keywords    = 'Site, Login, Members'
-  
+
 Also you could use `set_meta_tags` method to define all meta tags simultaneously:
-  
+
     set_meta_tags :title => 'Member Login',
                   :description => 'Member login page.',
                   :keywords => 'Site, Login, Members'
