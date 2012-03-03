@@ -32,10 +32,17 @@ module MetaTags
       #
       # See <tt>MetaTags.set_meta_tags</tt> for details.
       def set_meta_tags(meta_tags)
-        @meta_tags ||= {}
-        @meta_tags.merge!(meta_tags || {})
+        meta_tags ||= {}
+        meta_tags[:open_graph] = meta_tags.delete(:og) if meta_tags.key?(:og)
+        self.meta_tags.deep_merge!(meta_tags || {})
       end
       protected :set_meta_tags
+
+      # Get meta tags for the page.
+      def meta_tags
+        @meta_tags ||= {}
+      end
+      protected :meta_tags
     end
   end
 end
