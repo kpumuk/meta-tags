@@ -26,7 +26,7 @@ module MetaTags
     # @see #display_meta_tags
     #
     def set_meta_tags(meta_tags = {})
-      self.meta_tags.deep_merge!(meta_tags || {})
+      self.meta_tags.deep_merge! normalize_open_graph(meta_tags)
     end
 
     # Set the page title and return it back.
@@ -149,7 +149,7 @@ module MetaTags
     #   </head>
     #
     def display_meta_tags(default = {})
-      meta_tags = (default || {}).merge(self.meta_tags)
+      meta_tags = normalize_open_graph(default).merge(self.meta_tags)
 
       result = []
 
@@ -177,8 +177,7 @@ module MetaTags
       end
 
       # Open Graph
-      open_graph = meta_tags[:open_graph] || meta_tags[:og] || {}
-      open_graph.each do |property, content|
+      (meta_tags[:open_graph] || {}).each do |property, content|
         result << tag(:meta, :property => "og:#{property}", :content => content)
       end
 
@@ -208,6 +207,12 @@ module MetaTags
         return '' if keywords.blank?
         keywords = keywords.flatten.join(', ') if Array === keywords
         strip_tags(keywords).mb_chars.downcase
+      end
+
+      def normalize_open_graph(meta_tags)
+        meta_tags ||= {}
+        meta_tags[:open_graph] = meta_tags.delete(:og) if meta_tags.key?(:og)
+        meta_tags
       end
 
       def build_full_title(meta_tags)

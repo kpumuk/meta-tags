@@ -337,5 +337,10 @@ describe MetaTags::ViewHelper do
       @view.set_meta_tags(:open_graph => { :description => 'world' })
       @view.meta_tags[:open_graph].should == { :title => 'hello', :description => 'world' }
     end
+
+    it 'should normalize :og to :open_graph' do
+      @view.set_meta_tags(:og => { :title => 'hello' })
+      @view.meta_tags[:open_graph].should == { :title => 'hello' }
+    end
   end
 end
