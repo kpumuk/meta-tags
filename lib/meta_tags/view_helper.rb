@@ -2,6 +2,11 @@ module MetaTags
   # Contains methods to use in views and helpers.
   #
   module ViewHelper
+    # Get meta tags for the page.
+    def meta_tags
+      @meta_tags ||= {}
+    end
+
     # Set meta tags for the page.
     #
     # Method could be used several times, and all options passed will
@@ -21,8 +26,7 @@ module MetaTags
     # @see #display_meta_tags
     #
     def set_meta_tags(meta_tags = {})
-      @meta_tags ||= {}
-      @meta_tags.merge!(meta_tags || {})
+      self.meta_tags.deep_merge!(meta_tags || {})
     end
 
     # Set the page title and return it back.
@@ -145,42 +149,12 @@ module MetaTags
     #   </head>
     #
     def display_meta_tags(default = {})
-      meta_tags = (default || {}).merge(@meta_tags || {})
-
-      # Prefix (leading space)
-      prefix = meta_tags[:prefix] === false ? '' : (meta_tags[:prefix] || ' ')
-
-      # Separator
-      separator = meta_tags[:separator] === false ? '' : (meta_tags[:separator] || '|')
-
-      # Suffix (trailing space)
-      suffix = meta_tags[:suffix] === false ? '' : (meta_tags[:suffix] || ' ')
-
-      # Special case: if separator is hidden, do not display suffix/prefix
-      if meta_tags[:separator] == false
-        prefix = suffix = ''
-      end
-
-      # Title
-      title = meta_tags[:title]
-      if meta_tags[:lowercase] === true and !title.blank?
-        title = Array(title).map { |t| t.downcase }
-      end
+      meta_tags = (default || {}).merge(self.meta_tags)
 
       result = []
 
       # title
-      if title.blank?
-        result << content_tag(:title, meta_tags[:site])
-      else
-        title = normalize_title(title).unshift(h(meta_tags[:site]))
-        title.reverse! if meta_tags[:reverse] === true
-        sep = h(prefix) + h(separator) + h(suffix)
-        title = title.join(sep)
-        # We escaped every chunk of the title, so the whole title should be HTML safe
-        title = title.html_safe if title.respond_to?(:html_safe)
-        result << content_tag(:title, title)
-      end
+      result << content_tag(:title, build_full_title(meta_tags))
 
       # description
       description = normalize_description(meta_tags[:description])
@@ -226,14 +200,49 @@ module MetaTags
       end
 
       def normalize_description(description)
-        return '' unless description
+        return '' if description.blank?
         truncate(strip_tags(description).gsub(/\s+/, ' '), :length => 200)
       end
 
       def normalize_keywords(keywords)
-        return '' unless keywords
+        return '' if keywords.blank?
         keywords = keywords.flatten.join(', ') if Array === keywords
         strip_tags(keywords).mb_chars.downcase
+      end
+
+      def build_full_title(meta_tags)
+        # Prefix (leading space)
+        prefix = meta_tags[:prefix] === false ? '' : (meta_tags[:prefix] || ' ')
+
+        # Separator
+        separator = meta_tags[:separator] === false ? '' : (meta_tags[:separator] || '|')
+
+        # Suffix (trailing space)
+        suffix = meta_tags[:suffix] === false ? '' : (meta_tags[:suffix] || ' ')
+
+        # Special case: if separator is hidden, do not display suffix/prefix
+        if meta_tags[:separator] == false
+          prefix = suffix = ''
+        end
+
+        # Title
+        title = meta_tags[:title]
+        if meta_tags[:lowercase] === true and !title.blank?
+          title = Array(title).map { |t| t.downcase }
+        end
+
+        # title
+        if title.blank?
+          meta_tags[:site]
+        else
+          title = normalize_title(title).unshift(h(meta_tags[:site]))
+          title.reverse! if meta_tags[:reverse] === true
+          sep = h(prefix) + h(separator) + h(suffix)
+          title = title.join(sep)
+          # We escaped every chunk of the title, so the whole title should be HTML safe
+          title = title.html_safe if title.respond_to?(:html_safe)
+          title
+        end
       end
   end
 end

@@ -65,7 +65,7 @@ describe MetaTags::ViewHelper do
     end
   end
 
-  context 'title' do
+  context 'displaying title' do
     it 'should use website name if title is empty' do
       @view.display_meta_tags(:site => 'someSite').should == '<title>someSite</title>'
     end
@@ -318,6 +318,24 @@ describe MetaTags::ViewHelper do
       })
       @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Title" property="og:title" />')
       @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Description" property="og:description" />')
+    end
+  end
+
+  describe '.set_meta_tags' do
+    it 'should update meta tags' do
+      @view.set_meta_tags(:title => 'hello')
+      @view.meta_tags[:title].should == 'hello'
+
+      @view.set_meta_tags(:title => 'world')
+      @view.meta_tags[:title].should == 'world'
+    end
+
+    it 'should use deep merge when updating meta tags' do
+      @view.set_meta_tags(:open_graph => { :title => 'hello' })
+      @view.meta_tags[:open_graph].should == { :title => 'hello' }
+
+      @view.set_meta_tags(:open_graph => { :description => 'world' })
+      @view.meta_tags[:open_graph].should == { :title => 'hello', :description => 'world' }
     end
   end
 end
