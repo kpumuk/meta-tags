@@ -1,3 +1,11 @@
+## 1.2.5 (March 3, 2012)
+
+Bugfixes:
+
+  - Fixed bug with overriding open graph attributes
+  - Fixed incorrect page title when `:site` is is blank
+  - Normalize `:og` attribute to `:open_graph`
+
 ## 1.2.4 (April 26, 2011)
 
 Features:
