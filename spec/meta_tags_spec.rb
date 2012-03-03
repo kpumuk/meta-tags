@@ -73,6 +73,11 @@ describe MetaTags::ViewHelper do
       subject.display_meta_tags(:site => 'someSite').should == '<title>someSite | someTitle</title>'
     end
 
+    it 'should display title only when "site" is empty' do
+      subject.title('someTitle')
+      subject.display_meta_tags.should == '<title>someTitle</title>'
+    end
+
     it 'should display title when "set_meta_tags" used' do
       subject.set_meta_tags(:title => 'someTitle')
       subject.display_meta_tags(:site => 'someSite').should == '<title>someSite | someTitle</title>'

@@ -240,7 +240,8 @@ module MetaTags
         if title.blank?
           meta_tags[:site]
         else
-          title = normalize_title(title).unshift(h(meta_tags[:site]))
+          title = normalize_title(title)
+          title.unshift(h(meta_tags[:site])) unless meta_tags[:site].blank?
           title.reverse! if meta_tags[:reverse] === true
           sep = h(prefix) + h(separator) + h(suffix)
           title = title.join(sep)
