@@ -280,3 +280,4 @@ There are several plugins influenced me to create this one:
 * Sergio Cambra (contributor)
 * Kristoffer Renholm (contributor)
 * [Jürg Lehni](https://github.com/lehni) (contributor)
+* [Tom Coleman](https://github.com/tmeasday) (contributor)
