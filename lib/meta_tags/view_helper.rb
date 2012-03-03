@@ -149,7 +149,7 @@ module MetaTags
     #   </head>
     #
     def display_meta_tags(default = {})
-      meta_tags = normalize_open_graph(default).merge(self.meta_tags)
+      meta_tags = normalize_open_graph(default).deep_merge!(self.meta_tags)
 
       result = []
 

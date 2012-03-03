@@ -280,9 +280,10 @@ describe MetaTags::ViewHelper do
     it 'should display two meta tags when different names used' do
       @view.noindex('some-noindex')
       @view.nofollow('some-nofollow')
-      content = @view.display_meta_tags(:site => 'someSite')
-      content.should include('<meta content="noindex" name="some-noindex" />')
-      content.should include('<meta content="nofollow" name="some-nofollow" />')
+      @view.display_meta_tags(:site => 'someSite').tap do |content|
+        content.should include('<meta content="noindex" name="some-noindex" />')
+        content.should include('<meta content="nofollow" name="some-nofollow" />')
+      end
     end
   end
 
@@ -307,8 +308,10 @@ describe MetaTags::ViewHelper do
         :title       => 'Facebook Share Title',
         :description => 'Facebook Share Description'
       })
-      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Title" property="og:title" />')
-      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Description" property="og:description" />')
+      @view.display_meta_tags(:site => 'someSite').tap do |content|
+        content.should include('<meta content="Facebook Share Title" property="og:title" />')
+        content.should include('<meta content="Facebook Share Description" property="og:description" />')
+      end
     end
 
     it 'should display meta tags specified with :og' do
@@ -316,8 +319,18 @@ describe MetaTags::ViewHelper do
         :title       => 'Facebook Share Title',
         :description => 'Facebook Share Description'
       })
-      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Title" property="og:title" />')
-      @view.display_meta_tags(:site => 'someSite').should include('<meta content="Facebook Share Description" property="og:description" />')
+      @view.display_meta_tags(:site => 'someSite').tap do |content|
+        content.should include('<meta content="Facebook Share Title" property="og:title" />')
+        content.should include('<meta content="Facebook Share Description" property="og:description" />')
+      end
+    end
+
+    it 'should use deep merge when displaying open graph meta tags' do
+      @view.set_meta_tags(:og => { :title => 'Facebook Share Title' })
+      @view.display_meta_tags(:og => { :description => 'Facebook Share Description' }).tap do |content|
+        content.should include('<meta content="Facebook Share Title" property="og:title" />')
+        content.should include('<meta content="Facebook Share Description" property="og:description" />')
+      end
     end
   end
 
