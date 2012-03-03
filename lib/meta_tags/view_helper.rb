@@ -34,9 +34,10 @@ module MetaTags
     # This method is best suited for use in helpers. It sets the page title
     # and returns it (or +headline+ if specified).
     #
-    # @param [String, Array] title page title. When passed as an
+    # @param [nil, String, Array] title page title. When passed as an
     #   +Array+, parts will be joined divided with configured
-    #   separator value (see {#display_meta_tags}).
+    #   separator value (see {#display_meta_tags}). When nil, current
+    #   title will be returned.
     # @param [String] headline the value to return from method. Useful
     #   for using this method in views to set both page title
     #   and the content of heading tag.
@@ -48,12 +49,14 @@ module MetaTags
     #   title 'Login Page', 'Please login'
     # @example Set title as array of strings
     #   title :title => ['part1', 'part2'] # => "part1 | part2"
+    # @example Get current title
+    #   title
     #
     # @see #display_meta_tags
     #
-    def title(title, headline = '')
-      set_meta_tags(:title => title)
-      headline.blank? ? title : headline
+    def title(title = nil, headline = '')
+      set_meta_tags(:title => title) unless title.nil?
+      headline.blank? ? meta_tags[:title] : headline
     end
 
     # Set the page keywords.
@@ -186,6 +189,30 @@ module MetaTags
 
       result = result.join("\n")
       result.respond_to?(:html_safe) ? result.html_safe : result
+    end
+
+    # Returns full page title as a string without surrounding <title> tag.
+    #
+    # The only case when you may need this helper is when you use pjax. This means
+    # that your layour file (with display_meta_tags helper) will not be rendered,
+    # so you have to pass default arguments like site title in here. You probably
+    # want to define helper with default options to minimize code duplication.
+    #
+    # @param [Hash] meta_tags list of meta tags.
+    # @option default [String] :site (nil) site title;
+    # @option default [String] :title ("") page title;
+    # @option default [String, Boolean] :prefix (" ") text between site name and separator; when +false+, no prefix will be rendered;
+    # @option default [String] :separator ("|") text used to separate website name from page title;
+    # @option default [String, Boolean] :suffix (" ") text between separator and page title; when +false+, no suffix will be rendered;
+    # @option default [Boolean] :lowercase (false) when true, the page name will be lowercase;
+    # @option default [Boolean] :reverse (false) when true, the page and site names will be reversed;
+    #
+    # @example
+    #   <div data-page-container="true" title="<%= display_title :title => 'My Page', :site => 'PJAX Site' %>">
+    #
+    def display_title(default = {})
+      meta_tags = normalize_open_graph(default).deep_merge!(self.meta_tags)
+      build_full_title(meta_tags)
     end
 
     if respond_to? :safe_helper

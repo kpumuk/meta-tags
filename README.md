@@ -231,6 +231,40 @@ Keywords can be passed as string of comma-separated values, or as an array:
 
 Description is a string (HTML will be stripped from output string).
 
+### Using with pjax
+
+[jQuery.pjax](https://github.com/defunkt/jquery-pjax) is a nice solution for navigation
+without full page reload. The main difference is that layout file will not be rendered,
+so page title will not change. To fix this, when using a page fragment, pjax will check
+the fragment DOM element for a `title` or `data-title` attribute and use any value it finds.
+
+MetaTags simplifies this with `display_title` method, which returns fully resolved
+page title (include site, prefix/suffix, etc.) But in this case you will have to
+set default parameters (e.g, `:site`) both in layout file and in your views. To minimize
+code duplication, you can define a helper in `application_helper.rb`:
+
+    def default_meta_tags
+      {
+        :title       => 'Member Login',
+        :description => 'Member login page.',
+        :keywords    => 'Site, Login, Members',
+        :separator   => "&mdash;".html_safe,
+      }
+    end
+
+Then in your layout file use:
+
+    <%= display_meta_tags(default_meta_tags) %>
+
+And in your pjax templates:
+
+    <!-- set title here, so we can use it both in "display_title" and in "title" %>
+    <% title "My Page title" %>
+    <%= content_tag :div, :data => { :title => display_title(default_meta_tags) } do %>
+        <h1><%= title %></h1>
+        <!-- HTML goes here -->
+    <% end %>
+
 ## Alternatives
 
 There are several plugins influenced me to create this one:

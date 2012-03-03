@@ -35,6 +35,10 @@ describe MetaTags::ViewHelper do
     it 'should respond to "display_meta_tags" helper' do
       subject.should respond_to(:display_meta_tags)
     end
+
+    it 'should respond to "display_title" helper' do
+      subject.should respond_to(:display_title)
+    end
   end
 
   context 'returning values' do
@@ -44,6 +48,11 @@ describe MetaTags::ViewHelper do
 
     it 'should return headline if specified' do
       subject.title('some-title', 'some-headline').should == 'some-headline'
+    end
+
+    it 'should return title' do
+      subject.title('some-title').should == 'some-title'
+      subject.title.should == 'some-title'
     end
 
     it 'should return description' do
@@ -334,6 +343,13 @@ describe MetaTags::ViewHelper do
         content.should include('<meta content="Facebook Share Title" property="og:title" />')
         content.should include('<meta content="Facebook Share Description" property="og:description" />')
       end
+    end
+  end
+
+  context '.display_title' do
+    it 'should display custom title if given' do
+      subject.title('someTitle')
+      subject.display_title(:site => 'someSite', :title => 'defaultTitle').should == 'someSite | someTitle'
     end
   end
 
