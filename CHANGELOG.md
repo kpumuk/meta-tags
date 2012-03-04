@@ -1,3 +1,9 @@
+## 1.2.6 (March 4, 2012)
+
+Features:
+
+  - jQuery.pjax support via `display_title` method. Check README for details
+
 ## 1.2.5 (March 3, 2012)
 
 Bugfixes:
