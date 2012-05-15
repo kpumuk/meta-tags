@@ -157,7 +157,8 @@ module MetaTags
       result = []
 
       # title
-      result << content_tag(:title, build_full_title(meta_tags))
+      title = build_full_title(meta_tags)
+      result << content_tag(:title, title) unless title.blank?
 
       # description
       description = normalize_description(meta_tags[:description])
