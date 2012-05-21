@@ -314,6 +314,17 @@ describe MetaTags::ViewHelper do
     end
   end
 
+  context 'displaying Facebook meta tags' do
+    it 'should display meta tags specified with :fb' do
+      subject.set_meta_tags(:fb => {
+        :app_id => '1233455567889'
+      })
+      subject.display_meta_tags(:site => 'someSite').tap do |content|
+        content.should include('<meta content="1233455567889" property="fb:app_id" />')
+      end
+    end
+  end
+
   context 'displaying Open Graph meta tags' do
     it 'should display meta tags specified with :open_graph' do
       subject.set_meta_tags(:open_graph => {
