@@ -188,6 +188,13 @@ module MetaTags
       (meta_tags[:fb] || {}).each do |property, content|
         result << tag(:meta, :property => "fb:#{property}", :content => content)
       end
+      
+      fb_namespace = meta_tags[:fb_namespace]
+      if fb_namespace
+        (meta_tags[fb_namespace] || {}).each do |property, content|
+          result << tag(:meta, :property => "#{fb_namespace}:#{property}", :content => content)
+        end
+      end
 
       # canonical
       result << tag(:link, :rel => :canonical, :href => meta_tags[:canonical]) unless meta_tags[:canonical].blank?
