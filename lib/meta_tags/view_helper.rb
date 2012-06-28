@@ -181,7 +181,13 @@ module MetaTags
 
       # Open Graph
       (meta_tags[:open_graph] || {}).each do |property, content|
-        result << tag(:meta, :property => "og:#{property}", :content => content)
+        if content.is_a?(Array)
+          content.each do |content_chunk|
+            result << tag(:meta, :property => "og:#{property}", :content => content_chunk)
+          end
+        else
+          result << tag(:meta, :property => "og:#{property}", :content => content)
+        end
       end
 
       # canonical
