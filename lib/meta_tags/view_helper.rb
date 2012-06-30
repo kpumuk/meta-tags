@@ -181,13 +181,14 @@ module MetaTags
 
       # Open Graph
       (meta_tags[:open_graph] || {}).each do |property, content|
-		if content.kind_of?(Hash)
-			content.each do |subproperty,content|
-				result << tag(:meta, :property => "#{property}:#{subproperty}", :content => content)
-			end
-		else
-			result << tag(:meta, :property => "og:#{property}", :content => content)
-		end
+    		if content.kind_of?(Hash)
+    			content.each do |subproperty,content|
+    				result << tag(:meta, :property => "#{property}:#{subproperty}", :content => content)
+    			end
+    		else
+          # allow content to be an array for namespacing
+    			result << tag(:meta, :property => "og:#{property}", :content => (content.join(':') if content.kind_of?(Array)) || content)
+    		end
       end
 
       # canonical
