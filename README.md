@@ -123,6 +123,21 @@ and in the future. Here's an example for a movie page:
     # <meta property="og:url" content="http://www.imdb.com/title/tt0117500/"/>
     # <meta property="og:image" content="http://ia.media-imdb.com/rock.jpg"/>
 
+It's also possible to use attributes that don't start with `og:` by using nested arrays:
+
+    set_meta_tags :open_graph => {
+			# ...
+      :type => 'article',
+			:article => {
+				:published_time => @article.created_at,
+				:modified_time  => @article.updated_at
+			}
+		}
+    # <meta property="og:type" content="article"/>
+    # <meta property="article:published_time" content="2011-02-18 14:50:47 +0100"/>
+    # <meta property="article:modified_time" content="2011-02-18 14:50:47 +0100"/>
+
+
 Further reading:
 
 * [Open Graph protocol](http://developers.facebook.com/docs/opengraph/)
