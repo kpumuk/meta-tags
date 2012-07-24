@@ -190,6 +190,11 @@ module MetaTags
         end
       end
 
+      # fb
+      (meta_tags[:fb] || {}).each do |property, content|
+        result << tag(:meta, :property => "fb:#{property}", :content => content)
+      end
+
       # canonical
       result << tag(:link, :rel => :canonical, :href => meta_tags[:canonical]) unless meta_tags[:canonical].blank?
 
