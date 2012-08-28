@@ -28,6 +28,21 @@ module MetaTags
     def set_meta_tags(meta_tags = {})
       self.meta_tags.deep_merge! normalize_open_graph(meta_tags)
     end
+    
+    # Set meta tag for the page.
+    #
+    # @param [String, Symbol] propery Property of meta tag.
+    # @param [String] value Content of meta tag.
+    #
+    # @example
+    #   set_meta_tag :custom_symbol, 'value'
+    #   set_meta_tag "custom_tag", 'value'
+    #
+    # @see #display_meta_tags
+    #
+    def set_meta_tag(property, value)
+      self.meta_tags[property.to_s] = value
+    end
 
     # Set the page title and return it back.
     #
@@ -181,7 +196,18 @@ module MetaTags
 
       # Open Graph
       (meta_tags[:open_graph] || {}).each do |property, content|
-        result << tag(:meta, :property => "og:#{property}", :content => content)
+        # if an array is passed in, display multiple meta tags with the same property
+        if content.kind_of? Array
+          content.each do |c|
+            result << tag(:meta, :property => "og:#{property}", :content => c)
+          end
+        else
+          result << tag(:meta, :property => "og:#{property}", :content => content)
+        end
+      end
+      
+      meta_tags.keys.select {|k| k.kind_of? String}.each do |k|
+        result << tag(:meta, :property => k, :content => meta_tags[k])
       end
 
       # canonical
