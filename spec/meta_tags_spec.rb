@@ -336,6 +336,34 @@ describe MetaTags::ViewHelper do
         content.should include('<meta content="Facebook Share Description" property="og:description" />')
       end
     end
+    
+    it 'should display meta tags for specified string' do
+      subject.set_meta_tag "custom_tag", "value"
+      subject.display_meta_tags(:site => 'someSite').tap do |content|
+        content.should include('<meta content="value" property="custom_tag" />')
+      end
+    end
+    
+    it 'should display meta tags for specified symbol' do
+      subject.set_meta_tag :custom_symbol, "value"
+      subject.display_meta_tags(:site => 'someSite').tap do |content|
+        content.should include('<meta content="value" property="custom_symbol" />')
+      end
+    end
+    
+    it 'should display multiple meta tags for arrays specified with :og' do
+      subject.set_meta_tags(:og => {
+        :title       => 'Facebook Share Title',
+        :description => 'Facebook Share Description',
+        :image => ["image_url1", "image_url2"]
+      })
+      subject.display_meta_tags(:site => 'someSite').tap do |content|
+        content.should include('<meta content="Facebook Share Title" property="og:title" />')
+        content.should include('<meta content="Facebook Share Description" property="og:description" />')
+        content.should include('<meta content="image_url1" property="og:image" />')
+        content.should include('<meta content="image_url2" property="og:image" />')
+      end
+    end
 
     it 'should use deep merge when displaying open graph meta tags' do
       subject.set_meta_tags(:og => { :title => 'Facebook Share Title' })
