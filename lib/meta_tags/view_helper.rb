@@ -188,7 +188,10 @@ module MetaTags
       result << tag(:link, :rel => :canonical, :href => meta_tags[:canonical]) unless meta_tags[:canonical].blank?
 
       meta_tags.each do |name, content|
-        next if [:title, :description, :keywords, :noindex, :nofollow, :canonical, :open_graph].include? name
+        next if [:prefix, :suffix, :separator,
+	       	:lowercase, :site, :reverse, :title,
+	       	:description, :keywords, :noindex,
+	       	:nofollow, :canonical, :open_graph].include? name
 
         result << tag(:meta, :name => name, :content => content)
       end
