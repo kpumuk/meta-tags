@@ -202,7 +202,7 @@ module MetaTags
         end
       else
         Array(content).each do |c|
-          result << tag(:meta, :property => "#{property}", :content => c)
+          result << tag(:meta, :property => "#{property}", :content => c) unless c.blank?
         end
       end
       result

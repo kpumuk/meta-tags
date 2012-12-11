@@ -358,6 +358,17 @@ describe MetaTags::ViewHelper do
         content.should include('<meta content="Facebook Share Description" property="og:description" />')
       end
     end
+
+    it "should not display meta tags without content" do
+      subject.set_meta_tags(:open_graph => {
+        :title       => '',
+        :description => ''
+      })
+      subject.display_meta_tags(:site => 'someSite').tap do |content|
+        content.should_not include('<meta content="" property="og:title" />')
+        content.should_not include('<meta content="" property="og:description" />')
+      end
+    end
   end
 
   context '.display_title' do
