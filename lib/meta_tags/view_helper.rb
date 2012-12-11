@@ -181,7 +181,7 @@ module MetaTags
 
       # Open Graph
       (meta_tags[:open_graph] || {}).each do |property, content|
-        result << tag(:meta, :property => "og:#{property}", :content => content)
+        result << tag(:meta, :property => "og:#{property}", :content => content) unless content.blank?
       end
 
       # canonical
