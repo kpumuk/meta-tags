@@ -175,8 +175,8 @@ module MetaTags
         content = [meta_tags[:noindex] && 'noindex', meta_tags[:nofollow] && 'nofollow'].compact.join(', ')
         result << tag(:meta, :name => noindex_name, :content => content) unless content.blank?
       else
-        result << tag(:meta, :name => noindex_name,  :content => 'noindex')  if meta_tags[:noindex]
-        result << tag(:meta, :name => nofollow_name, :content => 'nofollow') if meta_tags[:nofollow]
+        result << tag(:meta, :name => noindex_name,  :content => 'noindex')  if meta_tags[:noindex] && meta_tags[:noindex] != false
+        result << tag(:meta, :name => nofollow_name, :content => 'nofollow') if meta_tags[:nofollow] && meta_tags[:nofollow] != false
       end
 
       # hashes

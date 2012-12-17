@@ -248,6 +248,12 @@ describe MetaTags::ViewHelper do
     it 'should display nothing by default' do
       subject.display_meta_tags(:site => 'someSite').should_not include('<meta content="noindex"')
     end
+
+    it "should display nothing if given false" do
+      subject.set_meta_tags(:noindex => false)
+      subject.display_meta_tags(:site => 'someSite').should_not include('<meta content="robots"')
+      subject.display_meta_tags(:site => 'someSite').should_not include('<meta content="noindex"')
+    end
   end
 
   context 'displaying nofollow' do
