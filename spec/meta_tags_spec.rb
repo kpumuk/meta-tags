@@ -248,6 +248,12 @@ describe MetaTags::ViewHelper do
     it 'should display nothing by default' do
       subject.display_meta_tags(:site => 'someSite').should_not include('<meta content="noindex"')
     end
+
+    it "should display nothing if given false" do
+      subject.set_meta_tags(:noindex => false)
+      subject.display_meta_tags(:site => 'someSite').should_not include('<meta content="robots"')
+      subject.display_meta_tags(:site => 'someSite').should_not include('<meta content="noindex"')
+    end
   end
 
   context 'displaying nofollow' do
@@ -342,6 +348,17 @@ describe MetaTags::ViewHelper do
       subject.display_meta_tags(:og => { :description => 'Facebook Share Description' }).tap do |content|
         content.should include('<meta content="Facebook Share Title" property="og:title" />')
         content.should include('<meta content="Facebook Share Description" property="og:description" />')
+      end
+    end
+
+    it "should not display meta tags without content" do
+      subject.set_meta_tags(:open_graph => {
+        :title       => '',
+        :description => ''
+      })
+      subject.display_meta_tags(:site => 'someSite').tap do |content|
+        content.should_not include('<meta content="" property="og:title" />')
+        content.should_not include('<meta content="" property="og:description" />')
       end
     end
   end
