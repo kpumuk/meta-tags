@@ -1,3 +1,9 @@
+## 1.3.0 (January 21, 2013)
+
+Features:
+
+  - Added Hash and Array as possible contents for the meta tags. Check README for details
+
 ## 1.2.6 (March 4, 2012)
 
 Features:

@@ -337,6 +337,20 @@ describe MetaTags::ViewHelper do
       end
     end
 
+    it 'should display meta tags with hashes and arrays' do
+      subject.set_meta_tags(:foo => {
+        :bar => "lorem",
+        :baz => {
+          :qux => ["lorem", "ipsum"]
+        }
+      })
+      subject.display_meta_tags(:site => 'someSite').tap do |content|
+        content.should include('<meta content="lorem" property="foo:bar" />')
+        content.should include('<meta content="lorem" property="foo:baz:qux" />')
+        content.should include('<meta content="ipsum" property="foo:baz:qux" />')
+      end
+    end
+
     it 'should use deep merge when displaying open graph meta tags' do
       subject.set_meta_tags(:og => { :title => 'Facebook Share Title' })
       subject.display_meta_tags(:og => { :description => 'Facebook Share Description' }).tap do |content|

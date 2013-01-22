@@ -11,15 +11,15 @@ shared_examples_for '.set_meta_tags' do
   end
 
   it 'should use deep merge when updating meta tags' do
-    subject.set_meta_tags(:open_graph => { :title => 'hello' })
-    subject.meta_tags[:open_graph].should == { :title => 'hello' }
+    subject.set_meta_tags(:og => { :title => 'hello' })
+    subject.meta_tags[:og].should == { :title => 'hello' }
 
-    subject.set_meta_tags(:open_graph => { :description => 'world' })
-    subject.meta_tags[:open_graph].should == { :title => 'hello', :description => 'world' }
+    subject.set_meta_tags(:og => { :description => 'world' })
+    subject.meta_tags[:og].should == { :title => 'hello', :description => 'world' }
   end
 
-  it 'should normalize :og to :open_graph' do
-    subject.set_meta_tags(:og => { :title => 'hello' })
-    subject.meta_tags[:open_graph].should == { :title => 'hello' }
+  it 'should normalize :open_graph to :og' do
+    subject.set_meta_tags(:open_graph => { :title => 'hello' })
+    subject.meta_tags[:og].should == { :title => 'hello' }
   end
 end

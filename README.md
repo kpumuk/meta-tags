@@ -105,6 +105,29 @@ Further reading:
 * [About rel="canonical"](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139394)
 * [Canonicalization](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139066)
 
+### Hashes
+
+Any namespace can be built just passing any symbol name and a Hash. For example:
+
+    set_meta_tags :foo => {
+      :bar => "lorem",
+      :baz => {
+        :qux => "ipsum"
+      }
+    }
+    # <meta property="foo:bar" content="lorem"/>
+    # <meta property="foo:baz:qux" content="ipsum"/>
+
+### Arrays
+
+Repeated meta tags can be built just using an Array inside a Hash. For example:
+
+    set_meta_tags :og => {
+        :image = ["http://example.com/rock.jpg", "http://example.com/rock2.jpg"]
+    }
+    #<meta property="og:image" content="http://example.com/rock.jpg" />
+    #<meta property="og:image" content="http://example.com/rock2.jpg" />
+
 ### Open Graph
 
 To turn your web pages into graph objects, you'll need to add Open Graph
@@ -112,20 +135,46 @@ protocol `<meta>` tags to your webpages. The tags allow you to specify
 structured information about your web pages. The more information you provide, the more opportunities your web pages can be surfaced within Facebook today
 and in the future. Here's an example for a movie page:
 
-    set_meta_tags :open_graph => {
-      :title => 'The Rock',
-      :type  => :movie,
-      :url   => 'http://www.imdb.com/title/tt0117500/',
-      :image => 'http://ia.media-imdb.com/rock.jpg'
+    set_meta_tags :og => {
+      :title    => 'The Rock',
+      :type     => 'video.movie',
+      :url      => 'http://www.imdb.com/title/tt0117500/',
+      :image    => 'http://ia.media-imdb.com/rock.jpg',
+      :video    => {
+        :director => 'http://www.imdb.com/name/nm0000881/',
+        :writer   => ['http://www.imdb.com/name/nm0918711/', 'http://www.imdb.com/name/nm0177018/']
+      }
     }
     # <meta property="og:title" content="The Rock"/>
-    # <meta property="og:type" content="movie"/>
+    # <meta property="og:type" content="video.movie"/>
     # <meta property="og:url" content="http://www.imdb.com/title/tt0117500/"/>
     # <meta property="og:image" content="http://ia.media-imdb.com/rock.jpg"/>
+    # <meta property="og:video:director" content="http://www.imdb.com/name/nm0000881/"/>
+    # <meta property="og:video:writer" content="http://www.imdb.com/name/nm0918711/"/>
+    # <meta property="og:video:writer" content="http://www.imdb.com/name/nm0177018/"/>
 
 Further reading:
 
 * [Open Graph protocol](http://developers.facebook.com/docs/opengraph/)
+
+### Twitter Cards
+
+Twitter cards make it possible for you to attach media experiences to Tweets that link to your content.
+There are 3 card types (summary, photo and player). Here's an example for summary:
+
+    set_meta_tags :twitter => {
+      :card => "summary",
+      :site => "@username"
+    }
+    # <meta property="twitter:card" content="summary"/>
+    # <meta property="twitter:site" content="@username"/>
+
+Take in consideration that if you're already using OpenGraph to describe data on your page, it’s easy to generate a Twitter card without duplicating your tags and data. When the Twitter card processor looks for tags on your page, it first checks for the Twitter property, and if not present, falls back to the supported Open Graph property. This allows for both to be defined on the page independently, and minimizes the amount of duplicate markup required to describe your content and experience.
+
+Further reading:
+
+* [Twitter Cards Documentation](https://dev.twitter.com/docs/cards/)
+
 
 ## MetaTags Usage
 
@@ -205,7 +254,8 @@ Use these options to customize the title format:
 * `:noindex` — add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:nofollow` — add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:canonical` — add canonical link tag;
-* `:open_graph` — add Open Graph tags (Hash).
+* `:og` — add Open Graph tags (Hash).
+* `:twitter` — add Twitter tags (Hash).
 
 And here are a few examples to give you ideas.
 
@@ -213,7 +263,7 @@ And here are a few examples to give you ideas.
     <%= display_meta_tags :prefix => false, :separator => ":" %>
     <%= display_meta_tags :lowercase => true %>
     <%= display_meta_tags :reverse => true, :prefix => false %>
-    <%= display_meta_tags :open_graph => { :title => 'The Rock', :type => 'movie' } %>
+    <%= display_meta_tags :og => { :title => 'The Rock', :type => 'video.movie' } %>
 
 ### Allowed values
 
@@ -281,3 +331,4 @@ There are several plugins influenced me to create this one:
 * Kristoffer Renholm (contributor)
 * [Jürg Lehni](https://github.com/lehni) (contributor)
 * [Tom Coleman](https://github.com/tmeasday) (contributor)
+* [Guille Lopez](https://github.com/guillelopez) (contributor)
