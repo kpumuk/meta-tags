@@ -179,9 +179,11 @@ module MetaTags
         result << tag(:meta, :name => nofollow_name, :content => 'nofollow') if meta_tags[:nofollow]
       end
 
-      # Open Graph
-      (meta_tags[:open_graph] || {}).each do |property, content|
-        result << tag(:meta, :property => "og:#{property}", :content => content)
+      # hashes
+      meta_tags.each do |property, content|
+        if content.is_a?(Hash)
+          result = process(result, property, content)
+        end
       end
 
       # canonical
@@ -189,6 +191,21 @@ module MetaTags
 
       result = result.join("\n")
       result.respond_to?(:html_safe) ? result.html_safe : result
+    end
+
+    # Recursive function to process all the hashes and arrays on meta tags
+    def process(result, property, content)
+      if content.is_a?(Hash)
+        content.each do |key, value|
+          result = process(result, "#{property}:#{key}", value)
+        end
+      else
+        content = [content] unless content.is_a?(Array)
+        content.each do |c|
+          result << tag(:meta, :property => "#{property}", :content => c)
+        end
+      end
+      result
     end
 
     # Returns full page title as a string without surrounding <title> tag.
@@ -238,7 +255,7 @@ module MetaTags
 
       def normalize_open_graph(meta_tags)
         meta_tags ||= {}
-        meta_tags[:open_graph] = meta_tags.delete(:og) if meta_tags.key?(:og)
+        meta_tags[:og] = meta_tags.delete(:open_graph) if meta_tags.key?(:open_graph)
         meta_tags
       end
 

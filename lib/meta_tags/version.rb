@@ -1,3 +1,3 @@
 module MetaTags
-  VERSION = '1.2.6'
+  VERSION = '1.3.0'
 end
