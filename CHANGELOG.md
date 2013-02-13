@@ -1,8 +1,15 @@
-## 1.3.0 (January 21, 2013)
+## 1.3.0 (February 13, 2013)
 
 Features:
 
   - Added Hash and Array as possible contents for the meta tags. Check README for details
+  - Added support of string meta tag names
+  - Allow to disable noindex and nofollow using `false` as a value
+
+Bugfixes:
+
+  - Do not display title HTML tag when title is blank
+  - Do not display OpenGraph tags when content is empty
 
 ## 1.2.6 (March 4, 2012)
 
