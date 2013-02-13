@@ -377,6 +377,23 @@ describe MetaTags::ViewHelper do
     end
   end
 
+  context 'while handling string meta tag names' do
+    it 'should work with common parameters' do
+      subject.display_meta_tags('site' => 'someSite', 'title' => 'someTitle').should == '<title>someSite | someTitle</title>'
+    end
+
+    it 'should work with open graph parameters' do
+      subject.set_meta_tags('og' => {
+        'title'       => 'facebook title',
+        'description' => 'facebook description'
+      })
+      subject.display_meta_tags(:site => 'someSite').tap do |content|
+        content.should include('<meta content="facebook title" property="og:title" />')
+        content.should include('<meta content="facebook description" property="og:description" />')
+      end
+    end
+  end
+
   context '.display_title' do
     it 'should display custom title if given' do
       subject.title('someTitle')

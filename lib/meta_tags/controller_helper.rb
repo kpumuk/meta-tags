@@ -32,15 +32,15 @@ module MetaTags
       #
       # See <tt>MetaTags.set_meta_tags</tt> for details.
       def set_meta_tags(meta_tags)
-        meta_tags ||= {}
+        meta_tags = (meta_tags || {}).with_indifferent_access
         meta_tags[:og] = meta_tags.delete(:open_graph) if meta_tags.key?(:open_graph)
-        self.meta_tags.deep_merge!(meta_tags || {})
+        self.meta_tags.deep_merge!(meta_tags)
       end
       protected :set_meta_tags
 
       # Get meta tags for the page.
       def meta_tags
-        @meta_tags ||= {}
+        @meta_tags ||= HashWithIndifferentAccess.new
       end
       protected :meta_tags
     end

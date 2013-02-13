@@ -4,7 +4,7 @@ module MetaTags
   module ViewHelper
     # Get meta tags for the page.
     def meta_tags
-      @meta_tags ||= {}
+      @meta_tags ||= HashWithIndifferentAccess.new
     end
 
     # Set meta tags for the page.
@@ -254,7 +254,7 @@ module MetaTags
       end
 
       def normalize_open_graph(meta_tags)
-        meta_tags ||= {}
+        meta_tags = (meta_tags || {}).with_indifferent_access
         meta_tags[:og] = meta_tags.delete(:open_graph) if meta_tags.key?(:open_graph)
         meta_tags
       end
