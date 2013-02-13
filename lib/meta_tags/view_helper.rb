@@ -182,7 +182,7 @@ module MetaTags
       # hashes
       meta_tags.each do |property, content|
         if content.is_a?(Hash)
-          result = process(result, property, content)
+          result.concat process_tree(property, content)
         end
       end
 
@@ -194,14 +194,14 @@ module MetaTags
     end
 
     # Recursive function to process all the hashes and arrays on meta tags
-    def process(result, property, content)
+    def process_tree(property, content)
+      result = []
       if content.is_a?(Hash)
         content.each do |key, value|
-          result = process(result, "#{property}:#{key}", value)
+          result.concat process_tree("#{property}:#{key}", value)
         end
       else
-        content = [content] unless content.is_a?(Array)
-        content.each do |c|
+        Array(content).each do |c|
           result << tag(:meta, :property => "#{property}", :content => c)
         end
       end
