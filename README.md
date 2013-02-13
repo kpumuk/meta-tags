@@ -332,3 +332,5 @@ There are several plugins influenced me to create this one:
 * [Jürg Lehni](https://github.com/lehni) (contributor)
 * [Tom Coleman](https://github.com/tmeasday) (contributor)
 * [Guille Lopez](https://github.com/guillelopez) (contributor)
+* [Holger Frohloff](https://github.com/jazzgumpy) (contributor)
+* [Jakub Wojtysiak](https://github.com/schiza) (contributor)
