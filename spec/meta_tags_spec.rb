@@ -73,6 +73,12 @@ describe MetaTags::ViewHelper do
   end
 
   context 'displaying title' do
+    it 'should not display title if blank' do
+      subject.display_meta_tags.should == ''
+      subject.title('')
+      subject.display_meta_tags.should == ''
+    end
+
     it 'should use website name if title is empty' do
       subject.display_meta_tags(:site => 'someSite').should == '<title>someSite</title>'
     end
@@ -164,6 +170,11 @@ describe MetaTags::ViewHelper do
   end
 
   context 'displaying description' do
+    it 'should not display description if blank' do
+      subject.description('')
+      subject.display_meta_tags.should == ''
+    end
+
     it 'should display description when "description" used' do
       subject.description('someDescription')
       subject.display_meta_tags(:site => 'someSite').should include('<meta content="someDescription" name="description" />')
@@ -197,6 +208,14 @@ describe MetaTags::ViewHelper do
   end
 
   context 'displaying keywords' do
+    it 'should not display keywords if blank' do
+      subject.keywords('')
+      subject.display_meta_tags.should == ''
+
+      subject.keywords([])
+      subject.display_meta_tags.should == ''
+    end
+
     it 'should display keywords when "keywords" used' do
       subject.keywords('some-keywords')
       subject.display_meta_tags(:site => 'someSite').should include('<meta content="some-keywords" name="keywords" />')
