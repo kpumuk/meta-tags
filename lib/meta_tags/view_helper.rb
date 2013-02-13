@@ -189,7 +189,7 @@ module MetaTags
       # canonical
       result << tag(:link, :rel => :canonical, :href => meta_tags[:canonical]) unless meta_tags[:canonical].blank?
 
-      result = result.join("\n")
+      result = result.map{|s| s.force_encoding('UTF-8') }.join("\n")
       result.respond_to?(:html_safe) ? result.html_safe : result
     end
 
