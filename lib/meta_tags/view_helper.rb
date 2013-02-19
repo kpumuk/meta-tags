@@ -194,6 +194,7 @@ module MetaTags
 
       # canonical
       result << tag(:link, :rel => :canonical, :href => meta_tags[:canonical]) unless meta_tags[:canonical].blank?
+      meta_tags.delete(:canonical)
 
       # user defined
       meta_tags.each do |name, data|
