@@ -163,10 +163,12 @@ module MetaTags
       # description
       description = normalize_description(meta_tags[:description])
       result << tag(:meta, :name => :description, :content => description) unless description.blank?
+      meta_tags.delete(:description)
 
       # keywords
       keywords = normalize_keywords(meta_tags[:keywords])
       result << tag(:meta, :name => :keywords, :content => keywords) unless keywords.blank?
+      meta_tags.delete(:keywords)
 
       # noindex & nofollow
       noindex_name  = String === meta_tags[:noindex]  ? meta_tags[:noindex]  : 'robots'
@@ -179,24 +181,24 @@ module MetaTags
         result << tag(:meta, :name => noindex_name,  :content => 'noindex')  if meta_tags[:noindex] && meta_tags[:noindex] != false
         result << tag(:meta, :name => nofollow_name, :content => 'nofollow') if meta_tags[:nofollow] && meta_tags[:nofollow] != false
       end
+      meta_tags.delete(:noindex)
+      meta_tags.delete(:nofollow)
 
       # hashes
-      meta_tags.each do |property, content|
-        if content.is_a?(Hash)
-          result.concat process_tree(property, content)
+      meta_tags.each do |property, data|
+        if data.is_a?(Hash)
+          result.concat process_tree(property, data)
+          meta_tags.delete(property)
         end
       end
 
       # canonical
       result << tag(:link, :rel => :canonical, :href => meta_tags[:canonical]) unless meta_tags[:canonical].blank?
 
-      meta_tags.each do |name, content|
-        next if [:prefix, :suffix, :separator,
-                 :lowercase, :site, :reverse, :title,
-                 :description, :keywords, :noindex,
-                 :nofollow, :canonical, :open_graph].include? name
-
-        result << tag(:meta, :name => name, :content => content)
+      # user defined
+      meta_tags.each do |name, data|
+        result << tag(:meta, :name => name, :content => data)
+        meta_tags.delete(name)
       end
 
       result = result.join("\n")
@@ -272,27 +274,32 @@ module MetaTags
       def build_full_title(meta_tags)
         # Prefix (leading space)
         prefix = meta_tags[:prefix] === false ? '' : (meta_tags[:prefix] || ' ')
+        meta_tags.delete(:prefix)
 
         # Separator
         separator = meta_tags[:separator] === false ? '' : (meta_tags[:separator] || '|')
 
         # Suffix (trailing space)
         suffix = meta_tags[:suffix] === false ? '' : (meta_tags[:suffix] || ' ')
+        meta_tags.delete(:suffix)
 
         # Special case: if separator is hidden, do not display suffix/prefix
         if meta_tags[:separator] == false
           prefix = suffix = ''
         end
+        meta_tags.delete(:separator)
 
         # Title
         title = meta_tags[:title]
         if meta_tags[:lowercase] === true and !title.blank?
           title = Array(title).map { |t| t.downcase }
         end
+        meta_tags.delete(:title)
+        meta_tags.delete(:lowercase)
 
         # title
         if title.blank?
-          meta_tags[:site]
+          meta_tags.delete(:site)
         else
           title = normalize_title(title)
           title.unshift(h(meta_tags[:site])) unless meta_tags[:site].blank?
@@ -301,6 +308,8 @@ module MetaTags
           title = title.join(sep)
           # We escaped every chunk of the title, so the whole title should be HTML safe
           title = title.html_safe if title.respond_to?(:html_safe)
+          meta_tags.delete(:site)
+          meta_tags.delete(:reverse)
           title
         end
       end
