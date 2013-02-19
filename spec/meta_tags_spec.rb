@@ -420,5 +420,11 @@ describe MetaTags::ViewHelper do
     end
   end
 
+  context 'display any named meta tag that you want to' do
+    it 'should display testing meta tag' do
+      subject.display_meta_tags(:testing => 'this is a test').should include('<meta content="this is a test" name="testing" />')
+    end
+  end
+
   it_behaves_like '.set_meta_tags'
 end
