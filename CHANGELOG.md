@@ -1,3 +1,9 @@
+## 1.4.1 (March 14, 2013)
+
+Bugfixes:
+
+  - Added support for Hash inside of an Array
+
 ## 1.4.0 (March 14, 2013)
 
 Features:
