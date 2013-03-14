@@ -350,3 +350,4 @@ There are several plugins influenced me to create this one:
 * [Guille Lopez](https://github.com/guillelopez) (contributor)
 * [Holger Frohloff](https://github.com/jazzgumpy) (contributor)
 * [Jakub Wojtysiak](https://github.com/schiza) (contributor)
+* [Matthew Callis](https://github.com/MatthewCallis) (contributor)
