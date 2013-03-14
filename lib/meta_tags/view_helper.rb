@@ -202,6 +202,15 @@ module MetaTags
         meta_tags.delete(name)
       end
 
+      meta_tags.each do |name, content|
+        next if [:prefix, :suffix, :separator,
+	       	:lowercase, :site, :reverse, :title,
+	       	:description, :keywords, :noindex,
+	       	:nofollow, :canonical, :open_graph].include? name
+
+        result << tag(:meta, :name => name, :content => content)
+      end
+
       result = result.join("\n")
       result.respond_to?(:html_safe) ? result.html_safe : result
     end
