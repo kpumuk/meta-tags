@@ -367,12 +367,25 @@ describe MetaTags::ViewHelper do
         :bar => "lorem",
         :baz => {
           :qux => ["lorem", "ipsum"]
-        }
+        },
+        :quux => [ {
+            :corge => "lorem",
+            :grault => "ipsum"
+          },
+          {
+            :corge => "dolor",
+            :grault => "sit"
+          } ]
       })
       subject.display_meta_tags(:site => 'someSite').tap do |content|
         content.should include('<meta content="lorem" property="foo:bar" />')
         content.should include('<meta content="lorem" property="foo:baz:qux" />')
         content.should include('<meta content="ipsum" property="foo:baz:qux" />')
+        content.should include('<meta content="lorem" property="foo:quux:corge"')
+        content.should include('<meta content="ipsum" property="foo:quux:grault"')
+        content.should include('<meta content="dolor" property="foo:quux:corge"')
+        content.should include('<meta content="sit" property="foo:quux:grault"')
+        content.should_not include('property="foo:quux"')
       end
     end
 
