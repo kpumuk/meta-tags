@@ -1,3 +1,9 @@
+## 1.3.1 (March 14, 2013)
+
+Features:
+
+  - Added support of custom meta tags
+
 ## 1.3.0 (February 13, 2013)
 
 Features:

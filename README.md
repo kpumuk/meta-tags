@@ -175,6 +175,22 @@ Further reading:
 
 * [Twitter Cards Documentation](https://dev.twitter.com/docs/cards/)
 
+### Custom meta tags
+
+Starting from version 1.3.1, you can specify arbitrary meta tags, and they will
+be rendered on the page, even if meta-tags gem does not know about them.
+
+Example:
+
+    set_meta_tags :author => "Dmytro Shteflyuk"
+    # <meta name="author" content="Dmytro Shteflyuk"/>
+
+You can also specify value as an Array, and values will be displayed as a list
+of `meta` tags:
+
+    set_meta_tags :author => [ "Dmytro Shteflyuk", "John Doe" ]
+    # <meta name="author" content="Dmytro Shteflyuk"/>
+    # <meta name="author" content="John Doe"/>
 
 ## MetaTags Usage
 
