@@ -161,14 +161,12 @@ module MetaTags
       result << content_tag(:title, title) unless title.blank?
 
       # description
-      description = normalize_description(meta_tags[:description])
+      description = normalize_description(meta_tags.delete(:description))
       result << tag(:meta, :name => :description, :content => description) unless description.blank?
-      meta_tags.delete(:description)
 
       # keywords
-      keywords = normalize_keywords(meta_tags[:keywords])
+      keywords = normalize_keywords(meta_tags.delete(:keywords))
       result << tag(:meta, :name => :keywords, :content => keywords) unless keywords.blank?
-      meta_tags.delete(:keywords)
 
       # noindex & nofollow
       noindex_name  = String === meta_tags[:noindex]  ? meta_tags[:noindex]  : 'robots'
@@ -198,27 +196,14 @@ module MetaTags
 
       # user defined
       meta_tags.each do |name, data|
-        result << tag(:meta, :name => name, :content => data)
+        Array(data).each do |val|
+          result << tag(:meta, :name => name, :content => val)
+        end
         meta_tags.delete(name)
       end
 
       result = result.join("\n")
       result.respond_to?(:html_safe) ? result.html_safe : result
-    end
-
-    # Recursive function to process all the hashes and arrays on meta tags
-    def process_tree(property, content)
-      result = []
-      if content.is_a?(Hash)
-        content.each do |key, value|
-          result.concat process_tree("#{property}:#{key}", value)
-        end
-      else
-        Array(content).each do |c|
-          result << tag(:meta, :property => "#{property}", :content => c) unless c.blank?
-        end
-      end
-      result
     end
 
     # Returns full page title as a string without surrounding <title> tag.
@@ -250,6 +235,21 @@ module MetaTags
     end
 
     private
+
+      # Recursive function to process all the hashes and arrays on meta tags
+      def process_tree(property, content)
+        result = []
+        if content.is_a?(Hash)
+          content.each do |key, value|
+            result.concat process_tree("#{property}:#{key}", value)
+          end
+        else
+          Array(content).each do |c|
+            result << tag(:meta, :property => "#{property}", :content => c) unless c.blank?
+          end
+        end
+        result
+      end
 
       def normalize_title(title)
         Array(title).map { |t| h(strip_tags(t)) }
@@ -291,26 +291,24 @@ module MetaTags
         meta_tags.delete(:separator)
 
         # Title
-        title = meta_tags[:title]
-        if meta_tags[:lowercase] === true and !title.blank?
+        title = meta_tags.delete(:title)
+        if meta_tags.delete(:lowercase) === true and !title.blank?
           title = Array(title).map { |t| t.downcase }
         end
-        meta_tags.delete(:title)
-        meta_tags.delete(:lowercase)
 
         # title
         if title.blank?
+          meta_tags.delete(:reverse)
           meta_tags.delete(:site)
         else
           title = normalize_title(title)
           title.unshift(h(meta_tags[:site])) unless meta_tags[:site].blank?
-          title.reverse! if meta_tags[:reverse] === true
+          title.reverse! if meta_tags.delete(:reverse) === true
           sep = h(prefix) + h(separator) + h(suffix)
           title = title.join(sep)
           # We escaped every chunk of the title, so the whole title should be HTML safe
           title = title.html_safe if title.respond_to?(:html_safe)
           meta_tags.delete(:site)
-          meta_tags.delete(:reverse)
           title
         end
       end

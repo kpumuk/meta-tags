@@ -43,102 +43,102 @@ describe MetaTags::ViewHelper do
 
   context 'returning values' do
     it 'should return title' do
-      subject.title('some-title').should == 'some-title'
+      subject.title('some-title').should eq('some-title')
     end
 
     it 'should return headline if specified' do
-      subject.title('some-title', 'some-headline').should == 'some-headline'
+      subject.title('some-title', 'some-headline').should eq('some-headline')
     end
 
     it 'should return title' do
-      subject.title('some-title').should == 'some-title'
-      subject.title.should == 'some-title'
+      subject.title('some-title').should eq('some-title')
+      subject.title.should eq('some-title')
     end
 
     it 'should return description' do
-      subject.description('some-description').should == 'some-description'
+      subject.description('some-description').should eq('some-description')
     end
 
     it 'should return keywords' do
-      subject.keywords('some-keywords').should == 'some-keywords'
+      subject.keywords('some-keywords').should eq('some-keywords')
     end
 
     it 'should return noindex' do
-      subject.noindex('some-noindex').should == 'some-noindex'
+      subject.noindex('some-noindex').should eq('some-noindex')
     end
 
     it 'should return nofollow' do
-      subject.noindex('some-nofollow').should == 'some-nofollow'
+      subject.noindex('some-nofollow').should eq('some-nofollow')
     end
   end
 
   context 'displaying title' do
     it 'should not display title if blank' do
-      subject.display_meta_tags.should == ''
+      subject.display_meta_tags.should eq('')
       subject.title('')
-      subject.display_meta_tags.should == ''
+      subject.display_meta_tags.should eq('')
     end
 
     it 'should use website name if title is empty' do
-      subject.display_meta_tags(:site => 'someSite').should == '<title>someSite</title>'
+      subject.display_meta_tags(:site => 'someSite').should eq('<title>someSite</title>')
     end
 
     it 'should display title when "title" used' do
       subject.title('someTitle')
-      subject.display_meta_tags(:site => 'someSite').should == '<title>someSite | someTitle</title>'
+      subject.display_meta_tags(:site => 'someSite').should eq('<title>someSite | someTitle</title>')
     end
 
     it 'should display title only when "site" is empty' do
       subject.title('someTitle')
-      subject.display_meta_tags.should == '<title>someTitle</title>'
+      subject.display_meta_tags.should eq('<title>someTitle</title>')
     end
 
     it 'should display title when "set_meta_tags" used' do
       subject.set_meta_tags(:title => 'someTitle')
-      subject.display_meta_tags(:site => 'someSite').should == '<title>someSite | someTitle</title>'
+      subject.display_meta_tags(:site => 'someSite').should eq('<title>someSite | someTitle</title>')
     end
 
     it 'should display custom title if given' do
       subject.title('someTitle')
-      subject.display_meta_tags(:site => 'someSite', :title => 'defaultTitle').should == '<title>someSite | someTitle</title>'
+      subject.display_meta_tags(:site => 'someSite', :title => 'defaultTitle').should eq('<title>someSite | someTitle</title>')
     end
 
     it 'should use website before page by default' do
-      subject.display_meta_tags(:site => 'someSite', :title => 'someTitle').should == '<title>someSite | someTitle</title>'
+      subject.display_meta_tags(:site => 'someSite', :title => 'someTitle').should eq('<title>someSite | someTitle</title>')
     end
 
     it 'should only use markup in titles in the view' do
-      subject.title('<b>someTitle</b>').should == '<b>someTitle</b>'
-      subject.display_meta_tags(:site => 'someSite').should == '<title>someSite | someTitle</title>'
+      subject.title('<b>someTitle</b>').should eq('<b>someTitle</b>')
+      subject.display_meta_tags(:site => 'someSite').should eq('<title>someSite | someTitle</title>')
     end
 
     it 'should use page before website if :reverse' do
-      subject.display_meta_tags(:site => 'someSite', :title => 'someTitle', :reverse => true).should == '<title>someTitle | someSite</title>'
+      subject.display_meta_tags(:site => 'someSite', :title => 'someTitle', :reverse => true).should eq('<title>someTitle | someSite</title>')
     end
 
     it 'should be lowercase if :lowercase' do
-      subject.display_meta_tags(:site => 'someSite', :title => 'someTitle', :lowercase => true).should == '<title>someSite | sometitle</title>'
+      subject.display_meta_tags(:site => 'someSite', :title => 'someTitle', :lowercase => true).should eq('<title>someSite | sometitle</title>')
     end
 
     it 'should use custom separator if :separator' do
       subject.title('someTitle')
-      subject.display_meta_tags(:site => 'someSite', :separator => '-').should == '<title>someSite - someTitle</title>'
-      subject.display_meta_tags(:site => 'someSite', :separator => ':').should == '<title>someSite : someTitle</title>'
-      subject.display_meta_tags(:site => 'someSite', :separator => '&mdash;').should == '<title>someSite &amp;mdash; someTitle</title>'
-      subject.display_meta_tags(:site => 'someSite', :separator => '&mdash;'.html_safe).should == '<title>someSite &mdash; someTitle</title>'
-      subject.display_meta_tags(:site => 'someSite: ', :separator => false).should == '<title>someSite: someTitle</title>'
+      subject.display_meta_tags(:site => 'someSite', :separator => '-').should eq('<title>someSite - someTitle</title>')
+      subject.display_meta_tags(:site => 'someSite', :separator => ':').should eq('<title>someSite : someTitle</title>')
+      subject.display_meta_tags(:site => 'someSite', :separator => '&mdash;').should eq('<title>someSite &amp;mdash; someTitle</title>')
+      subject.display_meta_tags(:site => 'someSite', :separator => '&mdash;'.html_safe).should eq('<title>someSite &mdash; someTitle</title>')
+      subject.display_meta_tags(:site => 'someSite: ', :separator => false).should eq('<title>someSite: someTitle</title>')
     end
 
     it 'should use custom prefix and suffix if available' do
-      subject.display_meta_tags(:site => 'someSite', :title => 'someTitle', :prefix => ' -', :suffix => '- ').should == '<title>someSite -|- someTitle</title>'
+      subject.display_meta_tags(:site => 'someSite', :title => 'someTitle', :prefix => ' -', :suffix => '- ').should eq('<title>someSite -|- someTitle</title>')
     end
 
     it 'should collapse prefix if false' do
-      subject.display_meta_tags(:site => 'someSite', :title => 'someTitle', :prefix => false).should == '<title>someSite| someTitle</title>'
+      subject.display_meta_tags(:site => 'someSite', :title => 'someTitle', :prefix => false).should eq('<title>someSite| someTitle</title>')
     end
 
     it 'should collapse suffix if false' do
-      subject.display_meta_tags(:site => 'someSite', :title => 'someTitle', :suffix => false).should == '<title>someSite |someTitle</title>'
+      subject.display_meta_tags(:site => 'someSite', :title => 'someTitle', :suffix => false).should eq('<title>someSite |someTitle</title>')
     end
 
     it 'should use all custom options if available' do
@@ -148,15 +148,15 @@ describe MetaTags::ViewHelper do
                               :suffix => '+ ',
                               :separator => ':',
                               :lowercase => true,
-                              :reverse => true).should == '<title>sometitle -:+ someSite</title>'
+                              :reverse => true).should eq('<title>sometitle -:+ someSite</title>')
     end
 
     it 'shold allow Arrays in title' do
-      subject.display_meta_tags(:site => 'someSite', :title => ['someTitle', 'anotherTitle']).should == '<title>someSite | someTitle | anotherTitle</title>'
+      subject.display_meta_tags(:site => 'someSite', :title => ['someTitle', 'anotherTitle']).should eq('<title>someSite | someTitle | anotherTitle</title>')
     end
 
     it 'shold allow Arrays in title with :lowercase' do
-      subject.display_meta_tags(:site => 'someSite', :title => ['someTitle', 'anotherTitle'], :lowercase => true).should == '<title>someSite | sometitle | anothertitle</title>'
+      subject.display_meta_tags(:site => 'someSite', :title => ['someTitle', 'anotherTitle'], :lowercase => true).should eq('<title>someSite | sometitle | anothertitle</title>')
     end
 
     it 'shold build title in reverse order if :reverse' do
@@ -165,14 +165,14 @@ describe MetaTags::ViewHelper do
                               :prefix => ' -',
                               :suffix => '+ ',
                               :separator => ':',
-                              :reverse => true).should == '<title>anotherTitle -:+ someTitle -:+ someSite</title>'
+                              :reverse => true).should eq('<title>anotherTitle -:+ someTitle -:+ someSite</title>')
     end
   end
 
   context 'displaying description' do
     it 'should not display description if blank' do
       subject.description('')
-      subject.display_meta_tags.should == ''
+      subject.display_meta_tags.should eq('')
     end
 
     it 'should display description when "description" used' do
@@ -210,10 +210,10 @@ describe MetaTags::ViewHelper do
   context 'displaying keywords' do
     it 'should not display keywords if blank' do
       subject.keywords('')
-      subject.display_meta_tags.should == ''
+      subject.display_meta_tags.should eq('')
 
       subject.keywords([])
-      subject.display_meta_tags.should == ''
+      subject.display_meta_tags.should eq('')
     end
 
     it 'should display keywords when "keywords" used' do
@@ -398,7 +398,7 @@ describe MetaTags::ViewHelper do
 
   context 'while handling string meta tag names' do
     it 'should work with common parameters' do
-      subject.display_meta_tags('site' => 'someSite', 'title' => 'someTitle').should == '<title>someSite | someTitle</title>'
+      subject.display_meta_tags('site' => 'someSite', 'title' => 'someTitle').should eq('<title>someSite | someTitle</title>')
     end
 
     it 'should work with open graph parameters' do
@@ -416,13 +416,21 @@ describe MetaTags::ViewHelper do
   context '.display_title' do
     it 'should display custom title if given' do
       subject.title('someTitle')
-      subject.display_title(:site => 'someSite', :title => 'defaultTitle').should == 'someSite | someTitle'
+      subject.display_title(:site => 'someSite', :title => 'defaultTitle').should eq('someSite | someTitle')
     end
   end
 
   context 'display any named meta tag that you want to' do
     it 'should display testing meta tag' do
-      subject.display_meta_tags(:testing => 'this is a test').should include('<meta content="this is a test" name="testing" />')
+      subject.display_meta_tags(:testing => 'this is a test').should eq('<meta content="this is a test" name="testing" />')
+    end
+
+    it 'should support Array values' do
+      subject.display_meta_tags(:testing => ['test1', 'test2']).should eq("<meta content=\"test1\" name=\"testing\" />\n<meta content=\"test2\" name=\"testing\" />")
+    end
+
+    it 'should not render when value is nil' do
+      subject.display_meta_tags(:testing => nil).should eq('')
     end
   end
 
