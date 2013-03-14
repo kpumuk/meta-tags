@@ -245,7 +245,13 @@ module MetaTags
           end
         else
           Array(content).each do |c|
-            result << tag(:meta, :property => "#{property}", :content => c) unless c.blank?
+            if c.is_a?(Hash)
+              c.each do |key, value|
+                result.concat process_tree("#{property}:#{key}", value)
+              end
+            else
+              result << tag(:meta, :property => "#{property}", :content => c) unless c.blank?
+            end
           end
         end
         result
