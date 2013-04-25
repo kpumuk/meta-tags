@@ -126,6 +126,22 @@ module MetaTags
       nofollow
     end
 
+    # Set the refresh meta tag
+    #
+    # @param [Integer, String] refresh a refresh value.
+    # @return [Integer, String] passed value.
+    #
+    # @example
+    #   refresh 5
+    #   refresh "5;URL='http://www.example.com/'"
+    #
+    # @see #display_meta_tags
+    #
+    def refresh(refresh)
+      set_meta_tags(:refresh => refresh)
+      refresh
+    end
+
     # Set default meta tag values and display meta tags. This method
     # should be used in layout file.
     #
@@ -181,6 +197,11 @@ module MetaTags
       end
       meta_tags.delete(:noindex)
       meta_tags.delete(:nofollow)
+
+      # refresh
+      if refresh = meta_tags.delete(:refresh)
+        result << tag(:meta, "http-equiv" => "refresh", "content" => refresh.to_s.html_safe) unless refresh.blank?
+      end
 
       # hashes
       meta_tags.each do |property, data|

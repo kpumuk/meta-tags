@@ -248,6 +248,27 @@ describe MetaTags::ViewHelper do
     end
   end
 
+  context 'displaying refresh' do
+    it 'displays refresh when "refresh" is used' do
+      subject.refresh(5)
+      subject.display_meta_tags(:site => 'someSite').should include('<meta content="5" http-equiv="refresh" />')
+    end
+
+    it 'displays refresh when "set_meta_tags" used' do
+      subject.set_meta_tags(:refresh => 5)
+      subject.display_meta_tags(:site => 'someSite').should include('<meta content="5" http-equiv="refresh" />')
+    end
+
+    it 'should use custom refresh if given' do
+      subject.refresh("5;URL='http://example.com/'")
+      subject.display_meta_tags(:site => 'someSite').should include(%Q{<meta content="5;URL='http://example.com/'" http-equiv="refresh" />})
+    end
+
+    it 'should display nothing by default' do
+      subject.display_meta_tags(:site => 'someSite').should_not include('http-equiv="refresh"')
+    end
+  end
+
   context 'displaying noindex' do
     it 'should display noindex when "noindex" used' do
       subject.noindex(true)
