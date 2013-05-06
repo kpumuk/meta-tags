@@ -360,6 +360,36 @@ describe MetaTags::ViewHelper do
     end
   end
 
+  context 'displaying prev url' do
+    it 'should not display prev url by default' do
+      subject.display_meta_tags(:site => 'someSite').should_not include('<link href="http://example.com/base/url" rel="prev" />')
+    end
+
+    it 'should display prev url when "set_meta_tags" used' do
+      subject.set_meta_tags(:prev => 'http://example.com/base/url')
+      subject.display_meta_tags(:site => 'someSite').should include('<link href="http://example.com/base/url" rel="prev" />')
+    end
+
+    it 'should display default prev url' do
+      subject.display_meta_tags(:site => 'someSite', :prev => 'http://example.com/base/url').should include('<link href="http://example.com/base/url" rel="prev" />')
+    end
+  end
+
+  context 'displaying next url' do
+    it 'should not display next url by default' do
+      subject.display_meta_tags(:site => 'someSite').should_not include('<link href="http://example.com/base/url" rel="next" />')
+    end
+
+    it 'should display next url when "set_meta_tags" used' do
+      subject.set_meta_tags(:next => 'http://example.com/base/url')
+      subject.display_meta_tags(:site => 'someSite').should include('<link href="http://example.com/base/url" rel="next" />')
+    end
+
+    it 'should display default next url' do
+      subject.display_meta_tags(:site => 'someSite', :next => 'http://example.com/base/url').should include('<link href="http://example.com/base/url" rel="next" />')
+    end
+  end
+
   context 'displaying Open Graph meta tags' do
     it 'should display meta tags specified with :open_graph' do
       subject.set_meta_tags(:open_graph => {
