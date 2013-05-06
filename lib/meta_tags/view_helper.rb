@@ -2,6 +2,8 @@ module MetaTags
   # Contains methods to use in views and helpers.
   #
   module ViewHelper
+    LINK_TAGS = [:canonical, :prev, :next]
+
     # Get meta tags for the page.
     def meta_tags
       @meta_tags ||= HashWithIndifferentAccess.new
@@ -142,6 +144,8 @@ module MetaTags
     # @option default [Boolean, String] :noindex (false) add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
     # @option default [Boolean, String] :nofollow (false) add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
     # @option default [String] :canonical (nil) add canonical link tag.
+    # @option default [String] :prev (nil) add prev link tag.
+    # @option default [String] :next (nil) add next link tag.
     # @option default [Hash] :open_graph ({}) add Open Graph meta tags.
     # @return [String] HTML meta tags to render in HEAD section of the
     #   HTML document.
@@ -190,9 +194,11 @@ module MetaTags
         end
       end
 
-      # canonical
-      result << tag(:link, :rel => :canonical, :href => meta_tags[:canonical]) unless meta_tags[:canonical].blank?
-      meta_tags.delete(:canonical)
+      # canonical, prev and next
+      LINK_TAGS.each do |tag_name|
+        result << tag(:link, :rel => tag_name, :href => meta_tags[tag_name]) unless meta_tags[tag_name].blank?
+        meta_tags.delete(tag_name)
+      end
 
       # user defined
       meta_tags.each do |name, data|
