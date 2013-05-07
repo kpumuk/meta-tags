@@ -260,8 +260,8 @@ describe MetaTags::ViewHelper do
     end
 
     it 'should use custom refresh if given' do
-      subject.refresh("5;URL='http://example.com/'")
-      subject.display_meta_tags(:site => 'someSite').should include(%Q{<meta content="5;URL='http://example.com/'" http-equiv="refresh" />})
+      subject.refresh("5;url=http://example.com/")
+      subject.display_meta_tags(:site => 'someSite').should include(%Q{<meta content="5;url=http://example.com/" http-equiv="refresh" />})
     end
 
     it 'should display nothing by default' do
