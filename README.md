@@ -105,6 +105,22 @@ Further reading:
 * [About rel="canonical"](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139394)
 * [Canonicalization](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139066)
 
+### Pagination links
+
+Previous and next links indicate indicate the relationship between individual
+URLs. Using these attributes is a strong hint to Google that you want us to
+treat these pages as a logical sequence.
+
+    set_meta_tags :prev => "http://yoursite.com/url?page=1"
+    # <link rel="prev" href="http://yoursite.com/url?page=1" />
+    set_meta_tags :next => "http://yoursite.com/url?page=3"
+    # <link rel="next" href="http://yoursite.com/url?page=3" />
+
+Further reading:
+
+* [Pagination](http://support.google.com/webmasters/bin/answer.py?hl=en&answer=1663744)
+* [Pagination with rel="next" and rel="prev"](http://googlewebmastercentral.blogspot.ca/2011/09/pagination-with-relnext-and-relprev.html)
+
 ### Refresh interval and redirect URL
 
 Meta refresh is a method of instructing a web browser to automatically
@@ -292,6 +308,8 @@ Use these options to customize the title format:
 * `:noindex` — add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:nofollow` — add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:canonical` — add canonical link tag;
+* `:prev` — add prev link tag;
+* `:prev` — add next link tag;
 * `:og` — add Open Graph tags (Hash);
 * `:twitter` — add Twitter tags (Hash);
 * `:refresh` — refresh interval and optionally url to redirect to.
