@@ -257,6 +257,8 @@ To set meta tags you can use following methods:
     <% title 'Member Login' %>
     <% description 'Member login page.' %>
     <% keywords 'Member login page.' %>
+    <% nofollow %>
+    <% noindex %>
     <% refresh 3 %>
 
 Also there is `set_meta_tags` method exists:

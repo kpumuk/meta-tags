@@ -105,7 +105,7 @@ module MetaTags
     #
     # @see #display_meta_tags
     #
-    def noindex(noindex)
+    def noindex(noindex = true)
       set_meta_tags(:noindex => noindex)
       noindex
     end
@@ -121,7 +121,7 @@ module MetaTags
     #
     # @see #display_meta_tags
     #
-    def nofollow(nofollow)
+    def nofollow(nofollow = true)
       set_meta_tags(:nofollow => nofollow)
       nofollow
     end
@@ -158,6 +158,7 @@ module MetaTags
     # @option default [Boolean, String] :noindex (false) add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
     # @option default [Boolean, String] :nofollow (false) add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
     # @option default [String] :canonical (nil) add canonical link tag.
+    # @option default [String, Integer] :refresh (nil) meta refresh tag.
     # @option default [Hash] :open_graph ({}) add Open Graph meta tags.
     # @return [String] HTML meta tags to render in HEAD section of the
     #   HTML document.
