@@ -1,3 +1,10 @@
+## 1.5.0 (May 7, 2013)
+
+Features:
+
+  - Added "prev" and "next" links support
+  - Added refresh meta tag support
+
 ## 1.4.1 (March 14, 2013)
 
 Bugfixes:
