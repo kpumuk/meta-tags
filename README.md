@@ -105,6 +105,25 @@ Further reading:
 * [About rel="canonical"](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139394)
 * [Canonicalization](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139066)
 
+### Refresh interval and redirect URL
+
+Meta refresh is a method of instructing a web browser to automatically
+refresh the current web page or frame after a given time interval. It is also
+possible to instruct the browser to fetch a different URL when the page is
+refreshed, by including the alternative URL in the content parameter. By
+setting the refresh time interval to zero (or a very low value), this allows
+meta refresh to be used as a method of URL redirection.
+
+    set_meta_tags :refresh => 5
+    # <meta content="5" http-equiv="refresh" />
+    set_meta_tags :refresh => '5;url=http://example.com'
+    # <meta content="5;url=http://example.com" http-equiv="refresh" />
+
+Further reading:
+
+* [Meta refresh](http://en.wikipedia.org/wiki/Meta_refresh)
+* [What is the Meta Refresh Tag](http://webdesign.about.com/od/metataglibraries/a/aa080300a.htm)
+
 ### Hashes
 
 Any namespace can be built just passing any symbol name and a Hash. For example:
@@ -238,6 +257,7 @@ To set meta tags you can use following methods:
     <% title 'Member Login' %>
     <% description 'Member login page.' %>
     <% keywords 'Member login page.' %>
+    <% refresh 3 %>
 
 Also there is `set_meta_tags` method exists:
 
@@ -270,8 +290,9 @@ Use these options to customize the title format:
 * `:noindex` — add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:nofollow` — add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:canonical` — add canonical link tag;
-* `:og` — add Open Graph tags (Hash).
-* `:twitter` — add Twitter tags (Hash).
+* `:og` — add Open Graph tags (Hash);
+* `:twitter` — add Twitter tags (Hash);
+* `:refresh` — refresh interval and optionally url to redirect to.
 
 And here are a few examples to give you ideas.
 

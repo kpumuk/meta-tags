@@ -133,7 +133,7 @@ module MetaTags
     #
     # @example
     #   refresh 5
-    #   refresh "5;URL='http://www.example.com/'"
+    #   refresh "5;url=http://www.example.com/"
     #
     # @see #display_meta_tags
     #
@@ -200,7 +200,7 @@ module MetaTags
 
       # refresh
       if refresh = meta_tags.delete(:refresh)
-        result << tag(:meta, "http-equiv" => "refresh", "content" => refresh.to_s.html_safe) unless refresh.blank?
+        result << tag(:meta, 'http-equiv' => 'refresh', :content => refresh.to_s) unless refresh.blank?
       end
 
       # hashes
