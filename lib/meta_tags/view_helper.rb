@@ -235,7 +235,7 @@ module MetaTags
     # Returns full page title as a string without surrounding <title> tag.
     #
     # The only case when you may need this helper is when you use pjax. This means
-    # that your layour file (with display_meta_tags helper) will not be rendered,
+    # that your layout file (with display_meta_tags helper) will not be rendered,
     # so you have to pass default arguments like site title in here. You probably
     # want to define helper with default options to minimize code duplication.
     #
