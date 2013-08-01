@@ -390,6 +390,25 @@ describe MetaTags::ViewHelper do
     end
   end
 
+  context 'displaying alternate url' do
+    it 'should not alternate url by default' do
+      subject.display_meta_tags(:site => 'someSite').should_not include('<link href="http://example.com/base/url" rel="next" />')
+    end
+
+    it 'should display alternate url when "set_meta_tags" used' do
+      subject.set_meta_tags(:alternate => {'zh-Hant' => 'http://example.com.tw/base/url'})
+      subject.display_meta_tags(:site => 'someSite').should include('<link href="http://example.com.tw/base/url" hreflang="zh-Hant" rel="alternate" />')
+    end
+
+    it 'should display default alternate url' do
+      subject.display_meta_tags(:site => 'someSite', :alternate => {'zh-Hant' => 'http://example.com.tw/base/url'}).should include('<link href="http://example.com.tw/base/url" hreflang="zh-Hant" rel="alternate" />')
+    end
+
+    it "should not display alternate without content" do
+      subject.display_meta_tags(:site => 'someSite', :alternate => {'zh-Hant' => ''}).should_not include('<link href="" hreflang="zh-Hant" rel="alternate" />')
+    end
+  end
+
   context 'displaying Open Graph meta tags' do
     it 'should display meta tags specified with :open_graph' do
       subject.set_meta_tags(:open_graph => {
