@@ -309,7 +309,7 @@ Use these options to customize the title format:
 * `:nofollow` — add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:canonical` — add canonical link tag;
 * `:prev` — add prev link tag;
-* `:prev` — add next link tag;
+* `:next` — add next link tag;
 * `:og` — add Open Graph tags (Hash);
 * `:twitter` — add Twitter tags (Hash);
 * `:refresh` — refresh interval and optionally url to redirect to.
