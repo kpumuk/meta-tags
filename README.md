@@ -100,10 +100,24 @@ that URL, and link popularity and authority will be applied to that URL.
     set_meta_tags :canonical => "http://yoursite.com/canonical/url"
     # <link rel="canonical" href="http://yoursite.com/canonical/url" />
 
+### Author links
+
+Link to your Google+ profile using rel="author"
+
+    set_meta_tags :author => "http://yourgplusprofile.com/profile/url"
+    # <link rel="author" href="http://yourgplusprofile.com/profile/url" />
+
 Further reading:
 
-* [About rel="canonical"](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139394)
-* [Canonicalization](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139066)
+* [About rel="author"](https://support.google.com/webmasters/answer/2539557?hl=en)
+
+### Publisher links
+
+Link to your Google+ profile using rel="publisher"
+
+    set_meta_tags :publisher => "http://yourgplusprofile.com/profile/url"
+    # <link rel="publisher" href="http://yourgplusprofile.com/profile/url" />
+
 
 ### Pagination links
 
@@ -308,6 +322,8 @@ Use these options to customize the title format:
 * `:noindex` — add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:nofollow` — add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:canonical` — add canonical link tag;
+* `:author` — add author link tag;
+* `:publisher` — add publisher link tag;
 * `:prev` — add prev link tag;
 * `:prev` — add next link tag;
 * `:og` — add Open Graph tags (Hash);
