@@ -214,8 +214,8 @@ module MetaTags
         end
       end
 
-      # canonical, prev, next and author
-      [ :canonical, :prev, :next, :author ].each do |tag_name|
+      # canonical, prev, next and author, :publisher
+      [ :canonical, :prev, :next, :author, :publisher ].each do |tag_name|
         next unless href = meta_tags.delete(tag_name)
         result << tag(:link, :rel => tag_name, :href => href)
       end

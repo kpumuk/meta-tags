@@ -111,6 +111,14 @@ Further reading:
 
 * [About rel="author"](https://support.google.com/webmasters/answer/2539557?hl=en)
 
+### Publisher links
+
+Link to your Google+ profile using rel="publisher"
+
+    set_meta_tags :publisher => "http://yourgplusprofile.com/profile/url"
+    # <link rel="publisher" href="http://yourgplusprofile.com/profile/url" />
+
+
 ### Pagination links
 
 Previous and next links indicate indicate the relationship between individual
@@ -315,6 +323,7 @@ Use these options to customize the title format:
 * `:nofollow` — add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:canonical` — add canonical link tag;
 * `:author` — add author link tag;
+* `:publisher` — add publisher link tag;
 * `:prev` — add prev link tag;
 * `:prev` — add next link tag;
 * `:og` — add Open Graph tags (Hash);
