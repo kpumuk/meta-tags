@@ -267,7 +267,7 @@ module MetaTags
         result = []
         if content.is_a?(Hash)
           content.each do |key, value|
-            result.concat process_tree("#{property}:#{key}", value)
+            result.concat process_tree("#{property}:#{key}", value.is_a?(Symbol) ? meta_tags[value] : value)
           end
         else
           Array(content).each do |c|

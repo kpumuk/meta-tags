@@ -338,6 +338,27 @@ Keywords can be passed as string of comma-separated values, or as an array:
 
 Description is a string (HTML will be stripped from output string).
 
+### Mirrored values
+
+Sometimes, it is desirable to mirror meta tag values down into namespaces. A
+common use case is when you want open graph's `og:title` to be identical to
+the `title`.
+
+Say, you have the following in your application layout:
+
+    display_meta_tags :og => {
+      :title => :title
+    }
+
+The value of `og[:title]` is a symbol and therefore references the value of the
+top level `title` meta tag. With the following in any view:
+
+    title 'my great view'
+
+You get this open graph meta tag for free:
+
+    <meta property="og:title" content="my great view"></meta>
+
 ### Using with pjax
 
 [jQuery.pjax](https://github.com/defunkt/jquery-pjax) is a nice solution for navigation

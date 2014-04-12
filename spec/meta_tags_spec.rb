@@ -458,6 +458,13 @@ describe MetaTags::ViewHelper do
         content.should_not include('<meta content="" property="og:description" />')
       end
     end
+
+    it "should display mirrored content" do
+      subject.set_meta_tags(:title => 'someTitle')
+      subject.display_meta_tags(:open_graph => { :title => :title }).tap do |content|
+        content.should include('<meta content="someTitle" property="og:title" />')
+      end
+    end
   end
 
   context 'while handling string meta tag names' do
