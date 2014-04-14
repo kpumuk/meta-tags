@@ -1,3 +1,13 @@
+## 2.0.0 (April 15, 2014)
+
+Features:
+
+  - Fully refactored code base.
+
+Bugfixes:
+
+  - Symlink references in nested hashes include use normalized meta tag values.
+
 ## 1.6.0 (April 14, 2014)
 
 Features:
