@@ -13,7 +13,7 @@ compatible. Latest version fully compatible with 2.x is 1.2.3.
 
 Add the "meta-tags" gem to your `Gemfile`.
 
-    gem 'meta-tags', :require => 'meta_tags'
+    gem 'meta-tags'
 
 And run `bundle install` command.
 

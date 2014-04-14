@@ -1,0 +1,1 @@
+require 'meta_tags'
