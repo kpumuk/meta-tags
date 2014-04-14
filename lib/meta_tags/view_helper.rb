@@ -295,7 +295,7 @@ module MetaTags
 
       def normalize_description(description)
         return '' if description.blank?
-        truncate(strip_tags(description).gsub(/\s+/, ' '), :length => 200)
+        truncate(strip_tags(description).gsub(/\s+/, ' '), :length => 150)
       end
 
       def normalize_keywords(keywords)
