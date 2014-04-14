@@ -105,6 +105,23 @@ Further reading:
 * [About rel="canonical"](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139394)
 * [Canonicalization](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139066)
 
+### Alternate URLs
+
+Alternate link elements tell a search engine when there is content that's translated or targeted to
+users in a certain region.
+
+    set_meta_tags :alternate => { "fr" => "http://yoursite.fr/alternate/url" }
+    # <link rel="alternate" href="http://yoursite.fr/alternate/url" hreflang="fr" />
+
+    set_meta_tags :alternate => { "fr" => "http://yoursite.fr/alternate/url",
+                                  "de" => "http://yoursite.de/alternate/url" }
+    # <link rel="alternate" href="http://yoursite.fr/alternate/url" hreflang="en" />
+    # <link rel="alternate" href="http://yoursite.de/alternate/url" hreflang="de" />
+
+Further reading:
+
+* [About rel="alternate" hreflang="x"](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=189077)
+
 ### Pagination links
 
 Previous and next links indicate indicate the relationship between individual

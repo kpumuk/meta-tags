@@ -158,6 +158,7 @@ module MetaTags
     # @option default [Boolean, String] :noindex (false) add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
     # @option default [Boolean, String] :nofollow (false) add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
     # @option default [String] :canonical (nil) add canonical link tag.
+    # @option default [String] :alternate (nil) add alternate link tag.
     # @option default [String] :prev (nil) add prev link tag;
     # @option default [String] :next (nil) add next link tag.
     # @option default [String, Integer] :refresh (nil) meta refresh tag;
@@ -204,6 +205,13 @@ module MetaTags
       # refresh
       if refresh = meta_tags.delete(:refresh)
         result << tag(:meta, 'http-equiv' => 'refresh', :content => refresh.to_s) unless refresh.blank?
+      end
+
+      # alternate
+      if alternate = meta_tags.delete(:alternate)
+        alternate.each do |hreflang, href|
+          result << tag(:link, :rel => 'alternate', :href => href, :hreflang => hreflang)
+        end
       end
 
       # hashes
