@@ -1,6 +1,7 @@
 require 'action_controller'
 require 'action_view'
 
+# MetaTags gem namespace.
 module MetaTags
 end
 

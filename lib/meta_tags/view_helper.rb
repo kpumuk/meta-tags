@@ -35,9 +35,8 @@ module MetaTags
     # and returns it (or +headline+ if specified).
     #
     # @param [nil, String, Array] title page title. When passed as an
-    #   +Array+, parts will be joined divided with configured
-    #   separator value (see {#display_meta_tags}). When nil, current
-    #   title will be returned.
+    #   +Array+, parts will be joined using configured separator value
+    #   (see {#display_meta_tags}). When nil, current title will be returned.
     # @param [String] headline the value to return from method. Useful
     #   for using this method in views to set both page title
     #   and the content of heading tag.
@@ -78,7 +77,7 @@ module MetaTags
 
     # Set the page description.
     #
-    # @param [String] page description to be set in HEAD section of
+    # @param [String] description page description to be set in HEAD section of
     #   the HTML document. Please note, any HTML tags will be stripped
     #   from output string, and string will be truncated to 200
     #   characters.
@@ -145,7 +144,7 @@ module MetaTags
     # Set default meta tag values and display meta tags. This method
     # should be used in layout file.
     #
-    # @param [Hash] default default meta tag values.
+    # @param [Hash] defaults default meta tag values.
     # @option default [String] :site (nil) site title;
     # @option default [String] :title ("") page title;
     # @option default [String] :description (nil) page description;
@@ -161,6 +160,8 @@ module MetaTags
     # @option default [Hash] :alternate ({}) add alternate link tag.
     # @option default [String] :prev (nil) add prev link tag;
     # @option default [String] :next (nil) add next link tag.
+    # @option default [String] :author (nil) add author link tag;
+    # @option default [String] :publisher (nil) add publisher link tag.
     # @option default [String, Integer] :refresh (nil) meta refresh tag;
     # @option default [Hash] :open_graph ({}) add Open Graph meta tags.
     # @return [String] HTML meta tags to render in HEAD section of the
@@ -182,7 +183,7 @@ module MetaTags
     # so you have to pass default arguments like site title in here. You probably
     # want to define helper with default options to minimize code duplication.
     #
-    # @param [Hash] meta_tags list of meta tags.
+    # @param [Hash] defaults list of meta tags.
     # @option default [String] :site (nil) site title;
     # @option default [String] :title ("") page title;
     # @option default [String, Boolean] :prefix (" ") text between site name and separator; when +false+, no prefix will be rendered;
@@ -194,8 +195,8 @@ module MetaTags
     # @example
     #   <div data-page-container="true" title="<%= display_title :title => 'My Page', :site => 'PJAX Site' %>">
     #
-    def display_title(default = {})
-      @meta_tags.full_title(default)
+    def display_title(defaults = {})
+      @meta_tags.full_title(defaults)
     end
 
     # safe_helper :display_meta_tags if defined?(:safe_helper)
