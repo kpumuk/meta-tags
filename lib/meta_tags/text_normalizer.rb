@@ -3,8 +3,8 @@ module MetaTags
   module TextNormalizer
     # Normalize title value.
     #
-    # @param [String, Array] title title string.
-    # @return [Array] array of title parts with tags removed.
+    # @param [String, Array<String>] title title string.
+    # @return [Array<String>] array of title parts with tags removed.
     #
     def self.normalize_title(title)
       Array(title).flatten.map(&method(:strip_tags))
@@ -23,7 +23,7 @@ module MetaTags
 
     # Normalize keywords value.
     #
-    # @param [String, Array] keywords list of keywords as a string or Array.
+    # @param [String, Array<String>] keywords list of keywords as a string or Array.
     # @return [String] list of keywords joined with comma, with tags removed.
     #
     def self.normalize_keywords(keywords)
@@ -53,7 +53,7 @@ module MetaTags
     # html escaped unless they are html safe, and the returned string is marked
     # as html safe.
     #
-    # @param [Array] array list of strings to join.
+    # @param [Array<String>] array list of strings to join.
     # @param [String] sep separator to join strings with.
     # @return [String] input strings joined together using a given separator.
     #
@@ -73,8 +73,8 @@ module MetaTags
 
     # Cleans multiple strings up.
     #
-    # @param [Array] strings input strings.
-    # @return [Array] clean strings.
+    # @param [Array<String>] strings input strings.
+    # @return [Array<String>] clean strings.
     # @see cleanup_string
     def self.cleanup_strings(strings)
       Array(strings).flatten.map(&method(:cleanup_string))

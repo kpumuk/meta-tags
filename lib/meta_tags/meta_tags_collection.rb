@@ -1,23 +1,48 @@
 module MetaTags
+  # Class represents a collection of meta tags. Basically a wrapper around
+  # HashWithIndifferentAccess, with some additional helper methods.
   class MetaTagsCollection
     attr_reader :meta_tags
 
+    # Initializes a new instance of MetaTagsCollection.
+    #
     def initialize
       @meta_tags = HashWithIndifferentAccess.new
     end
 
+    # Returns meta tag value by name.
+    #
+    # @param [String, Symbol] name meta tag name.
+    # @return meta tag value.
+    #
     def [](name)
       @meta_tags[name]
     end
 
+    # Sets meta tag value by name.
+    #
+    # @param [String, Symbol] name meta tag name.
+    # @param value meta tag value.
+    # @return meta tag value.
+    #
     def []=(name, value)
       @meta_tags[name] = value
     end
 
+    # Recursively merges a Hash of meta tag attributes into current list.
+    #
+    # @param [Hash] meta_tags meta tags Hash to merge into current list.
+    # @return [Hash] result of the merge.
+    #
     def update(meta_tags = {})
       @meta_tags.deep_merge! normalize_open_graph(meta_tags)
     end
 
+    # Temporary merges defaults with current meta tags list and yields the block.
+    #
+    # @param [Hash] defaults list of default meta tag attributes.
+    # @return result of the block call.
+    #
     def with_defaults(defaults = {})
       old_meta_tags = @meta_tags
       @meta_tags = normalize_open_graph(defaults).deep_merge!(self.meta_tags)
@@ -26,18 +51,36 @@ module MetaTags
       @meta_tags = old_meta_tags
     end
 
+    # Constructs the full title as if it would be rendered in title meta tag.
+    #
+    # @param [Hash] defaults list of default meta tag attributes.
+    # @return [String] page title.
+    #
     def full_title(defaults = {})
       with_defaults(defaults) { extract_full_title  }
     end
 
-    def extract(key)
-      @meta_tags.delete(key)
+    # Deletes and returns a meta tag value by name.
+    #
+    # @param [String, Symbol] name meta tag name.
+    # @return [Object] meta tag value.
+    #
+    def extract(name)
+      @meta_tags.delete(name)
     end
 
-    def delete(*keys)
-      keys.each { |key| @meta_tags.delete(key) }
+    # Deletes specified meta tags.
+    #
+    # @param [Array<String, Symbol>] names a list of meta tags to delete.
+    #
+    def delete(*names)
+      names.each { |name| @meta_tags.delete(name) }
     end
 
+    # Extracts full page title and deletes all related meta tags.
+    #
+    # @return [String] page title.
+    #
     def extract_full_title
       title = extract_title || []
       separator = extract_separator
@@ -52,6 +95,10 @@ module MetaTags
       title
     end
 
+    # Extracts page title as an array of segments without site title and separators.
+    #
+    # @return [Array<String>] segments of page title.
+    #
     def extract_title
       title = extract(:title).presence
       return unless title
@@ -61,6 +108,10 @@ module MetaTags
       title
     end
 
+    # Extracts title separator as a string.
+    #
+    # @return [String] page title separator.
+    #
     def extract_separator
       if meta_tags[:separator] === false
         # Special case: if separator is hidden, do not display suffix/prefix
@@ -75,6 +126,10 @@ module MetaTags
       TextNormalizer.safe_join([prefix, separator, suffix], '')
     end
 
+    # Extracts noindex settings as a Hash mapping noindex tag name to value.
+    #
+    # @return [Hash<String,String>] noindex attributes.
+    #
     def extract_noindex
       noindex_name,  noindex_value  = extract_noindex_attribute(:noindex)
       nofollow_name, nofollow_value = extract_noindex_attribute(:nofollow)
@@ -88,16 +143,33 @@ module MetaTags
 
     protected
 
+    # Converts input hash to HashWithIndifferentAccess and renames :open_graph to :og.
+    #
+    # @param [Hash] meta_tags list of meta tags.
+    # @return [HashWithIndifferentAccess] normalized meta tags list.
+    #
     def normalize_open_graph(meta_tags)
       meta_tags = (meta_tags || {}).with_indifferent_access
       meta_tags[:og] = meta_tags.delete(:open_graph) if meta_tags.key?(:open_graph)
       meta_tags
     end
 
+    # Extracts separator segment without deleting it from meta tags list.
+    # If the value is false, empty string will be returned.
+    #
+    # @param [Symbol, String] name separator segment name.
+    # @param [String] default default value.
+    # @return [String] separator segment value.
+    #
     def extract_separator_section(name, default)
       meta_tags[name] === false ? '' : (meta_tags[name] || default)
     end
 
+    # Extracts noindex attribute name and value without deleting it from meta tags list.
+    #
+    # @param [String, Symbol] name noindex attribute name.
+    # @return [Array<String>] pair of noindex attribute name and value.
+    #
     def extract_noindex_attribute(name)
       noindex       = extract(name)
       noindex_name  = String === noindex ? noindex : 'robots'
