@@ -34,7 +34,7 @@ describe MetaTags::ControllerHelper do
     it 'should set meta tags from instance variables' do
       subject.index
       subject.rendered.should be_true
-      subject.meta_tags.should eq('title' => 'title', 'keywords' => 'key1, key2, key3', 'description' => 'description')
+      subject.meta_tags.meta_tags.should eq('title' => 'title', 'keywords' => 'key1, key2, key3', 'description' => 'description')
     end
   end
 

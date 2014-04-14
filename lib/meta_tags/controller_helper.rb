@@ -19,28 +19,24 @@ module MetaTags
       # Processes the <tt>@page_title</tt>, <tt>@page_keywords</tt>, and
       # <tt>@page_description</tt> instance variables and calls +render+.
       def render_with_meta_tags(*args, &block)
-        meta_tags = {}
-        meta_tags[:title]       = @page_title       if @page_title
-        meta_tags[:keywords]    = @page_keywords    if @page_keywords
-        meta_tags[:description] = @page_description if @page_description
-        set_meta_tags(meta_tags)
+        self.meta_tags[:title]       = @page_title       if @page_title
+        self.meta_tags[:keywords]    = @page_keywords    if @page_keywords
+        self.meta_tags[:description] = @page_description if @page_description
 
         render_without_meta_tags(*args, &block)
       end
 
       # Set meta tags for the page.
       #
-      # See <tt>MetaTags.set_meta_tags</tt> for details.
+      # See <tt>MetaTags::ViewHelper#set_meta_tags</tt> for details.
       def set_meta_tags(meta_tags)
-        meta_tags = (meta_tags || {}).with_indifferent_access
-        meta_tags[:og] = meta_tags.delete(:open_graph) if meta_tags.key?(:open_graph)
-        self.meta_tags.deep_merge!(meta_tags)
+        self.meta_tags.update(meta_tags)
       end
       protected :set_meta_tags
 
       # Get meta tags for the page.
       def meta_tags
-        @meta_tags ||= HashWithIndifferentAccess.new
+        @meta_tags ||= MetaTagsCollection.new
       end
       protected :meta_tags
     end

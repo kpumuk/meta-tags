@@ -4,7 +4,7 @@ module MetaTags
   module ViewHelper
     # Get meta tags for the page.
     def meta_tags
-      @meta_tags ||= HashWithIndifferentAccess.new
+      @meta_tags ||= MetaTagsCollection.new
     end
 
     # Set meta tags for the page.
@@ -26,7 +26,7 @@ module MetaTags
     # @see #display_meta_tags
     #
     def set_meta_tags(meta_tags = {})
-      self.meta_tags.deep_merge! normalize_open_graph(meta_tags)
+      self.meta_tags.update(meta_tags)
     end
 
     # Set the page title and return it back.
@@ -171,73 +171,8 @@ module MetaTags
     #     <%= display_meta_tags :site => 'My website' %>
     #   </head>
     #
-    def display_meta_tags(default = {})
-      meta_tags = normalize_open_graph(default).deep_merge!(self.meta_tags)
-
-      result = []
-
-      # title
-      title = build_full_title(meta_tags)
-      result << content_tag(:title, title) unless title.blank?
-
-      # description
-      description = normalize_description(meta_tags.delete(:description))
-      result << tag(:meta, :name => :description, :content => description) unless description.blank?
-
-      # keywords
-      keywords = normalize_keywords(meta_tags.delete(:keywords))
-      result << tag(:meta, :name => :keywords, :content => keywords) unless keywords.blank?
-
-      # noindex & nofollow
-      noindex_name  = String === meta_tags[:noindex]  ? meta_tags[:noindex]  : 'robots'
-      nofollow_name = String === meta_tags[:nofollow] ? meta_tags[:nofollow] : 'robots'
-
-      if noindex_name == nofollow_name
-        content = [meta_tags[:noindex] && 'noindex', meta_tags[:nofollow] && 'nofollow'].compact.join(', ')
-        result << tag(:meta, :name => noindex_name, :content => content) unless content.blank?
-      else
-        result << tag(:meta, :name => noindex_name,  :content => 'noindex')  if meta_tags[:noindex] && meta_tags[:noindex] != false
-        result << tag(:meta, :name => nofollow_name, :content => 'nofollow') if meta_tags[:nofollow] && meta_tags[:nofollow] != false
-      end
-      meta_tags.delete(:noindex)
-      meta_tags.delete(:nofollow)
-
-      # refresh
-      if refresh = meta_tags.delete(:refresh)
-        result << tag(:meta, 'http-equiv' => 'refresh', :content => refresh.to_s) if refresh.present?
-      end
-
-      # alternate
-      if alternate = meta_tags.delete(:alternate)
-        alternate.each do |hreflang, href|
-          result << tag(:link, :rel => 'alternate', :href => href, :hreflang => hreflang) if href.present?
-        end
-      end
-
-      # hashes
-      meta_tags.each do |property, data|
-        if data.is_a?(Hash)
-          result.concat process_tree(property, data)
-          meta_tags.delete(property)
-        end
-      end
-
-      # canonical, prev, next and author, :publisher
-      [ :canonical, :prev, :next, :author, :publisher ].each do |tag_name|
-        next unless href = meta_tags.delete(tag_name)
-        result << tag(:link, :rel => tag_name, :href => href)
-      end
-
-      # user defined
-      meta_tags.each do |name, data|
-        Array(data).each do |val|
-          result << tag(:meta, :name => name, :content => val)
-        end
-        meta_tags.delete(name)
-      end
-
-      result = result.join("\n")
-      result.html_safe
+    def display_meta_tags(defaults = {})
+      self.meta_tags.with_defaults(defaults) { Renderer.new(meta_tags).render(self) }
     end
 
     # Returns full page title as a string without surrounding <title> tag.
@@ -260,94 +195,9 @@ module MetaTags
     #   <div data-page-container="true" title="<%= display_title :title => 'My Page', :site => 'PJAX Site' %>">
     #
     def display_title(default = {})
-      meta_tags = normalize_open_graph(default).deep_merge!(self.meta_tags)
-      build_full_title(meta_tags)
+      @meta_tags.full_title(default)
     end
 
-    if respond_to? :safe_helper
-      safe_helper :display_meta_tags
-    end
-
-    private
-
-      # Recursive function to process all the hashes and arrays on meta tags
-      def process_tree(property, content)
-        result = []
-        if content.is_a?(Hash)
-          content.each do |key, value|
-            result.concat process_tree("#{property}:#{key}", value.is_a?(Symbol) ? meta_tags[value] : value)
-          end
-        else
-          Array(content).each do |c|
-            if c.is_a?(Hash)
-              result.concat process_tree(property, c)
-            else
-              result << tag(:meta, :property => "#{property}", :content => c) unless c.blank?
-            end
-          end
-        end
-        result
-      end
-
-      def normalize_title(title)
-        Array(title).map { |t| h(strip_tags(t)) }
-      end
-
-      def normalize_description(description)
-        return '' if description.blank?
-        truncate(strip_tags(description).gsub(/\s+/, ' '), :length => 200)
-      end
-
-      def normalize_keywords(keywords)
-        return '' if keywords.blank?
-        keywords = keywords.flatten.join(', ') if Array === keywords
-        strip_tags(keywords).downcase
-      end
-
-      def normalize_open_graph(meta_tags)
-        meta_tags = (meta_tags || {}).with_indifferent_access
-        meta_tags[:og] = meta_tags.delete(:open_graph) if meta_tags.key?(:open_graph)
-        meta_tags
-      end
-
-      def build_full_title(meta_tags)
-        # Prefix (leading space)
-        prefix = meta_tags[:prefix] === false ? '' : (meta_tags[:prefix] || ' ')
-        meta_tags.delete(:prefix)
-
-        # Separator
-        separator = meta_tags[:separator] === false ? '' : (meta_tags[:separator] || '|')
-
-        # Suffix (trailing space)
-        suffix = meta_tags[:suffix] === false ? '' : (meta_tags[:suffix] || ' ')
-        meta_tags.delete(:suffix)
-
-        # Special case: if separator is hidden, do not display suffix/prefix
-        if meta_tags[:separator] == false
-          prefix = suffix = ''
-        end
-        meta_tags.delete(:separator)
-
-        # Title
-        title = meta_tags.delete(:title)
-        if meta_tags.delete(:lowercase) === true and !title.blank?
-          title = Array(title).map { |t| t.downcase }
-        end
-
-        # title
-        if title.blank?
-          meta_tags.delete(:reverse)
-          meta_tags.delete(:site)
-        else
-          title = normalize_title(title)
-          title.unshift(h(meta_tags[:site])) unless meta_tags[:site].blank?
-          title.reverse! if meta_tags.delete(:reverse) === true
-          sep = h(prefix) + h(separator) + h(suffix)
-          title = title.join(sep)
-          meta_tags.delete(:site)
-          # We escaped every chunk of the title, so the whole title should be HTML safe
-          title.html_safe
-        end
-      end
+    safe_helper :display_meta_tags if respond_to? :safe_helper
   end
 end
