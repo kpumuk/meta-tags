@@ -4,10 +4,10 @@
 
 Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 
-## Rails 3
+## Ruby on Rails
 
-MetaTags master branch now fully supports Rails 3 and is backward
-compatible.
+MetaTags master branch now fully supports Rails 3.0+ and is not backward
+compatible. Latest version fully compatible with 2.x is 1.2.3.
 
 ## Installation
 
