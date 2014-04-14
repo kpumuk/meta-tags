@@ -349,7 +349,7 @@ Use these options to customize the title format:
 * `:author` — add author link tag;
 * `:publisher` — add publisher link tag;
 * `:prev` — add prev link tag;
-* `:prev` — add next link tag;
+* `:next` — add next link tag;
 * `:og` — add Open Graph tags (Hash);
 * `:twitter` — add Twitter tags (Hash);
 * `:refresh` — refresh interval and optionally url to redirect to.
