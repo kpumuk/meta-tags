@@ -157,21 +157,18 @@ module MetaTags
     # top-level meta tag.
     #
     def process_tree(tags, property, content, options = {})
-      if content.is_a?(Hash)
-        content.each do |key, value|
-          key = key.to_s == '_' ? property : "#{property}:#{key}"
-          value = normalized_meta_tags[value] if value.is_a?(Symbol)
-          process_tree(tags, key, value, options)
-        end
-      else
-        Array(content).each do |c|
-          if c.is_a?(Hash)
-            process_tree(tags, property, c, options)
-          else
-            name_key = options.fetch(:name_key, :property)
-            value_key = options.fetch(:value_key, :content)
-            tags << Tag.new(:meta, name_key => property.to_s, value_key => c) unless c.blank?
+      content = [content] if content.is_a?(Hash)
+      Array(content).each do |c|
+        if c.is_a?(Hash)
+          c.each do |key, value|
+            key = key.to_s == '_' ? property : "#{property}:#{key}"
+            value = normalized_meta_tags[value] if value.is_a?(Symbol)
+            process_tree(tags, key, value, options)
           end
+        else
+          name_key = options.fetch(:name_key, :property)
+          value_key = options.fetch(:value_key, :content)
+          tags << Tag.new(:meta, name_key => property.to_s, value_key => c) unless c.blank?
         end
       end
     end
