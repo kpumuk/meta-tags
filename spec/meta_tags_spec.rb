@@ -373,6 +373,10 @@ describe MetaTags::ViewHelper do
     it 'should display default alternate url' do
       subject.display_meta_tags(:site => 'someSite', :alternate => { 'fr' => 'http://example.fr/base/url' }).should include('<link href="http://example.fr/base/url" hreflang="fr" rel="alternate" />')
     end
+
+    it "should not display alternate without content" do
+      subject.display_meta_tags(:site => 'someSite', :alternate => {'zh-Hant' => ''}).should_not include('<link href="" hreflang="zh-Hant" rel="alternate" />')
+    end
   end
 
   context 'displaying author link' do

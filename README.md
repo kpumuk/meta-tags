@@ -126,7 +126,7 @@ Link to your Google+ profile using rel="publisher"
 * [Link to your website](https://support.google.com/plus/answer/1713826?hl=en)
 * [The Difference Between rel=author & rel=publisher](http://www.websitemagazine.com/content/blogs/posts/archive/2013/02/05/the-difference-between-rel-author-amp-rel-publisher.aspx)
 
-### Alternate URLs
+### Multi-regional and multilingual URLs
 
 Alternate link elements tell a search engine when there is content that's translated or targeted to
 users in a certain region.
@@ -141,6 +141,7 @@ users in a certain region.
 
 Further reading:
 
+* [Multi-regional and multilingual sites](https://support.google.com/webmasters/answer/182192)
 * [About rel="alternate" hreflang="x"](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=189077)
 
 ### Pagination links
@@ -361,6 +362,7 @@ And here are a few examples to give you ideas.
     <%= display_meta_tags :lowercase => true %>
     <%= display_meta_tags :reverse => true, :prefix => false %>
     <%= display_meta_tags :og => { :title => 'The Rock', :type => 'video.movie' } %>
+    <%= display_meta_tags :alternate => { 'zh-Hant' => 'http://example.com.tw/base/url' } %>
 
 ### Allowed values
 
