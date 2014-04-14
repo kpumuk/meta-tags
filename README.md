@@ -242,10 +242,25 @@ There are 3 card types (summary, photo and player). Here's an example for summar
       :card => "summary",
       :site => "@username"
     }
-    # <meta property="twitter:card" content="summary"/>
-    # <meta property="twitter:site" content="@username"/>
+    # <meta name="twitter:card" content="summary"/>
+    # <meta name="twitter:site" content="@username"/>
 
 Take in consideration that if you're already using OpenGraph to describe data on your page, it’s easy to generate a Twitter card without duplicating your tags and data. When the Twitter card processor looks for tags on your page, it first checks for the Twitter property, and if not present, falls back to the supported Open Graph property. This allows for both to be defined on the page independently, and minimizes the amount of duplicate markup required to describe your content and experience.
+
+When you need to generate a [Twitter Photo card](https://dev.twitter.com/docs/cards/types/photo-card), `twitter:image` property is a string, while image dimensions are specified using `twitter:image:width` and `twitter:image:height`, or a `Hash` objects in terms of MetaTags gems. There is a special syntax to make this work:
+
+    set_meta_tags :twitter => {
+      :card  => "photo",
+      :image => {
+        :_      => "http://example.com/1.png",
+        :width  => 100,
+        :height => 100,
+      }
+    }
+    # <meta name="twitter:card" content="photo"/>
+    # <meta name="twitter:image" content="http://example.com/1.png"/>
+    # <meta name="twitter:image:width" content="100"/>
+    # <meta name="twitter:image:height" content="100"/>
 
 Further reading:
 

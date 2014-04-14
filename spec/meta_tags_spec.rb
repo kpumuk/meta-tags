@@ -500,6 +500,34 @@ describe MetaTags::ViewHelper do
     end
   end
 
+  context 'displaying Twitter meta tags' do
+    it 'should display meta tags specified with :twitter' do
+      subject.set_meta_tags(:twitter => {
+        :title => 'Twitter Share Title',
+        :card  => 'photo',
+        :image => {
+          :_      => 'http://example.com/1.png',
+          :width  => 123,
+          :height => 321,
+        }
+      })
+      subject.display_meta_tags(:site => 'someSite').tap do |content|
+        content.should include('<meta content="Twitter Share Title" name="twitter:title" />')
+        content.should include('<meta content="photo" name="twitter:card" />')
+        content.should include('<meta content="http://example.com/1.png" name="twitter:image" />')
+        content.should include('<meta content="123" name="twitter:image:width" />')
+        content.should include('<meta content="321" name="twitter:image:height" />')
+      end
+    end
+
+    it "should display mirrored content" do
+      subject.set_meta_tags(:title => 'someTitle')
+      subject.display_meta_tags(:twitter => { :title => :title }).tap do |content|
+        content.should include('<meta content="someTitle" name="twitter:title" />')
+      end
+    end
+  end
+
   context 'while handling string meta tag names' do
     it 'should work with common parameters' do
       subject.display_meta_tags('site' => 'someSite', 'title' => 'someTitle').should eq('<title>someSite | someTitle</title>')

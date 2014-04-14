@@ -26,6 +26,7 @@ module MetaTags
       render_alternate(tags)
       render_links(tags)
 
+      render_hash(tags, :twitter, :name_key => :name)
       render_hashes(tags)
       render_custom(tags)
 
@@ -114,12 +115,24 @@ module MetaTags
     #
     # @param [Array<Tag>] tags a buffer object to store tag in.
     #
-    def render_hashes(tags)
+    def render_hashes(tags, options = {})
       meta_tags.meta_tags.each do |property, data|
         if data.is_a?(Hash)
           process_tree(tags, property, data)
           meta_tags.extract(property)
         end
+      end
+    end
+
+    # Renders a complex hash object by key.
+    #
+    # @param [Array<Tag>] tags a buffer object to store tag in.
+    #
+    def render_hash(tags, key, options = {})
+      data = meta_tags.meta_tags[key]
+      if data.is_a?(Hash)
+        process_tree(tags, key, data, options)
+        meta_tags.extract(key)
       end
     end
 
@@ -143,17 +156,21 @@ module MetaTags
     # @param [String, Symbol] content text content or a symbol reference to
     # top-level meta tag.
     #
-    def process_tree(tags, property, content)
+    def process_tree(tags, property, content, options = {})
       if content.is_a?(Hash)
         content.each do |key, value|
-          process_tree(tags, "#{property}:#{key}", value.is_a?(Symbol) ? normalized_meta_tags[value] : value)
+          key = key.to_s == '_' ? property : "#{property}:#{key}"
+          value = normalized_meta_tags[value] if value.is_a?(Symbol)
+          process_tree(tags, key, value, options)
         end
       else
         Array(content).each do |c|
           if c.is_a?(Hash)
-            process_tree(tags, property, c)
+            process_tree(tags, property, c, options)
           else
-            tags << Tag.new(:meta, :property => "#{property}", :content => c) unless c.blank?
+            name_key = options.fetch(:name_key, :property)
+            value_key = options.fetch(:value_key, :content)
+            tags << Tag.new(:meta, name_key => property.to_s, value_key => c) unless c.blank?
           end
         end
       end
