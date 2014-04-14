@@ -75,6 +75,17 @@ module MetaTags
       TextNormalizer.safe_join([prefix, separator, suffix], '')
     end
 
+    def extract_noindex
+      noindex_name,  noindex_value  = extract_noindex_attribute(:noindex)
+      nofollow_name, nofollow_value = extract_noindex_attribute(:nofollow)
+
+      if noindex_name == nofollow_name
+        { noindex_name => [noindex_value, nofollow_value].compact.join(', ') }
+      else
+        { noindex_name => noindex_value, nofollow_name => nofollow_value }
+      end
+    end
+
     protected
 
     def normalize_open_graph(meta_tags)
@@ -85,6 +96,14 @@ module MetaTags
 
     def extract_separator_section(name, default)
       meta_tags[name] === false ? '' : (meta_tags[name] || default)
+    end
+
+    def extract_noindex_attribute(name)
+      noindex       = extract(name)
+      noindex_name  = String === noindex ? noindex : 'robots'
+      noindex_value = noindex ? name.to_s : nil
+
+      [ noindex_name, noindex_value ]
     end
   end
 end

@@ -45,18 +45,9 @@ module MetaTags
     end
 
     def render_noindex(tags)
-      noindex_name  = String === meta_tags[:noindex]  ? meta_tags[:noindex]  : 'robots'
-      nofollow_name = String === meta_tags[:nofollow] ? meta_tags[:nofollow] : 'robots'
-
-      if noindex_name == nofollow_name
-        content = [meta_tags[:noindex] && 'noindex', meta_tags[:nofollow] && 'nofollow'].compact.join(', ')
-        tags << Tag.new(:meta, :name => noindex_name, :content => content) if content.present?
-      else
-        tags << Tag.new(:meta, :name => noindex_name,  :content => 'noindex')  if meta_tags[:noindex] && meta_tags[:noindex] != false
-        tags << Tag.new(:meta, :name => nofollow_name, :content => 'nofollow') if meta_tags[:nofollow] && meta_tags[:nofollow] != false
+      meta_tags.extract_noindex.each do |name, content|
+        tags << Tag.new(:meta, :name => name, :content => content) if content.present?
       end
-      meta_tags.extract(:noindex)
-      meta_tags.extract(:nofollow)
     end
 
     def render_refresh(tags)
