@@ -301,7 +301,7 @@ module MetaTags
       def normalize_keywords(keywords)
         return '' if keywords.blank?
         keywords = keywords.flatten.join(', ') if Array === keywords
-        strip_tags(keywords).mb_chars.downcase
+        strip_tags(keywords).downcase
       end
 
       def normalize_open_graph(meta_tags)
