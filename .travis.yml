@@ -3,6 +3,38 @@ rvm:
   - 1.8.7
   - 1.9.3
   - 2.0.0
+  - 2.1.0
+
+env:
+  - "RAILS_VERSION=2.2.0"
+  - "RAILS_VERSION=2.3.0"
+  - "RAILS_VERSION=3.1.0"
+  - "RAILS_VERSION=3.2.0"
+  - "RAILS_VERSION=4.0.0"
+  - "RAILS_VERSION=4.1.0"
+
+matrix:
+  exclude:
+    - rvm: ree
+      env: "RAILS_VERSION=4.0.0"
+    - rvm: ree
+      env: "RAILS_VERSION=4.1.0"
+    - rvm: 1.8.7
+      env: "RAILS_VERSION=4.0.0"
+    - rvm: 1.8.7
+      env: "RAILS_VERSION=4.1.0"
+    - rvm: 1.9.3
+      env: "RAILS_VERSION=2.2.0"
+    - rvm: 1.9.3
+      env: "RAILS_VERSION=2.3.0"
+    - rvm: 2.0.0
+      env: "RAILS_VERSION=2.2.0"
+    - rvm: 2.0.0
+      env: "RAILS_VERSION=2.3.0"
+    - rvm: 2.1.0
+      env: "RAILS_VERSION=2.2.0"
+    - rvm: 2.1.0
+      env: "RAILS_VERSION=2.3.0"
 
 notifications:
   recipients:

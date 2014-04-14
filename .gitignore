@@ -1,7 +1,6 @@
 .yardoc
 .DS_Store
 .bundle
-.rvmrc
 Gemfile.lock
 doc
 pkg
