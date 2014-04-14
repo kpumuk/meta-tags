@@ -151,15 +151,15 @@ describe MetaTags::ViewHelper do
                               :reverse => true).should eq('<title>sometitle -:+ someSite</title>')
     end
 
-    it 'shold allow Arrays in title' do
+    it 'should allow Arrays in title' do
       subject.display_meta_tags(:site => 'someSite', :title => ['someTitle', 'anotherTitle']).should eq('<title>someSite | someTitle | anotherTitle</title>')
     end
 
-    it 'shold allow Arrays in title with :lowercase' do
+    it 'should allow Arrays in title with :lowercase' do
       subject.display_meta_tags(:site => 'someSite', :title => ['someTitle', 'anotherTitle'], :lowercase => true).should eq('<title>someSite | sometitle | anothertitle</title>')
     end
 
-    it 'shold build title in reverse order if :reverse' do
+    it 'should build title in reverse order if :reverse' do
       subject.display_meta_tags(:site => 'someSite',
                               :title => ['someTitle', 'anotherTitle'],
                               :prefix => ' -',
