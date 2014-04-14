@@ -6,6 +6,10 @@ Features:
   - Added Google "author" and "publisher" links
   - Implemented mirrored values inside namespaces declared as hashes
 
+Breaking changes:
+
+  - Removed support of Rails older than 3.0.0 due to the bug in `Hash#deep_merge` (does not support `HashWithIndifferentAccess`)
+
 ## 1.5.0 (May 7, 2013)
 
 Features:

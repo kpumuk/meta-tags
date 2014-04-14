@@ -237,7 +237,7 @@ module MetaTags
       end
 
       result = result.join("\n")
-      result.respond_to?(:html_safe) ? result.html_safe : result
+      result.html_safe
     end
 
     # Returns full page title as a string without surrounding <title> tag.
@@ -344,10 +344,9 @@ module MetaTags
           title.reverse! if meta_tags.delete(:reverse) === true
           sep = h(prefix) + h(separator) + h(suffix)
           title = title.join(sep)
-          # We escaped every chunk of the title, so the whole title should be HTML safe
-          title = title.html_safe if title.respond_to?(:html_safe)
           meta_tags.delete(:site)
-          title
+          # We escaped every chunk of the title, so the whole title should be HTML safe
+          title.html_safe
         end
       end
   end

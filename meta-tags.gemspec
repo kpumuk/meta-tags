@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{Collection of SEO helpers for Ruby on Rails.}
   s.description = %q{Search Engine Optimization (SEO) plugin for Ruby on Rails applications.}
 
-  s.add_dependency 'actionpack'
+  s.add_dependency 'actionpack', '>= 3.0.0'
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec'
