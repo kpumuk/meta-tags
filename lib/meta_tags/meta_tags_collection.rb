@@ -35,6 +35,21 @@ module MetaTags
     end
 
     def build_full_title
+      separator = extract_separator
+      title = extract_title || []
+
+      site_title = meta_tags[:site].presence
+      title.unshift(site_title) if site_title
+      title = TextNormalizer.normalize_title(title)
+
+      title.reverse! if meta_tags.delete(:reverse) === true
+      title = TextNormalizer.safe_join(title, separator)
+      meta_tags.delete(:site)
+
+      title
+    end
+
+    def extract_separator
       # Prefix (leading space)
       prefix = meta_tags[:prefix] === false ? '' : (meta_tags[:prefix] || ' ')
       meta_tags.delete(:prefix)
@@ -52,26 +67,16 @@ module MetaTags
       end
       meta_tags.delete(:separator)
 
-      # Title
-      title = meta_tags.delete(:title)
-      if meta_tags.delete(:lowercase) === true and title.present?
-        title = Array(title).map { |t| t.downcase }
-      end
+      TextNormalizer.safe_join([prefix, separator, suffix], '')
+    end
 
-      # title
-      if title.blank?
-        meta_tags.delete(:reverse)
-        meta_tags.delete(:site)
-      else
-        title = TextNormalizer.normalize_title(title)
-        title.unshift(meta_tags[:site]) if meta_tags[:site].present?
-        title.reverse! if meta_tags.delete(:reverse) === true
-        sep = TextNormalizer.safe_join([prefix, separator, suffix], '')
-        title = TextNormalizer.safe_join(title, sep)
-        meta_tags.delete(:site)
-        # We escaped every chunk of the title, so the whole title should be HTML safe
-        title.html_safe
-      end
+    def extract_title
+      title = meta_tags.delete(:title).presence
+      return unless title
+
+      title = Array(title)
+      title.each(&:downcase!) if meta_tags.delete(:lowercase) === true
+      title
     end
 
     def normalize_open_graph(meta_tags)

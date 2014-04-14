@@ -12,7 +12,7 @@ module MetaTags
     def self.normalize_keywords(keywords)
       return '' if keywords.blank?
       keywords = keywords.flatten.join(', ') if Array === keywords
-      strip_tags(keywords).mb_chars.downcase.to_s
+      strip_tags(keywords).downcase.to_s
     end
 
     def self.helpers
