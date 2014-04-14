@@ -1,6 +1,8 @@
 # MetaTags: a gem to make your Rails application SEO-friendly
 
 [![Travis-CI build status](https://secure.travis-ci.org/kpumuk/meta-tags.png)](http://travis-ci.org/kpumuk/meta-tags)
+[![Gem Version](https://badge.fury.io/rb/meta-tags.svg)](http://badge.fury.io/rb/meta-tags)
+[![Code Climate](https://codeclimate.com/github/kpumuk/meta-tags.png)](https://codeclimate.com/github/kpumuk/meta-tags)
 
 Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 
