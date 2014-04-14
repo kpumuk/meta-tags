@@ -179,6 +179,23 @@ Further reading:
 * [Meta refresh](http://en.wikipedia.org/wiki/Meta_refresh)
 * [What is the Meta Refresh Tag](http://webdesign.about.com/od/metataglibraries/a/aa080300a.htm)
 
+### Multi-regional and multilingual URLs
+
+Alternate URLs with associated languages indicate the language equivalence relationship between individual
+URLs. If you have multiple language versions of a URL, each language page in the set must use alternate tags to identify all language versions including itself.
+
+    set_meta_tags :alternate => {
+      'zh-Hant' => "http://example.com.tw/",
+      'de' => "http://example.com.de/"
+    }
+    # <link href="http://example.com.tw/" hreflang="zh-Hant" rel="alternate" />
+    # <link href="http://example.com.de/" hreflang="de" rel="alternate" />
+
+Further reading:
+
+* [Multi-regional and multilingual sites](https://support.google.com/webmasters/answer/182192)
+* [rel="alternate" hreflang="x"](https://support.google.com/webmasters/answer/189077)
+
 ### Hashes
 
 Any namespace can be built just passing any symbol name and a Hash. For example:
@@ -354,6 +371,7 @@ Use these options to customize the title format:
 * `:og` — add Open Graph tags (Hash);
 * `:twitter` — add Twitter tags (Hash);
 * `:refresh` — refresh interval and optionally url to redirect to.
+* `:alternate` — add alternate tags (Hash);
 
 And here are a few examples to give you ideas.
 

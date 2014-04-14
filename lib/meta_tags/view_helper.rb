@@ -162,6 +162,7 @@ module MetaTags
     # @option default [String] :prev (nil) add prev link tag;
     # @option default [String] :next (nil) add next link tag.
     # @option default [String, Integer] :refresh (nil) meta refresh tag;
+    # @option default [Hash] :alternate ({}) add alternate tags.
     # @option default [Hash] :open_graph ({}) add Open Graph meta tags.
     # @return [String] HTML meta tags to render in HEAD section of the
     #   HTML document.
@@ -211,6 +212,13 @@ module MetaTags
       if alternate = meta_tags.delete(:alternate)
         alternate.each do |hreflang, href|
           result << tag(:link, :rel => 'alternate', :href => href, :hreflang => hreflang) if href.present?
+        end
+      end
+
+      # alternate
+      if alternate = meta_tags.delete(:alternate)
+        alternate.each do |lang, url|
+          result << tag(:link, :rel => 'alternate', :hreflang => lang, :href => url) unless url.blank?
         end
       end
 
