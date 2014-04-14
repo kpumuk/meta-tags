@@ -1,3 +1,11 @@
+## 1.6.0 (April 14, 2014)
+
+Features:
+
+  - Added "alternate" links support
+  - Added Google "author" and "publisher" links
+  - Implemented mirrored values inside namespaces declared as hashes
+
 ## 1.5.0 (May 7, 2013)
 
 Features:
