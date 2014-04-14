@@ -149,7 +149,7 @@ module MetaTags
     # @return [HashWithIndifferentAccess] normalized meta tags list.
     #
     def normalize_open_graph(meta_tags)
-      meta_tags = (meta_tags || {}).with_indifferent_access
+      meta_tags = meta_tags.is_a?(HashWithIndifferentAccess) ? meta_tags.dup : meta_tags.with_indifferent_access
       meta_tags[:og] = meta_tags.delete(:open_graph) if meta_tags.key?(:open_graph)
       meta_tags
     end
