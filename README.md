@@ -105,6 +105,27 @@ Further reading:
 * [About rel="canonical"](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139394)
 * [Canonicalization](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139066)
 
+### Author links
+
+Link to your Google+ profile using rel="author"
+
+    set_meta_tags :author => "http://yourgplusprofile.com/profile/url"
+    # <link rel="author" href="http://yourgplusprofile.com/profile/url" />
+
+Further reading:
+
+* [About rel="author"](https://support.google.com/webmasters/answer/2539557?hl=en)
+
+### Publisher links
+
+Link to your Google+ profile using rel="publisher"
+
+    set_meta_tags :publisher => "http://yourgplusprofile.com/profile/url"
+    # <link rel="publisher" href="http://yourgplusprofile.com/profile/url" />
+
+* [Link to your website](https://support.google.com/plus/answer/1713826?hl=en)
+* [The Difference Between rel=author & rel=publisher](http://www.websitemagazine.com/content/blogs/posts/archive/2013/02/05/the-difference-between-rel-author-amp-rel-publisher.aspx)
+
 ### Alternate URLs
 
 Alternate link elements tell a search engine when there is content that's translated or targeted to
@@ -325,6 +346,8 @@ Use these options to customize the title format:
 * `:noindex` — add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:nofollow` — add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:canonical` — add canonical link tag;
+* `:author` — add author link tag;
+* `:publisher` — add publisher link tag;
 * `:prev` — add prev link tag;
 * `:prev` — add next link tag;
 * `:og` — add Open Graph tags (Hash);
