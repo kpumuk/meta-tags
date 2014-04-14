@@ -153,7 +153,7 @@ module MetaTags
     # @option default [String, Boolean] :prefix (" ") text between site name and separator; when +false+, no prefix will be rendered;
     # @option default [String] :separator ("|") text used to separate website name from page title;
     # @option default [String, Boolean] :suffix (" ") text between separator and page title; when +false+, no suffix will be rendered;
-    # @option default [Boolean] :lowercase (false) when true, the page name will be lowercase;
+    # @option default [Boolean] :lowercase (false) when true, the page title will be lowercase;
     # @option default [Boolean] :reverse (false) when true, the page and site names will be reversed;
     # @option default [Boolean, String] :noindex (false) add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
     # @option default [Boolean, String] :nofollow (false) add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
@@ -198,6 +198,6 @@ module MetaTags
       @meta_tags.full_title(default)
     end
 
-    safe_helper :display_meta_tags if respond_to? :safe_helper
+    # safe_helper :display_meta_tags if defined?(:safe_helper)
   end
 end

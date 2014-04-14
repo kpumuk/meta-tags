@@ -27,19 +27,19 @@ module MetaTags
     protected
 
     def render_title(tags)
-      title = meta_tags.build_full_title
+      title = meta_tags.extract_full_title
       normalized_meta_tags[:title] = title
       tags << ContentTag.new(:title, :content => title) if title.present?
     end
 
     def render_description(tags)
-      description = TextNormalizer.normalize_description(meta_tags.delete(:description))
+      description = TextNormalizer.normalize_description(meta_tags.extract(:description))
       normalized_meta_tags[:description] = description
       tags << Tag.new(:meta, :name => :description, :content => description) if description.present?
     end
 
     def render_keywords(tags)
-      keywords = TextNormalizer.normalize_keywords(meta_tags.delete(:keywords))
+      keywords = TextNormalizer.normalize_keywords(meta_tags.extract(:keywords))
       normalized_meta_tags[:keywords] = keywords
       tags << Tag.new(:meta, :name => :keywords, :content => keywords) if keywords.present?
     end
@@ -55,18 +55,18 @@ module MetaTags
         tags << Tag.new(:meta, :name => noindex_name,  :content => 'noindex')  if meta_tags[:noindex] && meta_tags[:noindex] != false
         tags << Tag.new(:meta, :name => nofollow_name, :content => 'nofollow') if meta_tags[:nofollow] && meta_tags[:nofollow] != false
       end
-      meta_tags.delete(:noindex)
-      meta_tags.delete(:nofollow)
+      meta_tags.extract(:noindex)
+      meta_tags.extract(:nofollow)
     end
 
     def render_refresh(tags)
-      if refresh = meta_tags.delete(:refresh)
+      if refresh = meta_tags.extract(:refresh)
         tags << Tag.new(:meta, 'http-equiv' => 'refresh', :content => refresh.to_s) if refresh.present?
       end
     end
 
     def render_alternate(tags)
-      if alternate = meta_tags.delete(:alternate)
+      if alternate = meta_tags.extract(:alternate)
         alternate.each do |hreflang, href|
           tags << Tag.new(:link, :rel => 'alternate', :href => href, :hreflang => hreflang) if href.present?
         end
@@ -75,7 +75,7 @@ module MetaTags
 
     def render_links(tags)
       [ :canonical, :prev, :next, :author, :publisher ].each do |tag_name|
-        href = meta_tags.delete(tag_name)
+        href = meta_tags.extract(tag_name)
         if href.present?
           @normalized_meta_tags[tag_name] = href
           tags << Tag.new(:link, :rel => tag_name, :href => href)
@@ -87,7 +87,7 @@ module MetaTags
       meta_tags.meta_tags.each do |property, data|
         if data.is_a?(Hash)
           tags.concat process_tree(property, data)
-          meta_tags.delete(property)
+          meta_tags.extract(property)
         end
       end
     end
@@ -97,7 +97,7 @@ module MetaTags
         Array(data).each do |val|
           tags << Tag.new(:meta, :name => name, :content => val)
         end
-        meta_tags.delete(name)
+        meta_tags.extract(name)
       end
     end
 

@@ -27,62 +27,64 @@ module MetaTags
     end
 
     def full_title(defaults = {})
-      with_defaults(defaults) { build_full_title  }
+      with_defaults(defaults) { extract_full_title  }
     end
 
-    def delete(key)
+    def extract(key)
       @meta_tags.delete(key)
     end
 
-    def build_full_title
-      separator = extract_separator
-      title = extract_title || []
+    def delete(*keys)
+      keys.each { |key| @meta_tags.delete(key) }
+    end
 
-      site_title = meta_tags[:site].presence
+    def extract_full_title
+      title = extract_title || []
+      separator = extract_separator
+
+      site_title = extract(:site).presence
       title.unshift(site_title) if site_title
       title = TextNormalizer.normalize_title(title)
 
-      title.reverse! if meta_tags.delete(:reverse) === true
+      title.reverse! if extract(:reverse) === true
       title = TextNormalizer.safe_join(title, separator)
-      meta_tags.delete(:site)
 
+      title
+    end
+
+    def extract_title
+      title = extract(:title).presence
+      return unless title
+
+      title = Array(title)
+      title.each(&:downcase!) if extract(:lowercase) === true
       title
     end
 
     def extract_separator
-      # Prefix (leading space)
-      prefix = meta_tags[:prefix] === false ? '' : (meta_tags[:prefix] || ' ')
-      meta_tags.delete(:prefix)
-
-      # Separator
-      separator = meta_tags[:separator] === false ? '' : (meta_tags[:separator] || '|')
-
-      # Suffix (trailing space)
-      suffix = meta_tags[:suffix] === false ? '' : (meta_tags[:suffix] || ' ')
-      meta_tags.delete(:suffix)
-
-      # Special case: if separator is hidden, do not display suffix/prefix
-      if meta_tags[:separator] == false
-        prefix = suffix = ''
+      if meta_tags[:separator] === false
+        # Special case: if separator is hidden, do not display suffix/prefix
+        prefix = separator = suffix = ''
+      else
+        prefix    = extract_separator_section(:prefix, ' ')
+        separator = extract_separator_section(:separator, '|')
+        suffix    = extract_separator_section(:suffix, ' ')
       end
-      meta_tags.delete(:separator)
+      delete(:separator, :prefix, :suffix)
 
       TextNormalizer.safe_join([prefix, separator, suffix], '')
     end
 
-    def extract_title
-      title = meta_tags.delete(:title).presence
-      return unless title
-
-      title = Array(title)
-      title.each(&:downcase!) if meta_tags.delete(:lowercase) === true
-      title
-    end
+    protected
 
     def normalize_open_graph(meta_tags)
       meta_tags = (meta_tags || {}).with_indifferent_access
       meta_tags[:og] = meta_tags.delete(:open_graph) if meta_tags.key?(:open_graph)
       meta_tags
+    end
+
+    def extract_separator_section(name, default)
+      meta_tags[name] === false ? '' : (meta_tags[name] || default)
     end
   end
 end
