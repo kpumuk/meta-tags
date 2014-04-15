@@ -27,7 +27,7 @@ module MetaTags
       render_alternate(tags)
       render_links(tags)
 
-      render_hash(tags, :twitter, :name_key => :name)
+      render_hash(tags, :og, :name_key => :property)
       render_hashes(tags)
       render_custom(tags)
 
@@ -204,7 +204,7 @@ module MetaTags
     # top-level meta tag.
     #
     def render_tag(tags, name, value, options = {})
-      name_key = options.fetch(:name_key, :property)
+      name_key = options.fetch(:name_key, :name)
       value_key = options.fetch(:value_key, :content)
       tags << Tag.new(:meta, name_key => name.to_s, value_key => value) unless value.blank?
     end
