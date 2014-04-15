@@ -5,38 +5,40 @@ describe MetaTags::ViewHelper do
 
   context 'returning values' do
     it 'should return title' do
-      subject.title('some-title').should eq('some-title')
+      expect(subject.title('some-title')).to eq('some-title')
     end
 
     it 'should return headline if specified' do
-      subject.title('some-title', 'some-headline').should eq('some-headline')
+      expect(subject.title('some-title', 'some-headline')).to eq('some-headline')
     end
 
     it 'should return title' do
-      subject.title('some-title').should eq('some-title')
-      subject.title.should eq('some-title')
+      expect(subject.title('some-title')).to eq('some-title')
+      expect(subject.title).to eq('some-title')
     end
 
     it 'should return description' do
-      subject.description('some-description').should eq('some-description')
+      expect(subject.description('some-description')).to eq('some-description')
     end
 
     it 'should return keywords' do
-      subject.keywords('some-keywords').should eq('some-keywords')
+      expect(subject.keywords('some-keywords')).to eq('some-keywords')
     end
 
     it 'should return noindex' do
-      subject.noindex('some-noindex').should eq('some-noindex')
+      expect(subject.noindex('some-noindex')).to eq('some-noindex')
     end
 
     it 'should return nofollow' do
-      subject.noindex('some-nofollow').should eq('some-nofollow')
+      expect(subject.noindex('some-nofollow')).to eq('some-nofollow')
     end
   end
 
   context 'while handling string meta tag names' do
     it 'should work with common parameters' do
-      subject.display_meta_tags('site' => 'someSite', 'title' => 'someTitle').should eq('<title>someSite | someTitle</title>')
+      subject.display_meta_tags('site' => 'someSite', 'title' => 'someTitle').tap do |meta|
+        expect(meta).to eq('<title>someSite | someTitle</title>')
+      end
     end
 
     it 'should work with open graph parameters' do
@@ -44,9 +46,9 @@ describe MetaTags::ViewHelper do
         'title'       => 'facebook title',
         'description' => 'facebook description'
       })
-      subject.display_meta_tags(:site => 'someSite').tap do |content|
-        content.should include('<meta content="facebook title" property="og:title" />')
-        content.should include('<meta content="facebook description" property="og:description" />')
+      subject.display_meta_tags(:site => 'someSite').tap do |meta|
+        expect(meta).to include('<meta content="facebook title" property="og:title" />')
+        expect(meta).to include('<meta content="facebook description" property="og:description" />')
       end
     end
   end

@@ -5,23 +5,33 @@ describe MetaTags::ViewHelper do
 
   context 'display any named meta tag that you want to' do
     it 'should display testing meta tag' do
-      subject.display_meta_tags(:testing => 'this is a test').should eq('<meta content="this is a test" name="testing" />')
+      subject.display_meta_tags(:testing => 'this is a test').tap do |meta|
+        expect(meta).to eq('<meta content="this is a test" name="testing" />')
+      end
     end
 
     it 'should support Array values' do
-      subject.display_meta_tags(:testing => ['test1', 'test2']).should eq("<meta content=\"test1\" name=\"testing\" />\n<meta content=\"test2\" name=\"testing\" />")
+      subject.display_meta_tags(:testing => ['test1', 'test2']).tap do |meta|
+        expect(meta).to eq("<meta content=\"test1\" name=\"testing\" />\n<meta content=\"test2\" name=\"testing\" />")
+      end
     end
 
     it 'should support Hash values' do
-      subject.display_meta_tags(:testing => { :tag => 'value' }).should eq('<meta content="value" name="testing:tag" />')
+      subject.display_meta_tags(:testing => { :tag => 'value' }).tap do |meta|
+        expect(meta).to eq('<meta content="value" name="testing:tag" />')
+      end
     end
 
     it 'should support symbolic references in Hash values' do
-      subject.display_meta_tags(:title => 'my title', :testing => { :tag => :title }).should include('<meta content="my title" name="testing:tag" />')
+      subject.display_meta_tags(:title => 'my title', :testing => { :tag => :title }).tap do |meta|
+        expect(meta).to include('<meta content="my title" name="testing:tag" />')
+      end
     end
 
     it 'should not render when value is nil' do
-      subject.display_meta_tags(:testing => nil).should eq('')
+      subject.display_meta_tags(:testing => nil).tap do |meta|
+        expect(meta).to eq('')
+      end
     end
 
     it 'should display meta tags with hashes and arrays' do
@@ -41,15 +51,15 @@ describe MetaTags::ViewHelper do
           }
         ]
       })
-      subject.display_meta_tags(:site => 'someSite').tap do |content|
-        content.should include('<meta content="lorem" name="foo:bar" />')
-        content.should include('<meta content="lorem" name="foo:baz:qux" />')
-        content.should include('<meta content="ipsum" name="foo:baz:qux" />')
-        content.should include('<meta content="lorem" name="foo:quux:corge"')
-        content.should include('<meta content="ipsum" name="foo:quux:grault"')
-        content.should include('<meta content="dolor" name="foo:quux:corge"')
-        content.should include('<meta content="sit" name="foo:quux:grault"')
-        content.should_not include('name="foo:quux"')
+      subject.display_meta_tags(:site => 'someSite').tap do |meta|
+        expect(meta).to include('<meta content="lorem" name="foo:bar" />')
+        expect(meta).to include('<meta content="lorem" name="foo:baz:qux" />')
+        expect(meta).to include('<meta content="ipsum" name="foo:baz:qux" />')
+        expect(meta).to include('<meta content="lorem" name="foo:quux:corge"')
+        expect(meta).to include('<meta content="ipsum" name="foo:quux:grault"')
+        expect(meta).to include('<meta content="dolor" name="foo:quux:corge"')
+        expect(meta).to include('<meta content="sit" name="foo:quux:grault"')
+        expect(meta).to_not include('name="foo:quux"')
       end
     end
   end

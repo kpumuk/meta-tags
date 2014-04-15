@@ -22,19 +22,19 @@ describe MetaTags::ControllerHelper do
 
   context 'module' do
     it 'should be mixed into ActionController::Base' do
-      ActionController::Base.included_modules.should include(MetaTags::ControllerHelper)
+      expect(ActionController::Base.included_modules).to include(MetaTags::ControllerHelper)
     end
 
     it 'should respond to "set_meta_tags" helper' do
-      subject.should respond_to(:set_meta_tags)
+      expect(subject).to respond_to(:set_meta_tags)
     end
   end
 
   describe '.render' do
     it 'should set meta tags from instance variables' do
       subject.index
-      subject.rendered.should be_true
-      subject.meta_tags.meta_tags.should eq('title' => 'title', 'keywords' => 'key1, key2, key3', 'description' => 'description')
+      expect(subject.rendered).to be_truthy
+      expect(subject.meta_tags.meta_tags).to eq('title' => 'title', 'keywords' => 'key1, key2, key3', 'description' => 'description')
     end
   end
 

@@ -13,19 +13,19 @@ describe MetaTags::ViewHelper, 'displaying Twitter meta tags' do
         :height => 321,
       }
     })
-    subject.display_meta_tags(:site => 'someSite').tap do |content|
-      content.should include('<meta content="Twitter Share Title" name="twitter:title" />')
-      content.should include('<meta content="photo" name="twitter:card" />')
-      content.should include('<meta content="http://example.com/1.png" name="twitter:image" />')
-      content.should include('<meta content="123" name="twitter:image:width" />')
-      content.should include('<meta content="321" name="twitter:image:height" />')
+    subject.display_meta_tags(:site => 'someSite').tap do |meta|
+      expect(meta).to include('<meta content="Twitter Share Title" name="twitter:title" />')
+      expect(meta).to include('<meta content="photo" name="twitter:card" />')
+      expect(meta).to include('<meta content="http://example.com/1.png" name="twitter:image" />')
+      expect(meta).to include('<meta content="123" name="twitter:image:width" />')
+      expect(meta).to include('<meta content="321" name="twitter:image:height" />')
     end
   end
 
   it "should display mirrored content" do
     subject.set_meta_tags(:title => 'someTitle')
-    subject.display_meta_tags(:twitter => { :title => :title }).tap do |content|
-      content.should include('<meta content="someTitle" name="twitter:title" />')
+    subject.display_meta_tags(:twitter => { :title => :title }).tap do |meta|
+      expect(meta).to include('<meta content="someTitle" name="twitter:title" />')
     end
   end
 end
