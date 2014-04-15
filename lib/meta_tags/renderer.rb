@@ -19,8 +19,8 @@ module MetaTags
       tags = []
 
       render_title(tags)
-      render_description(tags)
-      render_keywords(tags)
+      render_with_normalization(tags, :description)
+      render_with_normalization(tags, :keywords)
       render_refresh(tags)
       render_noindex(tags)
       render_alternate(tags)
@@ -45,24 +45,16 @@ module MetaTags
       tags << ContentTag.new(:title, :content => title) if title.present?
     end
 
-    # Renders description meta tag.
+    # Renders meta tag with normalization (should have a corresponding normalize_
+    # method in TextNormalizer).
     #
     # @param [Array<Tag>] tags a buffer object to store tag in.
+    # @see TextNormalizer
     #
-    def render_description(tags)
-      description = TextNormalizer.normalize_description(meta_tags.extract(:description))
-      normalized_meta_tags[:description] = description
-      tags << Tag.new(:meta, :name => :description, :content => description) if description.present?
-    end
-
-    # Renders keywords meta tag.
-    #
-    # @param [Array<Tag>] tags a buffer object to store tag in.
-    #
-    def render_keywords(tags)
-      keywords = TextNormalizer.normalize_keywords(meta_tags.extract(:keywords))
-      normalized_meta_tags[:keywords] = keywords
-      tags << Tag.new(:meta, :name => :keywords, :content => keywords) if keywords.present?
+    def render_with_normalization(tags, name)
+      value = TextNormalizer.send("normalize_#{name}", meta_tags.extract(name))
+      normalized_meta_tags[name] = value
+      tags << Tag.new(:meta, :name => name, :content => value) if value.present?
     end
 
     # Renders noindex and nofollow meta tags.
@@ -165,7 +157,7 @@ module MetaTags
       else
         :render_tag
       end
-      public_send(method, tags, property, content, options)
+      send(method, tags, property, content, options)
     end
 
     # Recursive method to process a hash with meta tags
