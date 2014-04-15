@@ -3,11 +3,26 @@ module MetaTags
   module TextNormalizer
     # Normalize title value.
     #
+    # @param [String] site_title site title.
     # @param [String, Array<String>] title title string.
+    # @param [String] separator a string to join title parts with.
+    # @param [true,false] reverse whether title should be reversed.
     # @return [Array<String>] array of title parts with tags removed.
     #
-    def self.normalize_title(title)
-      Array(title).flatten.map(&method(:strip_tags))
+    def self.normalize_title(site_title, title, separator, reverse = false)
+      title = Array(title).flatten.map(&method(:strip_tags))
+      title.reject!(&:blank?)
+      site_title = strip_tags(site_title)
+      separator = strip_tags(separator)
+
+      if MetaTags.config.title_limit
+        limit = MetaTags.config.title_limit - site_title.length - separator.length
+        title = truncate_array(title, limit, separator)
+      end
+
+      title.unshift(site_title) if site_title.present?
+      title.reverse! if reverse
+      safe_join(title, separator)
     end
 
     # Normalize description value.
@@ -18,7 +33,8 @@ module MetaTags
     #
     def self.normalize_description(description)
       return '' if description.blank?
-      helpers.truncate(cleanup_string(description), :length => 200)
+      description = cleanup_string(description)
+      truncate(description, MetaTags.config.description_limit)
     end
 
     # Normalize keywords value.
@@ -28,7 +44,11 @@ module MetaTags
     #
     def self.normalize_keywords(keywords)
       return '' if keywords.blank?
-      cleanup_strings(keywords).join(', ').downcase
+      keywords = cleanup_strings(keywords).each(&:downcase!)
+      separator = strip_tags MetaTags.config.keywords_separator
+
+      keywords = truncate_array(keywords, MetaTags.config.keywords_limit, separator)
+      safe_join(keywords, separator)
     end
 
     # Easy way to get access to Rails helpers.
@@ -45,7 +65,7 @@ module MetaTags
     # @return [String] string with no HTML tags.
     #
     def self.strip_tags(string)
-      helpers.strip_tags(string)
+      ERB::Util.html_escape helpers.strip_tags(string)
     end
 
     # This method returns a html safe string similar to what <tt>Array#join</tt>
@@ -76,8 +96,47 @@ module MetaTags
     # @param [Array<String>] strings input strings.
     # @return [Array<String>] clean strings.
     # @see cleanup_string
+    #
     def self.cleanup_strings(strings)
       Array(strings).flatten.map(&method(:cleanup_string))
+    end
+
+    # Truncates a string to a specific limit.
+    #
+    # @param [String] string input strings.
+    # @param [Integer,nil] limit characters number to truncate to.
+    # @param [String] natural_separator natural separator to truncate at.
+    # @return [String] truncated string.
+    #
+    def self.truncate(string, limit = nil, natural_separator = ' ')
+      string = helpers.truncate(string, :length => limit, :separator => natural_separator, :omission => '') if limit
+      string
+    end
+
+    # Truncates a string to a specific limit.
+    #
+    # @param [Array<String>] string_array input strings.
+    # @param [Integer,nil] limit characters number to truncate to.
+    # @param [String] separator separator that will be used to join array later.
+    # @param [String] natural_separator natural separator to truncate at.
+    # @return [String] truncated string.
+    #
+    def self.truncate_array(string_array, limit = nil, separator = '', natural_separator = ' ')
+      return string_array if limit.nil? || limit == 0
+      length = 0
+      result = []
+      string_array.each do |string|
+        limit_left = limit - length - separator.length
+        if string.length > limit_left
+          result << truncate(string, limit_left, natural_separator)
+          break
+        end
+        length += (result.any? ? separator.length : 0) + string.length
+        result << string
+        # No more strings will fit
+        break if length + separator.length >= limit
+      end
+      result
     end
   end
 end

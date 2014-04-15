@@ -199,8 +199,8 @@ module MetaTags
     # Recursive method to process a hash with meta tags
     #
     # @param [Array<Tag>] tags a buffer object to store tag in.
-    # @param [String, Symbol] property a Hash or a String to render as meta tag.
-    # @param [String, Symbol] content text content or a symbol reference to
+    # @param [String, Symbol] name a Hash or a String to render as meta tag.
+    # @param [String, Symbol] value text content or a symbol reference to
     # top-level meta tag.
     #
     def render_tag(tags, name, value, options = {})

@@ -82,17 +82,12 @@ module MetaTags
     # @return [String] page title.
     #
     def extract_full_title
-      title = extract_title || []
-      separator = extract_separator
+      site_title = extract(:site) || ''
+      title      = extract_title || []
+      separator  = extract_separator
+      reverse    = extract(:reverse) === true
 
-      site_title = extract(:site).presence
-      title.unshift(site_title) if site_title
-      title = TextNormalizer.normalize_title(title)
-
-      title.reverse! if extract(:reverse) === true
-      title = TextNormalizer.safe_join(title, separator)
-
-      title
+      TextNormalizer.normalize_title(site_title, title, separator, reverse)
     end
 
     # Extracts page title as an array of segments without site title and separators.
