@@ -1,4 +1,4 @@
-if ENV['CODECLIMATE_REPO_TOKEN']
+if ENV['CODECLIMATE_REPO_TOKEN'] && RUBY_VERSION > '1.8.7'
   require "codeclimate-test-reporter"
   CodeClimate::TestReporter.start
 end
