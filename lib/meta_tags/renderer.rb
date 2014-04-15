@@ -18,6 +18,7 @@ module MetaTags
     def render(view)
       tags = []
 
+      render_charset(tags)
       render_title(tags)
       render_with_normalization(tags, :description)
       render_with_normalization(tags, :keywords)
@@ -34,6 +35,17 @@ module MetaTags
     end
 
     protected
+
+
+    # Renders charset tag.
+    #
+    # @param [Array<Tag>] tags a buffer object to store tag in.
+    #
+    def render_charset(tags)
+      if charset = meta_tags.extract(:charset)
+        tags << Tag.new(:meta, :charset => charset) if charset.present?
+      end
+    end
 
     # Renders title tag.
     #

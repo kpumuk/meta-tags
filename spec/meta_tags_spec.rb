@@ -72,6 +72,17 @@ describe MetaTags::ViewHelper do
     end
   end
 
+  context 'displaying charset' do
+    it 'should not display charset if blank' do
+      subject.display_meta_tags.should eq('')
+      subject.display_meta_tags(:charset => '').should eq('')
+    end
+
+    it 'should display charset' do
+      subject.display_meta_tags(:charset => 'UTF-8').should eq('<meta charset="UTF-8" />')
+    end
+  end
+
   context 'displaying title' do
     it 'should not display title if blank' do
       subject.display_meta_tags.should eq('')

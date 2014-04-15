@@ -1,3 +1,9 @@
+## 2.1.0 (Development)
+
+Features:
+
+  - Added charset meta tag.
+
 ## 2.0.0 (April 15, 2014)
 
 Features:

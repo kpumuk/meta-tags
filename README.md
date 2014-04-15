@@ -356,6 +356,7 @@ Use these options to customize the title format:
 * `:title` — page title;
 * `:description` — page description;
 * `:keywords` — page keywords;
+* `:charset` — page character set;
 * `:prefix` — text between site name and separator;
 * `:separator` — text used to separate website name from page title;
 * `:suffix` — text between separator and page title;
