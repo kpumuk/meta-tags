@@ -1,4 +1,10 @@
 require 'bundler/setup'
+
+if ENV['CODECLIMATE_REPO_TOKEN']
+  require "codeclimate-test-reporter"
+  CodeClimate::TestReporter.start
+end
+
 require 'meta_tags'
 
 shared_examples_for '.set_meta_tags' do

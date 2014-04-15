@@ -6,3 +6,5 @@ gemspec
 if ENV['RAILS_VERSION']
   gem 'actionpack', "~> #{ENV['RAILS_VERSION']}"
 end
+
+gem "codeclimate-test-reporter", group: :test, require: nil

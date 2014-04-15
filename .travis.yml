@@ -25,3 +25,7 @@ matrix:
 notifications:
   recipients:
     - kpumuk@kpumuk.info
+
+addons:
+  code_climate:
+    repo_token: "8792cbc0d1780830ddd3dd7eb1c25f09f386ba8f04449ad830039469406a6ab3"
