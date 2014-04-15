@@ -118,7 +118,7 @@ module MetaTags
     def render_hashes(tags, options = {})
       meta_tags.meta_tags.each do |property, data|
         if data.is_a?(Hash)
-          process_tree(tags, property, data)
+          process_hash(tags, property, data, options)
           meta_tags.extract(property)
         end
       end
@@ -131,7 +131,7 @@ module MetaTags
     def render_hash(tags, key, options = {})
       data = meta_tags.meta_tags[key]
       if data.is_a?(Hash)
-        process_tree(tags, key, data, options)
+        process_hash(tags, key, data, options)
         meta_tags.extract(key)
       end
     end
@@ -152,25 +152,57 @@ module MetaTags
     # Recursive method to process all the hashes and arrays on meta tags
     #
     # @param [Array<Tag>] tags a buffer object to store tag in.
-    # @param [Hash, String] property a Hash or a String to render as meta tag.
-    # @param [String, Symbol] content text content or a symbol reference to
+    # @param [String, Symbol] property a Hash or a String to render as meta tag.
+    # @param [Hash, Array, String, Symbol] content text content or a symbol reference to
     # top-level meta tag.
     #
     def process_tree(tags, property, content, options = {})
-      content = [content] if content.is_a?(Hash)
-      Array(content).each do |c|
-        if c.is_a?(Hash)
-          c.each do |key, value|
-            key = key.to_s == '_' ? property : "#{property}:#{key}"
-            value = normalized_meta_tags[value] if value.is_a?(Symbol)
-            process_tree(tags, key, value, options)
-          end
-        else
-          name_key = options.fetch(:name_key, :property)
-          value_key = options.fetch(:value_key, :content)
-          tags << Tag.new(:meta, name_key => property.to_s, value_key => c) unless c.blank?
-        end
+      method = case content
+      when Hash
+        :process_hash
+      when Array
+        :process_array
+      else
+        :render_tag
       end
+      public_send(method, tags, property, content, options)
+    end
+
+    # Recursive method to process a hash with meta tags
+    #
+    # @param [Array<Tag>] tags a buffer object to store tag in.
+    # @param [String, Symbol] property a Hash or a String to render as meta tag.
+    # @param [Hash] content nested meta tag attributes.
+    #
+    def process_hash(tags, property, content, options = {})
+      content.each do |key, value|
+        key = key.to_s == '_' ? property : "#{property}:#{key}"
+        value = normalized_meta_tags[value] if value.is_a?(Symbol)
+        process_tree(tags, key, value, options)
+      end
+    end
+
+    # Recursive method to process a hash with meta tags
+    #
+    # @param [Array<Tag>] tags a buffer object to store tag in.
+    # @param [String, Symbol] property a Hash or a String to render as meta tag.
+    # @param [Array] content array of nested meta tag attributes or values.
+    #
+    def process_array(tags, property, content, options = {})
+      content.each { |v| process_tree(tags, property, v, options) }
+    end
+
+    # Recursive method to process a hash with meta tags
+    #
+    # @param [Array<Tag>] tags a buffer object to store tag in.
+    # @param [String, Symbol] property a Hash or a String to render as meta tag.
+    # @param [String, Symbol] content text content or a symbol reference to
+    # top-level meta tag.
+    #
+    def render_tag(tags, name, value, options = {})
+      name_key = options.fetch(:name_key, :property)
+      value_key = options.fetch(:value_key, :content)
+      tags << Tag.new(:meta, name_key => name.to_s, value_key => value) unless value.blank?
     end
   end
 end
