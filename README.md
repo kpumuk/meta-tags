@@ -262,6 +262,33 @@ and in the future. Here's an example for a movie page:
     # <meta property="og:video:writer" content="http://www.imdb.com/name/nm0918711/"/>
     # <meta property="og:video:writer" content="http://www.imdb.com/name/nm0177018/"/>
 
+Multiple images declared as an **array** (look at the `_` character):
+
+    set_meta_tags og: {
+      title:    'Two structured image properties',
+      type:     'website',
+      url:      'view-source:http://examples.opengraphprotocol.us/image-array.html',
+      image:    [{
+        _: 'http://examples.opengraphprotocol.us/media/images/75.png',
+        width: 75,
+        height: 75,
+      },
+      {
+        _: 'http://examples.opengraphprotocol.us/media/images/50.png',
+        width: 50,
+        height: 50,
+      }]
+    }
+    # <meta property="og:title" content="Two structured image properties">
+    # <meta property="og:type" content="website">
+    # <meta property="og:url" content="http://examples.opengraphprotocol.us/image-array.html">
+    # <meta property="og:image" content="http://examples.opengraphprotocol.us/media/images/75.png">
+    # <meta property="og:image:width" content="75">
+    # <meta property="og:image:height" content="75">
+    # <meta property="og:image" content="http://examples.opengraphprotocol.us/media/images/50.png">
+    # <meta property="og:image:width" content="50">
+    # <meta property="og:image:height" content="50">
+
 Further reading:
 
 * [Open Graph protocol](http://developers.facebook.com/docs/opengraph/)
