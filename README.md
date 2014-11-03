@@ -198,6 +198,22 @@ Further reading:
 * [Meta refresh](http://en.wikipedia.org/wiki/Meta_refresh)
 * [What is the Meta Refresh Tag](http://webdesign.about.com/od/metataglibraries/a/aa080300a.htm)
 
+
+### Open Search
+
+Open Search link element to describe a search engine in a standard and accessible format.
+
+    set_meta_tags open_search: {
+      title: "Open Search",
+      href:  "/opensearch.xml"
+    }
+    # <link href="/opensearch.xml" rel="search" title="Open Search" type="application/opensearchdescription+xml" />
+
+Further reading:
+
+* [OpenSearch specs] http://www.opensearch.org/Specifications/OpenSearch/1.1
+* [OpenSearch wiki] http://en.wikipedia.org/wiki/OpenSearch
+
 ### Hashes
 
 Any namespace can be built just passing any symbol name and a Hash. For example:

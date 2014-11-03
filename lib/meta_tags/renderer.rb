@@ -25,6 +25,7 @@ module MetaTags
       render_refresh(tags)
       render_noindex(tags)
       render_alternate(tags)
+      render_open_search(tags)
       render_links(tags)
 
       render_hash(tags, :og, name_key: :property)
@@ -97,6 +98,21 @@ module MetaTags
       if alternate = meta_tags.extract(:alternate)
         alternate.each do |hreflang, href|
           tags << Tag.new(:link, rel: 'alternate', href: href, hreflang: hreflang) if href.present?
+        end
+      end
+    end
+
+    # Renders open_search link tag.
+    #
+    # @param [Array<Tag>] tags a buffer object to store tag in.
+    #
+    def render_open_search(tags)
+      if open_search = meta_tags.extract(:open_search)
+        href = open_search[:href]
+        title = open_search[:title]
+        if href.present?
+          type = "application/opensearchdescription+xml"
+          tags << Tag.new(:link, rel: 'search', type: type, href: href, title: title)
         end
       end
     end
