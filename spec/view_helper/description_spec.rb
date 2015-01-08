@@ -47,9 +47,21 @@ describe MetaTags::ViewHelper, 'displaying description' do
     end
   end
 
-  it 'should truncate correctly' do
+  it 'should truncate at 200 chars, by default' do
     subject.display_meta_tags(:site => 'someSite', :description => "Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.").tap do |meta|
       expect(meta).to include('<meta content="Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dol..." name="description" />')
     end
   end
+
+  it 'should allow the default truncation length to be overridden' do
+    begin
+      MetaTags.truncate_description_at_length = 5
+      subject.display_meta_tags(:site => 'someSite', :description => "012345679").tap do |meta|
+        expect(meta).to include('<meta content="01..." name="description" />')
+      end
+    ensure
+      MetaTags.truncate_description_at_length = nil
+    end
+  end
+
 end

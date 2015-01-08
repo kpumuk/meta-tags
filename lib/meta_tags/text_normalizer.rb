@@ -18,7 +18,8 @@ module MetaTags
     #
     def self.normalize_description(description)
       return '' if description.blank?
-      helpers.truncate(cleanup_string(description), :length => 200)
+      helpers.truncate(cleanup_string(description),
+                       :length => MetaTags.truncate_description_at_length)
     end
 
     # Normalize keywords value.
