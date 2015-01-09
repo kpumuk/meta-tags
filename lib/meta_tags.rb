@@ -3,6 +3,13 @@ require 'action_view'
 
 # MetaTags gem namespace.
 module MetaTags
+  def self.truncate_description_at_length=(truncate_at)
+    @truncate_description_at_length = truncate_at
+  end
+
+  def self.truncate_description_at_length
+    @truncate_description_at_length ||= 200
+  end
 end
 
 require 'meta_tags/version'
