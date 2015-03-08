@@ -47,6 +47,12 @@ describe MetaTags::ViewHelper, 'displaying description' do
     end
   end
 
+  it 'should change double quote to single quote' do
+    subject.display_meta_tags(:site => 'someSite', :description => 'some "description"').tap do |meta|
+      expect(meta).to include('<meta content="some &#39;description&#39;" name="description" />')
+    end
+  end
+
   it 'should truncate correctly' do
     subject.display_meta_tags(:site => 'someSite', :description => "Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.").tap do |meta|
       expect(meta).to include('<meta content="Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dol..." name="description" />')
