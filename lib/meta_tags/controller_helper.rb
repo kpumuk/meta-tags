@@ -35,9 +35,9 @@ module MetaTags
     def meta_tags_from_locales
       name_space = "meta_tags.#{controller_name}.#{action_name}"
 
-      self.meta_tags[:title]       = I18n.t("#{name_space}.title") unless I18n.t("#{name_space}.title", default: '').blank?
-      self.meta_tags[:keywords]    = I18n.t("#{name_space}.keywords") unless I18n.t("#{name_space}.keywords", default: '').blank?
-      self.meta_tags[:description] = I18n.t("#{name_space}.description") unless I18n.t("#{name_space}.description", default: '').blank?
+      self.meta_tags[:title]       = I18n.t("#{name_space}.title") unless I18n.t("#{name_space}.title", default: "").blank?
+      self.meta_tags[:keywords]    = I18n.t("#{name_space}.keywords") unless I18n.t("#{name_space}.keywords", default: "").blank?
+      self.meta_tags[:description] = I18n.t("#{name_space}.description") unless I18n.t("#{name_space}.description", default: "").blank?
     end
     protected :meta_tags_from_locales
 
