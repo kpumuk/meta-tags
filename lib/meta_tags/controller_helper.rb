@@ -14,7 +14,7 @@ module MetaTags
 
     included do
       alias_method_chain :render, :meta_tags
-      before_filter: :meta_tags_from_locales
+      before_filter :meta_tags_from_locales
     end
 
     # Processes the <tt>@page_title</tt>, <tt>@page_keywords</tt>, and
