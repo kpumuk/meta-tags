@@ -326,6 +326,7 @@ You can find allowed options for `set_meta_tags` method below.
 ### Using MetaTags in locales with I18n
 
 You can define title, description and keywords of any view in your locales file.
+
     en:
       meta_tags:
         visitors:
