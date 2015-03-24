@@ -7,7 +7,7 @@ module MetaTags
     # @return [Array<String>] array of title parts with tags removed.
     #
     def self.normalize_title(title)
-      Array(title).flatten.map(&method(:strip_tags))
+      Array(title).flatten.map(&method(:sanitize))
     end
 
     # Normalize description value.
@@ -46,6 +46,13 @@ module MetaTags
     #
     def self.strip_tags(string)
       helpers.strip_tags(string)
+    end
+
+    #
+    # strip_tags does encode special characters, sanitize not
+    #
+    def self.sanitize(string)
+      helpers.sanitize(string)
     end
 
     # This method returns a html safe string similar to what <tt>Array#join</tt>
