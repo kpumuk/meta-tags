@@ -202,7 +202,7 @@ Any namespace can be built just passing any symbol name and a Hash. For example:
 Repeated meta tags can be built just using an Array inside a Hash. For example:
 
     set_meta_tags :og => {
-        :image = ["http://example.com/rock.jpg", "http://example.com/rock2.jpg"]
+        :image => ["http://example.com/rock.jpg", "http://example.com/rock2.jpg"]
     }
     #<meta property="og:image" content="http://example.com/rock.jpg" />
     #<meta property="og:image" content="http://example.com/rock2.jpg" />
