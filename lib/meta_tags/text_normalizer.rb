@@ -94,7 +94,7 @@ module MetaTags
     # space characters squashed into a single space.
     #
     def self.cleanup_string(string)
-      strip_tags(string).gsub(/\s+/, ' ').strip
+      strip_tags(string).gsub(/\s+/, ' ').strip.html_safe
     end
 
     # Cleans multiple strings up.

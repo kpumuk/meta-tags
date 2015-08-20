@@ -64,7 +64,7 @@ module MetaTags
     # @see TextNormalizer
     #
     def render_with_normalization(tags, name)
-      value = TextNormalizer.send("normalize_#{name}", meta_tags.extract(name))
+      value = TextNormalizer.public_send("normalize_#{name}", meta_tags.extract(name))
       normalized_meta_tags[name] = value
       tags << Tag.new(:meta, :name => name, :content => value) if value.present?
     end
