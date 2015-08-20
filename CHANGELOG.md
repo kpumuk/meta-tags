@@ -1,8 +1,20 @@
 ## 2.1.0 (Development)
 
+Changes:
+
+  - Ruby < 2.0 is not longer supported
+
 Features:
 
-  - Added charset meta tag.
+  - Added charset meta tag
+  - Added ability to configure limits for title, description, keywords
+  - Added OpenSearch links support
+  - Added icon links support
+  - Alternate links can now be generated for RSS or mobile versions
+
+Bugfixes
+  - Generate `<meta name=""/>` instead of `<meta property=""/>` for custom meta tags
+  - Double HTML escaping in meta tags
 
 ## 2.0.0 (April 15, 2014)
 
