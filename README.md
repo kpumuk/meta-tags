@@ -22,6 +22,20 @@ Add the "meta-tags" gem to your `Gemfile`.
 
 And run `bundle install` command.
 
+## Configuration
+
+MetaTags follows best-practices for meta tags. Although default limits for
+truncation have recommended values, you can change them to reflect your own
+preferences. In order to do that, you can create an initializer
+`config/initializers/meta_tags.rb`, with following code:
+
+    MetaTags.configure do |c|
+      c.title_limit        = 70
+      c.description_limit  = 160
+      c.keywords_limit     = 255
+      c.keywords_separator = ', '
+    end
+
 ## SEO Basics and MetaTags
 
 ### Titles
