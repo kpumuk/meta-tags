@@ -12,6 +12,8 @@ Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 MetaTags master branch now fully supports Rails 3.0+ and is not backward
 compatible. Latest version fully compatible with 2.x is 1.2.3.
 
+Ruby versions older than 2.0.0 are no longer officially supported.
+
 ## Installation
 
 Add the "meta-tags" gem to your `Gemfile`.
