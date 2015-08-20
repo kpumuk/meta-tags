@@ -15,7 +15,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'actionpack', '>= 3.0.0'
 
   s.add_development_dependency 'rake'
-  s.add_development_dependency 'rspec', '~> 3.0.0.beta2'
+  s.add_development_dependency 'rspec', '~> 3.3.0'
+  s.add_development_dependency 'rspec-html-matchers'
   s.add_development_dependency 'yard'
   s.add_development_dependency 'bluecloth'
 

@@ -6,25 +6,26 @@ describe MetaTags::ViewHelper do
   context 'display any named meta tag that you want to' do
     it 'should display testing meta tag' do
       subject.display_meta_tags(:testing => 'this is a test').tap do |meta|
-        expect(meta).to eq('<meta content="this is a test" name="testing" />')
+        expect(meta).to have_tag('meta', :with => { :content => "this is a test", :name => "testing" })
       end
     end
 
     it 'should support Array values' do
       subject.display_meta_tags(:testing => ['test1', 'test2']).tap do |meta|
-        expect(meta).to eq("<meta content=\"test1\" name=\"testing\" />\n<meta content=\"test2\" name=\"testing\" />")
+        expect(meta).to have_tag('meta', :with => { :content => "test1", :name => "testing" })
+        expect(meta).to have_tag('meta', :with => { :content => "test2", :name => "testing" })
       end
     end
 
     it 'should support Hash values' do
       subject.display_meta_tags(:testing => { :tag => 'value' }).tap do |meta|
-        expect(meta).to eq('<meta content="value" name="testing:tag" />')
+        expect(meta).to have_tag('meta', :with => { :content => "value", :name => "testing:tag" })
       end
     end
 
     it 'should support symbolic references in Hash values' do
       subject.display_meta_tags(:title => 'my title', :testing => { :tag => :title }).tap do |meta|
-        expect(meta).to include('<meta content="my title" name="testing:tag" />')
+        expect(meta).to have_tag('meta', :with => { :content => "my title", :name => "testing:tag" })
       end
     end
 
@@ -52,14 +53,14 @@ describe MetaTags::ViewHelper do
         ]
       })
       subject.display_meta_tags(:site => 'someSite').tap do |meta|
-        expect(meta).to include('<meta content="lorem" name="foo:bar" />')
-        expect(meta).to include('<meta content="lorem" name="foo:baz:qux" />')
-        expect(meta).to include('<meta content="ipsum" name="foo:baz:qux" />')
-        expect(meta).to include('<meta content="lorem" name="foo:quux:corge"')
-        expect(meta).to include('<meta content="ipsum" name="foo:quux:grault"')
-        expect(meta).to include('<meta content="dolor" name="foo:quux:corge"')
-        expect(meta).to include('<meta content="sit" name="foo:quux:grault"')
-        expect(meta).to_not include('name="foo:quux"')
+        expect(meta).to have_tag('meta', :with => { :content => "lorem", :name => "foo:bar" })
+        expect(meta).to have_tag('meta', :with => { :content => "lorem", :name => "foo:baz:qux" })
+        expect(meta).to have_tag('meta', :with => { :content => "ipsum", :name => "foo:baz:qux" })
+        expect(meta).to have_tag('meta', :with => { :content => "lorem", :name => "foo:quux:corge" })
+        expect(meta).to have_tag('meta', :with => { :content => "ipsum", :name => "foo:quux:grault" })
+        expect(meta).to have_tag('meta', :with => { :content => "dolor", :name => "foo:quux:corge" })
+        expect(meta).to have_tag('meta', :with => { :content => "sit", :name => "foo:quux:grault" })
+        expect(meta).to_not have_tag('meta', :with => { :name => "foo:quux" })
       end
     end
   end

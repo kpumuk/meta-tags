@@ -7,4 +7,7 @@ if ENV['RAILS_VERSION']
   gem 'actionpack', "~> #{ENV['RAILS_VERSION']}"
 end
 
-gem 'codeclimate-test-reporter', :group => :test, :require => false
+group :test do
+  gem 'codeclimate-test-reporter', :require => false
+  gem 'rspec-html-matchers'
+end

@@ -4,6 +4,7 @@ if ENV['CODECLIMATE_REPO_TOKEN'] && RUBY_VERSION > '1.8.7'
 end
 
 require 'meta_tags'
+require 'rspec-html-matchers'
 
 RSpec.configure do |config|
   if config.files_to_run.one?
@@ -29,6 +30,8 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
+
+  config.include RSpecHtmlMatchers
 
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

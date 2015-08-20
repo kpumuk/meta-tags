@@ -47,8 +47,8 @@ describe MetaTags::ViewHelper do
         'description' => 'facebook description'
       })
       subject.display_meta_tags(:site => 'someSite').tap do |meta|
-        expect(meta).to include('<meta content="facebook title" property="og:title" />')
-        expect(meta).to include('<meta content="facebook description" property="og:description" />')
+        expect(meta).to have_tag('meta', :with => { :content => "facebook title", :property => "og:title" })
+        expect(meta).to have_tag('meta', :with => { :content => "facebook description", :property => "og:description" })
       end
     end
   end
