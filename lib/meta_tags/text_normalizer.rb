@@ -16,8 +16,14 @@ module MetaTags
       separator = strip_tags(separator)
 
       if MetaTags.config.title_limit
-        limit = MetaTags.config.title_limit - site_title.length - separator.length
-        title = truncate_array(title, limit, separator)
+        limit = MetaTags.config.title_limit - separator.length
+        if limit > site_title.length
+          title = truncate_array(title, limit - site_title.length, separator)
+        else
+          site_title = truncate(site_title, limit)
+          # Site title is too long, we have to skip page title
+          title = []
+        end
       end
 
       title.unshift(site_title) if site_title.present?
@@ -126,7 +132,7 @@ module MetaTags
       length = 0
       result = []
       string_array.each do |string|
-        limit_left = limit - length - separator.length
+        limit_left = limit - length - (result.any? ? separator.length : 0)
         if string.length > limit_left
           result << truncate(string, limit_left, natural_separator)
           break
