@@ -70,7 +70,7 @@ module MetaTags
         else
           icon = [icon] if Hash === icon
           icon.each do |icon_params|
-            icon_params = icon_params.reverse_merge(rel: 'icon', type: 'image/x-icon')
+            icon_params = { rel: 'icon', type: 'image/x-icon' }.with_indifferent_access.merge(icon_params)
             tags << Tag.new(:link, icon_params)
           end
         end
@@ -121,7 +121,7 @@ module MetaTags
           end
         elsif Array === alternate
           alternate.each do |link_params|
-            tags << Tag.new(:link, link_params.reverse_merge(rel: 'alternate'))
+            tags << Tag.new(:link, { rel: 'alternate' }.with_indifferent_access.merge(link_params))
           end
         end
       end
