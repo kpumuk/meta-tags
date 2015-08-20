@@ -115,8 +115,14 @@ module MetaTags
     #
     def render_alternate(tags)
       if alternate = meta_tags.extract(:alternate)
-        alternate.each do |hreflang, href|
-          tags << Tag.new(:link, rel: 'alternate', href: href, hreflang: hreflang) if href.present?
+        if Hash === alternate
+          alternate.each do |hreflang, href|
+            tags << Tag.new(:link, rel: 'alternate', href: href, hreflang: hreflang) if href.present?
+          end
+        elsif Array === alternate
+          alternate.each do |link_params|
+            tags << Tag.new(:link, link_params.reverse_merge(rel: 'alternate'))
+          end
         end
       end
     end

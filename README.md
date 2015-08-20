@@ -167,23 +167,32 @@ Link to your Google+ profile using rel="publisher"
 * [Link to your website](https://support.google.com/plus/answer/1713826?hl=en)
 * [The Difference Between rel=author & rel=publisher](http://www.websitemagazine.com/content/blogs/posts/archive/2013/02/05/the-difference-between-rel-author-amp-rel-publisher.aspx)
 
-### Multi-regional and multilingual URLs
+### Multi-regional and multilingual URLs, RSS and mobile links
 
-Alternate link elements tell a search engine when there is content that's translated or targeted to
-users in a certain region.
+Alternate link elements tell a search engine when there is content that's
+translated or targeted to users in a certain region.
 
     set_meta_tags alternate: { "fr" => "http://yoursite.fr/alternate/url" }
     # <link rel="alternate" href="http://yoursite.fr/alternate/url" hreflang="fr" />
 
     set_meta_tags alternate: { "fr" => "http://yoursite.fr/alternate/url",
-                                  "de" => "http://yoursite.de/alternate/url" }
+                               "de" => "http://yoursite.de/alternate/url" }
     # <link rel="alternate" href="http://yoursite.fr/alternate/url" hreflang="en" />
     # <link rel="alternate" href="http://yoursite.de/alternate/url" hreflang="de" />
+
+If you need more than just multi-lingual links, you can use an alternative syntax:
+
+    set_meta_tags alternate: [
+        { href: 'http://example.fr/base/url', hreflang: 'fr' },
+        { href: 'http://example.com/feed.rss', type: 'application/rss+xml', title: 'RSS' },
+        { href: 'http://m.example.com/page-1', media: 'only screen and (max-width: 640px)'},
+      ]
 
 Further reading:
 
 * [Multi-regional and multilingual sites](https://support.google.com/webmasters/answer/182192)
 * [About rel="alternate" hreflang="x"](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=189077)
+* [Separate URLs](https://developers.google.com/webmasters/mobile-sites/mobile-seo/configurations/separate-urls#annotation-in-the-html)
 
 ### Pagination links
 
