@@ -242,8 +242,8 @@ Open Search link element to describe a search engine in a standard and accessibl
 
 Further reading:
 
-* [OpenSearch specs] http://www.opensearch.org/Specifications/OpenSearch/1.1
-* [OpenSearch wiki] http://en.wikipedia.org/wiki/OpenSearch
+* [OpenSearch specs](http://www.opensearch.org/Specifications/OpenSearch/1.1)
+* [OpenSearch wiki](http://en.wikipedia.org/wiki/OpenSearch)
 
 ### Hashes
 
