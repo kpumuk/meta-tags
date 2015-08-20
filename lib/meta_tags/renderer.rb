@@ -27,7 +27,7 @@ module MetaTags
       render_alternate(tags)
       render_links(tags)
 
-      render_hash(tags, :og, :name_key => :property)
+      render_hash(tags, :og, name_key: :property)
       render_hashes(tags)
       render_custom(tags)
 
@@ -43,7 +43,7 @@ module MetaTags
     #
     def render_charset(tags)
       if charset = meta_tags.extract(:charset)
-        tags << Tag.new(:meta, :charset => charset) if charset.present?
+        tags << Tag.new(:meta, charset: charset) if charset.present?
       end
     end
 
@@ -54,7 +54,7 @@ module MetaTags
     def render_title(tags)
       title = meta_tags.extract_full_title
       normalized_meta_tags[:title] = title
-      tags << ContentTag.new(:title, :content => title) if title.present?
+      tags << ContentTag.new(:title, content: title) if title.present?
     end
 
     # Renders meta tag with normalization (should have a corresponding normalize_
@@ -66,7 +66,7 @@ module MetaTags
     def render_with_normalization(tags, name)
       value = TextNormalizer.public_send("normalize_#{name}", meta_tags.extract(name))
       normalized_meta_tags[name] = value
-      tags << Tag.new(:meta, :name => name, :content => value) if value.present?
+      tags << Tag.new(:meta, name: name, content: value) if value.present?
     end
 
     # Renders noindex and nofollow meta tags.
@@ -75,7 +75,7 @@ module MetaTags
     #
     def render_noindex(tags)
       meta_tags.extract_noindex.each do |name, content|
-        tags << Tag.new(:meta, :name => name, :content => content) if content.present?
+        tags << Tag.new(:meta, name: name, content: content) if content.present?
       end
     end
 
@@ -85,7 +85,7 @@ module MetaTags
     #
     def render_refresh(tags)
       if refresh = meta_tags.extract(:refresh)
-        tags << Tag.new(:meta, 'http-equiv' => 'refresh', :content => refresh.to_s) if refresh.present?
+        tags << Tag.new(:meta, 'http-equiv' => 'refresh', content: refresh.to_s) if refresh.present?
       end
     end
 
@@ -96,7 +96,7 @@ module MetaTags
     def render_alternate(tags)
       if alternate = meta_tags.extract(:alternate)
         alternate.each do |hreflang, href|
-          tags << Tag.new(:link, :rel => 'alternate', :href => href, :hreflang => hreflang) if href.present?
+          tags << Tag.new(:link, rel: 'alternate', href: href, hreflang: hreflang) if href.present?
         end
       end
     end
@@ -110,7 +110,7 @@ module MetaTags
         href = meta_tags.extract(tag_name)
         if href.present?
           @normalized_meta_tags[tag_name] = href
-          tags << Tag.new(:link, :rel => tag_name, :href => href)
+          tags << Tag.new(:link, rel: tag_name, href: href)
         end
       end
     end
@@ -147,7 +147,7 @@ module MetaTags
     def render_custom(tags)
       meta_tags.meta_tags.each do |name, data|
         Array(data).each do |val|
-          tags << Tag.new(:meta, :name => name, :content => val)
+          tags << Tag.new(:meta, name: name, content: val)
         end
         meta_tags.extract(name)
       end

@@ -30,11 +30,11 @@ Page titles are very important for Search engines. The titles in the
 browser are displayed in the title bar. The search engines would look at
 the this title bar to determine what the page is all about.
 
-    set_meta_tags :title => 'Member Login'
+    set_meta_tags title: 'Member Login'
     # <title>Some Page Title</title>
-    set_meta_tags :site => 'Site Title', :title => 'Member Login'
+    set_meta_tags site: 'Site Title', title: 'Member Login'
     # <title>Site Title | Page Title</title>
-    set_meta_tags :site => 'Site Title', :title => 'Member Login', :reverse => true
+    set_meta_tags site: 'Site Title', title: 'Member Login', reverse: true
     # <title>Page Title | Site Title</title>
 
 Recommended title tag length: up to <b>70 characters</b>, <b>10 words</b>.
@@ -46,7 +46,7 @@ browsers as that of titles. But these descriptions may be displayed by
 some search engines. They are used to describe the contents of a page in
 2 or 3 sentences.
 
-    set_meta_tags :description => "All text about keywords, other keywords"
+    set_meta_tags description: "All text about keywords, other keywords"
     # <meta name="description" content="All text about keywords, other keywords" />
 
 Recommended description tag length: up to <b>160 characters</b>.
@@ -57,7 +57,7 @@ Meta keywords tag are used to place your keywords that you think a
 surfer would search in Search engines. Repeating keywords unnecessarily
 would be considered spam and you may get permanently banned from SERP's
 
-    set_meta_tags :keywords => %w[keyword1 Keyword2 KeyWord3]
+    set_meta_tags keywords: %w[keyword1 Keyword2 KeyWord3]
     # <meta name="keywords" content="keyword1, keyword2, keyword3" />
 
 Recommended keywords tag length: up to <b>255 characters</b>, <b>20 words</b>.
@@ -67,9 +67,9 @@ Recommended keywords tag length: up to <b>255 characters</b>, <b>20 words</b>.
 By using the noindex meta tag, you can signal to search engines to not
 include specific pages in their indexes.
 
-    set_meta_tags :noindex => true
+    set_meta_tags noindex: true
     # <meta name="robots" content="noindex" />
-    set_meta_tags :noindex => 'googlebot'
+    set_meta_tags noindex: 'googlebot'
     # <meta name="googlebot" content="noindex" />
 
 This is useful for pages like login, password reset, privacy policy, etc.
@@ -86,9 +86,9 @@ page. It's entirely likely that a robot might find the same links on some
 other page without a nofollow (perhaps on some other site), and so
 still arrives at your undesired page.
 
-    set_meta_tags :nofollow => true
+    set_meta_tags nofollow: true
     # <meta name="robots" content="nofollow" />
-    set_meta_tags :nofollow => 'googlebot'
+    set_meta_tags nofollow: 'googlebot'
     # <meta name="googlebot" content="nofollow" />
 
 Further reading:
@@ -102,7 +102,7 @@ Canonical link element tells a search engine what is the canonical or main URL
 for a content which have multiple URLs. The search engine will always return
 that URL, and link popularity and authority will be applied to that URL.
 
-    set_meta_tags :canonical => "http://yoursite.com/canonical/url"
+    set_meta_tags canonical: "http://yoursite.com/canonical/url"
     # <link rel="canonical" href="http://yoursite.com/canonical/url" />
 
 Further reading:
@@ -114,7 +114,7 @@ Further reading:
 
 Link to your Google+ profile using rel="author"
 
-    set_meta_tags :author => "http://yourgplusprofile.com/profile/url"
+    set_meta_tags author: "http://yourgplusprofile.com/profile/url"
     # <link rel="author" href="http://yourgplusprofile.com/profile/url" />
 
 Further reading:
@@ -125,7 +125,7 @@ Further reading:
 
 Link to your Google+ profile using rel="publisher"
 
-    set_meta_tags :publisher => "http://yourgplusprofile.com/profile/url"
+    set_meta_tags publisher: "http://yourgplusprofile.com/profile/url"
     # <link rel="publisher" href="http://yourgplusprofile.com/profile/url" />
 
 * [Link to your website](https://support.google.com/plus/answer/1713826?hl=en)
@@ -136,10 +136,10 @@ Link to your Google+ profile using rel="publisher"
 Alternate link elements tell a search engine when there is content that's translated or targeted to
 users in a certain region.
 
-    set_meta_tags :alternate => { "fr" => "http://yoursite.fr/alternate/url" }
+    set_meta_tags alternate: { "fr" => "http://yoursite.fr/alternate/url" }
     # <link rel="alternate" href="http://yoursite.fr/alternate/url" hreflang="fr" />
 
-    set_meta_tags :alternate => { "fr" => "http://yoursite.fr/alternate/url",
+    set_meta_tags alternate: { "fr" => "http://yoursite.fr/alternate/url",
                                   "de" => "http://yoursite.de/alternate/url" }
     # <link rel="alternate" href="http://yoursite.fr/alternate/url" hreflang="en" />
     # <link rel="alternate" href="http://yoursite.de/alternate/url" hreflang="de" />
@@ -155,9 +155,9 @@ Previous and next links indicate indicate the relationship between individual
 URLs. Using these attributes is a strong hint to Google that you want us to
 treat these pages as a logical sequence.
 
-    set_meta_tags :prev => "http://yoursite.com/url?page=1"
+    set_meta_tags prev: "http://yoursite.com/url?page=1"
     # <link rel="prev" href="http://yoursite.com/url?page=1" />
-    set_meta_tags :next => "http://yoursite.com/url?page=3"
+    set_meta_tags next: "http://yoursite.com/url?page=3"
     # <link rel="next" href="http://yoursite.com/url?page=3" />
 
 Further reading:
@@ -174,9 +174,9 @@ refreshed, by including the alternative URL in the content parameter. By
 setting the refresh time interval to zero (or a very low value), this allows
 meta refresh to be used as a method of URL redirection.
 
-    set_meta_tags :refresh => 5
+    set_meta_tags refresh: 5
     # <meta content="5" http-equiv="refresh" />
-    set_meta_tags :refresh => '5;url=http://example.com'
+    set_meta_tags refresh: '5;url=http://example.com'
     # <meta content="5;url=http://example.com" http-equiv="refresh" />
 
 Further reading:
@@ -188,10 +188,10 @@ Further reading:
 
 Any namespace can be built just passing any symbol name and a Hash. For example:
 
-    set_meta_tags :foo => {
-      :bar => "lorem",
-      :baz => {
-        :qux => "ipsum"
+    set_meta_tags foo: {
+      bar: "lorem",
+      baz: {
+        qux: "ipsum"
       }
     }
     # <meta property="foo:bar" content="lorem"/>
@@ -201,8 +201,8 @@ Any namespace can be built just passing any symbol name and a Hash. For example:
 
 Repeated meta tags can be built just using an Array inside a Hash. For example:
 
-    set_meta_tags :og => {
-        :image => ["http://example.com/rock.jpg", "http://example.com/rock2.jpg"]
+    set_meta_tags og: {
+        image: ["http://example.com/rock.jpg", "http://example.com/rock2.jpg"]
     }
     #<meta property="og:image" content="http://example.com/rock.jpg" />
     #<meta property="og:image" content="http://example.com/rock2.jpg" />
@@ -214,14 +214,14 @@ protocol `<meta>` tags to your webpages. The tags allow you to specify
 structured information about your web pages. The more information you provide, the more opportunities your web pages can be surfaced within Facebook today
 and in the future. Here's an example for a movie page:
 
-    set_meta_tags :og => {
-      :title    => 'The Rock',
-      :type     => 'video.movie',
-      :url      => 'http://www.imdb.com/title/tt0117500/',
-      :image    => 'http://ia.media-imdb.com/rock.jpg',
-      :video    => {
-        :director => 'http://www.imdb.com/name/nm0000881/',
-        :writer   => ['http://www.imdb.com/name/nm0918711/', 'http://www.imdb.com/name/nm0177018/']
+    set_meta_tags og: {
+      title:    'The Rock',
+      type:     'video.movie',
+      url:      'http://www.imdb.com/title/tt0117500/',
+      image:    'http://ia.media-imdb.com/rock.jpg',
+      video:    {
+        director: 'http://www.imdb.com/name/nm0000881/',
+        writer:   ['http://www.imdb.com/name/nm0918711/', 'http://www.imdb.com/name/nm0177018/']
       }
     }
     # <meta property="og:title" content="The Rock"/>
@@ -241,9 +241,9 @@ Further reading:
 Twitter cards make it possible for you to attach media experiences to Tweets that link to your content.
 There are 3 card types (summary, photo and player). Here's an example for summary:
 
-    set_meta_tags :twitter => {
-      :card => "summary",
-      :site => "@username"
+    set_meta_tags twitter: {
+      card: "summary",
+      site: "@username"
     }
     # <meta name="twitter:card" content="summary"/>
     # <meta name="twitter:site" content="@username"/>
@@ -252,12 +252,12 @@ Take in consideration that if you're already using OpenGraph to describe data on
 
 When you need to generate a [Twitter Photo card](https://dev.twitter.com/docs/cards/types/photo-card), `twitter:image` property is a string, while image dimensions are specified using `twitter:image:width` and `twitter:image:height`, or a `Hash` objects in terms of MetaTags gems. There is a special syntax to make this work:
 
-    set_meta_tags :twitter => {
-      :card  => "photo",
-      :image => {
-        :_      => "http://example.com/1.png",
-        :width  => 100,
-        :height => 100,
+    set_meta_tags twitter: {
+      card:  "photo",
+      image: {
+        _:      "http://example.com/1.png",
+        width:  100,
+        height: 100,
       }
     }
     # <meta name="twitter:card" content="photo"/>
@@ -276,13 +276,13 @@ be rendered on the page, even if meta-tags gem does not know about them.
 
 Example:
 
-    set_meta_tags :author => "Dmytro Shteflyuk"
+    set_meta_tags author: "Dmytro Shteflyuk"
     # <meta name="author" content="Dmytro Shteflyuk"/>
 
 You can also specify value as an Array, and values will be displayed as a list
 of `meta` tags:
 
-    set_meta_tags :author => [ "Dmytro Shteflyuk", "John Doe" ]
+    set_meta_tags author: [ "Dmytro Shteflyuk", "John Doe" ]
     # <meta name="author" content="Dmytro Shteflyuk"/>
     # <meta name="author" content="John Doe"/>
 
@@ -291,7 +291,7 @@ of `meta` tags:
 First, add this code to your main layout:
 
     <head>
-      <%= display_meta_tags :site => 'My website' %>
+      <%= display_meta_tags site: 'My website' %>
     </head>
 
 Then, to set the page title, add this to each of your views (see below for other options):
@@ -319,9 +319,9 @@ You can define following instance variables:
 
 Also you could use `set_meta_tags` method to define all meta tags simultaneously:
 
-    set_meta_tags :title => 'Member Login',
-                  :description => 'Member login page.',
-                  :keywords => 'Site, Login, Members'
+    set_meta_tags title: 'Member Login',
+                  description: 'Member login page.',
+                  keywords: 'Site, Login, Members'
 
 You can find allowed options for `set_meta_tags` method below.
 
@@ -338,9 +338,9 @@ To set meta tags you can use following methods:
 
 Also there is `set_meta_tags` method exists:
 
-    <% set_meta_tags :title => 'Member Login',
-                     :description => 'Member login page.',
-                     :keywords => 'Site, Login, Members' %>
+    <% set_meta_tags title: 'Member Login',
+                     description: 'Member login page.',
+                     keywords: 'Site, Login, Members' %>
 
 The `title` method returns title itself, so you can use it to show the title
 somewhere on the page:
@@ -378,25 +378,25 @@ Use these options to customize the title format:
 
 And here are a few examples to give you ideas.
 
-    <%= display_meta_tags :separator => "&mdash;".html_safe %>
-    <%= display_meta_tags :prefix => false, :separator => ":" %>
-    <%= display_meta_tags :lowercase => true %>
-    <%= display_meta_tags :reverse => true, :prefix => false %>
-    <%= display_meta_tags :og => { :title => 'The Rock', :type => 'video.movie' } %>
-    <%= display_meta_tags :alternate => { 'zh-Hant' => 'http://example.com.tw/base/url' } %>
+    <%= display_meta_tags separator: "&mdash;".html_safe %>
+    <%= display_meta_tags prefix: false, separator: ":" %>
+    <%= display_meta_tags lowercase: true %>
+    <%= display_meta_tags reverse: true, prefix: false %>
+    <%= display_meta_tags og: { title: 'The Rock', type: 'video.movie' } %>
+    <%= display_meta_tags alternate: { 'zh-Hant' => 'http://example.com.tw/base/url' } %>
 
 ### Allowed values
 
 You can specify `:title` as a string or array:
 
-    set_meta_tags :title => ['part1', 'part2'], :site => 'site'
+    set_meta_tags title: ['part1', 'part2'], site: 'site'
     # site | part1 | part2
-    set_meta_tags :title => ['part1', 'part2'], :reverse => true, :site => 'site'
+    set_meta_tags title: ['part1', 'part2'], reverse: true, site: 'site'
     # part2 | part1 | site
 
 Keywords can be passed as string of comma-separated values, or as an array:
 
-    set_meta_tags :keywords => ['tag1', 'tag2']
+    set_meta_tags keywords: ['tag1', 'tag2']
     # tag1, tag2
 
 Description is a string (HTML will be stripped from output string).
@@ -409,8 +409,8 @@ the `title`.
 
 Say, you have the following in your application layout:
 
-    display_meta_tags :og => {
-      :title => :title
+    display_meta_tags og: {
+      title: :title
     }
 
 The value of `og[:title]` is a symbol and therefore references the value of the
@@ -436,10 +436,10 @@ code duplication, you can define a helper in `application_helper.rb`:
 
     def default_meta_tags
       {
-        :title       => 'Member Login',
-        :description => 'Member login page.',
-        :keywords    => 'Site, Login, Members',
-        :separator   => "&mdash;".html_safe,
+        title:       'Member Login',
+        description: 'Member login page.',
+        keywords:    'Site, Login, Members',
+        separator:   "&mdash;".html_safe,
       }
     end
 
@@ -451,7 +451,7 @@ And in your pjax templates:
 
     <!-- set title here, so we can use it both in "display_title" and in "title" %>
     <% title "My Page title" %>
-    <%= content_tag :div, :data => { :title => display_title(default_meta_tags) } do %>
+    <%= content_tag :div, data: { title: display_title(default_meta_tags) } do %>
         <h1><%= title %></h1>
         <!-- HTML goes here -->
     <% end %>

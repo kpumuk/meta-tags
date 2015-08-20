@@ -59,26 +59,26 @@ end
 
 shared_examples_for '.set_meta_tags' do
   it 'should update meta tags' do
-    subject.set_meta_tags(:title => 'hello')
+    subject.set_meta_tags(title: 'hello')
     expect(subject.meta_tags[:title]).to eq('hello')
 
-    subject.set_meta_tags(:title => 'world')
+    subject.set_meta_tags(title: 'world')
     expect(subject.meta_tags[:title]).to eq('world')
   end
 
   it 'should use deep merge when updating meta tags' do
-    subject.set_meta_tags(:og => { :title => 'hello' })
+    subject.set_meta_tags(og: { title: 'hello' })
     expect(subject.meta_tags[:og]).to eq('title' => 'hello')
 
-    subject.set_meta_tags(:og => { :description => 'world' })
+    subject.set_meta_tags(og: { description: 'world' })
     expect(subject.meta_tags[:og]).to eq('title' => 'hello', 'description' => 'world')
 
-    subject.set_meta_tags(:og => { :admin => { :id => 1 } } )
+    subject.set_meta_tags(og: { admin: { id: 1 } } )
     expect(subject.meta_tags[:og]).to eq('title' => 'hello', 'description' => 'world', 'admin' => { 'id' => 1 })
   end
 
   it 'should normalize :open_graph to :og' do
-    subject.set_meta_tags(:open_graph => { :title => 'hello' })
+    subject.set_meta_tags(open_graph: { title: 'hello' })
     expect(subject.meta_tags[:og]).to eq('title' => 'hello')
   end
 end

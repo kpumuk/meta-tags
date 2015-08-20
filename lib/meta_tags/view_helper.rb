@@ -20,8 +20,8 @@ module MetaTags
     #   for allowed options.
     #
     # @example
-    #   set_meta_tags :title => 'Login Page', :description => 'Here you can login'
-    #   set_meta_tags :keywords => 'authorization, login'
+    #   set_meta_tags title: 'Login Page', description: 'Here you can login'
+    #   set_meta_tags keywords: 'authorization, login'
     #
     # @see #display_meta_tags
     #
@@ -47,14 +47,14 @@ module MetaTags
     # @example Set HTML title to "Login Page", return "Please login"
     #   title 'Login Page', 'Please login'
     # @example Set title as array of strings
-    #   title :title => ['part1', 'part2'] # => "part1 | part2"
+    #   title title: ['part1', 'part2'] # => "part1 | part2"
     # @example Get current title
     #   title
     #
     # @see #display_meta_tags
     #
     def title(title = nil, headline = '')
-      set_meta_tags(:title => title) unless title.nil?
+      set_meta_tags(title: title) unless title.nil?
       headline.blank? ? meta_tags[:title] : headline
     end
 
@@ -71,7 +71,7 @@ module MetaTags
     # @see #display_meta_tags
     #
     def keywords(keywords)
-      set_meta_tags(:keywords => keywords)
+      set_meta_tags(keywords: keywords)
       keywords
     end
 
@@ -89,7 +89,7 @@ module MetaTags
     # @see #display_meta_tags
     #
     def description(description)
-      set_meta_tags(:description => description)
+      set_meta_tags(description: description)
       description
     end
 
@@ -105,7 +105,7 @@ module MetaTags
     # @see #display_meta_tags
     #
     def noindex(noindex = true)
-      set_meta_tags(:noindex => noindex)
+      set_meta_tags(noindex: noindex)
       noindex
     end
 
@@ -121,7 +121,7 @@ module MetaTags
     # @see #display_meta_tags
     #
     def nofollow(nofollow = true)
-      set_meta_tags(:nofollow => nofollow)
+      set_meta_tags(nofollow: nofollow)
       nofollow
     end
 
@@ -137,7 +137,7 @@ module MetaTags
     # @see #display_meta_tags
     #
     def refresh(refresh)
-      set_meta_tags(:refresh => refresh)
+      set_meta_tags(refresh: refresh)
       refresh
     end
 
@@ -169,7 +169,7 @@ module MetaTags
     #
     # @example
     #   <head>
-    #     <%= display_meta_tags :site => 'My website' %>
+    #     <%= display_meta_tags site: 'My website' %>
     #   </head>
     #
     def display_meta_tags(defaults = {})
@@ -193,7 +193,7 @@ module MetaTags
     # @option default [Boolean] :reverse (false) when true, the page and site names will be reversed;
     #
     # @example
-    #   <div data-page-container="true" title="<%= display_title :title => 'My Page', :site => 'PJAX Site' %>">
+    #   <div data-page-container="true" title="<%= display_title title: 'My Page', site: 'PJAX Site' %>">
     #
     def display_title(defaults = {})
       @meta_tags.full_title(defaults)

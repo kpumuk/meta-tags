@@ -4,8 +4,8 @@ Bundler::GemHelper.install_tasks
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec)
 
-task :test => :spec
-task :default => :spec
+task test: :spec
+task default: :spec
 
 desc 'Starts irb with MetaTags gem loaded'
 task :console do

@@ -8,6 +8,6 @@ if ENV['RAILS_VERSION']
 end
 
 group :test do
-  gem 'codeclimate-test-reporter', :require => false
+  gem 'codeclimate-test-reporter', require: false
   gem 'rspec-html-matchers'
 end

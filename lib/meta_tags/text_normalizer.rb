@@ -115,7 +115,7 @@ module MetaTags
     # @return [String] truncated string.
     #
     def self.truncate(string, limit = nil, natural_separator = ' ')
-      string = helpers.truncate(string, :length => limit, :separator => natural_separator, :omission => '') if limit
+      string = helpers.truncate(string, length: limit, separator: natural_separator, omission: '') if limit
       string
     end
 

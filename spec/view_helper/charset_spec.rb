@@ -5,11 +5,11 @@ describe MetaTags::ViewHelper, 'displaying charset' do
 
   it 'should not display charset if blank' do
     expect(subject.display_meta_tags).to eq('')
-    expect(subject.display_meta_tags(:charset => '')).to eq('')
+    expect(subject.display_meta_tags(charset: '')).to eq('')
   end
 
   it 'should display charset' do
-    subject.display_meta_tags(:charset => 'UTF-8').tap do |meta|
+    subject.display_meta_tags(charset: 'UTF-8').tap do |meta|
       expect(meta).to eq('<meta charset="UTF-8" />')
     end
   end
