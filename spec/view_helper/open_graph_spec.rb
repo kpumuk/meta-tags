@@ -44,6 +44,14 @@ describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
     end
   end
 
+  it "should display locale meta tags" do
+    subject.display_meta_tags(:open_graph => { :locale => { :_ => 'en_GB', :alternate => ['fr_FR', 'es_ES'] } }).tap do |meta|
+      expect(meta).to have_tag('meta', :with => { :content => "en_GB", :property => "og:locale" })
+      expect(meta).to have_tag('meta', :with => { :content => "fr_FR", :property => "og:locale:alternate" })
+      expect(meta).to have_tag('meta', :with => { :content => "es_ES", :property => "og:locale:alternate" })
+    end
+  end
+
   it "should display mirrored content" do
     subject.set_meta_tags(:title => 'someTitle')
     subject.display_meta_tags(:open_graph => { :title => :title }).tap do |meta|
