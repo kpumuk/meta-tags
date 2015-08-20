@@ -124,6 +124,28 @@ Further reading:
 * [About rel="canonical"](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139394)
 * [Canonicalization](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139066)
 
+### Icon
+
+A favicon (short for Favorite icon), also known as a shortcut icon, Web site
+icon, tab icon or bookmark icon, is a file containing one or more small icons,
+most commonly 16×16 pixels, associated with a particular website or web page.
+
+    set_meta_tags icon: '/favicon.ico'
+    # <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    set_meta_tags icon: '/favicon.png', type: 'image/png'
+    # <link rel="icon" href="/favicon.png" type="image/png" />
+    set_meta_tags icon: [
+      { href: '/images/icons/icon_96.png', sizes: '32x32 96x96', type: 'image/png' },
+      { href: '/images/icons/icon_itouch_precomp_32.png', rel: 'apple-touch-icon-precomposed', sizes: '32x32', type: 'image/png' },
+    ]
+    # <link rel="icon" href="/images/icons/icon_96.png" type="image/png" sizes="32x32 96x96" />
+    # <link rel="apple-touch-icon-precomposed" href="/images/icons/icon_itouch_precomp_32.png" type="image/png" sizes="32x32" />
+
+Further reading:
+
+* [Favicon](https://www.wikiwand.com/en/Favicon)
+* [Touch Icons](https://mathiasbynens.be/notes/touch-icons)
+
 ### Author links
 
 Link to your Google+ profile using rel="author"

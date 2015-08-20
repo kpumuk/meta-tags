@@ -9,7 +9,6 @@ describe MetaTags::ViewHelper, 'displaying Open Search meta tags' do
         href:  '/open_search_path.xml'
     })
     subject.display_meta_tags(site: 'someSite').tap do |meta|
-      type = "application/opensearchdescription+xml"
       expect(meta).to have_tag('link', with: {
         href:  '/open_search_path.xml',
         rel:   'search',

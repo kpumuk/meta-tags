@@ -20,6 +20,7 @@ module MetaTags
 
       render_charset(tags)
       render_title(tags)
+      render_icon(tags)
       render_with_normalization(tags, :description)
       render_with_normalization(tags, :keywords)
       render_refresh(tags)
@@ -56,6 +57,24 @@ module MetaTags
       title = meta_tags.extract_full_title
       normalized_meta_tags[:title] = title
       tags << ContentTag.new(:title, content: title) if title.present?
+    end
+
+    # Renders icon(s) tag.
+    #
+    # @param [Array<Tag>] tags a buffer object to store tag in.
+    #
+    def render_icon(tags)
+      if icon = meta_tags.extract(:icon)
+        if String === icon
+          tags << Tag.new(:link, rel: 'icon', href: icon, type: 'image/x-icon')
+        else
+          icon = [icon] if Hash === icon
+          icon.each do |icon_params|
+            icon_params = icon_params.reverse_merge(rel: 'icon', type: 'image/x-icon')
+            tags << Tag.new(:link, icon_params)
+          end
+        end
+      end
     end
 
     # Renders meta tag with normalization (should have a corresponding normalize_
