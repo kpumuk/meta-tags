@@ -164,6 +164,7 @@ module MetaTags
     # @option default [String] :publisher (nil) add publisher link tag.
     # @option default [String, Integer] :refresh (nil) meta refresh tag;
     # @option default [Hash] :open_graph ({}) add Open Graph meta tags.
+    # @option default [Hash] :open_search ({}) add Open Search link tag.
     # @return [String] HTML meta tags to render in HEAD section of the
     #   HTML document.
     #
