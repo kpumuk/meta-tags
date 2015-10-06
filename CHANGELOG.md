@@ -1,4 +1,4 @@
-## 2.1.0 (Development)
+## 2.1.0 (October 6, 2015)
 
 Changes:
 
