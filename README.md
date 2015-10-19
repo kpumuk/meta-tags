@@ -177,7 +177,7 @@ translated or targeted to users in a certain region.
 
     set_meta_tags alternate: { "fr" => "http://yoursite.fr/alternate/url",
                                "de" => "http://yoursite.de/alternate/url" }
-    # <link rel="alternate" href="http://yoursite.fr/alternate/url" hreflang="en" />
+    # <link rel="alternate" href="http://yoursite.fr/alternate/url" hreflang="fr" />
     # <link rel="alternate" href="http://yoursite.de/alternate/url" hreflang="de" />
 
 If you need more than just multi-lingual links, you can use an alternative syntax:
