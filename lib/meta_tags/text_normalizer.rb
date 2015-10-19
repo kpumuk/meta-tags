@@ -10,7 +10,7 @@ module MetaTags
     # @return [Array<String>] array of title parts with tags removed.
     #
     def self.normalize_title(site_title, title, separator, reverse = false)
-      title = Array(title).flatten.map(&method(:strip_tags))
+      title = Array(title).flatten.map(&method(:sanitize))
       title.reject!(&:blank?)
       site_title = strip_tags(site_title)
       separator = strip_tags(separator)
@@ -143,6 +143,10 @@ module MetaTags
         break if length + separator.length >= limit
       end
       result
+    end
+
+    def self.sanitize(string)
+      helpers.sanitize(string)
     end
   end
 end
