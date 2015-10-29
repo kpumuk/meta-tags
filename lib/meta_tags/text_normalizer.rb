@@ -71,7 +71,11 @@ module MetaTags
     # @return [String] string with no HTML tags.
     #
     def self.strip_tags(string)
-      ERB::Util.html_escape helpers.strip_tags(string)
+      if defined?(Loofah)
+       Loofah.fragment(string).text(encode_special_chars: false)
+      else
+        ERB::Util.html_escape helpers.strip_tags(string)
+      end
     end
 
     # This method returns a html safe string similar to what <tt>Array#join</tt>
