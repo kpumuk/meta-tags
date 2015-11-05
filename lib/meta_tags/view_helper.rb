@@ -160,8 +160,7 @@ module MetaTags
     # @option default [Hash] :alternate ({}) add alternate link tag.
     # @option default [String] :prev (nil) add prev link tag;
     # @option default [String] :next (nil) add next link tag.
-    # @option default [String] :author (nil) add author link tag;
-    # @option default [String] :publisher (nil) add publisher link tag.
+    # @option default [String] :author (nil) add author meta tag;
     # @option default [String, Integer] :refresh (nil) meta refresh tag;
     # @option default [Hash] :open_graph ({}) add Open Graph meta tags.
     # @option default [Hash] :open_search ({}) add Open Search link tag.

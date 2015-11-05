@@ -1,3 +1,9 @@
+## 2.1.1 (November 05, 2015)
+
+Features:
+
+  - Removed Google "author" and "publisher" links, as Google deprecated these options (https://support.google.com/webmasters/answer/6083347?hl=en)
+
 ## 2.1.0 (October 6, 2015)
 
 Changes:

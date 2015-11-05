@@ -146,26 +146,6 @@ Further reading:
 * [Favicon](https://www.wikiwand.com/en/Favicon)
 * [Touch Icons](https://mathiasbynens.be/notes/touch-icons)
 
-### Author links
-
-Link to your Google+ profile using rel="author"
-
-    set_meta_tags author: "http://yourgplusprofile.com/profile/url"
-    # <link rel="author" href="http://yourgplusprofile.com/profile/url" />
-
-Further reading:
-
-* [About rel="author"](https://support.google.com/webmasters/answer/2539557?hl=en)
-
-### Publisher links
-
-Link to your Google+ profile using rel="publisher"
-
-    set_meta_tags publisher: "http://yourgplusprofile.com/profile/url"
-    # <link rel="publisher" href="http://yourgplusprofile.com/profile/url" />
-
-* [Link to your website](https://support.google.com/plus/answer/1713826?hl=en)
-* [The Difference Between rel=author & rel=publisher](http://www.websitemagazine.com/content/blogs/posts/archive/2013/02/05/the-difference-between-rel-author-amp-rel-publisher.aspx)
 
 ### Multi-regional and multilingual URLs, RSS and mobile links
 
@@ -456,8 +436,7 @@ Use these options to customize the title format:
 * `:noindex` — add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:nofollow` — add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:canonical` — add canonical link tag;
-* `:author` — add author link tag;
-* `:publisher` — add publisher link tag;
+* `:author` — add author meta tag;
 * `:prev` — add prev link tag;
 * `:next` — add next link tag;
 * `:og` — add Open Graph tags (Hash);
