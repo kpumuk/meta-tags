@@ -6,6 +6,7 @@ Gem::Specification.new do |s|
   s.name        = 'meta-tags'
   s.version     = MetaTags::VERSION
   s.platform    = Gem::Platform::RUBY
+  s.license     = "MIT"
   s.authors     = ['Dmytro Shteflyuk']
   s.email       = ['kpumuk@kpumuk.info']
   s.homepage    = 'http://github.com/kpumuk/meta-tags'
