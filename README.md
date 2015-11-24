@@ -110,6 +110,16 @@ Further reading:
 * [About rel="nofollow"](http://www.google.com/support/webmasters/bin/answer.py?answer=96569)
 * [Meta tags](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=79812)
 
+
+### Follow
+
+Follow will work with Noindex  meta tag
+
+    set_meta_tags noindex: true, follow: true
+    # <meta name="robots" content="noindex, follow" />
+
+It will not look at this page but will crawl through the rest of the pages on your website.
+
 ### Canonical URL
 
 Canonical link element tells a search engine what is the canonical or main URL
