@@ -10,10 +10,10 @@ module MetaTags
     # @return [Array<String>] array of title parts with tags removed.
     #
     def self.normalize_title(site_title, title, separator, reverse = false)
-      title = Array(title).flatten.map(&method(:strip_tags))
+      title = Array(title).flatten.map(&method(:strip_tags)).map(&:html_safe)
       title.reject!(&:blank?)
-      site_title = strip_tags(site_title)
-      separator = strip_tags(separator)
+      site_title = strip_tags(site_title).html_safe
+      separator = strip_tags(separator).html_safe
 
       if MetaTags.config.title_limit
         limit = MetaTags.config.title_limit - separator.length
@@ -71,7 +71,8 @@ module MetaTags
     # @return [String] string with no HTML tags.
     #
     def self.strip_tags(string)
-      ERB::Util.html_escape helpers.strip_tags(string)
+      string ||= ''
+      Rails::Html::WhiteListSanitizer.new.sanitize(string, tags: [])
     end
 
     # This method returns a html safe string similar to what <tt>Array#join</tt>
@@ -94,7 +95,16 @@ module MetaTags
     # space characters squashed into a single space.
     #
     def self.cleanup_string(string)
-      strip_tags(string).gsub(/\s+/, ' ').strip.html_safe
+      html_escape(strip_tags(string)).gsub(/\s+/, ' ').strip.html_safe
+    end
+
+    # Escapes all HTML tag characters in the string
+    #
+    # @param [String] string that needs escaping.
+    # @return [String] input string with no HTML tag characters
+    #
+    def self.html_escape(string)
+      ERB::Util.html_escape(string.to_s)
     end
 
     # Cleans multiple strings up.
