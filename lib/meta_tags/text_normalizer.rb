@@ -72,7 +72,7 @@ module MetaTags
     #
     def self.strip_tags(string)
       string ||= ''
-      Rails::Html::WhiteListSanitizer.new.sanitize(string, tags: [])
+      ::Rails::Html::WhiteListSanitizer.new.sanitize(string, tags: [])
     end
 
     # This method returns a html safe string similar to what <tt>Array#join</tt>
