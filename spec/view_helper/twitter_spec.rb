@@ -14,18 +14,18 @@ describe MetaTags::ViewHelper, 'displaying Twitter meta tags' do
       }
     })
     subject.display_meta_tags(site: 'someSite').tap do |meta|
-      expect(meta).to have_tag('meta', with: { content: "Twitter Share Title", name: "twitter:title" })
-      expect(meta).to have_tag('meta', with: { content: "photo", name: "twitter:card" })
-      expect(meta).to have_tag('meta', with: { content: "http://example.com/1.png", name: "twitter:image" })
-      expect(meta).to have_tag('meta', with: { content: "123", name: "twitter:image:width" })
-      expect(meta).to have_tag('meta', with: { content: "321", name: "twitter:image:height" })
+      expect(meta).to have_tag('meta', with: { content: "Twitter Share Title", property: "twitter:title" })
+      expect(meta).to have_tag('meta', with: { content: "photo", property: "twitter:card" })
+      expect(meta).to have_tag('meta', with: { content: "http://example.com/1.png", property: "twitter:image" })
+      expect(meta).to have_tag('meta', with: { content: "123", property: "twitter:image:width" })
+      expect(meta).to have_tag('meta', with: { content: "321", property: "twitter:image:height" })
     end
   end
 
   it "should display mirrored content" do
     subject.set_meta_tags(title: 'someTitle')
     subject.display_meta_tags(twitter: { title: :title }).tap do |meta|
-      expect(meta).to have_tag('meta', with: { content: "someTitle", name: "twitter:title" })
+      expect(meta).to have_tag('meta', with: { content: "someTitle", property: "twitter:title" })
     end
   end
 end
