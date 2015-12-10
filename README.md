@@ -333,8 +333,8 @@ There are 3 card types (summary, photo and player). Here's an example for summar
       card: "summary",
       site: "@username"
     }
-    # <meta name="twitter:card" content="summary"/>
-    # <meta name="twitter:site" content="@username"/>
+    # <meta property="twitter:card" content="summary"/>
+    # <meta property="twitter:site" content="@username"/>
 
 Take in consideration that if you're already using OpenGraph to describe data on your page, it’s easy to generate a Twitter card without duplicating your tags and data. When the Twitter card processor looks for tags on your page, it first checks for the Twitter property, and if not present, falls back to the supported Open Graph property. This allows for both to be defined on the page independently, and minimizes the amount of duplicate markup required to describe your content and experience.
 
