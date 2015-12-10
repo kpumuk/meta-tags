@@ -348,10 +348,10 @@ When you need to generate a [Twitter Photo card](https://dev.twitter.com/docs/ca
         height: 100,
       }
     }
-    # <meta name="twitter:card" content="photo"/>
-    # <meta name="twitter:image" content="http://example.com/1.png"/>
-    # <meta name="twitter:image:width" content="100"/>
-    # <meta name="twitter:image:height" content="100"/>
+    # <meta property="twitter:card" content="photo"/>
+    # <meta property="twitter:image" content="http://example.com/1.png"/>
+    # <meta property="twitter:image:width" content="100"/>
+    # <meta property="twitter:image:height" content="100"/>
 
 Further reading:
 
