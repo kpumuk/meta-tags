@@ -16,7 +16,9 @@ describe MetaTags::TextNormalizer, '.normalize_title' do
     end
 
     it 'should escape ampersand in title correctly' do
-      expect(subject.normalize_title(nil, %q(&&&), nil)).to eq("&amp;&amp;&amp;")
+      expect(
+        subject.normalize_title(nil, "&&&", nil)
+      ).to eq("&amp;&amp;&amp;")
     end
   end
 
@@ -41,12 +43,16 @@ describe MetaTags::TextNormalizer, '.normalize_title' do
     it 'should truncate title when limit is reached' do
       site_title = 'a' * 20
       title = 'b' * (MetaTags.config.title_limit + 10)
-      expect(subject.normalize_title(site_title, title, '-')).to eq("#{site_title}-#{'b' * (MetaTags.config.title_limit - 21)}")
+      expect(
+        subject.normalize_title(site_title, title, '-')
+      ).to eq("#{site_title}-#{'b' * (MetaTags.config.title_limit - 21)}")
     end
 
     it 'should escape ampersand in title correctly' do
       site_title = 'a' * 10
-      expect(subject.normalize_title(site_title, "&&&", '-')).to eq("#{site_title}-&amp;&amp;&amp;")
+      expect(
+        subject.normalize_title(site_title, '&&&', '-')
+      ).to eq("#{site_title}-&amp;&amp;&amp;")
     end
   end
 end
