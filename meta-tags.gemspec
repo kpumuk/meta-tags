@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.description = %q{Search Engine Optimization (SEO) plugin for Ruby on Rails applications.}
 
   s.add_dependency 'actionpack', '>= 3.0.0'
+  s.add_dependency 'rails-html-sanitizer'
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec', '~> 3.3.0'
