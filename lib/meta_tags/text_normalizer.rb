@@ -74,8 +74,8 @@ module MetaTags
       # TODO: Due to a bug in strip_tags (introduced with Rails 4.2), ampersands
       #       and quotes are escaped twice. The "to_s.gsub" can be removed
       #       once the affected Rails versions are not widely used anymore, see:
-      #       https://github.com/rails/rails-html-sanitizer/issues/28   
-      ERB::Util.html_escape helpers.strip_tags(string).to_s.gsub(/&amp;/, '&')
+      #       https://github.com/rails/rails-html-sanitizer/issues/28
+      ERB::Util.html_escape helpers.strip_tags(string).to_s.gsub(/&amp;/, "&")
     end
 
     # This method returns a html safe string similar to what <tt>Array#join</tt>
