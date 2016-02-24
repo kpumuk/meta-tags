@@ -66,6 +66,17 @@ describe MetaTags::ViewHelper do
         expect(meta).to have_tag('meta', with: { content: "App Links", property: "al:ios:app_name" })
       end
     end
+
+    it 'should work with facebook parameters' do
+      subject.set_meta_tags('fb' => {
+        app_id: 12345,
+        admins: "12345,23456"
+      })
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "12345", property: "fb:app_id" })
+        expect(meta).to have_tag('meta', with: { content: "12345,23456", property: "fb:admins" })
+      end
+    end
   end
 
   it_behaves_like '.set_meta_tags'
