@@ -30,6 +30,8 @@ module MetaTags
       render_links(tags)
 
       render_hash(tags, :og, name_key: :property)
+      render_hash(tags, :al, name_key: :property)
+      render_hash(tags, :fb, name_key: :property)
       render_hashes(tags)
       render_custom(tags)
 

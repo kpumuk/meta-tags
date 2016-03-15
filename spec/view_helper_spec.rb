@@ -51,6 +51,28 @@ describe MetaTags::ViewHelper do
         expect(meta).to have_tag('meta', with: { content: "facebook description", property: "og:description" })
       end
     end
+
+    it 'should work with app links parameters' do
+      subject.set_meta_tags('al' => {
+        'ios' => {
+          'url' => 'http://example.com',
+          'app_name' => 'My App'
+        }
+      })
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "http://example.com", property: "al:ios:url" })
+        expect(meta).to have_tag('meta', with: { content: "My App", property: "al:ios:app_name" })
+      end
+    end
+
+    it 'should work with facebook parameters' do
+      subject.set_meta_tags('fb' => {
+        'app_id' => 'something'
+      })
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "something", property: "fb:app_id" })
+      end
+    end
   end
 
   it_behaves_like '.set_meta_tags'
