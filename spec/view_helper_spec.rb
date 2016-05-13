@@ -65,6 +65,13 @@ describe MetaTags::ViewHelper do
       end
     end
 
+    it 'should work with amp url parameters' do
+      subject.set_meta_tags('amphtml' => 'http://example.com')
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('link', with: { rel: "amphtml", href: "http://example.com" })
+      end
+    end
+
     it 'should work with facebook parameters' do
       subject.set_meta_tags('fb' => {
         'app_id' => 'something'
