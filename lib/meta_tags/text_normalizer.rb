@@ -68,10 +68,21 @@ module MetaTags
     # Strips all HTML tags from the +html+, including comments.
     #
     # @param [String] string HTML string.
-    # @return [String] string with no HTML tags.
+    # @return [String] html_safe string with no HTML tags.
     #
     def self.strip_tags(string)
-      ERB::Util.html_escape helpers.strip_tags(string)
+      # SUPERHACKY:
+      # Since rails changed to the new html-sanitizer, strip_tags will escape & to &amp;
+      # but will not escape " to &quot; - which is also needed for meta-tags.
+      # => https://github.com/rails/rails-html-sanitizer/issues/28
+
+      # html_escape_once will escape " to &quot;, even if given a html_safe string,
+      # (this might be a bug in rails) and leave the already escaped (by strip_tags)
+      # &amp;s alone.
+      # But we have to pass a already html_safe string to html_escape_once, otherwise
+      # the returned string won't be html_safe, which will then lead to double-escaping
+      # later on.
+      ERB::Util.html_escape_once helpers.strip_tags(string).try(:html_safe)
     end
 
     # This method returns a html safe string similar to what <tt>Array#join</tt>
@@ -115,7 +126,7 @@ module MetaTags
     # @return [String] truncated string.
     #
     def self.truncate(string, limit = nil, natural_separator = ' ')
-      string = helpers.truncate(string, length: limit, separator: natural_separator, omission: '') if limit
+      string = helpers.truncate(string, length: limit, separator: natural_separator, omission: '', escape: false) if limit
       string
     end
 
