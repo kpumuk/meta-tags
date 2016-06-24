@@ -68,10 +68,23 @@ module MetaTags
     # Strips all HTML tags from the +html+, including comments.
     #
     # @param [String] string HTML string.
-    # @return [String] string with no HTML tags.
+    # @return [String] html_safe string with no HTML tags.
     #
     def self.strip_tags(string)
-      ERB::Util.html_escape helpers.strip_tags(string)
+      if Gem.loaded_specs["actionpack"].version > Gem::Version.new('4.2.0')
+        # HACKY:
+        # Since rails changed to the new html-sanitizer, strip_tags will escape & to &amp;
+        # but will not escape " to &quot; - which is also needed for meta-tags.
+        # => https://github.com/rails/rails-html-sanitizer/issues/28
+        # => https://github.com/rails/rails-html-sanitizer/issues/56
+
+        # So we use Loofah to unescape all the special chars that were changed by strip_tags
+        # and escape the raw string using html_escape, which will escape quotes as well.
+        stripped_unescaped = Loofah.fragment( helpers.strip_tags(string) ).text(encode_special_chars: false)
+        ERB::Util.html_escape stripped_unescaped
+      else
+        ERB::Util.html_escape helpers.strip_tags(string)
+      end
     end
 
     # This method returns a html safe string similar to what <tt>Array#join</tt>
@@ -115,7 +128,7 @@ module MetaTags
     # @return [String] truncated string.
     #
     def self.truncate(string, limit = nil, natural_separator = ' ')
-      string = helpers.truncate(string, length: limit, separator: natural_separator, omission: '') if limit
+      string = helpers.truncate(string, length: limit, separator: natural_separator, omission: '', escape: false) if limit
       string
     end
 
