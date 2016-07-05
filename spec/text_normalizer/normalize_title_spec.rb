@@ -14,6 +14,11 @@ describe MetaTags::TextNormalizer, '.normalize_title' do
     it 'should reverse title parts when reverse is true' do
       expect(subject.normalize_title('', %w[title subtitle], '-', true)).to eq('subtitle-title')
     end
+
+    it 'should not truncate title when limit is equal to the title length' do
+      title = 'b' * MetaTags.config.title_limit
+      expect(subject.normalize_title('', title, '-')).to eq(title)
+    end
   end
 
   context 'when site_title is specified' do

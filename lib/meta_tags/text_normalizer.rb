@@ -16,7 +16,13 @@ module MetaTags
       separator = strip_tags(separator)
 
       if MetaTags.config.title_limit
-        limit = MetaTags.config.title_limit - separator.length
+        limit = if site_title.present?
+          MetaTags.config.title_limit - separator.length
+        else
+          # separtor won't be used: ignore its length
+          MetaTags.config.title_limit
+        end
+
         if limit > site_title.length
           title = truncate_array(title, limit - site_title.length, separator)
         else
