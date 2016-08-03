@@ -1,7 +1,10 @@
+sudo: false
+cache: bundler
+
 rvm:
   - 2.0.0
   - 2.1.7
-  - 2.2.3
+  - 2.2.2
 
 env:
   - "RAILS_VERSION=3.1.0"
@@ -14,8 +17,4 @@ matrix:
 
 notifications:
   recipients:
-    - kpumuk@kpumuk.info
-
-addons:
-  code_climate:
-    repo_token: "8792cbc0d1780830ddd3dd7eb1c25f09f386ba8f04449ad830039469406a6ab3"
+    - Elektron1c97@gmail.com
