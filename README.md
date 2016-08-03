@@ -18,7 +18,9 @@ Ruby versions older than 2.0.0 are no longer officially supported.
 
 Add the "meta-tags" gem to your `Gemfile`.
 
-    $ gem 'meta-tags'
+```ruby
+gem 'meta-tags'
+```
 
 And run `bundle install` command.
 
