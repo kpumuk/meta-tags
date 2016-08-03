@@ -19,7 +19,7 @@ Ruby versions older than 2.0.0 are no longer officially supported.
 Add the "meta-tags" gem to your `Gemfile`.
 
 ```ruby
-gem 'meta-tags'
+gem 'meta_tags-rails'
 ```
 
 And run `bundle install` command.
