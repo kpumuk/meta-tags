@@ -22,16 +22,16 @@ module MetaTags
   end
 end
 
-require 'meta_tags/version'
+require 'meta_tags-rails/version'
 
-require 'meta_tags/configuration'
-require 'meta_tags/controller_helper'
-require 'meta_tags/meta_tags_collection'
-require 'meta_tags/renderer'
-require 'meta_tags/tag'
-require 'meta_tags/content_tag'
-require 'meta_tags/text_normalizer'
-require 'meta_tags/view_helper'
+require 'meta_tags-rails/configuration'
+require 'meta_tags-rails/controller_helper'
+require 'meta_tags-rails/meta_tags_collection'
+require 'meta_tags-rails/renderer'
+require 'meta_tags-rails/tag'
+require 'meta_tags-rails/content_tag'
+require 'meta_tags-rails/text_normalizer'
+require 'meta_tags-rails/view_helper'
 
 ActionView::Base.send :include, MetaTags::ViewHelper
 ActionController::Base.send :include, MetaTags::ControllerHelper

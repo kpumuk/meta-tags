@@ -1,15 +1,15 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path('../lib', __FILE__)
-require 'meta_tags/version'
+require 'meta_tags-rails/version'
 
 Gem::Specification.new do |s|
-  s.name        = 'meta-tags'
+  s.name        = 'meta_tags-rails'
   s.version     = MetaTags::VERSION
   s.platform    = Gem::Platform::RUBY
   s.license     = "MIT"
-  s.authors     = ['Dmytro Shteflyuk']
-  s.email       = ['kpumuk@kpumuk.info']
-  s.homepage    = 'http://github.com/kpumuk/meta-tags'
+  s.authors     = ['Dmytro Shteflyuk', 'Yves Siegrist']
+  s.email       = ['Elektron1c97@gmail.com']
+  s.homepage    = 'http://github.com/Elektron1c97/meta_tags-rails'
   s.summary     = %q{Collection of SEO helpers for Ruby on Rails.}
   s.description = %q{Search Engine Optimization (SEO) plugin for Ruby on Rails applications.}
 

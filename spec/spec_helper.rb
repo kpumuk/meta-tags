@@ -3,7 +3,7 @@ if ENV['CODECLIMATE_REPO_TOKEN'] && RUBY_VERSION > '1.8.7'
   CodeClimate::TestReporter.start
 end
 
-require 'meta_tags'
+require 'meta_tags-rails'
 require 'rspec-html-matchers'
 
 RSpec.configure do |config|
