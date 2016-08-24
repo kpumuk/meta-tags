@@ -357,6 +357,25 @@ Further reading:
 
 * [Twitter Cards Documentation](https://dev.twitter.com/docs/cards/)
 
+### App Links
+
+App Links is an open cross platform solution for deep linking to content in your mobile app. Here's an example for iOS app integration:
+
+    set_meta_tags al: {
+      ios: {
+        url: "example://applinks",
+        app_store_id: 12345,
+        app_name: "Example App"
+      }
+    }
+    # <meta property="al:ios:url" content="example://applinks" />
+    # <meta property="al:ios:app_store_id" content="12345" />
+    # <meta property="al:ios:app_name" content="Example App" />
+
+Further reading:
+
+* [App Links Documentation](https://developers.facebook.com/docs/applinks)
+
 ### Custom meta tags
 
 Starting from version 1.3.1, you can specify arbitrary meta tags, and they will

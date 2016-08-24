@@ -55,29 +55,26 @@ describe MetaTags::ViewHelper do
     it 'should work with app links parameters' do
       subject.set_meta_tags('al' => {
         'ios' => {
-          'url' => 'http://example.com',
-          'app_name' => 'My App'
+          'url' => 'applinks://docs',
+          'app_store_id' => 12345,
+          'app_name' => 'App Links'
         }
       })
       subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "http://example.com", property: "al:ios:url" })
-        expect(meta).to have_tag('meta', with: { content: "My App", property: "al:ios:app_name" })
-      end
-    end
-
-    it 'should work with amp url parameters' do
-      subject.set_meta_tags('amphtml' => 'http://example.com')
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('link', with: { rel: "amphtml", href: "http://example.com" })
+        expect(meta).to have_tag('meta', with: { content: "applinks://docs", property: "al:ios:url" })
+        expect(meta).to have_tag('meta', with: { content: "12345", property: "al:ios:app_store_id" })
+        expect(meta).to have_tag('meta', with: { content: "App Links", property: "al:ios:app_name" })
       end
     end
 
     it 'should work with facebook parameters' do
       subject.set_meta_tags('fb' => {
-        'app_id' => 'something'
+        app_id: 12345,
+        admins: "12345,23456"
       })
       subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "something", property: "fb:app_id" })
+        expect(meta).to have_tag('meta', with: { content: "12345", property: "fb:app_id" })
+        expect(meta).to have_tag('meta', with: { content: "12345,23456", property: "fb:admins" })
       end
     end
   end
