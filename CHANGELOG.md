@@ -1,12 +1,20 @@
-## 2.2.0 (in development)
+## 2.2.0 (August 24, 2016)
 
 Changes:
 
   - Rails < 3.2 is not longer supported
 
+Features:
+
+  - Added support for `<link rel="image_src" href="...">` tag
+  - Added support for App Links
+
 Bugfixes:
 
   - Fixed double escaping for ampersands (thanks to @srecnig)
+  - Removed usage of `alias_method_chain` to fix deprecation warnings with Rails 5
+  - Fixed the issue when title was truncated in some cases, when site_title was blank
+  - Fixed meta tag attributes for `fb:` meta tags
 
 ## 2.1.0 (October 6, 2015)
 
