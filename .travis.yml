@@ -3,8 +3,8 @@ cache: bundler
 
 rvm:
   - 2.0.0
-  - 2.1.7
-  - 2.2.4
+  - 2.1.10
+  - 2.2.5
   - 2.3.1
 
 env:
@@ -18,7 +18,7 @@ matrix:
   exclude:
     - rvm: 2.0.0
       env: "RAILS_VERSION=5.0.0"
-    - rvm: 2.1.7
+    - rvm: 2.1.10
       env: "RAILS_VERSION=5.0.0"
 
 notifications:
