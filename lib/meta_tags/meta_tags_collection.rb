@@ -128,8 +128,11 @@ module MetaTags
     def extract_noindex
       noindex_name,  noindex_value  = extract_noindex_attribute(:noindex)
       nofollow_name, nofollow_value = extract_noindex_attribute(:nofollow)
+      follow_name,   follow_value   = extract_noindex_attribute(:follow)
 
-      if noindex_name == nofollow_name
+      if noindex_name == follow_name && (follow_value && noindex_value)
+        { noindex_name => [noindex_value, follow_value].compact.join(', ') }
+      elsif noindex_name == nofollow_name
         { noindex_name => [noindex_value, nofollow_value].compact.join(', ') }
       else
         { noindex_name => noindex_value, nofollow_name => nofollow_value }

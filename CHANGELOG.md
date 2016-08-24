@@ -8,6 +8,7 @@ Features:
 
   - Added support for `<link rel="image_src" href="...">` tag
   - Added support for App Links
+  - Added support for `follow` meta tag
 
 Bugfixes:
 
