@@ -78,9 +78,8 @@ module MetaTags
         # => https://github.com/rails/rails-html-sanitizer/issues/28
         # => https://github.com/rails/rails-html-sanitizer/issues/56
 
-        # So we use Loofah to unescape all the special chars that were changed by strip_tags
-        # and escape the raw string using html_escape, which will escape quotes as well.
-        stripped_unescaped = Loofah.fragment( helpers.strip_tags(string) ).text(encode_special_chars: false)
+        # Instead of strip_tags we will use Loofah to strip tags from now on
+        stripped_unescaped = Loofah.fragment(string).text(encode_special_chars: false)
         ERB::Util.html_escape stripped_unescaped
       else
         ERB::Util.html_escape helpers.strip_tags(string)
