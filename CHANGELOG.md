@@ -1,3 +1,12 @@
+## 2.3.0 (unreleased)
+
+Changes:
+
+Features:
+  - Added support for article meta tags
+
+Bugfixes:
+
 ## 2.2.0 (August 24, 2016)
 
 Changes:
