@@ -34,4 +34,4 @@ require 'meta_tags/text_normalizer'
 require 'meta_tags/view_helper'
 
 ActionView::Base.send :include, MetaTags::ViewHelper
-ActionController::Base.send :include, MetaTags::ControllerHelper
+ActionController::Base.send :prepend, MetaTags::ControllerHelper
