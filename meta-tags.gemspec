@@ -21,6 +21,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'yard'
   s.add_development_dependency 'bluecloth'
 
+  s.cert_chain    = ['certs/kpumuk.pem']
+  s.signing_key   = File.expand_path("~/.ssh/gem-kpumuk.pem") if $0 =~ /gem\z/
+
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {spec}/*`.split("\n")
   s.executables      = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
