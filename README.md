@@ -413,6 +413,22 @@ Also you could use `set_meta_tags` method to define all meta tags simultaneously
 
 You can find allowed options for `set_meta_tags` method below.
 
+### Using MetaTags in locales with I18n
+
+You can define title, description and keywords of any view in your locales file.
+
+    en:
+      meta_tags:
+        visitors:
+          index:
+            title: My page title
+            description: My page description
+            keywords: My, Page, Keywords
+
+This would default the controller `visitors` with action `index` title, description and keywords.
+You can still overwrite them from a view or controller like normally.
+
+
 ### Using MetaTags in view
 
 To set meta tags you can use following methods:

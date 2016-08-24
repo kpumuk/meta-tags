@@ -14,6 +14,7 @@ module MetaTags
 
     included do
       alias_method_chain :render, :meta_tags
+      before_filter :meta_tags_from_locales
     end
 
     # Processes the <tt>@page_title</tt>, <tt>@page_keywords</tt>, and
@@ -26,6 +27,19 @@ module MetaTags
       render_without_meta_tags(*args, &block)
     end
     protected :render_with_meta_tags
+
+    # Processes meta tags from locales file in the name space
+    # [locale].meta_tags.[controller_name].[action].[title|description|keywords]
+    # So en.meta_tags.visitors.index.title would be loaded as title for default
+    # welcome page in the visitors controller in english.
+    def meta_tags_from_locales
+      name_space = "meta_tags.#{controller_name}.#{action_name}"
+
+      self.meta_tags[:title]       = I18n.t("#{name_space}.title") unless I18n.t("#{name_space}.title", default: "").blank?
+      self.meta_tags[:keywords]    = I18n.t("#{name_space}.keywords") unless I18n.t("#{name_space}.keywords", default: "").blank?
+      self.meta_tags[:description] = I18n.t("#{name_space}.description") unless I18n.t("#{name_space}.description", default: "").blank?
+    end
+    protected :meta_tags_from_locales
 
     # Set meta tags for the page.
     #
