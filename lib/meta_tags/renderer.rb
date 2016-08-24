@@ -203,13 +203,13 @@ module MetaTags
     #
     def process_tree(tags, property, content, options = {})
       method = case content
-      when Hash
-        :process_hash
-      when Array
-        :process_array
-      else
-        :render_tag
-      end
+               when Hash
+                 :process_hash
+               when Array
+                 :process_array
+               else
+                 :render_tag
+               end
       send(method, tags, property, content, options)
     end
 
