@@ -210,6 +210,13 @@ Further reading:
 * [Pagination](http://support.google.com/webmasters/bin/answer.py?hl=en&answer=1663744)
 * [Pagination with rel="next" and rel="prev"](http://googlewebmastercentral.blogspot.ca/2011/09/pagination-with-relnext-and-relprev.html)
 
+### image_src links
+
+Basically, when you submit/share this to Facebook , this helps Facebook determine which image to put next to the link. If this is not present, Facebook tries to put in the first image it finds on the page, which may not be the best one to represent your site.
+
+    set_meta_tags image_src: "http://yoursite.com/icons/icon_32.png"
+    # <link rel="image_src" href="http://yoursite.com/icons/icon_32.png" />
+
 ### Refresh interval and redirect URL
 
 Meta refresh is a method of instructing a web browser to automatically
@@ -479,6 +486,7 @@ Use these options to customize the title format:
 * `:publisher` — add publisher link tag;
 * `:prev` — add prev link tag;
 * `:next` — add next link tag;
+* `:image_src`  — add image_src link tag;
 * `:og` — add Open Graph tags (Hash);
 * `:twitter` — add Twitter tags (Hash);
 * `:refresh` — refresh interval and optionally url to redirect to.

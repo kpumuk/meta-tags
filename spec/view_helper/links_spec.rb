@@ -122,4 +122,25 @@ describe MetaTags::ViewHelper do
       end
     end
   end
+
+  context 'displaying image_src url' do
+    it 'should not display image_src url by default' do
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to_not have_tag('link', with: { href: "http://example.com/base/url", rel: "image_src" })
+      end
+    end
+
+    it 'should display image_src url when "set_meta_tags" used' do
+      subject.set_meta_tags(image_src: 'http://example.com/base/url')
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "image_src" })
+      end
+    end
+
+    it 'should display default image_src url' do
+      subject.display_meta_tags(site: 'someSite', image_src: 'http://example.com/base/url').tap do |meta|
+        expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "image_src" })
+      end
+    end
+  end
 end
