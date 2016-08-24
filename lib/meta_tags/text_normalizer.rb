@@ -71,13 +71,7 @@ module MetaTags
     # @return [String] html_safe string with no HTML tags.
     #
     def self.strip_tags(string)
-      if Gem.loaded_specs["actionpack"].version > Gem::Version.new('4.2.0')
-        # HACKY:
-        # Since rails changed to the new html-sanitizer, strip_tags will escape & to &amp;
-        # but will not escape " to &quot; - which is also needed for meta-tags.
-        # => https://github.com/rails/rails-html-sanitizer/issues/28
-        # => https://github.com/rails/rails-html-sanitizer/issues/56
-
+      if defined?(Loofah)
         # Instead of strip_tags we will use Loofah to strip tags from now on
         stripped_unescaped = Loofah.fragment(string).text(encode_special_chars: false)
         ERB::Util.html_escape stripped_unescaped
