@@ -546,4 +546,4 @@ And in your pjax templates:
 
 ## Author
 
-[Dmytro Shteflyuk](https://github.com/kpumuk), [http://kpumuk.info](http://kpumuk.info/)
+[Dmytro Shteflyuk](https://github.com/kpumuk), [https://kpumuk.info](http://kpumuk.info/)

@@ -1,8 +1,12 @@
 ## 2.2.0 (in development)
 
-Changes
+Changes:
 
   - Rails < 3.2 is not longer supported
+
+Bugfixes:
+
+  - Fixed double escaping for ampersands (thanks to @srecnig)
 
 ## 2.1.0 (October 6, 2015)
 
