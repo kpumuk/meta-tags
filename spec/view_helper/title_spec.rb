@@ -28,10 +28,38 @@ describe MetaTags::ViewHelper do
       expect(subject.display_meta_tags).to eq('<title>someTitle</title>')
     end
 
-    it 'should display title when "set_meta_tags" used' do
+    it 'should display title when "set_meta_tags" is used' do
       subject.set_meta_tags(title: 'someTitle')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to eq('<title>someSite | someTitle</title>')
+      end
+    end
+
+    it 'should escape the title when "set_meta_tags" is used' do
+      subject.set_meta_tags(title: 'someTitle & somethingElse')
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to eq('<title>someSite | someTitle &amp; somethingElse</title>')
+      end
+    end
+
+    it 'should escape a very long title when "set_meta_tags" is used' do
+      subject.set_meta_tags(title: 'Kombucha kale chips forage try-hard & green juice. IPhone marfa PBR&B venmo listicle, irony kitsch thundercats.')
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to eq('<title>someSite | Kombucha kale chips forage try-hard &amp; green juice.</title>')
+      end
+    end
+
+    it 'should strip tags in the title' do
+      subject.set_meta_tags(title: '<b>hackxor</b>')
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to eq('<title>someSite | hackxor</title>')
+      end
+    end
+
+    it 'should strip tags from very long titles' do
+      subject.set_meta_tags(title: 'Kombucha <b>kale</b> chips forage try-hard & green juice. IPhone marfa PBR&B venmo listicle, irony kitsch thundercats.')
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to eq('<title>someSite | Kombucha kale chips forage try-hard &amp; green juice.</title>')
       end
     end
 

@@ -68,10 +68,16 @@ module MetaTags
     # Strips all HTML tags from the +html+, including comments.
     #
     # @param [String] string HTML string.
-    # @return [String] string with no HTML tags.
+    # @return [String] html_safe string with no HTML tags.
     #
     def self.strip_tags(string)
-      ERB::Util.html_escape helpers.strip_tags(string)
+      if defined?(Loofah)
+        # Instead of strip_tags we will use Loofah to strip tags from now on
+        stripped_unescaped = Loofah.fragment(string).text(encode_special_chars: false)
+        ERB::Util.html_escape stripped_unescaped
+      else
+        ERB::Util.html_escape helpers.strip_tags(string)
+      end
     end
 
     # This method returns a html safe string similar to what <tt>Array#join</tt>
@@ -115,7 +121,7 @@ module MetaTags
     # @return [String] truncated string.
     #
     def self.truncate(string, limit = nil, natural_separator = ' ')
-      string = helpers.truncate(string, length: limit, separator: natural_separator, omission: '') if limit
+      string = helpers.truncate(string, length: limit, separator: natural_separator, omission: '', escape: false) if limit
       string
     end
 
