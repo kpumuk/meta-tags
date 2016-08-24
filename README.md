@@ -664,7 +664,7 @@ Then in your layout file use:
 And in your pjax templates:
 
 ```erb
-<!-- set title here, so we can use it both in "display_title" and in "title" %>
+<!-- set title here, so we can use it both in "display_title" and in "title" -->
 <% title "My Page title" %>
 <%= content_tag :div, data: { title: display_title(default_meta_tags) } do %>
     <h1><%= title %></h1>
