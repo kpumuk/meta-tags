@@ -1,3 +1,9 @@
+## 2.2.0 (in development)
+
+Changes
+
+  - Rails < 3.2 is not longer supported
+
 ## 2.1.0 (October 6, 2015)
 
 Changes:
