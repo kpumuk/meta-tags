@@ -122,7 +122,7 @@ module MetaTags
     #
     def self.truncate(string, limit = nil, natural_separator = ' ')
       string = helpers.truncate(string, length: limit, separator: natural_separator, omission: '', escape: false) if limit
-      string
+      string.html_safe
     end
 
     # Truncates a string to a specific limit.
