@@ -47,9 +47,15 @@ describe MetaTags::ViewHelper, 'displaying description' do
     end
   end
 
-  it 'should change escape double quotes' do
-    subject.display_meta_tags(site: 'someSite', description: 'some "description"').tap do |meta|
-      expect(meta).to have_tag('meta', with: { content: "some \"description\"", name: "description" })
+  it 'should escape double quotes' do
+    subject.display_meta_tags(description: 'some "description"').tap do |meta|
+      expect(meta).to eq('<meta name="description" content="some &quot;description&quot;" />')
+    end
+  end
+
+  it 'should escape ampersands properly' do
+    subject.display_meta_tags(description: 'verify & commit').tap do |meta|
+      expect(meta).to eq('<meta name="description" content="verify &amp; commit" />')
     end
   end
 
