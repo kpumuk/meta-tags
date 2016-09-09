@@ -1,33 +1,31 @@
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path('../lib', __FILE__)
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'meta_tags/version'
 
-Gem::Specification.new do |s|
-  s.name        = 'meta-tags'
-  s.version     = MetaTags::VERSION
-  s.platform    = Gem::Platform::RUBY
-  s.license     = "MIT"
-  s.authors     = ['Dmytro Shteflyuk']
-  s.email       = ['kpumuk@kpumuk.info']
-  s.homepage    = 'http://github.com/kpumuk/meta-tags'
-  s.summary     = %q{Collection of SEO helpers for Ruby on Rails.}
-  s.description = %q{Search Engine Optimization (SEO) plugin for Ruby on Rails applications.}
+Gem::Specification.new do |spec|
+  spec.name          = "meta-tags"
+  spec.version       = MetaTags::VERSION
+  spec.authors       = ["Dmytro Shteflyuk"]
+  spec.email         = ["kpumuk@kpumuk.info"]
 
-  s.add_dependency 'actionpack', '>= 3.2.0'
+  spec.summary       = %q{Collection of SEO helpers for Ruby on Rails.}
+  spec.description   = %q{Search Engine Optimization (SEO) plugin for Ruby on Rails applications.}
+  spec.homepage      = "http://github.com/kpumuk/meta-tags"
+  spec.license       = "MIT"
+  spec.platform      = Gem::Platform::RUBY
 
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'rspec', '~> 3.5.0'
-  s.add_development_dependency 'rspec-html-matchers'
-  s.add_development_dependency 'yard'
-  s.add_development_dependency 'bluecloth'
+  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  spec.bindir        = "exe"
+  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.require_paths = ["lib"]
 
-  s.cert_chain    = ['certs/kpumuk.pem']
-  s.signing_key   = File.expand_path("~/.ssh/gem-kpumuk.pem") if $0 =~ /gem\z/
+  spec.add_dependency "actionpack", ">= 3.2.0", "<= 5.1.0"
 
-  s.files            = `git ls-files`.split("\n")
-  s.test_files       = `git ls-files -- {spec}/*`.split("\n")
-  s.executables      = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.extra_rdoc_files = ['README.md', 'CHANGELOG.md']
-  s.rdoc_options     = ['--charset=UTF-8']
-  s.require_paths    = ['lib']
+  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "rspec", "~> 3.5.0"
+  spec.add_development_dependency "rspec-html-matchers", "~> 0.8.0"
+
+  spec.cert_chain    = ["certs/kpumuk.pem"]
+  spec.signing_key   = File.expand_path("~/.ssh/gem-kpumuk.pem") if $0 =~ /gem\z/
 end
