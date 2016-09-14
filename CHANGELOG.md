@@ -1,4 +1,4 @@
-## 2.3.0 (September 13, 2016)
+## 2.3.1 (September 13, 2016)
 
 Changes:
   - Added follow meta tag support
