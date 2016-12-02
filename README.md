@@ -50,11 +50,11 @@ the this title bar to determine what the page is all about.
 
 ```ruby
 set_meta_tags title: 'Member Login'
-# <title>Some Page Title</title>
+# <title>Member Login</title>
 set_meta_tags site: 'Site Title', title: 'Member Login'
-# <title>Site Title | Page Title</title>
+# <title>Site Title | Member Login</title>
 set_meta_tags site: 'Site Title', title: 'Member Login', reverse: true
-# <title>Page Title | Site Title</title>
+# <title>Member Login | Site Title</title>
 ```
 
 Recommended title tag length: up to <b>70 characters</b>, <b>10 words</b>.
