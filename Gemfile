@@ -8,5 +8,6 @@ if ENV['RAILS_VERSION']
 end
 
 group :test do
-  gem 'codeclimate-test-reporter', require: false
+  gem 'simplecov'
+  gem 'codeclimate-test-reporter', '~> 1.0.0'
 end
