@@ -1,3 +1,11 @@
+## 2.4.0 (Development)
+
+Features:
+  - Added amphtml links support
+
+Bugfixes:
+  - Fixed `place` attribute meta tag generation
+
 ## 2.3.1 (September 13, 2016)
 
 Changes:

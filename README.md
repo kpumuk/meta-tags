@@ -252,12 +252,31 @@ Further reading:
 
 ### image_src links
 
-Basically, when you submit/share this to Facebook , this helps Facebook determine which image to put next to the link. If this is not present, Facebook tries to put in the first image it finds on the page, which may not be the best one to represent your site.
+Basically, when you submit/share this to Facebook , this helps Facebook determine
+which image to put next to the link. If this is not present, Facebook tries to
+put in the first image it finds on the page, which may not be the best one to
+represent your site.
 
 ```ruby
 set_meta_tags image_src: "http://yoursite.com/icons/icon_32.png"
 # <link rel="image_src" href="http://yoursite.com/icons/icon_32.png" />
 ```
+
+### amphtml links
+
+AMP is a way to build web pages for static content that render fast. If you have
+two versions of the page – non-AMP and AMP, you can link the AMP version from
+normal one using `amphtml` tag:
+
+```ruby
+set_meta_tags amphtml: url_for(format: :amp, only_path: false)
+# <link rel="amphtml" href="https://www.example.com/document.amp">
+```
+
+To link back to normal version, use `canonical`.
+
+* [What Is AMP?](https://www.ampproject.org/learn/about-amp/)
+* [Make Your Page Discoverable](https://www.ampproject.org/docs/guides/discovery)
 
 ### Refresh interval and redirect URL
 
