@@ -143,4 +143,25 @@ describe MetaTags::ViewHelper do
       end
     end
   end
+
+  context 'displaying amphtml url' do
+    it 'should not display amphtml url by default' do
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to_not have_tag('link', with: { href: "http://example.com/base/url.amp", rel: "amphtml" })
+      end
+    end
+
+    it 'should display amphtml url when "set_meta_tags" used' do
+      subject.set_meta_tags(amphtml: 'http://example.com/base/url.amp')
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('link', with: { href: "http://example.com/base/url.amp", rel: "amphtml" })
+      end
+    end
+
+    it 'should display default amphtml url' do
+      subject.display_meta_tags(site: 'someSite', amphtml: 'http://example.com/base/url.amp').tap do |meta|
+        expect(meta).to have_tag('link', with: { href: "http://example.com/base/url.amp", rel: "amphtml" })
+      end
+    end
+  end
 end
