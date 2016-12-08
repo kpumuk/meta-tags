@@ -1,4 +1,4 @@
-## 2.4.0 (Development)
+## 2.4.0 (December 8, 2016)
 
 Features:
   - Added amphtml links support
