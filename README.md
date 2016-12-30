@@ -45,8 +45,8 @@ end
 ### Titles
 
 Page titles are very important for Search engines. The titles in the
-browser are displayed in the title bar. The search engines would look at
-the this title bar to determine what the page is all about.
+browser are displayed in the title bar. The search engines look at
+the title bar to determine what the page is all about.
 
 ```ruby
 set_meta_tags title: 'Member Login'
@@ -62,7 +62,7 @@ Recommended title tag length: up to <b>70 characters</b>, <b>10 words</b>.
 ### Description
 
 Description tags are called meta tags as they are not displayed by the
-browsers as that of titles. But these descriptions may be displayed by
+browsers unlike the titles. However, these descriptions may be displayed by
 some search engines. They are used to describe the contents of a page in
 2 or 3 sentences.
 
