@@ -192,7 +192,7 @@ module MetaTags
     def render_custom(tags)
       meta_tags.meta_tags.each do |name, data|
         Array(data).each do |val|
-          tags << Tag.new(:meta, name: name, content: val)
+          tags << Tag.new(:meta, configured_name_key(name) => name, content: val)
         end
         meta_tags.extract(name)
       end
@@ -249,9 +249,19 @@ module MetaTags
     # top-level meta tag.
     #
     def render_tag(tags, name, value, options = {})
-      name_key = options.fetch(:name_key, :name)
+      name_key = options.fetch(:name_key, configured_name_key(name))
       value_key = options.fetch(:value_key, :content)
       tags << Tag.new(:meta, name_key => name.to_s, value_key => value) unless value.blank?
+    end
+
+
+    private
+
+    def configured_name_key(name)
+      MetaTags.config.custom_property_tags.each do |tag_name|
+        return 'property' if name.match(Regexp.new("\^#{tag_name}"))
+      end
+      'name'
     end
   end
 end
