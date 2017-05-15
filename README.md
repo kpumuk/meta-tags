@@ -10,7 +10,7 @@ Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 ## Ruby on Rails
 
 MetaTags master branch now fully supports Rails 3.2+, and is tested against all
-major Rails releases up to 5.0.1.
+major Rails releases up to 5.1.
 
 Ruby versions older than 2.0.0 are no longer officially supported.
 

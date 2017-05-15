@@ -1,3 +1,8 @@
+## 2.4.1 (May 15, 2017)
+
+Features:
+  - Rails 5.1 support added
+
 ## 2.4.0 (December 8, 2016)
 
 Features:
