@@ -1,9 +1,9 @@
-## 2.4.1 (May 15, 2017)
+## 2.4.1 (May 15, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.4.0...v2.4.1)
 
 Features:
   - Rails 5.1 support added
 
-## 2.4.0 (December 8, 2016)
+## 2.4.0 (December 8, 2016) [☰](https://github.com/kpumuk/meta-tags/compare/v2.3.1...v2.4.0)
 
 Features:
   - Added amphtml links support
@@ -11,7 +11,7 @@ Features:
 Bugfixes:
   - Fixed `place` attribute meta tag generation
 
-## 2.3.1 (September 13, 2016)
+## 2.3.1 (September 13, 2016) [☰](https://github.com/kpumuk/meta-tags/compare/v2.2.0...v2.3.1)
 
 Changes:
   - Added follow meta tag support
@@ -21,7 +21,7 @@ Features:
 
 Bugfixes:
 
-## 2.2.0 (August 24, 2016)
+## 2.2.0 (August 24, 2016) [☰](https://github.com/kpumuk/meta-tags/compare/v2.1.0...v2.2.0)
 
 Changes:
 
@@ -40,7 +40,7 @@ Bugfixes:
   - Fixed the issue when title was truncated in some cases, when site_title was blank
   - Fixed meta tag attributes for `fb:` meta tags
 
-## 2.1.0 (October 6, 2015)
+## 2.1.0 (October 6, 2015) [☰](https://github.com/kpumuk/meta-tags/compare/v2.0.0...v2.1.0)
 
 Changes:
 
@@ -58,7 +58,7 @@ Bugfixes
   - Generate `<meta name=""/>` instead of `<meta property=""/>` for custom meta tags
   - Double HTML escaping in meta tags
 
-## 2.0.0 (April 15, 2014)
+## 2.0.0 (April 15, 2014) [☰](https://github.com/kpumuk/meta-tags/compare/v1.6.0...v2.0.0)
 
 Features:
 
@@ -68,7 +68,7 @@ Bugfixes:
 
   - Symlink references in nested hashes include use normalized meta tag values.
 
-## 1.6.0 (April 14, 2014)
+## 1.6.0 (April 14, 2014) [☰](https://github.com/kpumuk/meta-tags/compare/v1.5.0...v1.6.0)
 
 Features:
 
@@ -80,26 +80,26 @@ Breaking changes:
 
   - Removed support of Rails older than 3.0.0 due to the bug in `Hash#deep_merge` (does not support `HashWithIndifferentAccess`)
 
-## 1.5.0 (May 7, 2013)
+## 1.5.0 (May 7, 2013) [☰](https://github.com/kpumuk/meta-tags/compare/v1.4.1...v1.5.0)
 
 Features:
 
   - Added "prev" and "next" links support
   - Added refresh meta tag support
 
-## 1.4.1 (March 14, 2013)
+## 1.4.1 (March 14, 2013) [☰](https://github.com/kpumuk/meta-tags/compare/v1.4.0...v1.4.1)
 
 Bugfixes:
 
   - Added support for Hash inside of an Array
 
-## 1.4.0 (March 14, 2013)
+## 1.4.0 (March 14, 2013) [☰](https://github.com/kpumuk/meta-tags/compare/v1.3.0...v1.4.0)
 
 Features:
 
   - Added support of custom meta tags
 
-## 1.3.0 (February 13, 2013)
+## 1.3.0 (February 13, 2013) [☰](https://github.com/kpumuk/meta-tags/compare/v1.2.6...v1.3.0)
 
 Features:
 
@@ -112,13 +112,13 @@ Bugfixes:
   - Do not display title HTML tag when title is blank
   - Do not display OpenGraph tags when content is empty
 
-## 1.2.6 (March 4, 2012)
+## 1.2.6 (March 4, 2012) [☰](https://github.com/kpumuk/meta-tags/compare/v1.2.5...v1.2.6)
 
 Features:
 
   - jQuery.pjax support via `display_title` method. Check README for details
 
-## 1.2.5 (March 3, 2012)
+## 1.2.5 (March 3, 2012) [☰](https://github.com/kpumuk/meta-tags/compare/v1.2.4...v1.2.5)
 
 Bugfixes:
 
@@ -126,7 +126,7 @@ Bugfixes:
   - Fixed incorrect page title when `:site` is is blank
   - Normalize `:og` attribute to `:open_graph`
 
-## 1.2.4 (April 26, 2011)
+## 1.2.4 (April 26, 2011) [☰](https://github.com/kpumuk/meta-tags/compare/v1.2.3...v1.2.4)
 
 Features:
 
@@ -137,34 +137,34 @@ Bugfixes:
   - Fixed bug with double HTML escaping in title separator
   - Allow to set meta title without a separator
 
-## 1.2.2, 1.2.3 (June 10, 2010)
+## 1.2.2, 1.2.3 (June 10, 2010) [☰](https://github.com/kpumuk/meta-tags/compare/v1.2.1...v1.2.3)
 
 Bugfixes:
 
   - Fixed action\_pack integration (welcome back `alias_method_chain`)
   - Fixed bug when `@page_*` variables did not work
 
-## 1.2.1 (June 2, 2010)
+## 1.2.1 (June 2, 2010) [☰](https://github.com/kpumuk/meta-tags/compare/v1.2.0...v1.2.1)
 
 Bugfixes:
 
   - Fixed deprecation warning about `html_safe!`
 
-## 1.2.0 (May 31, 2010)
+## 1.2.0 (May 31, 2010) [☰](https://github.com/kpumuk/meta-tags/compare/v1.1.1...v1.2.0)
 
 Bugfixes:
 
   - Fixed bug when title is set through Array, and `:lowercase` is true
   - Updated `display_meta_tags` to be compatible with rails_xss
 
-## 1.1.1 (November 21, 2009)
+## 1.1.1 (November 21, 2009) [☰](https://github.com/kpumuk/meta-tags/compare/v1.1.0...v1.1.1)
 
 Features:
 
   - Added support for canonical link element
   - Added YARD documentation
 
-## 1.1.0 (November 5, 2009)
+## 1.1.0 (November 5, 2009) [☰](https://github.com/kpumuk/meta-tags/commits/v1.1.0)
 
 Features:
 
