@@ -57,7 +57,7 @@ module MetaTags
     # @return [String] page title.
     #
     def full_title(defaults = {})
-      with_defaults(defaults) { extract_full_title  }
+      with_defaults(defaults) { extract_full_title }
     end
 
     # Deletes and returns a meta tag value by name.
@@ -85,7 +85,7 @@ module MetaTags
       site_title = extract(:site) || ''
       title      = extract_title || []
       separator  = extract_separator
-      reverse    = extract(:reverse) === true
+      reverse    = extract(:reverse) == true
 
       TextNormalizer.normalize_title(site_title, title, separator, reverse)
     end
@@ -99,7 +99,7 @@ module MetaTags
       return unless title
 
       title = Array(title)
-      title.each(&:downcase!) if extract(:lowercase) === true
+      title.each(&:downcase!) if extract(:lowercase) == true
       title
     end
 
@@ -108,7 +108,7 @@ module MetaTags
     # @return [String] page title separator.
     #
     def extract_separator
-      if meta_tags[:separator] === false
+      if meta_tags[:separator] == false
         # Special case: if separator is hidden, do not display suffix/prefix
         prefix = separator = suffix = ''
       else
@@ -147,7 +147,7 @@ module MetaTags
     # @return [HashWithIndifferentAccess] normalized meta tags list.
     #
     def normalize_open_graph(meta_tags)
-      meta_tags = meta_tags.is_a?(HashWithIndifferentAccess) ? meta_tags.dup : meta_tags.with_indifferent_access
+      meta_tags = meta_tags.kind_of?(HashWithIndifferentAccess) ? meta_tags.dup : meta_tags.with_indifferent_access
       meta_tags[:og] = meta_tags.delete(:open_graph) if meta_tags.key?(:open_graph)
       meta_tags
     end
@@ -160,7 +160,7 @@ module MetaTags
     # @return [String] separator segment value.
     #
     def extract_separator_section(name, default)
-      meta_tags[name] === false ? '' : (meta_tags[name] || default)
+      meta_tags[name] == false ? '' : (meta_tags[name] || default)
     end
 
     # Extracts noindex attribute name and value without deleting it from meta tags list.
@@ -170,7 +170,7 @@ module MetaTags
     #
     def extract_noindex_attribute(name)
       noindex       = extract(name)
-      noindex_name  = String === noindex ? noindex : 'robots'
+      noindex_name  = noindex.kind_of?(String) ? noindex : 'robots'
       noindex_value = noindex ? name.to_s : nil
 
       [ noindex_name, noindex_value ]

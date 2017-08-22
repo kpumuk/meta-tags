@@ -42,15 +42,13 @@ module MetaTags
 
     protected
 
-
     # Renders charset tag.
     #
     # @param [Array<Tag>] tags a buffer object to store tag in.
     #
     def render_charset(tags)
-      if charset = meta_tags.extract(:charset)
-        tags << Tag.new(:meta, charset: charset) if charset.present?
-      end
+      charset = meta_tags.extract(:charset)
+      tags << Tag.new(:meta, charset: charset) if charset.present?
     end
 
     # Renders title tag.
@@ -68,15 +66,16 @@ module MetaTags
     # @param [Array<Tag>] tags a buffer object to store tag in.
     #
     def render_icon(tags)
-      if icon = meta_tags.extract(:icon)
-        if String === icon
-          tags << Tag.new(:link, rel: 'icon', href: icon, type: 'image/x-icon')
-        else
-          icon = [icon] if Hash === icon
-          icon.each do |icon_params|
-            icon_params = { rel: 'icon', type: 'image/x-icon' }.with_indifferent_access.merge(icon_params)
-            tags << Tag.new(:link, icon_params)
-          end
+      icon = meta_tags.extract(:icon)
+      return unless icon
+
+      if icon.kind_of?(String)
+        tags << Tag.new(:link, rel: 'icon', href: icon, type: 'image/x-icon')
+      else
+        icon = [icon] if icon.kind_of?(Hash)
+        icon.each do |icon_params|
+          icon_params = { rel: 'icon', type: 'image/x-icon' }.with_indifferent_access.merge(icon_params)
+          tags << Tag.new(:link, icon_params)
         end
       end
     end
@@ -108,9 +107,8 @@ module MetaTags
     # @param [Array<Tag>] tags a buffer object to store tag in.
     #
     def render_refresh(tags)
-      if refresh = meta_tags.extract(:refresh)
-        tags << Tag.new(:meta, 'http-equiv' => 'refresh', content: refresh.to_s) if refresh.present?
-      end
+      refresh = meta_tags.extract(:refresh)
+      tags << Tag.new(:meta, 'http-equiv' => 'refresh', content: refresh.to_s) if refresh.present?
     end
 
     # Renders alternate link tags.
@@ -118,15 +116,16 @@ module MetaTags
     # @param [Array<Tag>] tags a buffer object to store tag in.
     #
     def render_alternate(tags)
-      if alternate = meta_tags.extract(:alternate)
-        if Hash === alternate
-          alternate.each do |hreflang, href|
-            tags << Tag.new(:link, rel: 'alternate', href: href, hreflang: hreflang) if href.present?
-          end
-        elsif Array === alternate
-          alternate.each do |link_params|
-            tags << Tag.new(:link, { rel: 'alternate' }.with_indifferent_access.merge(link_params))
-          end
+      alternate = meta_tags.extract(:alternate)
+      return unless alternate
+
+      if alternate.kind_of?(Hash)
+        alternate.each do |hreflang, href|
+          tags << Tag.new(:link, rel: 'alternate', href: href, hreflang: hreflang) if href.present?
+        end
+      elsif alternate.kind_of?(Array)
+        alternate.each do |link_params|
+          tags << Tag.new(:link, { rel: 'alternate' }.with_indifferent_access.merge(link_params))
         end
       end
     end
@@ -136,14 +135,14 @@ module MetaTags
     # @param [Array<Tag>] tags a buffer object to store tag in.
     #
     def render_open_search(tags)
-      if open_search = meta_tags.extract(:open_search)
-        href = open_search[:href]
-        title = open_search[:title]
-        if href.present?
-          type = "application/opensearchdescription+xml"
-          tags << Tag.new(:link, rel: 'search', type: type, href: href, title: title)
-        end
-      end
+      open_search = meta_tags.extract(:open_search)
+      return unless open_search
+
+      href = open_search[:href]
+      title = open_search[:title]
+
+      type = "application/opensearchdescription+xml"
+      tags << Tag.new(:link, rel: 'search', type: type, href: href, title: title) if href.present?
     end
 
     # Renders links.
@@ -165,11 +164,8 @@ module MetaTags
     # @param [Array<Tag>] tags a buffer object to store tag in.
     #
     def render_hashes(tags, options = {})
-      meta_tags.meta_tags.each do |property, data|
-        if data.is_a?(Hash)
-          process_hash(tags, property, data, options)
-          meta_tags.extract(property)
-        end
+      meta_tags.meta_tags.keys.each do |property|
+        render_hash(tags, property, options)
       end
     end
 
@@ -179,10 +175,10 @@ module MetaTags
     #
     def render_hash(tags, key, options = {})
       data = meta_tags.meta_tags[key]
-      if data.is_a?(Hash)
-        process_hash(tags, key, data, options)
-        meta_tags.extract(key)
-      end
+      return unless data.kind_of?(Hash)
+
+      process_hash(tags, key, data, options)
+      meta_tags.extract(key)
     end
 
     # Renders custom meta tags.
@@ -226,7 +222,7 @@ module MetaTags
     def process_hash(tags, property, content, options = {})
       content.each do |key, value|
         key = key.to_s == '_' ? property : "#{property}:#{key}"
-        value = normalized_meta_tags[value] if value.is_a?(Symbol)
+        value = normalized_meta_tags[value] if value.kind_of?(Symbol)
         process_tree(tags, key, value, options)
       end
     end
