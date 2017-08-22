@@ -10,8 +10,7 @@ module MetaTags
     # @return [Array<String>] array of title parts with tags removed.
     #
     def self.normalize_title(site_title, title, separator, reverse = false)
-      title = Array(title).flatten.map(&method(:strip_tags))
-      title.reject!(&:blank?)
+      title = Array(title).flatten.map(&method(:strip_tags)).compact
       site_title = strip_tags(site_title)
       separator = strip_tags(separator)
 
