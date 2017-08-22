@@ -1,4 +1,3 @@
----
 engines:
   duplication:
     enabled: true
@@ -17,5 +16,5 @@ ratings:
   - "**.rb"
 
 exclude_paths:
-- spec/
-- certs/
+- spec/**/*
+- certs/**/*
