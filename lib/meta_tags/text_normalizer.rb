@@ -10,18 +10,12 @@ module MetaTags
     # @return [Array<String>] array of title parts with tags removed.
     #
     def self.normalize_title(site_title, title, separator, reverse = false)
-      title = Array(title).flatten.map(&method(:strip_tags))
-      title.reject!(&:blank?)
+      title = Array(title).flatten.map(&method(:strip_tags)).reject(&:blank?)
       site_title = strip_tags(site_title)
       separator = strip_tags(separator)
 
       if MetaTags.config.title_limit
-        limit = if site_title.present?
-          MetaTags.config.title_limit - separator.length
-        else
-          # separtor won't be used: ignore its length
-          MetaTags.config.title_limit
-        end
+        limit = calculate_limit(site_title, separator)
 
         if limit > site_title.length
           title = truncate_array(title, limit - site_title.length, separator)
@@ -140,21 +134,37 @@ module MetaTags
     # @return [String] truncated string.
     #
     def self.truncate_array(string_array, limit = nil, separator = '', natural_separator = ' ')
-      return string_array if limit.nil? || limit == 0
+      return string_array if limit.nil? || limit.zero?
+
       length = 0
       result = []
+
       string_array.each do |string|
-        limit_left = limit - length - (result.any? ? separator.length : 0)
+        limit_left = calculate_limit_left(limit, length, result, separator)
+
         if string.length > limit_left
           result << truncate(string, limit_left, natural_separator)
           break
         end
+
         length += (result.any? ? separator.length : 0) + string.length
         result << string
+
         # No more strings will fit
         break if length + separator.length >= limit
       end
+
       result
+    end
+
+    def self.calculate_limit_left(limit, length, result, separator)
+      limit - length - (result.any? ? separator.length : 0)
+    end
+
+    def self.calculate_limit(site_title, separator)
+      return MetaTags.config.title_limit unless site_title.present?
+
+      MetaTags.config.title_limit - separator.length
     end
   end
 end
