@@ -89,7 +89,7 @@ module MetaTags
     # @param [String] sep separator to join strings with.
     # @return [String] input strings joined together using a given separator.
     #
-    def self.safe_join(array, sep = $,)
+    def self.safe_join(array, sep = $OFS)
       helpers.safe_join(array, sep)
     end
 

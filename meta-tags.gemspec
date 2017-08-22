@@ -27,5 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec-html-matchers", "~> 0.8.0"
 
   spec.cert_chain    = ["certs/kpumuk.pem"]
-  spec.signing_key   = File.expand_path("~/.ssh/gem-kpumuk.pem") if $0 =~ /gem\z/
+  spec.signing_key   = File.expand_path("~/.ssh/gem-kpumuk.pem") if $PROGRAM_NAME =~ /gem\z/
 end
