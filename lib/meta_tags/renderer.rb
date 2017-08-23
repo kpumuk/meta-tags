@@ -29,11 +29,6 @@ module MetaTags
       render_open_search(tags)
       render_links(tags)
 
-      render_hash(tags, :og, name_key: :property)
-      render_hash(tags, :al, name_key: :property)
-      render_hash(tags, :fb, name_key: :property)
-      render_hash(tags, :article, name_key: :property)
-      render_hash(tags, :place, name_key: :property)
       render_hashes(tags)
       render_custom(tags)
 
@@ -188,7 +183,7 @@ module MetaTags
     def render_custom(tags)
       meta_tags.meta_tags.each do |name, data|
         Array(data).each do |val|
-          tags << Tag.new(:meta, name: name, content: val)
+          tags << Tag.new(:meta, configured_name_key(name) => name, content: val)
         end
         meta_tags.extract(name)
       end
@@ -245,9 +240,22 @@ module MetaTags
     # top-level meta tag.
     #
     def render_tag(tags, name, value, options = {})
-      name_key = options.fetch(:name_key, :name)
+      name_key = options.fetch(:name_key, configured_name_key(name))
       value_key = options.fetch(:value_key, :content)
       tags << Tag.new(:meta, name_key => name.to_s, value_key => value) unless value.blank?
+    end
+
+    # Returns meta tag property name for a give meta tag based on the
+    # configured list of property tags in MetaTags::Configuration#property_tags.
+    #
+    # @param [String, Symbol] meta tag key.
+    # @return [String] meta tag attribute name ("property" or "name").
+    #
+    def configured_name_key(name)
+      is_property_tag = MetaTags.config.property_tags.any? do |tag_name|
+        name.to_s.match(/^#{Regexp.escape(tag_name.to_s)}\b/)
+      end
+      is_property_tag ? :property : :name
     end
   end
 end
