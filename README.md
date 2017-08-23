@@ -730,6 +730,6 @@ set_meta_tags author: [ "Dmytro Shteflyuk", "John Doe" ]
 # <meta name="author" content="John Doe"/>
 ```
 
-## Author
+## Maintainers
 
 [Dmytro Shteflyuk](https://github.com/kpumuk), [https://kpumuk.info](http://kpumuk.info/)
