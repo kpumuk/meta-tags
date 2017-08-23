@@ -34,7 +34,7 @@ MetaTags follows best-practices for meta tags. Although default limits for
 truncation have recommended values, you can change them to reflect your own
 preferences. Keywords are downcased by default, but this is also configurable.
 To overide the defaults, create an initializer
-`config/initializers/meta_tags.rb`, with following code:
+`config/initializers/meta_tags.rb`, with the following code:
 
 ```ruby
 MetaTags.configure do |c|

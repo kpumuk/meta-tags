@@ -59,9 +59,8 @@ describe MetaTags::ViewHelper, 'displaying keywords' do
   end
 
   context 'when `keywords_lowercase` is false' do
-    before { allow(MetaTags.config).to receive(:keywords_lowercase).and_return(false) }
-
     it 'should not lowercase keywords' do
+      MetaTags.config.keywords_lowercase = false
       subject.display_meta_tags(site: 'someSite', keywords: 'someKeywords').tap do |meta|
         expect(meta).to have_tag('meta', with: { content: 'someKeywords', name: 'keywords' })
       end

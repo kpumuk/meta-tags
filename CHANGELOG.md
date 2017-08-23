@@ -1,4 +1,4 @@
-## 2.6.0 (May 15, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.5.0...v2.6.0)
+## 2.6.0 (Development) [☰](https://github.com/kpumuk/meta-tags/compare/v2.5.0...v2.6.0)
 
 Features:
   - Optionally avoid downcasing keywords

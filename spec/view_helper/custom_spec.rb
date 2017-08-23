@@ -2,9 +2,6 @@ require 'spec_helper'
 
 describe MetaTags::ViewHelper do
   subject { ActionView::Base.new }
-  after :each do
-    MetaTags.config.reset_defaults!
-  end
 
   context 'display any named meta tag that you want to' do
     it 'should display testing meta tag' do
