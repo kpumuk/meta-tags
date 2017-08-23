@@ -17,12 +17,25 @@ module MetaTags
       if MetaTags.config.title_limit
         limit = calculate_limit(site_title, separator)
 
-        if limit > site_title.length
-          title = truncate_array(title, limit - site_title.length, separator)
-        else
-          site_title = truncate(site_title, limit)
-          # Site title is too long, we have to skip page title
-          title = []
+        title_length = safe_join(title, separator).length
+        full_title_length = title_length + site_title.length 
+        full_title_length -= separator.length if site_title.present?
+
+        if title_length > limit
+          title = truncate_array(title, limit)
+          site_title = []
+        elsif full_title_length > limit
+          if MetaTags.config.truncate_site_title
+            site_title = truncate(site_title, limit - title_length)
+          else
+            if limit > site_title.length
+              title = truncate_array(title, limit - site_title.length, separator)
+            else
+              site_title = truncate(site_title, limit)
+              # Site title is too long, we have to skip page title
+              title = []
+            end
+          end 
         end
       end
 
