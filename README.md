@@ -36,10 +36,11 @@ preferences. In order to do that, you can create an initializer
 
 ```ruby
 MetaTags.configure do |c|
-  c.title_limit        = 70
-  c.description_limit  = 160
-  c.keywords_limit     = 255
-  c.keywords_separator = ', '
+  c.title_limit          = 70
+  c.description_limit    = 160
+  c.keywords_limit       = 255
+  c.keywords_separator   = ', '
+  c.custom_property_tags = ['x-hearthstone:deck']
 end
 ```
 
