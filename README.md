@@ -4,6 +4,7 @@
 [![Gem Version](https://badge.fury.io/rb/meta-tags.svg)](https://badge.fury.io/rb/meta-tags)
 [![Code Climate](https://codeclimate.com/github/kpumuk/meta-tags/badges/gpa.svg)](https://codeclimate.com/github/kpumuk/meta-tags)
 [![Test Coverage](https://codeclimate.com/github/kpumuk/meta-tags/badges/coverage.svg)](https://codeclimate.com/github/kpumuk/meta-tags/coverage)
+[![Gem Downloads](https://img.shields.io/gem/dt/meta-tags.svg)](https://badge.fury.io/rb/meta-tags)
 
 Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 
@@ -42,7 +43,235 @@ MetaTags.configure do |c|
   c.keywords_limit     = 255
   c.keywords_separator = ', '
   c.keywords_lowercase = true
+  c.property_tags.push(
+    'x-hearthstone:deck',
+  )
 end
+```
+
+By default meta tags are rendered with the key `name`. Since, some meta tags are
+required to use `property` instead (like Facebook Open Graph object), MetaTags gem
+allows to configure which tags to render with `property` attribute. By default
+the pre-configured list includes all possible Facebook Open Graph object types, but
+you can add your own in case you need it.
+
+**Please note**: Use `c.property_tags.push` instead of `c.property_tags =`, so you
+do not reset the list of default tags, which would lead to invalid Open Graph
+meta tags.
+
+## MetaTags Usage
+
+First, add this code to your main layout:
+
+```erb
+<head>
+  <%= display_meta_tags site: 'My website' %>
+</head>
+```
+
+Then, to set the page title, add this to each of your views (see below for other options):
+
+```erb
+<h1><%= title 'My page title' %></h1>
+```
+
+When views are rendered, the page title will be included in the right spots:
+
+```html
+<head>
+  <title>My website | My page title</title>
+</head>
+<body>
+  <h1>My page title</h1>
+</body>
+```
+
+You can find allowed options for `display_meta_tags` method below.
+
+### Using MetaTags in controller
+
+You can define following instance variables:
+
+```ruby
+@page_title       = 'Member Login'
+@page_description = 'Member login page.'
+@page_keywords    = 'Site, Login, Members'
+```
+
+Also you could use `set_meta_tags` method to define all meta tags simultaneously:
+
+```ruby
+set_meta_tags title: 'Member Login',
+              description: 'Member login page.',
+              keywords: 'Site, Login, Members'
+```
+
+You can find allowed options for `set_meta_tags` method below.
+
+### Using MetaTags in view
+
+To set meta tags you can use following methods:
+
+```erb
+<% title 'Member Login' %>
+<% description 'Member login page.' %>
+<% keywords 'Member login page.' %>
+<% nofollow %>
+<% noindex %>
+<% refresh 3 %>
+```
+
+Also there is `set_meta_tags` method exists:
+
+```erb
+<% set_meta_tags title: 'Member Login',
+                 description: 'Member login page.',
+                 keywords: 'Site, Login, Members' %>
+```
+
+The `title` method returns title itself, so you can use it to show the title
+somewhere on the page:
+
+```erb
+<h1><%= title 'Member Login' %></h1>
+```
+
+If you want to set the title and display another text, use this:
+
+```erb
+<h1><%= title 'Member Login', 'Here you can login to the site:' %></h1>
+```
+
+### Allowed options for `display_meta_tags` and `set_meta_tags` methods
+
+Use these options to customize the title format:
+
+* `:site` — site title;
+* `:title` — page title;
+* `:description` — page description;
+* `:keywords` — page keywords;
+* `:charset` — page character set;
+* `:prefix` — text between site name and separator;
+* `:separator` — text used to separate website name from page title;
+* `:suffix` — text between separator and page title;
+* `:lowercase` — when true, the page name will be lowercase;
+* `:reverse` — when true, the page and site names will be reversed;
+* `:noindex` — add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
+* `:nofollow` — add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
+* `:follow` – add follow meta tag; when true, 'robots' will be used, otherwise the string will be used;
+* `:canonical` — add canonical link tag;
+* `:author` — add author link tag;
+* `:publisher` — add publisher link tag;
+* `:prev` — add prev link tag;
+* `:next` — add next link tag;
+* `:image_src`  — add image_src link tag;
+* `:og` — add Open Graph tags (Hash);
+* `:twitter` — add Twitter tags (Hash);
+* `:refresh` — refresh interval and optionally url to redirect to.
+
+And here are a few examples to give you ideas.
+
+```erb
+<%= display_meta_tags separator: "&mdash;".html_safe %>
+<%= display_meta_tags prefix: false, separator: ":" %>
+<%= display_meta_tags lowercase: true %>
+<%= display_meta_tags reverse: true, prefix: false %>
+<%= display_meta_tags og: { title: 'The Rock', type: 'video.movie' } %>
+<%= display_meta_tags alternate: { 'zh-Hant' => 'http://example.com.tw/base/url' } %>
+```
+
+### Allowed values
+
+You can specify `:title` as a string or array:
+
+```ruby
+set_meta_tags title: ['part1', 'part2'], site: 'site'
+# site | part1 | part2
+set_meta_tags title: ['part1', 'part2'], reverse: true, site: 'site'
+# part2 | part1 | site
+```
+
+Keywords can be passed as string of comma-separated values, or as an array:
+
+```ruby
+set_meta_tags keywords: ['tag1', 'tag2']
+# tag1, tag2
+```
+
+Description is a string (HTML will be stripped from output string).
+
+### Mirrored values
+
+Sometimes, it is desirable to mirror meta tag values down into namespaces. A
+common use case is when you want open graph's `og:title` to be identical to
+the `title`.
+
+Say, you have the following in your application layout:
+
+```ruby
+display_meta_tags og: {
+  title: :title
+}
+```
+
+The value of `og[:title]` is a symbol and therefore references the value of the
+top level `title` meta tag. With the following in any view:
+
+```ruby
+title 'my great view'
+```
+
+You get this open graph meta tag for free:
+
+```html
+<meta property="og:title" content="my great view"></meta>
+```
+
+### Using with Turbolinks
+
+[Turbolinks](https://github.com/turbolinks/turbolinks) is a simple solution for getting
+the performance benefits of a single-page application without the added complexity of a
+client-side JavaScript framework. MetaTags supports Turbolinks out of the box, no
+configuration is necessary.
+
+### Using with pjax
+
+[jQuery.pjax](https://github.com/defunkt/jquery-pjax) is a nice solution for navigation
+without full page reload. The main difference is that layout file will not be rendered,
+so page title will not change. To fix this, when using a page fragment, pjax will check
+the fragment DOM element for a `title` or `data-title` attribute and use any value it finds.
+
+MetaTags simplifies this with `display_title` method, which returns fully resolved
+page title (include site, prefix/suffix, etc.) But in this case you will have to
+set default parameters (e.g, `:site`) both in layout file and in your views. To minimize
+code duplication, you can define a helper in `application_helper.rb`:
+
+```ruby
+def default_meta_tags
+  {
+    title:       'Member Login',
+    description: 'Member login page.',
+    keywords:    'Site, Login, Members',
+    separator:   "&mdash;".html_safe,
+  }
+end
+```
+
+Then in your layout file use:
+
+```erb
+<%= display_meta_tags(default_meta_tags) %>
+```
+
+And in your pjax templates:
+
+```erb
+<!-- set title here, so we can use it both in "display_title" and in "title" -->
+<% title "My Page title" %>
+<%= content_tag :div, data: { title: display_title(default_meta_tags) } do %>
+    <h1><%= title %></h1>
+    <!-- HTML goes here -->
+<% end %>
 ```
 
 ## SEO Basics and MetaTags
@@ -504,214 +733,6 @@ set_meta_tags author: [ "Dmytro Shteflyuk", "John Doe" ]
 # <meta name="author" content="John Doe"/>
 ```
 
-## MetaTags Usage
-
-First, add this code to your main layout:
-
-```erb
-<head>
-  <%= display_meta_tags site: 'My website' %>
-</head>
-```
-
-Then, to set the page title, add this to each of your views (see below for other options):
-
-```erb
-<h1><%= title 'My page title' %></h1>
-```
-
-When views are rendered, the page title will be included in the right spots:
-
-```html
-<head>
-  <title>My website | My page title</title>
-</head>
-<body>
-  <h1>My page title</h1>
-</body>
-```
-
-You can find allowed options for `display_meta_tags` method below.
-
-### Using MetaTags in controller
-
-You can define following instance variables:
-
-```ruby
-@page_title       = 'Member Login'
-@page_description = 'Member login page.'
-@page_keywords    = 'Site, Login, Members'
-```
-
-Also you could use `set_meta_tags` method to define all meta tags simultaneously:
-
-```ruby
-set_meta_tags title: 'Member Login',
-              description: 'Member login page.',
-              keywords: 'Site, Login, Members'
-```
-
-You can find allowed options for `set_meta_tags` method below.
-
-### Using MetaTags in view
-
-To set meta tags you can use following methods:
-
-```erb
-<% title 'Member Login' %>
-<% description 'Member login page.' %>
-<% keywords 'Member login page.' %>
-<% nofollow %>
-<% noindex %>
-<% refresh 3 %>
-```
-
-Also there is `set_meta_tags` method exists:
-
-```erb
-<% set_meta_tags title: 'Member Login',
-                 description: 'Member login page.',
-                 keywords: 'Site, Login, Members' %>
-```
-
-The `title` method returns title itself, so you can use it to show the title
-somewhere on the page:
-
-```erb
-<h1><%= title 'Member Login' %></h1>
-```
-
-If you want to set the title and display another text, use this:
-
-```erb
-<h1><%= title 'Member Login', 'Here you can login to the site:' %></h1>
-```
-
-### Allowed options for `display_meta_tags` and `set_meta_tags` methods
-
-Use these options to customize the title format:
-
-* `:site` — site title;
-* `:title` — page title;
-* `:description` — page description;
-* `:keywords` — page keywords;
-* `:charset` — page character set;
-* `:prefix` — text between site name and separator;
-* `:separator` — text used to separate website name from page title;
-* `:suffix` — text between separator and page title;
-* `:lowercase` — when true, the page name will be lowercase;
-* `:reverse` — when true, the page and site names will be reversed;
-* `:noindex` — add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
-* `:nofollow` — add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
-* `:follow` – add follow meta tag; when true, 'robots' will be used, otherwise the string will be used;
-* `:canonical` — add canonical link tag;
-* `:author` — add author link tag;
-* `:publisher` — add publisher link tag;
-* `:prev` — add prev link tag;
-* `:next` — add next link tag;
-* `:image_src`  — add image_src link tag;
-* `:og` — add Open Graph tags (Hash);
-* `:twitter` — add Twitter tags (Hash);
-* `:refresh` — refresh interval and optionally url to redirect to.
-
-And here are a few examples to give you ideas.
-
-```erb
-<%= display_meta_tags separator: "&mdash;".html_safe %>
-<%= display_meta_tags prefix: false, separator: ":" %>
-<%= display_meta_tags lowercase: true %>
-<%= display_meta_tags reverse: true, prefix: false %>
-<%= display_meta_tags og: { title: 'The Rock', type: 'video.movie' } %>
-<%= display_meta_tags alternate: { 'zh-Hant' => 'http://example.com.tw/base/url' } %>
-```
-
-### Allowed values
-
-You can specify `:title` as a string or array:
-
-```ruby
-set_meta_tags title: ['part1', 'part2'], site: 'site'
-# site | part1 | part2
-set_meta_tags title: ['part1', 'part2'], reverse: true, site: 'site'
-# part2 | part1 | site
-```
-
-Keywords can be passed as string of comma-separated values, or as an array:
-
-```ruby
-set_meta_tags keywords: ['tag1', 'tag2']
-# tag1, tag2
-```
-
-Description is a string (HTML will be stripped from output string).
-
-### Mirrored values
-
-Sometimes, it is desirable to mirror meta tag values down into namespaces. A
-common use case is when you want open graph's `og:title` to be identical to
-the `title`.
-
-Say, you have the following in your application layout:
-
-```ruby
-display_meta_tags og: {
-  title: :title
-}
-```
-
-The value of `og[:title]` is a symbol and therefore references the value of the
-top level `title` meta tag. With the following in any view:
-
-```ruby
-title 'my great view'
-```
-
-You get this open graph meta tag for free:
-
-```html
-<meta property="og:title" content="my great view"></meta>
-```
-
-### Using with pjax
-
-[jQuery.pjax](https://github.com/defunkt/jquery-pjax) is a nice solution for navigation
-without full page reload. The main difference is that layout file will not be rendered,
-so page title will not change. To fix this, when using a page fragment, pjax will check
-the fragment DOM element for a `title` or `data-title` attribute and use any value it finds.
-
-MetaTags simplifies this with `display_title` method, which returns fully resolved
-page title (include site, prefix/suffix, etc.) But in this case you will have to
-set default parameters (e.g, `:site`) both in layout file and in your views. To minimize
-code duplication, you can define a helper in `application_helper.rb`:
-
-```ruby
-def default_meta_tags
-  {
-    title:       'Member Login',
-    description: 'Member login page.',
-    keywords:    'Site, Login, Members',
-    separator:   "&mdash;".html_safe,
-  }
-end
-```
-
-Then in your layout file use:
-
-```erb
-<%= display_meta_tags(default_meta_tags) %>
-```
-
-And in your pjax templates:
-
-```erb
-<!-- set title here, so we can use it both in "display_title" and in "title" -->
-<% title "My Page title" %>
-<%= content_tag :div, data: { title: display_title(default_meta_tags) } do %>
-    <h1><%= title %></h1>
-    <!-- HTML goes here -->
-<% end %>
-```
-
-## Author
+## Maintainers
 
 [Dmytro Shteflyuk](https://github.com/kpumuk), [https://kpumuk.info](http://kpumuk.info/)

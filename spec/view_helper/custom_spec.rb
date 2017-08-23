@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe MetaTags::ViewHelper do
   subject { ActionView::Base.new }
+  after :each do
+    MetaTags.config.reset_defaults!
+  end
 
   context 'display any named meta tag that you want to' do
     it 'should display testing meta tag' do
@@ -36,32 +39,62 @@ describe MetaTags::ViewHelper do
     end
 
     it 'should display meta tags with hashes and arrays' do
-      subject.set_meta_tags(foo: {
-        bar: "lorem",
-        baz: {
-          qux: ["lorem", "ipsum"]
-        },
-        quux: [
-          {
-            corge:  "lorem",
-            grault: "ipsum"
-          },
-          {
-            corge:  "dolor",
-            grault: "sit"
-          }
-        ]
-      })
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "lorem", name: "foo:bar" })
-        expect(meta).to have_tag('meta', with: { content: "lorem", name: "foo:baz:qux" })
-        expect(meta).to have_tag('meta', with: { content: "ipsum", name: "foo:baz:qux" })
-        expect(meta).to have_tag('meta', with: { content: "lorem", name: "foo:quux:corge" })
-        expect(meta).to have_tag('meta', with: { content: "ipsum", name: "foo:quux:grault" })
-        expect(meta).to have_tag('meta', with: { content: "dolor", name: "foo:quux:corge" })
-        expect(meta).to have_tag('meta', with: { content: "sit", name: "foo:quux:grault" })
-        expect(meta).to_not have_tag('meta', with: { name: "foo:quux" })
+      test_hashes_and_arrays
+    end
+
+    it 'should use `property` attribute instead of `name` for custom tags listed under `property_tags` in config' do
+      MetaTags.config.property_tags.push(:testing1, 'testing2')
+
+      subject.display_meta_tags('testing1': 'test').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "test", property: "testing1" })
       end
+
+      subject.display_meta_tags('testing2:nested': 'nested test').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "nested test", property: "testing2:nested" })
+      end
+    end
+
+    it 'should display `property_tags` in hashes and arrays properly' do
+      MetaTags.config.property_tags.push(:foo)
+
+      test_hashes_and_arrays(name_key: :property)
+    end
+
+    it 'should not use `property` tag for the keys that do not match `property_tags`' do
+      MetaTags.config.property_tags.push(:foos)
+      MetaTags.config.property_tags.push(:fo)
+
+      test_hashes_and_arrays(name_key: :name)
+    end
+  end
+
+  def test_hashes_and_arrays(name_key: :name)
+    subject.set_meta_tags(foo: {
+      _: "test",
+      bar: "lorem",
+      baz: {
+        qux: ["lorem", "ipsum"]
+      },
+      quux: [
+        {
+          corge:  "lorem",
+          grault: "ipsum"
+        },
+        {
+          corge:  "dolor",
+          grault: "sit"
+        }
+      ]
+    })
+    subject.display_meta_tags(site: 'someSite').tap do |meta|
+      expect(meta).to have_tag('meta', with: { content: "lorem", name_key => "foo:bar" })
+      expect(meta).to have_tag('meta', with: { content: "lorem", name_key => "foo:baz:qux" })
+      expect(meta).to have_tag('meta', with: { content: "ipsum", name_key => "foo:baz:qux" })
+      expect(meta).to have_tag('meta', with: { content: "lorem", name_key => "foo:quux:corge" })
+      expect(meta).to have_tag('meta', with: { content: "ipsum", name_key => "foo:quux:grault" })
+      expect(meta).to have_tag('meta', with: { content: "dolor", name_key => "foo:quux:corge" })
+      expect(meta).to have_tag('meta', with: { content: "sit", name_key => "foo:quux:grault" })
+      expect(meta).to_not have_tag('meta', with: { name: "foo:quux" })
     end
   end
 end

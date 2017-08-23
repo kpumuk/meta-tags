@@ -1,7 +1,15 @@
-## 2.4.2 (May 15, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.4.1...v2.4.2)
+## 2.6.0 (May 15, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.5.0...v2.6.0)
 
 Features:
   - Optionally avoid downcasing keywords
+
+## 2.5.0 (August 23, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.4.1...v2.5.0)
+
+Features:
+  - Fully support [Open Graph objects](https://developers.facebook.com/docs/reference/opengraph) meta tags.
+
+Changes:
+  - Dropped official support for Rails older than 4.2 and Ruby older than 2.2 (both reached their End of Life)
 
 ## 2.4.1 (May 15, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.4.0...v2.4.1)
 
@@ -23,8 +31,6 @@ Changes:
 
 Features:
   - Added support for article meta tags
-
-Bugfixes:
 
 ## 2.2.0 (August 24, 2016) [☰](https://github.com/kpumuk/meta-tags/compare/v2.1.0...v2.2.0)
 
