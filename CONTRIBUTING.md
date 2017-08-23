@@ -9,7 +9,7 @@ Fork, then clone the repo:
 
 Set up your machine:
 
-    bundle install
+    ./bin/setup
 
 Make sure the tests pass:
 
