@@ -1,4 +1,4 @@
-## 2.5.0 (Development) [☰](https://github.com/kpumuk/meta-tags/compare/v2.4.1...v2.5.0)
+## 2.5.0 (August 23, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.4.1...v2.5.0)
 
 Features:
   - Fully support [Open Graph objects](https://developers.facebook.com/docs/reference/opengraph) meta tags.
