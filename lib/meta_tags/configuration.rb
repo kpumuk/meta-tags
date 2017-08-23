@@ -11,7 +11,7 @@ module MetaTags
     attr_accessor :keywords_separator
     # Custom meta tags that should use `property` attribute instead of `name`
     # - an array of strings or symbols representing their names or name-prefixes.
-    attr_accessor :property_tags
+    attr_reader :property_tags
 
     # Initializes a new instance of Configuration class.
     def initialize
