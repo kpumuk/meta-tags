@@ -1,3 +1,11 @@
+## 2.5.0 (Development) [☰](https://github.com/kpumuk/meta-tags/compare/v2.4.1...v2.5.0)
+
+Features:
+  - Fully support [Open Graph objects](https://developers.facebook.com/docs/reference/opengraph) meta tags.
+
+Changes:
+  - Dropped official support for Rails older than 4.2 and Ruby older than 2.2 (both reached their End of Life)
+
 ## 2.4.1 (May 15, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.4.0...v2.4.1)
 
 Features:

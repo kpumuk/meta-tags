@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe MetaTags::ViewHelper do
   subject { ActionView::Base.new }
+  after :each do
+    MetaTags.config.reset_defaults!
+  end
 
   context 'display any named meta tag that you want to' do
     it 'should display testing meta tag' do
@@ -39,10 +42,8 @@ describe MetaTags::ViewHelper do
       test_hashes_and_arrays
     end
 
-    it 'should use `property` attribute instead of `name` for custom tags listed under `custom_property_tags` in config' do
-      MetaTags.configure do |config|
-        config.custom_property_tags = [:testing1, 'testing2']
-      end
+    it 'should use `property` attribute instead of `name` for custom tags listed under `property_tags` in config' do
+      MetaTags.config.property_tags.push(:testing1, 'testing2')
 
       subject.display_meta_tags('testing1': 'test').tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "test", property: "testing1" })
@@ -53,17 +54,23 @@ describe MetaTags::ViewHelper do
       end
     end
 
-    it 'should display `custom_property_tags` in hashes and arrays properly' do
-      MetaTags.configure do |config|
-        config.custom_property_tags = [:foo]
-      end
+    it 'should display `property_tags` in hashes and arrays properly' do
+      MetaTags.config.property_tags.push(:foo)
 
       test_hashes_and_arrays(name_key: :property)
+    end
+
+    it 'should not use `property` tag for the keys that do not match `property_tags`' do
+      MetaTags.config.property_tags.push(:foos)
+      MetaTags.config.property_tags.push(:fo)
+
+      test_hashes_and_arrays(name_key: :name)
     end
   end
 
   def test_hashes_and_arrays(name_key: :name)
     subject.set_meta_tags(foo: {
+      _: "test",
       bar: "lorem",
       baz: {
         qux: ["lorem", "ipsum"]

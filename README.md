@@ -40,9 +40,21 @@ MetaTags.configure do |c|
   c.description_limit    = 160
   c.keywords_limit       = 255
   c.keywords_separator   = ', '
-  c.custom_property_tags = ['x-hearthstone:deck']
+  c.property_tags.push(
+    'x-hearthstone:deck',
+  )
 end
 ```
+
+By default meta tags are rendered with the key `name`. Since, some meta tags are
+required to use `property` instead (like Facebook Open Graph object), MetaTags gem
+allows to configure which tags to render with `property` attribute. By default
+the pre-configured list includes all possible Facebook Open Graph object types, but
+you can add your own in case you need it.
+
+**Please note**: Use `c.property_tags.push` instead of `c.property_tags =`, so you
+do not reset the list of default tags, which would lead to invalid Open Graph
+meta tags.
 
 ## MetaTags Usage
 
