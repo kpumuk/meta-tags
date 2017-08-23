@@ -9,6 +9,8 @@ module MetaTags
     attr_accessor :keywords_limit
     # Keywords separator - a string to join keywords with.
     attr_accessor :keywords_separator
+    # Should keywords forced into lowercase?
+    attr_accessor :keywords_lowercase
     # Custom meta tags that should use `property` attribute instead of `name`
     # - an array of strings or symbols representing their names or name-prefixes.
     attr_reader :property_tags
@@ -59,6 +61,7 @@ module MetaTags
       @description_limit = 160
       @keywords_limit = 255
       @keywords_separator = ', '
+      @keywords_lowercase = true
       @property_tags = default_property_tags.dup
     end
   end

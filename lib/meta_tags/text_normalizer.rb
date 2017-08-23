@@ -50,7 +50,8 @@ module MetaTags
     #
     def self.normalize_keywords(keywords)
       return '' if keywords.blank?
-      keywords = cleanup_strings(keywords).each(&:downcase!)
+      keywords = cleanup_strings(keywords)
+      keywords.each(&:downcase!) if MetaTags.config.keywords_lowercase
       separator = strip_tags MetaTags.config.keywords_separator
 
       keywords = truncate_array(keywords, MetaTags.config.keywords_limit, separator)

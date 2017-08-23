@@ -33,6 +33,11 @@ RSpec.configure do |config|
 
   config.include RSpecHtmlMatchers
 
+  # Reset MetaTags configuration after every spec.
+  config.after :each do
+    MetaTags.config.reset_defaults!
+  end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
