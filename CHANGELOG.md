@@ -27,8 +27,6 @@ Changes:
 Features:
   - Added support for article meta tags
 
-Bugfixes:
-
 ## 2.2.0 (August 24, 2016) [☰](https://github.com/kpumuk/meta-tags/compare/v2.1.0...v2.2.0)
 
 Changes:
