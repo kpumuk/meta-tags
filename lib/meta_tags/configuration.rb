@@ -9,6 +9,8 @@ module MetaTags
     attr_accessor :keywords_limit
     # Keywords separator - a string to join keywords with.
     attr_accessor :keywords_separator
+    # Should keywords forced into lowercase?
+    attr_accessor :keywords_lowercase
 
     # Initializes a new instance of Configuration class.
     def initialize
@@ -16,6 +18,7 @@ module MetaTags
       @description_limit = 160
       @keywords_limit = 255
       @keywords_separator = ', '
+      @keywords_lowercase = true
     end
   end
 end

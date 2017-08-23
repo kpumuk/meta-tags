@@ -31,7 +31,8 @@ And run `bundle install` command.
 
 MetaTags follows best-practices for meta tags. Although default limits for
 truncation have recommended values, you can change them to reflect your own
-preferences. In order to do that, you can create an initializer
+preferences. Keywords are downcased by default, but this is also configurable.
+To overide the defaults, create an initializer
 `config/initializers/meta_tags.rb`, with following code:
 
 ```ruby
@@ -40,6 +41,7 @@ MetaTags.configure do |c|
   c.description_limit  = 160
   c.keywords_limit     = 255
   c.keywords_separator = ', '
+  c.keywords_lowercase = true
 end
 ```
 
