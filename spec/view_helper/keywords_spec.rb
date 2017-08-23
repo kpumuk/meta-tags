@@ -38,12 +38,6 @@ describe MetaTags::ViewHelper, 'displaying keywords' do
     end
   end
 
-  it 'should lowercase keywords' do
-    subject.display_meta_tags(site: 'someSite', keywords: 'someKeywords').tap do |meta|
-      expect(meta).to have_tag('meta', with: { content: "somekeywords", name: "keywords" })
-    end
-  end
-
   it 'should join keywords from Array' do
     subject.display_meta_tags(site: 'someSite', keywords: %w(keyword1 keyword2)).tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "keyword1, keyword2", name: "keywords" })
@@ -53,6 +47,24 @@ describe MetaTags::ViewHelper, 'displaying keywords' do
   it 'should join keywords from nested Arrays' do
     subject.display_meta_tags(site: 'someSite', keywords: [%w(keyword1 keyword2), 'keyword3']).tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "keyword1, keyword2, keyword3", name: "keywords" })
+    end
+  end
+
+  context 'with the default configuration' do
+    it 'should lowercase keywords' do
+      subject.display_meta_tags(site: 'someSite', keywords: 'someKeywords').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: 'somekeywords', name: 'keywords' })
+      end
+    end
+  end
+
+  context 'when `keywords_lowercase` is false' do
+    before { allow(MetaTags.config).to receive(:keywords_lowercase).and_return(false) }
+
+    it 'should not lowercase keywords' do
+      subject.display_meta_tags(site: 'someSite', keywords: 'someKeywords').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: 'someKeywords', name: 'keywords' })
+      end
     end
   end
 end
