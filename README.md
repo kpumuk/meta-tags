@@ -55,9 +55,8 @@ allows to configure which tags to render with `property` attribute. By default
 the pre-configured list includes all possible Facebook Open Graph object types, but
 you can add your own in case you need it.
 
-**Please note**: Use `c.property_tags.push` instead of `c.property_tags =`, so you
-do not reset the list of default tags, which would lead to invalid Open Graph
-meta tags.
+**Please note**: Use `c.property_tags.push` to add new meta tags that should use
+`property` attribute to the list of pre-defined meta tags.
 
 ## MetaTags Usage
 
