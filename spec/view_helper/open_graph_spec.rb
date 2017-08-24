@@ -59,6 +59,15 @@ describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
     end
   end
 
+  it "should properly handle title and site title in mirrored content" do
+    subject.set_meta_tags(title: 'someTitle', site: 'someSite')
+    subject.display_meta_tags(open_graph: { title: :title, site_name: :site, full_title: :full_title }).tap do |meta|
+      expect(meta).to have_tag('meta', with: { content: "someTitle", property: "og:title" })
+      expect(meta).to have_tag('meta', with: { content: "someSite", property: "og:site_name" })
+      expect(meta).to have_tag('meta', with: { content: "someSite | someTitle", property: "og:full_title" })
+    end
+  end
+
   it "should display open graph meta tags with an array of images" do
     subject.set_meta_tags(open_graph: {
       title: 'someTitle',

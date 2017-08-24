@@ -197,7 +197,8 @@ Say, you have the following in your application layout:
 
 ```ruby
 display_meta_tags og: {
-  title: :title
+  title: :title,
+  site_name: :site,
 }
 ```
 
@@ -213,6 +214,9 @@ You get this open graph meta tag for free:
 ```html
 <meta property="og:title" content="my great view"></meta>
 ```
+
+Please note, that title does not include site. If you need to reference the exact
+value rendered in the `<title>` meta tag, use `:full_title`.
 
 ### Using with Turbolinks
 

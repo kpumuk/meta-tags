@@ -60,6 +60,17 @@ module MetaTags
       with_defaults(defaults) { extract_full_title }
     end
 
+    # Constructs the title without site title (for normalized parameters).
+    #
+    # @return [String] page title.
+    #
+    def page_title(defaults = {})
+      old_site, @meta_tags[:site] = @meta_tags[:site], nil
+      with_defaults(defaults) { extract_full_title }
+    ensure
+      @meta_tags[:site] = old_site
+    end
+
     # Deletes and returns a meta tag value by name.
     #
     # @param [String, Symbol] name meta tag name.

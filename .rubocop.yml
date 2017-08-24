@@ -838,7 +838,7 @@ Style/ParallelAssignment:
                   matches on both sides of the assignment.
                   This also provides performance benefits
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#parallel-assignment'
-  Enabled: true
+  Enabled: false
 
 Style/ParenthesesAroundCondition:
   Description: >-
