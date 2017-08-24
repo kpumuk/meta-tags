@@ -2,6 +2,7 @@
 
 Features:
   - Optionally avoid downcasing keywords
+  - Added Rails generator to create an initializer with the default settings.
 
 ## 2.5.0 (August 23, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.4.1...v2.5.0)
 

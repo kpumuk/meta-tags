@@ -32,21 +32,14 @@ And run `bundle install` command.
 
 MetaTags follows best-practices for meta tags. Although default limits for
 truncation have recommended values, you can change them to reflect your own
-preferences. Keywords are downcased by default, but this is also configurable.
-To overide the defaults, create an initializer
-`config/initializers/meta_tags.rb`, with the following code:
+preferences. Keywords are converted to lowercase by default, but this is also
+configurable.
 
-```ruby
-MetaTags.configure do |c|
-  c.title_limit        = 70
-  c.description_limit  = 160
-  c.keywords_limit     = 255
-  c.keywords_separator = ', '
-  c.keywords_lowercase = true
-  c.property_tags.push(
-    'x-hearthstone:deck',
-  )
-end
+To overide the defaults, create an initializer
+`config/initializers/meta_tags.rb` using the following command:
+
+```bash
+rails generate meta_tags:install
 ```
 
 By default meta tags are rendered with the key `name`. Since, some meta tags are
@@ -54,9 +47,6 @@ required to use `property` instead (like Facebook Open Graph object), MetaTags g
 allows to configure which tags to render with `property` attribute. By default
 the pre-configured list includes all possible Facebook Open Graph object types, but
 you can add your own in case you need it.
-
-**Please note**: Use `c.property_tags.push` to add new meta tags that should use
-`property` attribute to the list of pre-defined meta tags.
 
 ## MetaTags Usage
 
