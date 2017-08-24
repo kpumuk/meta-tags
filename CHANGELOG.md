@@ -4,6 +4,10 @@ Features:
   - Optionally avoid downcasing keywords
   - Added Rails generator to create an initializer with the default settings.
 
+Changes:
+
+  - Removed Google "author" and "publisher" links, as Google deprecated these options (https://support.google.com/webmasters/answer/6083347?hl=en)
+
 ## 2.5.0 (August 23, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.4.1...v2.5.0)
 
 Features:
