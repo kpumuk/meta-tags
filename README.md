@@ -282,6 +282,10 @@ set_meta_tags site: 'Site Title', title: 'Member Login', reverse: true
 
 Recommended title tag length: up to <b>70 characters</b>, <b>10 words</b>.
 
+Further reading:
+
+* [Title Tag](https://moz.com/learn/seo/title-tag)
+
 ### Description
 
 Description tags are called meta tags as they are not displayed by the
@@ -296,6 +300,10 @@ set_meta_tags description: "All text about keywords, other keywords"
 
 Recommended description tag length: up to <b>160 characters</b>.
 
+Further reading:
+
+* [Meta Description](https://moz.com/learn/seo/meta-description)
+
 ### Keywords
 
 Meta keywords tag are used to place your keywords that you think a
@@ -308,6 +316,9 @@ set_meta_tags keywords: %w[keyword1 Keyword2 KeyWord3]
 ```
 
 Recommended keywords tag length: up to <b>255 characters</b>, <b>20 words</b>.
+
+**Please note**, that both Google and Bing publicly indicated that keywords
+meta tags is completely ignored.
 
 ### Noindex
 
