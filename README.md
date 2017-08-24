@@ -104,7 +104,7 @@ To set meta tags you can use following methods:
 ```erb
 <% title 'Member Login' %>
 <% description 'Member login page.' %>
-<% keywords 'Member login page.' %>
+<% keywords 'Site, Login, Members' %>
 <% nofollow %>
 <% noindex %>
 <% refresh 3 %>
