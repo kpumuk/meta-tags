@@ -35,6 +35,11 @@ describe MetaTags::TextNormalizer, '.normalize_title' do
   end
 
   context 'when site_title is specified' do
+    it 'should return site when title is blank' do
+      expect(subject.normalize_title('site', nil, '-')).to eq('site')
+      expect(subject.normalize_title('site', '', '-')).to eq('site')
+    end
+
     it 'should join title and site_title with separator' do
       expect(subject.normalize_title('site', 'title', '-')).to eq('site-title')
     end
