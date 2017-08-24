@@ -1,6 +1,8 @@
 module MetaTags
   # Module contains helpers that normalize text meta tag values.
   module TextNormalizer
+    extend self
+
     # Normalize title value.
     #
     # @param [String] site_title site title.
@@ -9,25 +11,23 @@ module MetaTags
     # @param [true,false] reverse whether title should be reversed.
     # @return [Array<String>] array of title parts with tags removed.
     #
-    def self.normalize_title(site_title, title, separator, reverse = false)
+    def normalize_title(site_title, title, separator, reverse = false)
       title = Array(title).flatten.map(&method(:strip_tags)).reject(&:blank?)
+      title.reverse! if reverse
+
       site_title = strip_tags(site_title)
       separator = strip_tags(separator)
 
-      if MetaTags.config.title_limit
-        limit = calculate_limit(site_title, separator)
+      # Truncate title and site title
+      site_title, title = truncate_title(site_title, title, separator)
 
-        if limit > site_title.length
-          title = truncate_array(title, limit - site_title.length, separator)
+      if site_title.present?
+        if reverse
+          title.push(site_title)
         else
-          site_title = truncate(site_title, limit)
-          # Site title is too long, we have to skip page title
-          title = []
+          title.unshift(site_title)
         end
       end
-
-      title.unshift(site_title) if site_title.present?
-      title.reverse! if reverse
       safe_join(title, separator)
     end
 
@@ -37,7 +37,7 @@ module MetaTags
     # @return [String] text with tags removed, squashed spaces, truncated
     # to 200 characters.
     #
-    def self.normalize_description(description)
+    def normalize_description(description)
       return '' if description.blank?
       description = cleanup_string(description)
       truncate(description, MetaTags.config.description_limit)
@@ -48,7 +48,7 @@ module MetaTags
     # @param [String, Array<String>] keywords list of keywords as a string or Array.
     # @return [String] list of keywords joined with comma, with tags removed.
     #
-    def self.normalize_keywords(keywords)
+    def normalize_keywords(keywords)
       return '' if keywords.blank?
       keywords = cleanup_strings(keywords)
       keywords.each(&:downcase!) if MetaTags.config.keywords_lowercase
@@ -62,7 +62,7 @@ module MetaTags
     #
     # @return [ActionView::Base] proxy object to access Rails helpers.
     #
-    def self.helpers
+    def helpers
       ActionController::Base.helpers
     end
 
@@ -71,7 +71,7 @@ module MetaTags
     # @param [String] string HTML string.
     # @return [String] html_safe string with no HTML tags.
     #
-    def self.strip_tags(string)
+    def strip_tags(string)
       if defined?(Loofah)
         # Instead of strip_tags we will use Loofah to strip tags from now on
         stripped_unescaped = Loofah.fragment(string).text(encode_special_chars: false)
@@ -90,7 +90,7 @@ module MetaTags
     # @param [String] sep separator to join strings with.
     # @return [String] input strings joined together using a given separator.
     #
-    def self.safe_join(array, sep = $OFS)
+    def safe_join(array, sep = $OFS)
       helpers.safe_join(array, sep)
     end
 
@@ -100,7 +100,7 @@ module MetaTags
     # @return [String] input string with no HTML tags and consequent white
     # space characters squashed into a single space.
     #
-    def self.cleanup_string(string)
+    def cleanup_string(string)
       strip_tags(string).gsub(/\s+/, ' ').strip.html_safe
     end
 
@@ -110,7 +110,7 @@ module MetaTags
     # @return [Array<String>] clean strings.
     # @see cleanup_string
     #
-    def self.cleanup_strings(strings)
+    def cleanup_strings(strings)
       Array(strings).flatten.map(&method(:cleanup_string))
     end
 
@@ -121,7 +121,7 @@ module MetaTags
     # @param [String] natural_separator natural separator to truncate at.
     # @return [String] truncated string.
     #
-    def self.truncate(string, limit = nil, natural_separator = ' ')
+    def truncate(string, limit = nil, natural_separator = ' ')
       string = helpers.truncate(string, length: limit, separator: natural_separator, omission: '', escape: false) if limit
       string.html_safe
     end
@@ -134,8 +134,8 @@ module MetaTags
     # @param [String] natural_separator natural separator to truncate at.
     # @return [String] truncated string.
     #
-    def self.truncate_array(string_array, limit = nil, separator = '', natural_separator = ' ')
-      return string_array if limit.nil? || limit.zero?
+    def truncate_array(string_array, limit = nil, separator = '', natural_separator = ' ')
+      return string_array if limit.nil? || limit <= 0
 
       length = 0
       result = []
@@ -158,14 +158,38 @@ module MetaTags
       result
     end
 
-    def self.calculate_limit_left(limit, length, result, separator)
+    private
+
+    def calculate_limit_left(limit, length, result, separator)
       limit - length - (result.any? ? separator.length : 0)
     end
 
-    def self.calculate_limit(site_title, separator)
-      return MetaTags.config.title_limit unless site_title.present?
+    def truncate_title(site_title, title, separator)
+      if MetaTags.config.title_limit && MetaTags.config.title_limit > 0
+        site_title_limited_length, title_limited_length = calculate_title_limits(site_title, title, separator)
 
-      MetaTags.config.title_limit - separator.length
+        title = title_limited_length > 0 ? truncate_array(title, title_limited_length, separator) : []
+        site_title = site_title_limited_length > 0 ? truncate(site_title, site_title_limited_length) : nil
+      end
+
+      [site_title, title]
+    end
+
+    def calculate_title_limits(site_title, title, separator)
+      # What should we truncate first: site title or page title?
+      main_title = MetaTags.config.truncate_site_title_first ? title : [site_title]
+
+      main_length = main_title.map(&:length).sum + (main_title.size - 1) * separator.length
+      main_limited_length = MetaTags.config.title_limit
+
+      secondary_limited_length = MetaTags.config.title_limit - (main_length > 0 ? main_length + separator.length : 0)
+      secondary_limited_length = [0, secondary_limited_length].max
+
+      if MetaTags.config.truncate_site_title_first
+        [ secondary_limited_length, main_limited_length ]
+      else
+        [ main_limited_length, secondary_limited_length ]
+      end
     end
   end
 end

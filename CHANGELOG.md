@@ -3,9 +3,12 @@
 Features:
   - Optionally avoid downcasing keywords
   - Added Rails generator to create an initializer with the default settings.
+  - Added a configuration option `truncate_site_title_first` which enables site title truncation when title limit is reached.
+
+Bugfixes:
+  - When title limit reached with `reverse` set to `true`, properly truncate the last item of the title array instead of the first one.
 
 Changes:
-
   - Removed Google "author" and "publisher" links, as Google deprecated these options (https://support.google.com/webmasters/answer/6083347?hl=en)
 
 ## 2.5.0 (August 23, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.4.1...v2.5.0)
