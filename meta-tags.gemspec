@@ -22,9 +22,9 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "actionpack", ">= 3.2.0", "< 5.3"
 
-  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "rake", "~> 12.0"
   spec.add_development_dependency "rspec", "~> 3.6.0"
-  spec.add_development_dependency "rspec-html-matchers", "~> 0.8.0"
+  spec.add_development_dependency "rspec-html-matchers", "~> 0.9.1"
 
   spec.cert_chain    = ["certs/kpumuk.pem"]
   spec.signing_key   = File.expand_path("~/.ssh/gem-kpumuk.pem") if $PROGRAM_NAME =~ /gem\z/
