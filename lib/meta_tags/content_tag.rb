@@ -8,7 +8,7 @@ module MetaTags
     # @return [String] HTML string for the tag.
     #
     def render(view)
-      view.content_tag(name, attributes[:content], attributes.except(:content))
+      view.content_tag(name, attributes[:content], prepare_attributes(attributes.except(:content)))
     end
   end
 end

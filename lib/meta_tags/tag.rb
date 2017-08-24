@@ -19,7 +19,15 @@ module MetaTags
     # @return [String] HTML string for the tag.
     #
     def render(view)
-      view.tag(name, attributes)
+      view.tag(name, prepare_attributes(attributes))
+    end
+
+    protected
+
+    def prepare_attributes(attributes)
+      attributes.each do |key, value|
+        attributes[key] = value.iso8601 if value.respond_to?(:iso8601)
+      end
     end
   end
 end

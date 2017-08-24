@@ -92,4 +92,12 @@ describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
       expect(meta).to have_tag('meta', with: { content: "50", property: "og:image:height" })
     end
   end
+
+  it "should format dates using ISO 8601" do
+    time = Time.now
+    subject.set_meta_tags(article: { published_time: Time.now })
+    subject.display_meta_tags(site: 'someSite').tap do |meta|
+      expect(meta).to have_tag('meta', with: { content: time.iso8601, property: "article:published_time" })
+    end
+  end
 end

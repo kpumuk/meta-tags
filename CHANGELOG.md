@@ -4,6 +4,7 @@ Features:
   - Optionally avoid downcasing keywords
   - Added Rails generator to create an initializer with the default settings.
   - Added a configuration option `truncate_site_title_first` which enables site title truncation when title limit is reached.
+  - When `Time`, `Date`, or `DateTime` passed as a meta tag value, it will be formatted according to ISO 8601.
 
 Bugfixes:
   - When title limit reached with `reverse` set to `true`, properly truncate the last item of the title array instead of the first one.
