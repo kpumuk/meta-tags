@@ -43,17 +43,17 @@ module MetaTags
     # @return [String] returns +title+ value or +headline+ if passed.
     #
     # @example Set HTML title to "Please login", return "Please login"
-    #   title 'Login Page'
+    #   page_title 'Login Page'
     # @example Set HTML title to "Login Page", return "Please login"
-    #   title 'Login Page', 'Please login'
+    #   page_title 'Login Page', 'Please login'
     # @example Set title as array of strings
-    #   title title: ['part1', 'part2'] # => "part1 | part2"
+    #   page_title title: ['part1', 'part2'] # => "part1 | part2"
     # @example Get current title
-    #   title
+    #   page_title
     #
     # @see #display_meta_tags
     #
-    def title(title = nil, headline = '')
+    def page_title(title = nil, headline = '')
       set_meta_tags(title: title) unless title.nil?
       headline.blank? ? meta_tags[:title] : headline
     end
