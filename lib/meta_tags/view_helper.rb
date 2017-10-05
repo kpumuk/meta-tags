@@ -84,11 +84,11 @@ module MetaTags
     # @return [String] passed value.
     #
     # @example
-    #   description 'This is login page'
+    #   page_description 'This is login page'
     #
     # @see #display_meta_tags
     #
-    def description(description)
+    def page_description(description)
       set_meta_tags(description: description)
       description
     end

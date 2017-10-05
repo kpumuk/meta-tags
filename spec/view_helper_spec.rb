@@ -18,7 +18,7 @@ describe MetaTags::ViewHelper do
     end
 
     it 'should return description' do
-      expect(subject.description('some-description')).to eq('some-description')
+      expect(subject.page_description('some-description')).to eq('some-description')
     end
 
     it 'should return keywords' do
