@@ -5,16 +5,16 @@ describe MetaTags::ViewHelper do
 
   context 'returning values' do
     it 'should return title' do
-      expect(subject.title('some-title')).to eq('some-title')
+      expect(subject.page_title('some-title')).to eq('some-title')
     end
 
     it 'should return headline if specified' do
-      expect(subject.title('some-title', 'some-headline')).to eq('some-headline')
+      expect(subject.page_title('some-title', 'some-headline')).to eq('some-headline')
     end
 
     it 'should return title' do
-      expect(subject.title('some-title')).to eq('some-title')
-      expect(subject.title).to eq('some-title')
+      expect(subject.page_title('some-title')).to eq('some-title')
+      expect(subject.page_title).to eq('some-title')
     end
 
     it 'should return description' do
