@@ -67,7 +67,6 @@ module MetaTags
     def reset_defaults!
       @title_limit = 70
       @truncate_site_title_first = false
-      @description_limit = 160
       @keywords_limit = 255
       @keywords_separator = ', '
       @keywords_lowercase = true
