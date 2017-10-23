@@ -667,7 +667,7 @@ set_meta_tags twitter: {
 
 Further reading:
 
-* [Twitter Cards Documentation](https://dev.twitter.com/docs/cards/)
+* [Twitter Cards Documentation](https://dev.twitter.com/cards/)
 
 ### App Links
 
