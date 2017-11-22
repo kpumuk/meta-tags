@@ -65,7 +65,8 @@ module MetaTags
     # @return [String] page title.
     #
     def page_title(defaults = {})
-      old_site, @meta_tags[:site] = @meta_tags[:site], nil
+      old_site = @meta_tags[:site]
+      @meta_tags[:site] = nil
       with_defaults(defaults) { extract_full_title }
     ensure
       @meta_tags[:site] = old_site
