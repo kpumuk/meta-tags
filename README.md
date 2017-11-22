@@ -297,7 +297,7 @@ some search engines. They are used to describe the contents of a page in
 
 ```ruby
 set_meta_tags description: "All text about keywords, other keywords"
-# <meta name="description" content="All text about keywords, other keywords" />
+# <meta name="description" content="All text about keywords, other keywords">
 ```
 
 Recommended description tag length: up to <b>160 characters</b>.
@@ -314,7 +314,7 @@ would be considered spam and you may get permanently banned from SERP's
 
 ```ruby
 set_meta_tags keywords: %w[keyword1 Keyword2 KeyWord3]
-# <meta name="keywords" content="keyword1, keyword2, keyword3" />
+# <meta name="keywords" content="keyword1, keyword2, keyword3">
 ```
 
 Recommended keywords tag length: up to <b>255 characters</b>, <b>20 words</b>.
@@ -329,9 +329,9 @@ include specific pages in their indexes.
 
 ```ruby
 set_meta_tags noindex: true
-# <meta name="robots" content="noindex" />
+# <meta name="robots" content="noindex">
 set_meta_tags noindex: 'googlebot'
-# <meta name="googlebot" content="noindex" />
+# <meta name="googlebot" content="noindex">
 ```
 
 This is useful for pages like login, password reset, privacy policy, etc.
@@ -350,9 +350,9 @@ still arrives at your undesired page.
 
 ```ruby
 set_meta_tags nofollow: true
-# <meta name="robots" content="nofollow" />
+# <meta name="robots" content="nofollow">
 set_meta_tags nofollow: 'googlebot'
-# <meta name="googlebot" content="nofollow" />
+# <meta name="googlebot" content="nofollow">
 ```
 
 Further reading:
@@ -366,7 +366,7 @@ Follow will work with Noindex  meta tag
 
 ```ruby
 set_meta_tags noindex: true, follow: true
-# <meta name="robots" content="noindex, follow" />
+# <meta name="robots" content="noindex, follow">
 ```
 
 It will not look at this page but will crawl through the rest of the pages on
@@ -380,7 +380,7 @@ that URL, and link popularity and authority will be applied to that URL.
 
 ```ruby
 set_meta_tags canonical: "http://yoursite.com/canonical/url"
-# <link rel="canonical" href="http://yoursite.com/canonical/url" />
+# <link rel="canonical" href="http://yoursite.com/canonical/url">
 ```
 
 Further reading:
@@ -396,15 +396,15 @@ most commonly 16×16 pixels, associated with a particular website or web page.
 
 ```ruby
 set_meta_tags icon: '/favicon.ico'
-# <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+# <link rel="icon" href="/favicon.ico" type="image/x-icon">
 set_meta_tags icon: '/favicon.png', type: 'image/png'
-# <link rel="icon" href="/favicon.png" type="image/png" />
+# <link rel="icon" href="/favicon.png" type="image/png">
 set_meta_tags icon: [
   { href: '/images/icons/icon_96.png', sizes: '32x32 96x96', type: 'image/png' },
   { href: '/images/icons/icon_itouch_precomp_32.png', rel: 'apple-touch-icon-precomposed', sizes: '32x32', type: 'image/png' },
 ]
-# <link rel="icon" href="/images/icons/icon_96.png" type="image/png" sizes="32x32 96x96" />
-# <link rel="apple-touch-icon-precomposed" href="/images/icons/icon_itouch_precomp_32.png" type="image/png" sizes="32x32" />
+# <link rel="icon" href="/images/icons/icon_96.png" type="image/png" sizes="32x32 96x96">
+# <link rel="apple-touch-icon-precomposed" href="/images/icons/icon_itouch_precomp_32.png" type="image/png" sizes="32x32">
 ```
 
 Further reading:
@@ -420,12 +420,12 @@ translated or targeted to users in a certain region.
 
 ```ruby
 set_meta_tags alternate: { "fr" => "http://yoursite.fr/alternate/url" }
-# <link rel="alternate" href="http://yoursite.fr/alternate/url" hreflang="fr" />
+# <link rel="alternate" href="http://yoursite.fr/alternate/url" hreflang="fr">
 
 set_meta_tags alternate: { "fr" => "http://yoursite.fr/alternate/url",
                            "de" => "http://yoursite.de/alternate/url" }
-# <link rel="alternate" href="http://yoursite.fr/alternate/url" hreflang="fr" />
-# <link rel="alternate" href="http://yoursite.de/alternate/url" hreflang="de" />
+# <link rel="alternate" href="http://yoursite.fr/alternate/url" hreflang="fr">
+# <link rel="alternate" href="http://yoursite.de/alternate/url" hreflang="de">
 ```
 
 If you need more than just multi-lingual links, you can use an alternative syntax:
@@ -452,9 +452,9 @@ treat these pages as a logical sequence.
 
 ```ruby
 set_meta_tags prev: "http://yoursite.com/url?page=1"
-# <link rel="prev" href="http://yoursite.com/url?page=1" />
+# <link rel="prev" href="http://yoursite.com/url?page=1">
 set_meta_tags next: "http://yoursite.com/url?page=3"
-# <link rel="next" href="http://yoursite.com/url?page=3" />
+# <link rel="next" href="http://yoursite.com/url?page=3">
 ```
 
 Further reading:
@@ -471,7 +471,7 @@ represent your site.
 
 ```ruby
 set_meta_tags image_src: "http://yoursite.com/icons/icon_32.png"
-# <link rel="image_src" href="http://yoursite.com/icons/icon_32.png" />
+# <link rel="image_src" href="http://yoursite.com/icons/icon_32.png">
 ```
 
 ### amphtml links
@@ -501,9 +501,9 @@ meta refresh to be used as a method of URL redirection.
 
 ```ruby
 set_meta_tags refresh: 5
-# <meta content="5" http-equiv="refresh" />
+# <meta content="5" http-equiv="refresh">
 set_meta_tags refresh: '5;url=http://example.com'
-# <meta content="5;url=http://example.com" http-equiv="refresh" />
+# <meta content="5;url=http://example.com" http-equiv="refresh">
 ```
 
 Further reading:
@@ -521,7 +521,7 @@ set_meta_tags open_search: {
   title: "Open Search",
   href:  "/opensearch.xml"
 }
-# <link href="/opensearch.xml" rel="search" title="Open Search" type="application/opensearchdescription+xml" />
+# <link href="/opensearch.xml" rel="search" title="Open Search" type="application/opensearchdescription+xml">
 ```
 
 Further reading:
@@ -540,8 +540,8 @@ set_meta_tags foo: {
     qux: "ipsum"
   }
 }
-# <meta property="foo:bar" content="lorem"/>
-# <meta property="foo:baz:qux" content="ipsum"/>
+# <meta property="foo:bar" content="lorem">
+# <meta property="foo:baz:qux" content="ipsum">
 ```
 
 ### Arrays
@@ -552,8 +552,8 @@ Repeated meta tags can be built just using an Array inside a Hash. For example:
 set_meta_tags og: {
     image: ["http://example.com/rock.jpg", "http://example.com/rock2.jpg"]
 }
-# <meta property="og:image" content="http://example.com/rock.jpg" />
-# <meta property="og:image" content="http://example.com/rock2.jpg" />
+# <meta property="og:image" content="http://example.com/rock.jpg">
+# <meta property="og:image" content="http://example.com/rock2.jpg">
 ```
 
 ### Open Graph
@@ -574,13 +574,13 @@ set_meta_tags og: {
     writer:   ['http://www.imdb.com/name/nm0918711/', 'http://www.imdb.com/name/nm0177018/']
   }
 }
-# <meta property="og:title" content="The Rock"/>
-# <meta property="og:type" content="video.movie"/>
-# <meta property="og:url" content="http://www.imdb.com/title/tt0117500/"/>
-# <meta property="og:image" content="http://ia.media-imdb.com/rock.jpg"/>
-# <meta property="og:video:director" content="http://www.imdb.com/name/nm0000881/"/>
-# <meta property="og:video:writer" content="http://www.imdb.com/name/nm0918711/"/>
-# <meta property="og:video:writer" content="http://www.imdb.com/name/nm0177018/"/>
+# <meta property="og:title" content="The Rock">
+# <meta property="og:type" content="video.movie">
+# <meta property="og:url" content="http://www.imdb.com/title/tt0117500/">
+# <meta property="og:image" content="http://ia.media-imdb.com/rock.jpg">
+# <meta property="og:video:director" content="http://www.imdb.com/name/nm0000881/">
+# <meta property="og:video:writer" content="http://www.imdb.com/name/nm0918711/">
+# <meta property="og:video:writer" content="http://www.imdb.com/name/nm0177018/">
 ```
 
 Multiple images declared as an **array** (look at the `_` character):
@@ -621,10 +621,10 @@ set_meta_tags article: {
   section:           'Article Section',
   tag:               'Article Tag',
 }
-# <meta property="article:published_time" content="2013-09-17T05:59:00+01:00" />
-# <meta property="article:modified_time" content="2013-09-16T19:08:47+01:00" />
-# <meta property="article:section" content="Article Section" />
-# <meta property="article:tag" content="Article Tag" />
+# <meta property="article:published_time" content="2013-09-17T05:59:00+01:00">
+# <meta property="article:modified_time" content="2013-09-16T19:08:47+01:00">
+# <meta property="article:section" content="Article Section">
+# <meta property="article:tag" content="Article Tag">
 ```
 
 Further reading:
@@ -642,8 +642,8 @@ set_meta_tags twitter: {
   card: "summary",
   site: "@username"
 }
-# <meta name="twitter:card" content="summary"/>
-# <meta name="twitter:site" content="@username"/>
+# <meta name="twitter:card" content="summary">
+# <meta name="twitter:site" content="@username">
 ```
 
 Take in consideration that if you're already using OpenGraph to describe data on your page, it’s easy to generate a Twitter card without duplicating your tags and data. When the Twitter card processor looks for tags on your page, it first checks for the Twitter property, and if not present, falls back to the supported Open Graph property. This allows for both to be defined on the page independently, and minimizes the amount of duplicate markup required to describe your content and experience.
@@ -659,10 +659,10 @@ set_meta_tags twitter: {
     height: 100,
   }
 }
-# <meta name="twitter:card" content="photo"/>
-# <meta name="twitter:image" content="http://example.com/1.png"/>
-# <meta name="twitter:image:width" content="100"/>
-# <meta name="twitter:image:height" content="100"/>
+# <meta name="twitter:card" content="photo">
+# <meta name="twitter:image" content="http://example.com/1.png">
+# <meta name="twitter:image:width" content="100">
+# <meta name="twitter:image:height" content="100">
 ```
 
 Further reading:
@@ -681,9 +681,9 @@ set_meta_tags al: {
     app_name: "Example App"
   }
 }
-# <meta property="al:ios:url" content="example://applinks" />
-# <meta property="al:ios:app_store_id" content="12345" />
-# <meta property="al:ios:app_name" content="Example App" />
+# <meta property="al:ios:url" content="example://applinks">
+# <meta property="al:ios:app_store_id" content="12345">
+# <meta property="al:ios:app_name" content="Example App">
 ```
 
 Further reading:
@@ -699,7 +699,7 @@ Example:
 
 ```ruby
 set_meta_tags author: "Dmytro Shteflyuk"
-# <meta name="author" content="Dmytro Shteflyuk"/>
+# <meta name="author" content="Dmytro Shteflyuk">
 ```
 
 You can also specify value as an Array, and values will be displayed as a list
@@ -707,8 +707,8 @@ of `meta` tags:
 
 ```ruby
 set_meta_tags author: [ "Dmytro Shteflyuk", "John Doe" ]
-# <meta name="author" content="Dmytro Shteflyuk"/>
-# <meta name="author" content="John Doe"/>
+# <meta name="author" content="Dmytro Shteflyuk">
+# <meta name="author" content="John Doe">
 ```
 
 ## Maintainers

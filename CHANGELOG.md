@@ -1,3 +1,8 @@
+## 2.7.0 (November 22, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.6.0...v2.7.0)
+
+Changes:
+  - Generate open meta tags (`<meta ... >`) instead of closed meta tags (`<meta ... />`) by default, which is . Added a new option to switch back to self-closing meta tags, which are valid in HTML5, but unnecessary.
+
 ## 2.6.0 (August 24, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.5.0...v2.6.0)
 
 Features:

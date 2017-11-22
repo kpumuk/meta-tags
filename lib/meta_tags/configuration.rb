@@ -19,6 +19,10 @@ module MetaTags
     # Should keywords forced into lowercase?
     attr_accessor :keywords_lowercase
 
+    # Switches between open (<meta ... >) and closed (<meta ... />) meta tags.
+    # Default is true, which means "open".
+    attr_accessor :open_meta_tags
+
     # Custom meta tags that should use `property` attribute instead of `name`
     # - an array of strings or symbols representing their names or name-prefixes.
     attr_reader :property_tags
@@ -64,6 +68,10 @@ module MetaTags
       ].freeze
     end
 
+    def open_meta_tags?
+      !!open_meta_tags
+    end
+
     def reset_defaults!
       @title_limit = 70
       @truncate_site_title_first = false
@@ -72,6 +80,7 @@ module MetaTags
       @keywords_separator = ', '
       @keywords_lowercase = true
       @property_tags = default_property_tags.dup
+      @open_meta_tags = true
     end
   end
 end

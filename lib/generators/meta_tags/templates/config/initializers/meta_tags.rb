@@ -22,6 +22,10 @@ MetaTags.configure do |config|
   # appear on the page as is. Default is true.
   # config.keywords_lowercase = true
 
+  # When false, generated meta tags will be self-closing (<meta ... />) instead
+  # of open (`<meta ...>`). Default is true.
+  # config.open_meta_tags = true
+
   # List of additional meta tags that should use "property" attribute instead
   # of "name" attribute in <meta> tags.
   # config.property_tags.push(
