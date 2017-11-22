@@ -78,7 +78,7 @@ shared_examples_for '.set_meta_tags' do
     subject.set_meta_tags(og: { description: 'world' })
     expect(subject.meta_tags[:og]).to eq('title' => 'hello', 'description' => 'world')
 
-    subject.set_meta_tags(og: { admin: { id: 1 } } )
+    subject.set_meta_tags(og: { admin: { id: 1 } })
     expect(subject.meta_tags[:og]).to eq('title' => 'hello', 'description' => 'world', 'admin' => { 'id' => 1 })
   end
 

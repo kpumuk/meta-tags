@@ -45,17 +45,20 @@ describe MetaTags::ViewHelper do
     end
 
     it "should not display alternate without content" do
-      subject.display_meta_tags(site: 'someSite', alternate: {'zh-Hant' => ''}).tap do |meta|
+      subject.display_meta_tags(site: 'someSite', alternate: { 'zh-Hant' => '' }).tap do |meta|
         expect(meta).to_not have_tag('link', with: { href: "", hreflang: "zh-Hant", rel: "alternate" })
       end
     end
 
     it 'should allow to specify an array of alternate links' do
-      subject.display_meta_tags(site: 'someSite', alternate: [
-        { href: 'http://example.fr/base/url', hreflang: 'fr' },
-        { href: 'http://example.com/feed.rss', type: 'application/rss+xml', title: 'RSS' },
-        { href: 'http://m.example.com/page-1', media: 'only screen and (max-width: 640px)'},
-      ]).tap do |meta|
+      subject.display_meta_tags(
+        site: 'someSite',
+        alternate: [
+          { href: 'http://example.fr/base/url', hreflang: 'fr' },
+          { href: 'http://example.com/feed.rss', type: 'application/rss+xml', title: 'RSS' },
+          { href: 'http://m.example.com/page-1', media: 'only screen and (max-width: 640px)' },
+        ],
+      ).tap do |meta|
         expect(meta).to have_tag('link', with: { href: "http://example.fr/base/url", hreflang: "fr", rel: "alternate" })
         expect(meta).to have_tag('link', with: { href: "http://example.com/feed.rss", type: "application/rss+xml", title: 'RSS', rel: "alternate" })
         expect(meta).to have_tag('link', with: { href: "http://m.example.com/page-1", media: 'only screen and (max-width: 640px)', rel: "alternate" })

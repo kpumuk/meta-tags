@@ -42,10 +42,12 @@ describe MetaTags::ViewHelper do
     end
 
     it 'should work with open graph parameters' do
-      subject.set_meta_tags('og' => {
-        'title'       => 'facebook title',
-        'description' => 'facebook description'
-      })
+      subject.set_meta_tags(
+        'og' => {
+          'title'       => 'facebook title',
+          'description' => 'facebook description'
+        }
+      )
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "facebook title", property: "og:title" })
         expect(meta).to have_tag('meta', with: { content: "facebook description", property: "og:description" })
@@ -53,13 +55,15 @@ describe MetaTags::ViewHelper do
     end
 
     it 'should work with app links parameters' do
-      subject.set_meta_tags('al' => {
-        'ios' => {
-          'url' => 'applinks://docs',
-          'app_store_id' => 12345,
-          'app_name' => 'App Links'
+      subject.set_meta_tags(
+        'al' => {
+          'ios' => {
+            'url' => 'applinks://docs',
+            'app_store_id' => 12345,
+            'app_name' => 'App Links'
+          }
         }
-      })
+      )
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "applinks://docs", property: "al:ios:url" })
         expect(meta).to have_tag('meta', with: { content: "12345", property: "al:ios:app_store_id" })
@@ -68,10 +72,12 @@ describe MetaTags::ViewHelper do
     end
 
     it 'should work with facebook parameters' do
-      subject.set_meta_tags('fb' => {
-        app_id: 12345,
-        admins: "12345,23456"
-      })
+      subject.set_meta_tags(
+        'fb' => {
+          app_id: 12345,
+          admins: "12345,23456"
+        }
+      )
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "12345", property: "fb:app_id" })
         expect(meta).to have_tag('meta', with: { content: "12345,23456", property: "fb:admins" })
