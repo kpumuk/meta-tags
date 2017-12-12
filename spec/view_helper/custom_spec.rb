@@ -40,7 +40,7 @@ describe MetaTags::ViewHelper do
     end
 
     it 'should use `property` attribute instead of `name` for custom tags listed under `property_tags` in config' do
-      MetaTags.config.property_tags.push(:testing1, 'testing2')
+      MetaTags.config.property_tags.push(:testing1, 'testing2', 'namespace:')
 
       subject.display_meta_tags('testing1': 'test').tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "test", property: "testing1" })
@@ -48,6 +48,10 @@ describe MetaTags::ViewHelper do
 
       subject.display_meta_tags('testing2:nested': 'nested test').tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "nested test", property: "testing2:nested" })
+      end
+
+      subject.display_meta_tags('namespace:thing': 'namespace test').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "namespace test", property: "namespace:thing" })
       end
     end
 
