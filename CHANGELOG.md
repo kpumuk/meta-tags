@@ -1,3 +1,8 @@
+## 2.8.0 (Development) [☰](https://github.com/kpumuk/meta-tags/compare/v2.7.0...master)
+
+Changes:
+  - Properly generate Open Graph meta tags for object types that fail to provide a proper scope (e.g. `restaurant:contact_info` metadata for `restaurant:restaurant` object type).
+
 ## 2.7.0 (November 22, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.6.0...v2.7.0)
 
 Changes:
