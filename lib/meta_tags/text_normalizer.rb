@@ -40,6 +40,7 @@ module MetaTags
     def normalize_description(description)
       return '' if description.blank?
       description = cleanup_string(description)
+      return description if MetaTags.config.description_limit.to_i == 0
       truncate(description, MetaTags.config.description_limit)
     end
 
