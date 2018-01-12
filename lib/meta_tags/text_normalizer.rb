@@ -114,7 +114,7 @@ module MetaTags
       Array(strings).flatten.map(&method(:cleanup_string))
     end
 
-    # Truncates a string to a specific limit.
+    # Truncates a string to a specific limit. Return string without truncation when limit 0 or nil
     #
     # @param [String] string input strings.
     # @param [Integer,nil] limit characters number to truncate to.
@@ -122,8 +122,8 @@ module MetaTags
     # @return [String] truncated string.
     #
     def truncate(string, limit = nil, natural_separator = ' ')
-      string = helpers.truncate(string, length: limit, separator: natural_separator, omission: '', escape: false) if limit
-      string.html_safe
+      return string if limit.to_i == 0
+      helpers.truncate(string, length: limit, separator: natural_separator, omission: '', escape: false)
     end
 
     # Truncates a string to a specific limit.
@@ -165,7 +165,7 @@ module MetaTags
     end
 
     def truncate_title(site_title, title, separator)
-      if MetaTags.config.title_limit && MetaTags.config.title_limit > 0
+      if MetaTags.config.title_limit.to_i > 0
         site_title_limited_length, title_limited_length = calculate_title_limits(site_title, title, separator)
 
         title = title_limited_length > 0 ? truncate_array(title, title_limited_length, separator) : []
