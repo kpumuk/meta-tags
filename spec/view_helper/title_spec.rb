@@ -95,6 +95,7 @@ describe MetaTags::ViewHelper do
       end
     end
 
+    # rubocop:disable Rails/OutputSafety
     it 'should use custom separator if :separator' do
       subject.title('someTitle')
       subject.display_meta_tags(site: 'someSite', separator: '-').tap do |meta|
@@ -113,6 +114,7 @@ describe MetaTags::ViewHelper do
         expect(meta).to eq('<title>someSite: someTitle</title>')
       end
     end
+    # rubocop:enable Rails/OutputSafety
 
     it 'should use custom prefix and suffix if available' do
       subject.display_meta_tags(site: 'someSite', title: 'someTitle', prefix: ' -', suffix: '- ').tap do |meta|

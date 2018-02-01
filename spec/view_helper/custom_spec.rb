@@ -75,19 +75,19 @@ describe MetaTags::ViewHelper do
         _: "test",
         bar: "lorem",
         baz: {
-          qux: ["lorem", "ipsum"]
+          qux: ["lorem", "ipsum"],
         },
         quux: [
           {
             corge:  "lorem",
-            grault: "ipsum"
+            grault: "ipsum",
           },
           {
             corge:  "dolor",
-            grault: "sit"
-          }
-        ]
-      }
+            grault: "sit",
+          },
+        ],
+      },
     )
     subject.display_meta_tags(site: 'someSite').tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "lorem", name_key => "foo:bar" })

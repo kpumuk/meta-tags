@@ -7,7 +7,7 @@ module MetaTags
   # Returns MetaTags gem configuration.
   #
   def self.config
-    @@config ||= Configuration.new
+    @config ||= Configuration.new
   end
 
   # Configures MetaTags gem.
@@ -34,5 +34,5 @@ require 'meta_tags/content_tag'
 require 'meta_tags/text_normalizer'
 require 'meta_tags/view_helper'
 
-ActionView::Base.send :include, MetaTags::ViewHelper
-ActionController::Base.send :include, MetaTags::ControllerHelper
+ActionView::Base.include MetaTags::ViewHelper
+ActionController::Base.include MetaTags::ControllerHelper

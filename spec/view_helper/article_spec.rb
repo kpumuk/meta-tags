@@ -22,8 +22,8 @@ describe MetaTags::ViewHelper, "displaying Article meta tags" do
     subject.set_meta_tags(
       article: {
         author:       "",
-        publisher:    ""
-      }
+        publisher:    "",
+      },
     )
     subject.display_meta_tags(site: "someSite").tap do |meta|
       expect(meta).to_not have_tag("meta", with: { content: "", property: "article:author" })

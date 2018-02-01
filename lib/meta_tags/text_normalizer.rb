@@ -1,7 +1,7 @@
 module MetaTags
   # Module contains helpers that normalize text meta tag values.
-  module TextNormalizer
-    extend self
+  module TextNormalizer # rubocop:disable Metrics/ModuleLength
+    extend self # rubocop:disable Style/ModuleFunction
 
     # Normalize title value.
     #
@@ -101,7 +101,7 @@ module MetaTags
     # space characters squashed into a single space.
     #
     def cleanup_string(string)
-      strip_tags(string).gsub(/\s+/, ' ').strip.html_safe
+      strip_tags(string).gsub(/\s+/, ' ').strip
     end
 
     # Cleans multiple strings up.
@@ -123,7 +123,14 @@ module MetaTags
     #
     def truncate(string, limit = nil, natural_separator = ' ')
       return string if limit.to_i == 0
-      helpers.truncate(string, length: limit, separator: natural_separator, omission: '', escape: false)
+
+      helpers.truncate(
+        string,
+        length:    limit,
+        separator: natural_separator,
+        omission:  '',
+        escape:    false,
+      )
     end
 
     # Truncates a string to a specific limit.

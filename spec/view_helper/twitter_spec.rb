@@ -12,8 +12,8 @@ describe MetaTags::ViewHelper, 'displaying Twitter meta tags' do
           _:      'http://example.com/1.png',
           width:  123,
           height: 321,
-        }
-      }
+        },
+      },
     )
     subject.display_meta_tags(site: 'someSite').tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "Twitter Share Title", name: "twitter:title" })

@@ -47,7 +47,7 @@ module MetaTags
     #
     def with_defaults(defaults = {})
       old_meta_tags = @meta_tags
-      @meta_tags = normalize_open_graph(defaults).deep_merge!(self.meta_tags)
+      @meta_tags = normalize_open_graph(defaults).deep_merge!(@meta_tags)
       yield
     ensure
       @meta_tags = old_meta_tags

@@ -25,7 +25,7 @@ module MetaTags
     #
     # @see #display_meta_tags
     #
-    def set_meta_tags(meta_tags = {})
+    def set_meta_tags(meta_tags = {}) # rubocop:disable Naming/AccessorMethodName
       self.meta_tags.update(meta_tags)
     end
 
@@ -55,7 +55,7 @@ module MetaTags
     #
     def title(title = nil, headline = '')
       set_meta_tags(title: title) unless title.nil?
-      headline.blank? ? meta_tags[:title] : headline
+      headline.presence || meta_tags[:title]
     end
 
     # Set the page keywords.
@@ -149,13 +149,17 @@ module MetaTags
     # @option default [String] :title ("") page title;
     # @option default [String] :description (nil) page description;
     # @option default [String] :keywords (nil) page keywords;
-    # @option default [String, Boolean] :prefix (" ") text between site name and separator; when +false+, no prefix will be rendered;
+    # @option default [String, Boolean] :prefix (" ") text between site name and separator;
+    #                                   when +false+, no prefix will be rendered;
     # @option default [String] :separator ("|") text used to separate website name from page title;
-    # @option default [String, Boolean] :suffix (" ") text between separator and page title; when +false+, no suffix will be rendered;
+    # @option default [String, Boolean] :suffix (" ") text between separator and page title;
+    #                                   when +false+, no suffix will be rendered;
     # @option default [Boolean] :lowercase (false) when true, the page title will be lowercase;
     # @option default [Boolean] :reverse (false) when true, the page and site names will be reversed;
-    # @option default [Boolean, String] :noindex (false) add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
-    # @option default [Boolean, String] :nofollow (false) add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
+    # @option default [Boolean, String] :noindex (false) add noindex meta tag; when true, 'robots' will be used,
+    #                                   otherwise the string will be used;
+    # @option default [Boolean, String] :nofollow (false) add nofollow meta tag; when true, 'robots' will be used,
+    #                                   otherwise the string will be used;
     # @option default [String] :canonical (nil) add canonical link tag.
     # @option default [Hash] :alternate ({}) add alternate link tag.
     # @option default [String] :prev (nil) add prev link tag;
@@ -172,7 +176,7 @@ module MetaTags
     #   </head>
     #
     def display_meta_tags(defaults = {})
-      self.meta_tags.with_defaults(defaults) { Renderer.new(meta_tags).render(self) }
+      meta_tags.with_defaults(defaults) { Renderer.new(meta_tags).render(self) }
     end
 
     # Returns full page title as a string without surrounding <title> tag.
@@ -185,9 +189,11 @@ module MetaTags
     # @param [Hash] defaults list of meta tags.
     # @option default [String] :site (nil) site title;
     # @option default [String] :title ("") page title;
-    # @option default [String, Boolean] :prefix (" ") text between site name and separator; when +false+, no prefix will be rendered;
+    # @option default [String, Boolean] :prefix (" ") text between site name and separator; when +false+,
+    #                                   no prefix will be rendered;
     # @option default [String] :separator ("|") text used to separate website name from page title;
-    # @option default [String, Boolean] :suffix (" ") text between separator and page title; when +false+, no suffix will be rendered;
+    # @option default [String, Boolean] :suffix (" ") text between separator and page title; when +false+,
+    #                                   no suffix will be rendered;
     # @option default [Boolean] :lowercase (false) when true, the page name will be lowercase;
     # @option default [Boolean] :reverse (false) when true, the page and site names will be reversed;
     #

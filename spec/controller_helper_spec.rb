@@ -17,11 +17,11 @@ class MetaTagsController < ActionController::Base
 end
 
 describe MetaTags::ControllerHelper do
-  subject {
+  subject do
     MetaTagsController.new.tap do |c|
       c.response = ActionDispatch::TestResponse.new
     end
-  }
+  end
 
   context 'module' do
     it 'should be mixed into ActionController::Base' do
