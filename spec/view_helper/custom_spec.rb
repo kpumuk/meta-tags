@@ -5,43 +5,43 @@ require 'spec_helper'
 describe MetaTags::ViewHelper do
   subject { ActionView::Base.new }
 
-  context 'display any named meta tag that you want to' do
-    it 'should display testing meta tag' do
+  describe 'display any named meta tag that you want to' do
+    it 'displays testing meta tag' do
       subject.display_meta_tags(testing: 'this is a test').tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "this is a test", name: "testing" })
       end
     end
 
-    it 'should support Array values' do
+    it 'supports Array values' do
       subject.display_meta_tags(testing: ['test1', 'test2']).tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "test1", name: "testing" })
         expect(meta).to have_tag('meta', with: { content: "test2", name: "testing" })
       end
     end
 
-    it 'should support Hash values' do
+    it 'supports Hash values' do
       subject.display_meta_tags(testing: { tag: 'value' }).tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "value", name: "testing:tag" })
       end
     end
 
-    it 'should support symbolic references in Hash values' do
+    it 'supports symbolic references in Hash values' do
       subject.display_meta_tags(title: 'my title', testing: { tag: :title }).tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "my title", name: "testing:tag" })
       end
     end
 
-    it 'should not render when value is nil' do
+    it 'does not render when value is nil' do
       subject.display_meta_tags(testing: nil).tap do |meta|
         expect(meta).to eq('')
       end
     end
 
-    it 'should display meta tags with hashes and arrays' do
+    it 'displays meta tags with hashes and arrays' do
       test_hashes_and_arrays
     end
 
-    it 'should use `property` attribute instead of `name` for custom tags listed under `property_tags` in config' do
+    it 'uses `property` attribute instead of `name` for custom tags listed under `property_tags` in config' do
       MetaTags.config.property_tags.push(:testing1, 'testing2', 'namespace:')
 
       subject.display_meta_tags('testing1': 'test').tap do |meta|
@@ -57,13 +57,13 @@ describe MetaTags::ViewHelper do
       end
     end
 
-    it 'should display `property_tags` in hashes and arrays properly' do
+    it 'displays `property_tags` in hashes and arrays properly' do
       MetaTags.config.property_tags.push(:foo)
 
       test_hashes_and_arrays(name_key: :property)
     end
 
-    it 'should not use `property` tag for the keys that do not match `property_tags`' do
+    it 'does not use `property` tag for the keys that do not match `property_tags`' do
       MetaTags.config.property_tags.push(:foos)
       MetaTags.config.property_tags.push(:fo)
 
@@ -99,7 +99,7 @@ describe MetaTags::ViewHelper do
       expect(meta).to have_tag('meta', with: { content: "ipsum", name_key => "foo:quux:grault" })
       expect(meta).to have_tag('meta', with: { content: "dolor", name_key => "foo:quux:corge" })
       expect(meta).to have_tag('meta', with: { content: "sit", name_key => "foo:quux:grault" })
-      expect(meta).to_not have_tag('meta', with: { name: "foo:quux" })
+      expect(meta).not_to have_tag('meta', with: { name: "foo:quux" })
     end
   end
 end

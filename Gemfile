@@ -10,6 +10,10 @@ if ENV['RAILS_VERSION']
   gem 'actionpack', "~> #{ENV['RAILS_VERSION']}"
 end
 
+group :development do
+  gem 'rubocop-rspec', require: false
+end
+
 group :test do
   # Lock rubocop to a specific version we use on CI. If you update this,
   # don't forget to switch rubocop channel in the .codeclimate.yml

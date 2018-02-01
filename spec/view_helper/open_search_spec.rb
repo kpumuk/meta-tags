@@ -5,7 +5,7 @@ require 'spec_helper'
 describe MetaTags::ViewHelper, 'displaying Open Search meta tags' do
   subject { ActionView::Base.new }
 
-  it 'should display meta tags specified with :open_search' do
+  it 'displays meta tags specified with :open_search' do
     subject.set_meta_tags(
       open_search: {
         title: 'Open Search Title',
@@ -25,7 +25,7 @@ describe MetaTags::ViewHelper, 'displaying Open Search meta tags' do
     end
   end
 
-  it 'should not display meta tags without content' do
+  it 'does not display meta tags without content' do
     subject.set_meta_tags(
       open_search: {
         title: '',
@@ -33,7 +33,7 @@ describe MetaTags::ViewHelper, 'displaying Open Search meta tags' do
       },
     )
     subject.display_meta_tags(site: 'someSite').tap do |meta|
-      expect(meta).to_not have_tag(
+      expect(meta).not_to have_tag(
         'link',
         with: {
           rel:  'search',
