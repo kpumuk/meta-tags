@@ -1,4 +1,4 @@
-if ENV['CODECLIMATE_REPO_TOKEN']
+if ENV['ENABLE_CODE_COVERAGE']
   require 'simplecov'
   SimpleCov.start
 end

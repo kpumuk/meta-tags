@@ -5,6 +5,7 @@ env:
   global:
     - CC_TEST_REPORTER_ID=8792cbc0d1780830ddd3dd7eb1c25f09f386ba8f04449ad830039469406a6ab3
     - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
+    - ENABLE_CODE_COVERAGE=1
   matrix:
     - RAILS_VERSION=4.2.10
     - RAILS_VERSION=5.0.6
@@ -25,4 +26,4 @@ before_script:
   - chmod +x ./cc-test-reporter
 
 after_script:
-  - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT --coverage-input-type clover || true; fi
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT --coverage-input-type simplecov || true; fi
