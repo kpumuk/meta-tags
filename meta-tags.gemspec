@@ -1,4 +1,3 @@
-# coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'meta_tags/version'
@@ -9,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Dmytro Shteflyuk"]
   spec.email         = ["kpumuk@kpumuk.info"]
 
-  spec.summary       = %q{Collection of SEO helpers for Ruby on Rails.}
-  spec.description   = %q{Search Engine Optimization (SEO) plugin for Ruby on Rails applications.}
+  spec.summary       = "Collection of SEO helpers for Ruby on Rails."
+  spec.description   = "Search Engine Optimization (SEO) plugin for Ruby on Rails applications."
   spec.homepage      = "http://github.com/kpumuk/meta-tags"
   spec.license       = "MIT"
   spec.platform      = Gem::Platform::RUBY
@@ -27,5 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec-html-matchers", "~> 0.9.1"
 
   spec.cert_chain    = ["certs/kpumuk.pem"]
-  spec.signing_key   = File.expand_path("~/.ssh/gem-kpumuk.pem") if $PROGRAM_NAME =~ /gem\z/
+  spec.signing_key   = File.expand_path("~/.ssh/gem-kpumuk.pem") if $PROGRAM_NAME.end_with?('gem')
 end
