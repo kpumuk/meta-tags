@@ -3,12 +3,12 @@ require 'spec_helper'
 describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
   subject { ActionView::Base.new }
 
-  it 'should display meta tags specified with :open_graph' do
+  it 'displays meta tags specified with :open_graph' do
     subject.set_meta_tags(
       open_graph: {
         title:       'Facebook Share Title',
-        description: 'Facebook Share Description'
-      }
+        description: 'Facebook Share Description',
+      },
     )
     subject.display_meta_tags(site: 'someSite').tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "Facebook Share Title", property: "og:title" })
@@ -16,12 +16,12 @@ describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
     end
   end
 
-  it 'should display meta tags specified with :og' do
+  it 'displays meta tags specified with :og' do
     subject.set_meta_tags(
       og: {
         title:       'Facebook Share Title',
-        description: 'Facebook Share Description'
-      }
+        description: 'Facebook Share Description',
+      },
     )
     subject.display_meta_tags(site: 'someSite').tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "Facebook Share Title", property: "og:title" })
@@ -29,7 +29,7 @@ describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
     end
   end
 
-  it 'should use deep merge when displaying open graph meta tags' do
+  it 'uses deep merge when displaying open graph meta tags' do
     subject.set_meta_tags(og: { title: 'Facebook Share Title' })
     subject.display_meta_tags(og: { description: 'Facebook Share Description' }).tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "Facebook Share Title", property: "og:title" })
@@ -37,20 +37,20 @@ describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
     end
   end
 
-  it "should not display meta tags without content" do
+  it "does not display meta tags without content" do
     subject.set_meta_tags(
       open_graph: {
         title:       '',
-        description: ''
-      }
+        description: '',
+      },
     )
     subject.display_meta_tags(site: 'someSite').tap do |meta|
-      expect(meta).to_not have_tag('meta', with: { content: "", property: "og:title" })
-      expect(meta).to_not have_tag('meta', with: { content: "", property: "og:description" })
+      expect(meta).not_to have_tag('meta', with: { content: "", property: "og:title" })
+      expect(meta).not_to have_tag('meta', with: { content: "", property: "og:description" })
     end
   end
 
-  it "should display locale meta tags" do
+  it "displays locale meta tags" do
     subject.display_meta_tags(open_graph: { locale: { _: 'en_GB', alternate: ['fr_FR', 'es_ES'] } }).tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "en_GB", property: "og:locale" })
       expect(meta).to have_tag('meta', with: { content: "fr_FR", property: "og:locale:alternate" })
@@ -58,14 +58,14 @@ describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
     end
   end
 
-  it "should display mirrored content" do
+  it "displays mirrored content" do
     subject.set_meta_tags(title: 'someTitle')
     subject.display_meta_tags(open_graph: { title: :title }).tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "someTitle", property: "og:title" })
     end
   end
 
-  it "should properly handle title and site title in mirrored content" do
+  it "properlies handle title and site title in mirrored content" do
     subject.set_meta_tags(title: 'someTitle', site: 'someSite')
     subject.display_meta_tags(open_graph: { title: :title, site_name: :site, full_title: :full_title }).tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "someTitle", property: "og:title" })
@@ -74,7 +74,7 @@ describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
     end
   end
 
-  it "should display open graph meta tags with an array of images" do
+  it "displays open graph meta tags with an array of images" do
     subject.set_meta_tags(
       open_graph: {
         title: 'someTitle',
@@ -88,9 +88,9 @@ describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
             _:      'http://example.com/2.png',
             width:  50,
             height: 50,
-          }
+          },
         ],
-      }
+      },
     )
     subject.display_meta_tags(site: 'someTitle').tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "someTitle", property: "og:title" })
@@ -103,7 +103,7 @@ describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
     end
   end
 
-  it "should format dates using ISO 8601" do
+  it "formats dates using ISO 8601" do
     time = Time.now
     subject.set_meta_tags(article: { published_time: Time.now })
     subject.display_meta_tags(site: 'someSite').tap do |meta|

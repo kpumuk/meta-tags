@@ -2,30 +2,30 @@ require 'spec_helper'
 
 describe MetaTags::TextNormalizer, '.normalize_title' do
   context 'when site_title is blank' do
-    it 'should return title when site_title is blank' do
+    it 'returns title when site_title is blank' do
       expect(subject.normalize_title(nil, 'title', '-')).to eq('title')
       expect(subject.normalize_title('', 'title', '-')).to eq('title')
     end
 
-    it 'should join title parts with separator' do
+    it 'joins title parts with separator' do
       expect(subject.normalize_title('', %w[title subtitle], '-')).to eq('title-subtitle')
     end
 
-    it 'should reverse title parts when reverse is true' do
+    it 'reverses title parts when reverse is true' do
       expect(subject.normalize_title('', %w[title subtitle], '-', true)).to eq('subtitle-title')
     end
 
-    it 'should not truncate title when limit is equal to the title length' do
+    it 'does not truncate title when limit is equal to the title length' do
       title = 'b' * MetaTags.config.title_limit
       expect(subject.normalize_title('', title, '-')).to eq(title)
     end
 
-    it 'should truncate title when limit is reached' do
+    it 'truncates title when limit is reached' do
       title = 'b' * (MetaTags.config.title_limit + 20)
       expect(subject.normalize_title('', title, '-')).to eq('b' * MetaTags.config.title_limit)
     end
 
-    it 'should truncate last part of the title when reverse is true' do
+    it 'truncates last part of the title when reverse is true' do
       title = [
         'a' * (MetaTags.config.title_limit - 20),
         'b' * 40,
@@ -35,24 +35,24 @@ describe MetaTags::TextNormalizer, '.normalize_title' do
   end
 
   context 'when site_title is specified' do
-    it 'should return site when title is blank' do
+    it 'returns site when title is blank' do
       expect(subject.normalize_title('site', nil, '-')).to eq('site')
       expect(subject.normalize_title('site', '', '-')).to eq('site')
     end
 
-    it 'should join title and site_title with separator' do
+    it 'joins title and site_title with separator' do
       expect(subject.normalize_title('site', 'title', '-')).to eq('site-title')
     end
 
-    it 'should join title parts and site_title with separator' do
+    it 'joins title parts and site_title with separator' do
       expect(subject.normalize_title('site', %w[title subtitle], '-')).to eq('site-title-subtitle')
     end
 
-    it 'should reverse title parts when reverse is true' do
+    it 'reverses title parts when reverse is true' do
       expect(subject.normalize_title('site', %w[title subtitle], '-', true)).to eq('subtitle-title-site')
     end
 
-    it 'should not add title when site title is longer than limit' do
+    it 'does not add title when site title is longer than limit' do
       l = MetaTags.config.title_limit
       site_title = 'a' * (l + 1)
       expect(subject.normalize_title(site_title, 'title', '---')).to eq(site_title[0, l])
@@ -63,13 +63,13 @@ describe MetaTags::TextNormalizer, '.normalize_title' do
       expect(subject.normalize_title(site_title[0, l - 4], 'title', '---')).to eq("#{site_title[0, l - 4]}---t")
     end
 
-    it 'should truncate title when limit is reached' do
+    it 'truncates title when limit is reached' do
       site_title = 'a' * 20
       title = 'b' * (MetaTags.config.title_limit + 10)
       expect(subject.normalize_title(site_title, title, '-')).to eq("#{site_title}-#{'b' * (MetaTags.config.title_limit - 21)}")
     end
 
-    it 'should not truncate title when title_limit is 0 or nil' do
+    it 'does not truncate title when title_limit is 0 or nil' do
       site_title = 'a' * 20
       title = 'b' * (MetaTags.config.title_limit + 10)
 
@@ -82,11 +82,11 @@ describe MetaTags::TextNormalizer, '.normalize_title' do
   end
 
   context 'when truncate_site_title_first is true' do
-    before :each do
+    before do
       MetaTags.config.truncate_site_title_first = true
     end
 
-    it 'should not add site title when title is longer than limit' do
+    it 'does not add site title when title is longer than limit' do
       l = MetaTags.config.title_limit
       title = 'a' * (l + 1)
       expect(subject.normalize_title('site', title, '---')).to eq(title[0, l])
@@ -97,13 +97,13 @@ describe MetaTags::TextNormalizer, '.normalize_title' do
       expect(subject.normalize_title('site', title[0, l - 4], '---')).to eq("s---#{title[0, l - 4]}")
     end
 
-    it 'should truncate site title when limit is reached' do
+    it 'truncates site title when limit is reached' do
       site_title = 'a' * (MetaTags.config.title_limit + 10)
       title = 'b' * 20
       expect(subject.normalize_title(site_title, title, '-')).to eq("#{'a' * (MetaTags.config.title_limit - 21)}-#{title}")
     end
 
-    it 'should not truncate site title when title_limit is 0 or nil' do
+    it 'does not truncate site title when title_limit is 0 or nil' do
       site_title = 'a' * (MetaTags.config.title_limit + 10)
       title = 'b' * 20
 

@@ -34,7 +34,7 @@ RSpec.configure do |config|
   config.include RSpecHtmlMatchers
 
   # Reset MetaTags configuration after every spec.
-  config.after :each do
+  config.after do
     MetaTags.config.reset_defaults!
   end
 
@@ -63,7 +63,7 @@ RSpec.configure do |config|
 end
 
 shared_examples_for '.set_meta_tags' do
-  it 'should update meta tags' do
+  it 'updates meta tags' do
     subject.set_meta_tags(title: 'hello')
     expect(subject.meta_tags[:title]).to eq('hello')
 
@@ -71,7 +71,7 @@ shared_examples_for '.set_meta_tags' do
     expect(subject.meta_tags[:title]).to eq('world')
   end
 
-  it 'should use deep merge when updating meta tags' do
+  it 'uses deep merge when updating meta tags' do
     subject.set_meta_tags(og: { title: 'hello' })
     expect(subject.meta_tags[:og]).to eq('title' => 'hello')
 
@@ -82,7 +82,7 @@ shared_examples_for '.set_meta_tags' do
     expect(subject.meta_tags[:og]).to eq('title' => 'hello', 'description' => 'world', 'admin' => { 'id' => 1 })
   end
 
-  it 'should normalize :open_graph to :og' do
+  it 'normalizes :open_graph to :og' do
     subject.set_meta_tags(open_graph: { title: 'hello' })
     expect(subject.meta_tags[:og]).to eq('title' => 'hello')
   end

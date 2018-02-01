@@ -3,99 +3,99 @@ require 'spec_helper'
 describe MetaTags::ViewHelper do
   subject { ActionView::Base.new }
 
-  context 'displaying title' do
-    it 'should not display title if blank' do
+  describe 'displaying title' do
+    it 'does not display title if blank' do
       expect(subject.display_meta_tags).to eq('')
       subject.title('')
       expect(subject.display_meta_tags).to eq('')
     end
 
-    it 'should use website name if title is empty' do
+    it 'uses website name if title is empty' do
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to eq('<title>someSite</title>')
       end
     end
 
-    it 'should display title when "title" used' do
+    it 'displays title when "title" used' do
       subject.title('someTitle')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to eq('<title>someSite | someTitle</title>')
       end
     end
 
-    it 'should display title only when "site" is empty' do
+    it 'displays title only when "site" is empty' do
       subject.title('someTitle')
       expect(subject.display_meta_tags).to eq('<title>someTitle</title>')
     end
 
-    it 'should display title when "set_meta_tags" is used' do
+    it 'displays title when "set_meta_tags" is used' do
       subject.set_meta_tags(title: 'someTitle')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to eq('<title>someSite | someTitle</title>')
       end
     end
 
-    it 'should escape the title when "set_meta_tags" is used' do
+    it 'escapes the title when "set_meta_tags" is used' do
       subject.set_meta_tags(title: 'someTitle & somethingElse')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to eq('<title>someSite | someTitle &amp; somethingElse</title>')
       end
     end
 
-    it 'should escape a very long title when "set_meta_tags" is used' do
+    it 'escapes a very long title when "set_meta_tags" is used' do
       subject.set_meta_tags(title: 'Kombucha kale chips forage try-hard & green juice. IPhone marfa PBR&B venmo listicle, irony kitsch thundercats.')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to eq('<title>someSite | Kombucha kale chips forage try-hard &amp; green juice.</title>')
       end
     end
 
-    it 'should strip tags in the title' do
+    it 'strips tags in the title' do
       subject.set_meta_tags(title: '<b>hackxor</b>')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to eq('<title>someSite | hackxor</title>')
       end
     end
 
-    it 'should strip tags from very long titles' do
+    it 'strips tags from very long titles' do
       subject.set_meta_tags(title: 'Kombucha <b>kale</b> chips forage try-hard & green juice. IPhone marfa PBR&B venmo listicle, irony kitsch thundercats.')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to eq('<title>someSite | Kombucha kale chips forage try-hard &amp; green juice.</title>')
       end
     end
 
-    it 'should display custom title if given' do
+    it 'displays custom title if given' do
       subject.title('someTitle')
       subject.display_meta_tags(site: 'someSite', title: 'defaultTitle').tap do |meta|
         expect(meta).to eq('<title>someSite | someTitle</title>')
       end
     end
 
-    it 'should use website before page by default' do
+    it 'uses website before page by default' do
       subject.display_meta_tags(site: 'someSite', title: 'someTitle').tap do |meta|
         expect(meta).to eq('<title>someSite | someTitle</title>')
       end
     end
 
-    it 'should only use markup in titles in the view' do
+    it 'onlies use markup in titles in the view' do
       expect(subject.title('<b>someTitle</b>')).to eq('<b>someTitle</b>')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to eq('<title>someSite | someTitle</title>')
       end
     end
 
-    it 'should use page before website if :reverse' do
+    it 'uses page before website if :reverse' do
       subject.display_meta_tags(site: 'someSite', title: 'someTitle', reverse: true).tap do |meta|
         expect(meta).to eq('<title>someTitle | someSite</title>')
       end
     end
 
-    it 'should be lowercase if :lowercase' do
+    it 'is lowercase if :lowercase' do
       subject.display_meta_tags(site: 'someSite', title: 'someTitle', lowercase: true).tap do |meta|
         expect(meta).to eq('<title>someSite | sometitle</title>')
       end
     end
 
-    it 'should use custom separator if :separator' do
+    it 'uses custom separator if :separator' do
       subject.title('someTitle')
       subject.display_meta_tags(site: 'someSite', separator: '-').tap do |meta|
         expect(meta).to eq('<title>someSite - someTitle</title>')
@@ -114,25 +114,25 @@ describe MetaTags::ViewHelper do
       end
     end
 
-    it 'should use custom prefix and suffix if available' do
+    it 'uses custom prefix and suffix if available' do
       subject.display_meta_tags(site: 'someSite', title: 'someTitle', prefix: ' -', suffix: '- ').tap do |meta|
         expect(meta).to eq('<title>someSite -|- someTitle</title>')
       end
     end
 
-    it 'should collapse prefix if false' do
+    it 'collapses prefix if false' do
       subject.display_meta_tags(site: 'someSite', title: 'someTitle', prefix: false).tap do |meta|
         expect(meta).to eq('<title>someSite| someTitle</title>')
       end
     end
 
-    it 'should collapse suffix if false' do
+    it 'collapses suffix if false' do
       subject.display_meta_tags(site: 'someSite', title: 'someTitle', suffix: false).tap do |meta|
         expect(meta).to eq('<title>someSite |someTitle</title>')
       end
     end
 
-    it 'should use all custom options if available' do
+    it 'uses all custom options if available' do
       subject.display_meta_tags(
         site:      'someSite',
         title:     'someTitle',
@@ -146,19 +146,19 @@ describe MetaTags::ViewHelper do
       end
     end
 
-    it 'should allow Arrays in title' do
+    it 'allows Arrays in title' do
       subject.display_meta_tags(site: 'someSite', title: ['someTitle', 'anotherTitle']).tap do |meta|
         expect(meta).to eq('<title>someSite | someTitle | anotherTitle</title>')
       end
     end
 
-    it 'should allow Arrays in title with :lowercase' do
+    it 'allows Arrays in title with :lowercase' do
       subject.display_meta_tags(site: 'someSite', title: ['someTitle', 'anotherTitle'], lowercase: true).tap do |meta|
         expect(meta).to eq('<title>someSite | sometitle | anothertitle</title>')
       end
     end
 
-    it 'should build title in reverse order if :reverse' do
+    it 'builds title in reverse order if :reverse' do
       subject.display_meta_tags(
         site:      'someSite',
         title:     ['someTitle', 'anotherTitle'],
@@ -172,8 +172,8 @@ describe MetaTags::ViewHelper do
     end
   end
 
-  context '.display_title' do
-    it 'should display custom title if given' do
+  describe '.display_title' do
+    it 'displays custom title if given' do
       subject.title('someTitle')
       subject.display_title(site: 'someSite', title: 'defaultTitle').tap do |meta|
         expect(meta).to eq('someSite | someTitle')

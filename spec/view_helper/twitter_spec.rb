@@ -3,7 +3,7 @@ require 'spec_helper'
 describe MetaTags::ViewHelper, 'displaying Twitter meta tags' do
   subject { ActionView::Base.new }
 
-  it 'should display meta tags specified with :twitter' do
+  it 'displays meta tags specified with :twitter' do
     subject.set_meta_tags(
       twitter: {
         title: 'Twitter Share Title',
@@ -12,8 +12,8 @@ describe MetaTags::ViewHelper, 'displaying Twitter meta tags' do
           _:      'http://example.com/1.png',
           width:  123,
           height: 321,
-        }
-      }
+        },
+      },
     )
     subject.display_meta_tags(site: 'someSite').tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "Twitter Share Title", name: "twitter:title" })
@@ -24,7 +24,7 @@ describe MetaTags::ViewHelper, 'displaying Twitter meta tags' do
     end
   end
 
-  it "should display mirrored content" do
+  it "displays mirrored content" do
     subject.set_meta_tags(title: 'someTitle')
     subject.display_meta_tags(twitter: { title: :title }).tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "someTitle", name: "twitter:title" })

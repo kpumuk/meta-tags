@@ -3,54 +3,54 @@ require 'spec_helper'
 describe MetaTags::ViewHelper do
   subject { ActionView::Base.new }
 
-  context 'displaying canonical url' do
-    it 'should not display canonical url by default' do
+  describe 'displaying canonical url' do
+    it 'does not display canonical url by default' do
       subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to_not have_tag('link', with: { href: "http://example.com/base/url", rel: "canonical" })
+        expect(meta).not_to have_tag('link', with: { href: "http://example.com/base/url", rel: "canonical" })
       end
     end
 
-    it 'should display canonical url when "set_meta_tags" used' do
+    it 'displays canonical url when "set_meta_tags" used' do
       subject.set_meta_tags(canonical: 'http://example.com/base/url')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "canonical" })
       end
     end
 
-    it 'should display default canonical url' do
+    it 'displays default canonical url' do
       subject.display_meta_tags(site: 'someSite', canonical: 'http://example.com/base/url').tap do |meta|
         expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "canonical" })
       end
     end
   end
 
-  context 'displaying alternate url' do
-    it 'should not display alternate url by default' do
+  describe 'displaying alternate url' do
+    it 'does not display alternate url by default' do
       subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to_not have_tag('link', with: { href: "http://example.fr/base/url", hreflang: "fr", rel: "alternate" })
+        expect(meta).not_to have_tag('link', with: { href: "http://example.fr/base/url", hreflang: "fr", rel: "alternate" })
       end
     end
 
-    it 'should display alternate url when "set_meta_tags" used' do
+    it 'displays alternate url when "set_meta_tags" used' do
       subject.set_meta_tags(alternate: { 'fr' => 'http://example.fr/base/url' })
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to have_tag('link', with: { href: "http://example.fr/base/url", hreflang: "fr", rel: "alternate" })
       end
     end
 
-    it 'should display default alternate url' do
+    it 'displays default alternate url' do
       subject.display_meta_tags(site: 'someSite', alternate: { 'fr' => 'http://example.fr/base/url' }).tap do |meta|
         expect(meta).to have_tag('link', with: { href: "http://example.fr/base/url", hreflang: "fr", rel: "alternate" })
       end
     end
 
-    it "should not display alternate without content" do
+    it "does not display alternate without content" do
       subject.display_meta_tags(site: 'someSite', alternate: { 'zh-Hant' => '' }).tap do |meta|
-        expect(meta).to_not have_tag('link', with: { href: "", hreflang: "zh-Hant", rel: "alternate" })
+        expect(meta).not_to have_tag('link', with: { href: "", hreflang: "zh-Hant", rel: "alternate" })
       end
     end
 
-    it 'should allow to specify an array of alternate links' do
+    it 'allows to specify an array of alternate links' do
       subject.display_meta_tags(
         site: 'someSite',
         alternate: [
@@ -66,84 +66,84 @@ describe MetaTags::ViewHelper do
     end
   end
 
-  context 'displaying prev url' do
-    it 'should not display prev url by default' do
+  describe 'displaying prev url' do
+    it 'does not display prev url by default' do
       subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to_not have_tag('link', with: { href: "http://example.com/base/url", rel: "prev" })
+        expect(meta).not_to have_tag('link', with: { href: "http://example.com/base/url", rel: "prev" })
       end
     end
 
-    it 'should display prev url when "set_meta_tags" used' do
+    it 'displays prev url when "set_meta_tags" used' do
       subject.set_meta_tags(prev: 'http://example.com/base/url')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "prev" })
       end
     end
 
-    it 'should display default prev url' do
+    it 'displays default prev url' do
       subject.display_meta_tags(site: 'someSite', prev: 'http://example.com/base/url').tap do |meta|
         expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "prev" })
       end
     end
   end
 
-  context 'displaying next url' do
-    it 'should not display next url by default' do
+  describe 'displaying next url' do
+    it 'does not display next url by default' do
       subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to_not have_tag('link', with: { href: "http://example.com/base/url", rel: "next" })
+        expect(meta).not_to have_tag('link', with: { href: "http://example.com/base/url", rel: "next" })
       end
     end
 
-    it 'should display next url when "set_meta_tags" used' do
+    it 'displays next url when "set_meta_tags" used' do
       subject.set_meta_tags(next: 'http://example.com/base/url')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "next" })
       end
     end
 
-    it 'should display default next url' do
+    it 'displays default next url' do
       subject.display_meta_tags(site: 'someSite', next: 'http://example.com/base/url').tap do |meta|
         expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "next" })
       end
     end
   end
 
-  context 'displaying image_src url' do
-    it 'should not display image_src url by default' do
+  describe 'displaying image_src url' do
+    it 'does not display image_src url by default' do
       subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to_not have_tag('link', with: { href: "http://example.com/base/url", rel: "image_src" })
+        expect(meta).not_to have_tag('link', with: { href: "http://example.com/base/url", rel: "image_src" })
       end
     end
 
-    it 'should display image_src url when "set_meta_tags" used' do
+    it 'displays image_src url when "set_meta_tags" used' do
       subject.set_meta_tags(image_src: 'http://example.com/base/url')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "image_src" })
       end
     end
 
-    it 'should display default image_src url' do
+    it 'displays default image_src url' do
       subject.display_meta_tags(site: 'someSite', image_src: 'http://example.com/base/url').tap do |meta|
         expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "image_src" })
       end
     end
   end
 
-  context 'displaying amphtml url' do
-    it 'should not display amphtml url by default' do
+  describe 'displaying amphtml url' do
+    it 'does not display amphtml url by default' do
       subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to_not have_tag('link', with: { href: "http://example.com/base/url.amp", rel: "amphtml" })
+        expect(meta).not_to have_tag('link', with: { href: "http://example.com/base/url.amp", rel: "amphtml" })
       end
     end
 
-    it 'should display amphtml url when "set_meta_tags" used' do
+    it 'displays amphtml url when "set_meta_tags" used' do
       subject.set_meta_tags(amphtml: 'http://example.com/base/url.amp')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to have_tag('link', with: { href: "http://example.com/base/url.amp", rel: "amphtml" })
       end
     end
 
-    it 'should display default amphtml url' do
+    it 'displays default amphtml url' do
       subject.display_meta_tags(site: 'someSite', amphtml: 'http://example.com/base/url.amp').tap do |meta|
         expect(meta).to have_tag('link', with: { href: "http://example.com/base/url.amp", rel: "amphtml" })
       end
