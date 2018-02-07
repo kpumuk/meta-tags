@@ -11,7 +11,7 @@ MetaTags.configure do |config|
   # Set to nil or 0 to remove limits.
   # config.description_limit = 160
 
-  # Maxumum length of the keywords meta tag. Default is 255.
+  # Maximum length of the keywords meta tag. Default is 255.
   # config.keywords_limit = 255
 
   # Default separator for keywords meta tag (used when an Array passed with
