@@ -60,8 +60,8 @@ describe MetaTags::ViewHelper, 'displaying description' do
   end
 
   it 'should truncate correctly' do
-    subject.display_meta_tags(site: 'someSite', description: "Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.").tap do |meta|
-      expect(meta).to have_tag('meta', with: { content: "Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At", name: "description" })
+    subject.display_meta_tags(site: 'someSite', description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dolor lorem, lobortis quis faucibus id, tristique at lorem. Nullam sit amet mollis libero. Morbi ut sem malesuada massa faucibus vestibulum non sed quam. Duis quis consectetur lacus. Donec vitae nunc risus. Sed placerat semper elit, sit amet tristique dolor. Maecenas hendrerit volutpat.").tap do |meta|
+      expect(meta).to have_tag('meta', with: { content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dolor lorem, lobortis quis faucibus id, tristique at lorem. Nullam sit amet mollis libero. Morbi ut sem malesuada massa faucibus vestibulum non sed quam. Duis quis consectetur lacus. Donec vitae nunc risus. Sed placerat semper elit, sit", name: "description" })
     end
   end
 end

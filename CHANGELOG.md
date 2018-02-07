@@ -1,3 +1,8 @@
+## 2.8.0 (Development) [☰](https://github.com/kpumuk/meta-tags/compare/v2.7.1...master)
+
+Changes:
+  - Updated default description size to 300 as a new recommended truncation limit.
+
 ## 2.7.1 (February 1, 2018) [☰](https://github.com/kpumuk/meta-tags/compare/v2.7.0...v2.7.1)
 
 Changes:

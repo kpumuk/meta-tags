@@ -301,11 +301,12 @@ set_meta_tags description: "All text about keywords, other keywords"
 # <meta name="description" content="All text about keywords, other keywords">
 ```
 
-Recommended description tag length: up to <b>160 characters</b>.
+Recommended description tag length: up to <b>300 characters</b>.
 
 Further reading:
 
 * [Meta Description](https://moz.com/learn/seo/meta-description)
+* [How Long Should Your Meta Description Be? (2018 Edition)](https://moz.com/blog/how-long-should-your-meta-description-be-2018)
 
 ### Keywords
 
