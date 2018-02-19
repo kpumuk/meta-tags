@@ -149,6 +149,7 @@ Use these options to customize the title format:
 * `:noindex` — add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:nofollow` — add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:follow` – add follow meta tag; when true, 'robots' will be used, otherwise the string will be used;
+* `:noarchive` – add noarchive meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:canonical` — add canonical link tag;
 * `:prev` — add prev link tag;
 * `:next` — add next link tag;
