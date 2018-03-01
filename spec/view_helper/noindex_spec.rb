@@ -104,4 +104,27 @@ describe MetaTags::ViewHelper do
       end
     end
   end
+
+  context 'display noarchive' do
+    it 'should display noarchive when "set_meta_tags" used' do
+      subject.set_meta_tags(noarchive: true)
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "noarchive", name: "robots" })
+      end
+    end
+
+    it 'should display nothing if given false' do
+      subject.set_meta_tags(noarchive: false)
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to_not have_tag('meta', with: { content: "noarchive", name: "robots" })
+      end
+    end
+
+    it 'shoud use custom noarchive if given' do
+      subject.set_meta_tags(noarchive: 'some-robots')
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "noarchive", name: "some-robots" })
+      end
+    end
+  end
 end

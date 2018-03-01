@@ -142,13 +142,14 @@ module MetaTags
       nofollow_name, nofollow_value = extract_noindex_attribute(:nofollow)
       follow_name,   follow_value   = extract_noindex_attribute(:follow)
 
-      if noindex_name == follow_name && (follow_value && noindex_value)
-        { noindex_name => [noindex_value, follow_value].compact.join(', ') }
-      elsif noindex_name == nofollow_name
-        { noindex_name => [noindex_value, nofollow_value].compact.join(', ') }
-      else
-        { noindex_name => noindex_value, nofollow_name => nofollow_value }
-      end
+      noindex_attributes = if noindex_name == follow_name && (follow_value && noindex_value)
+                             { noindex_name => [noindex_value, follow_value].compact.join(', ') }
+                           elsif noindex_name == nofollow_name
+                             { noindex_name => [noindex_value, nofollow_value].compact.join(', ') }
+                           else
+                             { noindex_name => noindex_value, nofollow_name => nofollow_value }
+                           end
+      append_noarchive_attribute noindex_attributes
     end
 
     protected
@@ -186,6 +187,23 @@ module MetaTags
       noindex_value = noindex ? name.to_s : nil
 
       [ noindex_name, noindex_value ]
+    end
+
+    # Append noarchive attribute if it present.
+    #
+    # @param [Hash<String, String>] noindex noindex attributes.
+    # @return [Hash<String, String>] modified noindex attributes.
+    #
+    def append_noarchive_attribute(noindex)
+      noarchive_name, noarchive_value = extract_noindex_attribute :noarchive
+      if noarchive_value
+        if noindex[noarchive_name].blank?
+          noindex[noarchive_name] = noarchive_value
+        else
+          noindex[noarchive_name] += ", #{noarchive_value}"
+        end
+      end
+      noindex
     end
   end
 end
