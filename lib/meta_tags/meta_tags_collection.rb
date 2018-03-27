@@ -138,27 +138,26 @@ module MetaTags
     # @return [Hash<String,String>] noindex attributes.
     #
     def extract_noindex
-      noindex_name,  noindex_value  = extract_noindex_attribute(:noindex)
-      index_name,   index_value   = extract_noindex_attribute(:index)
+      noindex_name, noindex_value = extract_noindex_attribute(:noindex)
+      index_name, index_value = extract_noindex_attribute(:index)
       # noindex has higher priority than index
-      if noindex_value.nil? and noindex_name == index_name
+      if noindex_value.nil? && noindex_name == index_name
         noindex_value = index_value
       end
 
       nofollow_name, nofollow_value = extract_noindex_attribute(:nofollow)
-      follow_name,   follow_value   = extract_noindex_attribute(:follow)
+      follow_name, follow_value = extract_noindex_attribute(:follow)
       # follow has higher priority than nofollow
-      if follow_value.nil? and nofollow_name == follow_name
+      if follow_value.nil? && nofollow_name == follow_name
         follow_value = nofollow_value
       end
 
-      noindex_attributes = if noindex_name == follow_name and (noindex_value or follow_value)
+      noindex_attributes = if noindex_name == follow_name && (noindex_value || follow_value)
                              [[noindex_name, noindex_value], [follow_name, follow_value]]
                            else
                              [[index_name, index_value], [follow_name, follow_value], [noindex_name, noindex_value], [nofollow_name, nofollow_value]]
                            end
-      noindex_attributes = Hash[noindex_attributes.group_by(&:first).map{|k,v| [k, v.map(&:last).compact.join(', ')]}]
-      append_noarchive_attribute noindex_attributes
+      append_noarchive_attribute group_attributes_by_key noindex_attributes
     end
 
     protected
@@ -213,6 +212,10 @@ module MetaTags
         end
       end
       noindex
+    end
+
+    def group_attributes_by_key(attributes)
+      Hash[attributes.group_by(&:first).map {|k, v| [k, v.map(&:last).compact.join(', ')]}]
     end
   end
 end
