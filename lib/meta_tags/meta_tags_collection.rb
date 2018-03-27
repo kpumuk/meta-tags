@@ -138,18 +138,19 @@ module MetaTags
     # @return [Hash<String,String>] noindex attributes.
     #
     def extract_noindex
-      noindex_name,  noindex_value  = extract_noindex_attribute(:noindex)
-      nofollow_name, nofollow_value = extract_noindex_attribute(:nofollow)
-      follow_name,   follow_value   = extract_noindex_attribute(:follow)
+      noindex_name, noindex_value = extract_noindex_attribute(:noindex)
+      index_name, index_value = extract_noindex_attribute(:index)
 
-      noindex_attributes = if noindex_name == follow_name && (follow_value && noindex_value)
-                             { noindex_name => [noindex_value, follow_value].compact.join(', ') }
-                           elsif noindex_name == nofollow_name
-                             { noindex_name => [noindex_value, nofollow_value].compact.join(', ') }
+      nofollow_name, nofollow_value = extract_noindex_attribute(:nofollow)
+      follow_name, follow_value = extract_noindex_attribute(:follow)
+
+      noindex_attributes = if noindex_name == follow_name && (noindex_value || follow_value)
+                             # noindex has higher priority than index and follow has higher priority than nofollow
+                             [[noindex_name, noindex_value || index_value], [follow_name, follow_value || nofollow_value]]
                            else
-                             { noindex_name => noindex_value, nofollow_name => nofollow_value }
+                             [[index_name, index_value], [follow_name, follow_value], [noindex_name, noindex_value], [nofollow_name, nofollow_value]]
                            end
-      append_noarchive_attribute noindex_attributes
+      append_noarchive_attribute group_attributes_by_key noindex_attributes
     end
 
     protected
@@ -204,6 +205,15 @@ module MetaTags
         end
       end
       noindex
+    end
+
+    # Convert array of arrays to hashes and concatenate values
+    #
+    # @param [Array<Array>] attributes list of noindex keys and values
+    # @return [Hash<String, String>] hash of grouped noindex keys and values
+    #
+    def group_attributes_by_key(attributes)
+      Hash[attributes.group_by(&:first).map { |k, v| [k, v.map(&:last).compact.join(', ')] }]
     end
   end
 end
