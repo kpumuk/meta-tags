@@ -144,14 +144,9 @@ module MetaTags
       nofollow_name, nofollow_value = extract_noindex_attribute(:nofollow)
       follow_name, follow_value = extract_noindex_attribute(:follow)
 
-      # noindex has higher priority than index and follow has higher priority than nofollow
-      if nofollow_name == follow_name
-        noindex_value = index_value if noindex_value.nil?
-        follow_value = nofollow_value if follow_value.nil?
-      end
-
       noindex_attributes = if noindex_name == follow_name && (noindex_value || follow_value)
-                             [[noindex_name, noindex_value], [follow_name, follow_value]]
+                             # noindex has higher priority than index and follow has higher priority than nofollow
+                             [[noindex_name, noindex_value || index_value ], [follow_name , follow_value || nofollow_value]]
                            else
                              [[index_name, index_value], [follow_name, follow_value], [noindex_name, noindex_value], [nofollow_name, nofollow_value]]
                            end
