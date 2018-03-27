@@ -147,6 +147,7 @@ Use these options to customize the title format:
 * `:lowercase` — when true, the page name will be lowercase;
 * `:reverse` — when true, the page and site names will be reversed;
 * `:noindex` — add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
+* `:index` — add index meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:nofollow` — add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:follow` – add follow meta tag; when true, 'robots' will be used, otherwise the string will be used;
 * `:noarchive` – add noarchive meta tag; when true, 'robots' will be used, otherwise the string will be used;
@@ -343,6 +344,15 @@ Further reading:
 
 * [Blocking Google](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=93708)
 * [Using meta tags to block access to your site](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=93710)
+
+### Index
+
+Although it is not required to add 'index' to 'robots' as it is default value for Google, some SEO specialists recommend to add it to website
+
+```ruby
+set_meta_tags index: true
+# <meta name="robots" content="index">
+```
 
 ### Nofollow
 
