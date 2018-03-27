@@ -140,16 +140,14 @@ module MetaTags
     def extract_noindex
       noindex_name, noindex_value = extract_noindex_attribute(:noindex)
       index_name, index_value = extract_noindex_attribute(:index)
-      # noindex has higher priority than index
-      if noindex_value.nil? && noindex_name == index_name
-        noindex_value = index_value
-      end
 
       nofollow_name, nofollow_value = extract_noindex_attribute(:nofollow)
       follow_name, follow_value = extract_noindex_attribute(:follow)
-      # follow has higher priority than nofollow
-      if follow_value.nil? && nofollow_name == follow_name
-        follow_value = nofollow_value
+
+      # noindex has higher priority than index and follow has higher priority than nofollow
+      if nofollow_name == follow_name
+        noindex_value = index_value if noindex_value.nil?
+        follow_value = nofollow_value if follow_value.nil?
       end
 
       noindex_attributes = if noindex_name == follow_name && (noindex_value || follow_value)
@@ -214,8 +212,13 @@ module MetaTags
       noindex
     end
 
+    # Convert array of arrays to hashes and concatenate values
+    #
+    # @param [Array<Array>] attributes list of noindex keys and values
+    # @return [Hash<String, String>] hash of grouped noindex keys and values
+    #
     def group_attributes_by_key(attributes)
-      Hash[attributes.group_by(&:first).map {|k, v| [k, v.map(&:last).compact.join(', ')]}]
+      Hash[attributes.group_by(&:first).map { |k, v| [k, v.map(&:last).compact.join(', ')] }]
     end
   end
 end
