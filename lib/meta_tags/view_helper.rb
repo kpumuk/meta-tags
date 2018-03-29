@@ -109,22 +109,6 @@ module MetaTags
       noindex
     end
 
-    # Set the index meta tag
-    #
-    # @param [Boolean, String] index a index value.
-    # @return [Boolean, String] passed value.
-    #
-    # @example
-    #   index true
-    #   index 'googlebot'
-    #
-    # @see #display_meta_tags
-    #
-    def index(index = true)
-      set_meta_tags(index: index)
-      index
-    end
-
     # Set the nofollow meta tag
     #
     # @param [Boolean, String] nofollow a nofollow value.
@@ -139,22 +123,6 @@ module MetaTags
     def nofollow(nofollow = true)
       set_meta_tags(nofollow: nofollow)
       nofollow
-    end
-
-    # Set the follow meta tag
-    #
-    # @param [Boolean, String] follow a follow value.
-    # @return [Boolean, String] passed value.
-    #
-    # @example
-    #   follow true
-    #   follow 'googlebot'
-    #
-    # @see #display_meta_tags
-    #
-    def follow(follow = true)
-      set_meta_tags(follow: follow)
-      follow
     end
 
     # Set the refresh meta tag
