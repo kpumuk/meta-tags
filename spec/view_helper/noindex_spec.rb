@@ -105,6 +105,56 @@ describe MetaTags::ViewHelper do
     end
   end
 
+  context 'displaying both follow and index' do
+    it 'should be displayed when "set_meta_tags" used' do
+      subject.set_meta_tags(follow: true, index: true)
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "index, follow", name: "robots" })
+      end
+    end
+
+    it 'should use custom name if string is used' do
+      subject.set_meta_tags(follow: 'some-name123', index: 'some-name123')
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "index, follow", name: "some-name123" })
+      end
+    end
+
+    it 'should display two meta tags when different names used' do
+      subject.set_meta_tags(follow: 'some-follow', index: 'some-index')
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "index", name: "some-index" })
+        expect(meta).to have_tag('meta', with: { content: "follow", name: "some-follow" })
+      end
+    end
+  end
+
+  context 'displaying both follow and noindex when nofollow and index set by mistake' do
+    it 'should be displayed when "set_meta_tags" used' do
+      subject.set_meta_tags(follow: true, index: true, nofollow: true, noindex: true)
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "noindex, follow", name: "robots" })
+      end
+    end
+
+    it 'should use custom name if string is used' do
+      subject.set_meta_tags(follow: 'some-name', index: 'some-name', nofollow: 'some-name', noindex: 'some-name')
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "noindex, follow", name: "some-name" })
+      end
+    end
+
+    it 'should display two meta tags when different names used' do
+      subject.set_meta_tags(follow: 'some-follow', index: 'some-index', nofollow: 'some-nofollow', noindex: 'some-noindex')
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "index", name: "some-index" })
+        expect(meta).to have_tag('meta', with: { content: "follow", name: "some-follow" })
+        expect(meta).to have_tag('meta', with: { content: "noindex", name: "some-noindex" })
+        expect(meta).to have_tag('meta', with: { content: "nofollow", name: "some-nofollow" })
+      end
+    end
+  end
+
   context 'display noarchive' do
     it 'should display noarchive when "set_meta_tags" used' do
       subject.set_meta_tags(noarchive: true)
