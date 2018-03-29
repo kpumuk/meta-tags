@@ -1,3 +1,8 @@
+## 2.9.0 (March 29, 2018) [☰](https://github.com/kpumuk/meta-tags/compare/v2.8.0...v2.9.0)
+
+Features:
+  - Added ability to add `index` robots meta tag (thanks to @rafallo)
+
 ## 2.8.0 (February 28, 2018) [☰](https://github.com/kpumuk/meta-tags/compare/v2.7.1...v2.8.0)
 
 Features:
