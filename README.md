@@ -136,28 +136,30 @@ If you want to set the title and display another text, use this:
 
 Use these options to customize the title format:
 
-* `:site` — site title;
-* `:title` — page title;
-* `:description` — page description;
-* `:keywords` — page keywords;
-* `:charset` — page character set;
-* `:prefix` — text between site name and separator;
-* `:separator` — text used to separate website name from page title;
-* `:suffix` — text between separator and page title;
-* `:lowercase` — when true, the page name will be lowercase;
-* `:reverse` — when true, the page and site names will be reversed;
-* `:noindex` — add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used;
-* `:index` — add index meta tag; when true, 'robots' will be used, otherwise the string will be used;
-* `:nofollow` — add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used;
-* `:follow` – add follow meta tag; when true, 'robots' will be used, otherwise the string will be used;
-* `:noarchive` – add noarchive meta tag; when true, 'robots' will be used, otherwise the string will be used;
-* `:canonical` — add canonical link tag;
-* `:prev` — add prev link tag;
-* `:next` — add next link tag;
-* `:image_src`  — add image_src link tag;
-* `:og` — add Open Graph tags (Hash);
-* `:twitter` — add Twitter tags (Hash);
-* `:refresh` — refresh interval and optionally url to redirect to.
+| Option         | Description |
+| -------------- | ----------- |
+| `:site`        | site title |
+| `:title`       | page title |
+| `:description` | page description |
+| `:keywords`    | page keywords |
+| `:charset`     | page character set |
+| `:prefix`      | text between site name and separator |
+| `:separator`   | text used to separate website name from page title |
+| `:suffix`      | text between separator and page title |
+| `:lowercase`   | when true, the page name will be lowercase |
+| `:reverse`     | when true, the page and site names will be reversed |
+| `:noindex`     | add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used |
+| `:index`       | add index meta tag; when true, 'robots' will be used, otherwise the string will be used |
+| `:nofollow`    | add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used |
+| `:follow`      | add follow meta tag; when true, 'robots' will be used, otherwise the string will be used |
+| `:noarchive`   | add noarchive meta tag; when true, 'robots' will be used, otherwise the string will be used |
+| `:canonical`   | add canonical link tag |
+| `:prev`        | add prev link tag |
+| `:next`        | add next link tag |
+| `:image_src`   | add image_src link tag |
+| `:og`          | add Open Graph tags (Hash) |
+| `:twitter`     | add Twitter tags (Hash) |
+| `:refresh`     | refresh interval and optionally url to redirect to |
 
 And here are a few examples to give you ideas.
 
