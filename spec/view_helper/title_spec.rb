@@ -133,7 +133,7 @@ describe MetaTags::ViewHelper do
     end
 
     it 'should use all custom options if available' do
-      subject.display_meta_tags({
+      subject.display_meta_tags(
         site:      'someSite',
         title:     'someTitle',
         prefix:    ' -',
@@ -141,7 +141,7 @@ describe MetaTags::ViewHelper do
         separator: ':',
         lowercase: true,
         reverse:   true,
-      }).tap do |meta|
+      ).tap do |meta|
         expect(meta).to eq('<title>sometitle -:+ someSite</title>')
       end
     end
@@ -159,14 +159,14 @@ describe MetaTags::ViewHelper do
     end
 
     it 'should build title in reverse order if :reverse' do
-      subject.display_meta_tags({
+      subject.display_meta_tags(
         site:      'someSite',
         title:     ['someTitle', 'anotherTitle'],
         prefix:    ' -',
         suffix:    '+ ',
         separator: ':',
         reverse:   true,
-      }).tap do |meta|
+      ).tap do |meta|
         expect(meta).to eq('<title>anotherTitle -:+ someTitle -:+ someSite</title>')
       end
     end

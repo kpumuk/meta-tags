@@ -7,11 +7,11 @@ MetaTags.configure do |config|
   # When true, site title will be truncated instead of title. Default is false.
   # config.truncate_site_title_first = false
 
-  # Maximum length of the page description. Default is 160.
+  # Maximum length of the page description. Default is 300.
   # Set to nil or 0 to remove limits.
-  # config.description_limit = 160
+  # config.description_limit = 300
 
-  # Maxumum length of the keywords meta tag. Default is 255.
+  # Maximum length of the keywords meta tag. Default is 255.
   # config.keywords_limit = 255
 
   # Default separator for keywords meta tag (used when an Array passed with
@@ -21,6 +21,10 @@ MetaTags.configure do |config|
   # When true, keywords will be converted to lowercase, otherwise they will
   # appear on the page as is. Default is true.
   # config.keywords_lowercase = true
+
+  # When false, generated meta tags will be self-closing (<meta ... />) instead
+  # of open (`<meta ...>`). Default is true.
+  # config.open_meta_tags = true
 
   # List of additional meta tags that should use "property" attribute instead
   # of "name" attribute in <meta> tags.

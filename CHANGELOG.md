@@ -1,3 +1,29 @@
+## 2.9.0 (March 29, 2018) [☰](https://github.com/kpumuk/meta-tags/compare/v2.8.0...v2.9.0)
+
+Features:
+  - Added ability to add `index` robots meta tag (thanks to @rafallo)
+
+## 2.8.0 (February 28, 2018) [☰](https://github.com/kpumuk/meta-tags/compare/v2.7.1...v2.8.0)
+
+Features:
+  - Added noarchive support.
+
+Changes:
+  - Updated default description size to 300 as a new recommended truncation limit.
+
+## 2.7.1 (February 1, 2018) [☰](https://github.com/kpumuk/meta-tags/compare/v2.7.0...v2.7.1)
+
+Changes:
+  - Properly generate Open Graph meta tags for object types that fail to provide a proper scope (e.g. `restaurant:contact_info` metadata for `restaurant:restaurant` object type).
+
+Bugfixes:
+  - Description truncated to empty string and removed from meta tags when limit is set to `0` (while documentation suggests we should remove limits in this case).
+
+## 2.7.0 (November 22, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.6.0...v2.7.0)
+
+Changes:
+  - Generate open meta tags (`<meta ... >`) instead of closed meta tags (`<meta ... />`) by default, which is . Added a new option to switch back to self-closing meta tags, which are valid in HTML5, but unnecessary.
+
 ## 2.6.0 (August 24, 2017) [☰](https://github.com/kpumuk/meta-tags/compare/v2.5.0...v2.6.0)
 
 Features:

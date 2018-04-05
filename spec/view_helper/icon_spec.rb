@@ -30,10 +30,12 @@ describe MetaTags::ViewHelper do
   end
 
   it 'should allow to specify multiple icons' do
-    subject.set_meta_tags(icon: [
-      { href: '/images/icons/icon_96.png', sizes: '32x32 96x96', type: 'image/png' },
-      { href: '/images/icons/icon_itouch_precomp_32.png', rel: 'apple-touch-icon-precomposed', sizes: '32x32', type: 'image/png' },
-    ])
+    subject.set_meta_tags(
+      icon: [
+        { href: '/images/icons/icon_96.png', sizes: '32x32 96x96', type: 'image/png' },
+        { href: '/images/icons/icon_itouch_precomp_32.png', rel: 'apple-touch-icon-precomposed', sizes: '32x32', type: 'image/png' },
+      ]
+    )
     subject.display_meta_tags(site: 'someSite').tap do |meta|
       expect(meta).to have_tag('link', with: { href: '/images/icons/icon_96.png', rel: 'icon', type: 'image/png', sizes: '32x32 96x96' })
       expect(meta).to have_tag('link', with: { href: '/images/icons/icon_itouch_precomp_32.png', rel: 'apple-touch-icon-precomposed', type: 'image/png', sizes: '32x32' })

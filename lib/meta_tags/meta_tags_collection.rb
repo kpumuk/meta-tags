@@ -65,7 +65,8 @@ module MetaTags
     # @return [String] page title.
     #
     def page_title(defaults = {})
-      old_site, @meta_tags[:site] = @meta_tags[:site], nil
+      old_site = @meta_tags[:site]
+      @meta_tags[:site] = nil
       with_defaults(defaults) { extract_full_title }
     ensure
       @meta_tags[:site] = old_site
@@ -137,17 +138,19 @@ module MetaTags
     # @return [Hash<String,String>] noindex attributes.
     #
     def extract_noindex
-      noindex_name,  noindex_value  = extract_noindex_attribute(:noindex)
-      nofollow_name, nofollow_value = extract_noindex_attribute(:nofollow)
-      follow_name,   follow_value   = extract_noindex_attribute(:follow)
+      noindex_name, noindex_value = extract_noindex_attribute(:noindex)
+      index_name, index_value = extract_noindex_attribute(:index)
 
-      if noindex_name == follow_name && (follow_value && noindex_value)
-        { noindex_name => [noindex_value, follow_value].compact.join(', ') }
-      elsif noindex_name == nofollow_name
-        { noindex_name => [noindex_value, nofollow_value].compact.join(', ') }
-      else
-        { noindex_name => noindex_value, nofollow_name => nofollow_value }
-      end
+      nofollow_name, nofollow_value = extract_noindex_attribute(:nofollow)
+      follow_name, follow_value = extract_noindex_attribute(:follow)
+
+      noindex_attributes = if noindex_name == follow_name && (noindex_value || follow_value)
+                             # noindex has higher priority than index and follow has higher priority than nofollow
+                             [[noindex_name, noindex_value || index_value], [follow_name, follow_value || nofollow_value]]
+                           else
+                             [[index_name, index_value], [follow_name, follow_value], [noindex_name, noindex_value], [nofollow_name, nofollow_value]]
+                           end
+      append_noarchive_attribute group_attributes_by_key noindex_attributes
     end
 
     protected
@@ -185,6 +188,32 @@ module MetaTags
       noindex_value = noindex ? name.to_s : nil
 
       [ noindex_name, noindex_value ]
+    end
+
+    # Append noarchive attribute if it present.
+    #
+    # @param [Hash<String, String>] noindex noindex attributes.
+    # @return [Hash<String, String>] modified noindex attributes.
+    #
+    def append_noarchive_attribute(noindex)
+      noarchive_name, noarchive_value = extract_noindex_attribute :noarchive
+      if noarchive_value
+        if noindex[noarchive_name].blank?
+          noindex[noarchive_name] = noarchive_value
+        else
+          noindex[noarchive_name] += ", #{noarchive_value}"
+        end
+      end
+      noindex
+    end
+
+    # Convert array of arrays to hashes and concatenate values
+    #
+    # @param [Array<Array>] attributes list of noindex keys and values
+    # @return [Hash<String, String>] hash of grouped noindex keys and values
+    #
+    def group_attributes_by_key(attributes)
+      Hash[attributes.group_by(&:first).map { |k, v| [k, v.map(&:last).compact.join(', ')] }]
     end
   end
 end

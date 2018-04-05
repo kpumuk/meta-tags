@@ -40,7 +40,7 @@ describe MetaTags::ViewHelper do
     end
 
     it 'should use `property` attribute instead of `name` for custom tags listed under `property_tags` in config' do
-      MetaTags.config.property_tags.push(:testing1, 'testing2')
+      MetaTags.config.property_tags.push(:testing1, 'testing2', 'namespace:')
 
       subject.display_meta_tags('testing1': 'test').tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "test", property: "testing1" })
@@ -48,6 +48,10 @@ describe MetaTags::ViewHelper do
 
       subject.display_meta_tags('testing2:nested': 'nested test').tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "nested test", property: "testing2:nested" })
+      end
+
+      subject.display_meta_tags('namespace:thing': 'namespace test').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "namespace test", property: "namespace:thing" })
       end
     end
 
@@ -65,24 +69,26 @@ describe MetaTags::ViewHelper do
     end
   end
 
-  def test_hashes_and_arrays(name_key: :name)
-    subject.set_meta_tags(foo: {
-      _: "test",
-      bar: "lorem",
-      baz: {
-        qux: ["lorem", "ipsum"]
-      },
-      quux: [
-        {
-          corge:  "lorem",
-          grault: "ipsum"
+  def test_hashes_and_arrays(name_key: :name) # rubocop:disable Metrics/AbcSize
+    subject.set_meta_tags(
+      foo: {
+        _: "test",
+        bar: "lorem",
+        baz: {
+          qux: ["lorem", "ipsum"]
         },
-        {
-          corge:  "dolor",
-          grault: "sit"
-        }
-      ]
-    })
+        quux: [
+          {
+            corge:  "lorem",
+            grault: "ipsum"
+          },
+          {
+            corge:  "dolor",
+            grault: "sit"
+          }
+        ]
+      }
+    )
     subject.display_meta_tags(site: 'someSite').tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "lorem", name_key => "foo:bar" })
       expect(meta).to have_tag('meta', with: { content: "lorem", name_key => "foo:baz:qux" })

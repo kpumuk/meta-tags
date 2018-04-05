@@ -19,7 +19,7 @@ module MetaTags
     # @return [String] HTML string for the tag.
     #
     def render(view)
-      view.tag(name, prepare_attributes(attributes))
+      view.tag(name, prepare_attributes(attributes), MetaTags.config.open_meta_tags?)
     end
 
     protected

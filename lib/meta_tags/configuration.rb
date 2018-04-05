@@ -19,6 +19,10 @@ module MetaTags
     # Should keywords forced into lowercase?
     attr_accessor :keywords_lowercase
 
+    # Switches between open (<meta ... >) and closed (<meta ... />) meta tags.
+    # Default is true, which means "open".
+    attr_accessor :open_meta_tags
+
     # Custom meta tags that should use `property` attribute instead of `name`
     # - an array of strings or symbols representing their names or name-prefixes.
     attr_reader :property_tags
@@ -36,42 +40,36 @@ module MetaTags
         'fb',
         'og',
         # Facebook OpenGraph Object Types https://developers.facebook.com/docs/reference/opengraph
+        # Note that these tags are used in a regex, so including e.g. 'restaurant' will affect
+        # 'restaurant:category', 'restaurant:price_rating', and anything else under that namespace.
         'article',
         'book',
-        'books:author',
-        'books:book',
-        'books:genre',
-        'business:business',
-        'fitness:course',
-        'game:achievement',
-        'music:album',
-        'music:playlist',
-        'music:radio_station',
-        'music:song',
+        'books',
+        'business',
+        'fitness',
+        'game',
+        'music',
         'place',
         'product',
-        'product:group',
-        'product:item',
         'profile',
-        'restaurant:menu',
-        'restaurant:menu_item',
-        'restaurant:menu_section',
-        'restaurant:restaurant',
-        'video:episode',
-        'video:movie',
-        'video:other',
-        'video:tv_show',
+        'restaurant',
+        'video',
       ].freeze
+    end
+
+    def open_meta_tags?
+      !!open_meta_tags
     end
 
     def reset_defaults!
       @title_limit = 70
       @truncate_site_title_first = false
-      @description_limit = 160
+      @description_limit = 300
       @keywords_limit = 255
       @keywords_separator = ', '
       @keywords_lowercase = true
       @property_tags = default_property_tags.dup
+      @open_meta_tags = true
     end
   end
 end

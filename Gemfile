@@ -3,15 +3,7 @@ source 'http://rubygems.org'
 # Specify your gem's dependencies in meta-tags.gemspec
 gemspec
 
-if ENV['RAILS_VERSION'] == 'edge'
-  gem 'actionpack', git: 'https://github.com/rails/rails.git'
-elsif ENV['RAILS_VERSION']
-  gem 'actionpack', "~> #{ENV['RAILS_VERSION']}"
-end
-
-if RUBY_VERSION =~ /^2\.0\./
-  gem 'nokogiri', '~> 1.6.8.1'
-end
+gem 'actionpack', "~> #{ENV['RAILS_VERSION']}" if ENV['RAILS_VERSION']
 
 group :test do
   gem 'simplecov'

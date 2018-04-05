@@ -10,7 +10,7 @@ describe MetaTags::ViewHelper, 'displaying charset' do
 
   it 'should display charset' do
     subject.display_meta_tags(charset: 'UTF-8').tap do |meta|
-      expect(meta).to eq('<meta charset="UTF-8" />')
+      expect(meta).to eq('<meta charset="UTF-8">')
     end
   end
 end
