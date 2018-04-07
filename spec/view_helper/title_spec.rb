@@ -6,7 +6,7 @@ describe MetaTags::ViewHelper do
   context 'displaying title' do
     it 'should not display title if blank' do
       expect(subject.display_meta_tags).to eq('')
-      subject.title('')
+      subject.page_title('')
       expect(subject.display_meta_tags).to eq('')
     end
 
@@ -17,14 +17,14 @@ describe MetaTags::ViewHelper do
     end
 
     it 'should display title when "title" used' do
-      subject.title('someTitle')
+      subject.page_title('someTitle')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to eq('<title>someSite | someTitle</title>')
       end
     end
 
     it 'should display title only when "site" is empty' do
-      subject.title('someTitle')
+      subject.page_title('someTitle')
       expect(subject.display_meta_tags).to eq('<title>someTitle</title>')
     end
 
@@ -64,7 +64,7 @@ describe MetaTags::ViewHelper do
     end
 
     it 'should display custom title if given' do
-      subject.title('someTitle')
+      subject.page_title('someTitle')
       subject.display_meta_tags(site: 'someSite', title: 'defaultTitle').tap do |meta|
         expect(meta).to eq('<title>someSite | someTitle</title>')
       end
@@ -77,7 +77,7 @@ describe MetaTags::ViewHelper do
     end
 
     it 'should only use markup in titles in the view' do
-      expect(subject.title('<b>someTitle</b>')).to eq('<b>someTitle</b>')
+      expect(subject.page_title('<b>someTitle</b>')).to eq('<b>someTitle</b>')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to eq('<title>someSite | someTitle</title>')
       end
@@ -96,7 +96,7 @@ describe MetaTags::ViewHelper do
     end
 
     it 'should use custom separator if :separator' do
-      subject.title('someTitle')
+      subject.page_title('someTitle')
       subject.display_meta_tags(site: 'someSite', separator: '-').tap do |meta|
         expect(meta).to eq('<title>someSite - someTitle</title>')
       end
@@ -174,7 +174,7 @@ describe MetaTags::ViewHelper do
 
   context '.display_title' do
     it 'should display custom title if given' do
-      subject.title('someTitle')
+      subject.page_title('someTitle')
       subject.display_title(site: 'someSite', title: 'defaultTitle').tap do |meta|
         expect(meta).to eq('someSite | someTitle')
       end
