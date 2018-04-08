@@ -148,9 +148,17 @@ module MetaTags
 
       noindex_attributes = if noindex_name == follow_name && (noindex_value || follow_value)
                              # noindex has higher priority than index and follow has higher priority than nofollow
-                             [[noindex_name, noindex_value || index_value], [follow_name, follow_value || nofollow_value]]
+                             [
+                               [noindex_name, noindex_value || index_value],
+                               [follow_name, follow_value || nofollow_value],
+                             ]
                            else
-                             [[index_name, index_value], [follow_name, follow_value], [noindex_name, noindex_value], [nofollow_name, nofollow_value]]
+                             [
+                               [index_name, index_value],
+                               [follow_name, follow_value],
+                               [noindex_name, noindex_value],
+                               [nofollow_name, nofollow_value],
+                             ]
                            end
       append_noarchive_attribute group_attributes_by_key noindex_attributes
     end
