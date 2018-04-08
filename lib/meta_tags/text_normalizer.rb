@@ -1,6 +1,6 @@
 module MetaTags
   # Module contains helpers that normalize text meta tag values.
-  module TextNormalizer # rubocop:disable Metrics/ModuleLength
+  module TextNormalizer
     extend self # rubocop:disable Style/ModuleFunction
 
     # Normalize title value.
