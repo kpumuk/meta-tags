@@ -119,6 +119,22 @@ Also there is `set_meta_tags` method exists:
                  keywords: 'Site, Login, Members' %>
 ```
 
+You can pass an object that implements `#to_meta_tags` method and returns a Hash:
+
+```ruby
+class Document < ApplicationRecord
+  def to_meta_tags
+    {
+      title: title,
+      description: summary,
+    }
+  end
+end
+
+@document = Document.first
+set_meta_tags @document
+```
+
 The `title` method returns title itself, so you can use it to show the title
 somewhere on the page:
 

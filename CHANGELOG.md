@@ -1,3 +1,8 @@
+## 2.10.0 (June 8, 2018) [☰](https://github.com/kpumuk/meta-tags/compare/v2.9.0...v2.10.0)
+
+Features:
+  - Allow `MetaTagsCollection#update` to receive an object ([169](https://github.com/kpumuk/meta-tags/pull/169))
+
 ## 2.9.0 (March 29, 2018) [☰](https://github.com/kpumuk/meta-tags/compare/v2.8.0...v2.9.0)
 
 Features:
