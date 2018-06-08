@@ -14,6 +14,7 @@ shared_build_steps: &shared_build_steps
       name: Store Rails Version
       command: |
         echo "$RUBY_VERSION/$RAILS_VERSION" > RAILS_VERSION
+        cat RAILS_VERSION
 
   # Download and cache dependencies
   - restore_cache:
