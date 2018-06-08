@@ -8,14 +8,16 @@ env:
     - ENABLE_CODE_COVERAGE=1
   matrix:
     - RAILS_VERSION=4.2.10
-    - RAILS_VERSION=5.0.6
-    - RAILS_VERSION=5.1.5
+    - RAILS_VERSION=5.0.7
+    - RAILS_VERSION=5.1.6
+    - RAILS_VERSION=5.2.0
 
 rvm:
   - 2.2.10
   - 2.3.7
   - 2.4.4
   - 2.5.1
+  - 2.6.0-preview2
 
 notifications:
   recipients:
