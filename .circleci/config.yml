@@ -7,8 +7,11 @@ version: 2
 shared_build_steps: &shared_build_steps
   - checkout
 
+  - attach_workspace:
+      at: /tmp/workspace
+
   - run:
-      name: store rails version
+      name: Store Rails Version
       command: |
         echo "$RAILS_VERSION" > RAILS_VERSION
 
@@ -20,7 +23,7 @@ shared_build_steps: &shared_build_steps
       - v1-dependencies-{{ checksum "RAILS_VERSION" }}
 
   - run:
-      name: install dependencies
+      name: Install Dependencies
       command: |
         bundle install --jobs=4 --retry=3 --path vendor/bundle
 
@@ -31,7 +34,7 @@ shared_build_steps: &shared_build_steps
 
   # run tests!
   - run:
-      name: run tests
+      name: Run Tests
       command: |
         mkdir /tmp/test-results
         TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
@@ -49,6 +52,11 @@ shared_build_steps: &shared_build_steps
       path: /tmp/test-results
       destination: test-results
 
+  - persist_to_workspace:
+      root: ~/meta-tags
+      paths:
+        - "*/coverage/.resultset.json"
+
 jobs:
   
   build-ruby24-rails4210:
@@ -56,7 +64,8 @@ jobs:
       - image: circleci/ruby:2.4
         environment:
           RAILS_VERSION: 4.2.10
-    working_directory: ~/meta-tags
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby24-rails4210
     steps: *shared_build_steps
   
   build-ruby24-rails507:
@@ -64,7 +73,8 @@ jobs:
       - image: circleci/ruby:2.4
         environment:
           RAILS_VERSION: 5.0.7
-    working_directory: ~/meta-tags
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby24-rails507
     steps: *shared_build_steps
   
   build-ruby24-rails516:
@@ -72,7 +82,8 @@ jobs:
       - image: circleci/ruby:2.4
         environment:
           RAILS_VERSION: 5.1.6
-    working_directory: ~/meta-tags
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby24-rails516
     steps: *shared_build_steps
   
   build-ruby24-rails520:
@@ -80,7 +91,8 @@ jobs:
       - image: circleci/ruby:2.4
         environment:
           RAILS_VERSION: 5.2.0
-    working_directory: ~/meta-tags
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby24-rails520
     steps: *shared_build_steps
   
   build-ruby25-rails4210:
@@ -88,7 +100,8 @@ jobs:
       - image: circleci/ruby:2.5
         environment:
           RAILS_VERSION: 4.2.10
-    working_directory: ~/meta-tags
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby25-rails4210
     steps: *shared_build_steps
   
   build-ruby25-rails507:
@@ -96,7 +109,8 @@ jobs:
       - image: circleci/ruby:2.5
         environment:
           RAILS_VERSION: 5.0.7
-    working_directory: ~/meta-tags
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby25-rails507
     steps: *shared_build_steps
   
   build-ruby25-rails516:
@@ -104,7 +118,8 @@ jobs:
       - image: circleci/ruby:2.5
         environment:
           RAILS_VERSION: 5.1.6
-    working_directory: ~/meta-tags
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby25-rails516
     steps: *shared_build_steps
   
   build-ruby25-rails520:
@@ -112,7 +127,8 @@ jobs:
       - image: circleci/ruby:2.5
         environment:
           RAILS_VERSION: 5.2.0
-    working_directory: ~/meta-tags
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby25-rails520
     steps: *shared_build_steps
   
   build-ruby26-rc-rails4210:
@@ -120,7 +136,8 @@ jobs:
       - image: circleci/ruby:2.6-rc
         environment:
           RAILS_VERSION: 4.2.10
-    working_directory: ~/meta-tags
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby26-rc-rails4210
     steps: *shared_build_steps
   
   build-ruby26-rc-rails507:
@@ -128,7 +145,8 @@ jobs:
       - image: circleci/ruby:2.6-rc
         environment:
           RAILS_VERSION: 5.0.7
-    working_directory: ~/meta-tags
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby26-rc-rails507
     steps: *shared_build_steps
   
   build-ruby26-rc-rails516:
@@ -136,7 +154,8 @@ jobs:
       - image: circleci/ruby:2.6-rc
         environment:
           RAILS_VERSION: 5.1.6
-    working_directory: ~/meta-tags
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby26-rc-rails516
     steps: *shared_build_steps
   
   build-ruby26-rc-rails520:
@@ -144,9 +163,26 @@ jobs:
       - image: circleci/ruby:2.6-rc
         environment:
           RAILS_VERSION: 5.2.0
-    working_directory: ~/meta-tags
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby26-rc-rails520
     steps: *shared_build_steps
   
+
+  upload-coverage:
+    docker:
+      - image: circleci/ruby:2.5
+        environment:
+          CC_TEST_REPORTER_ID: 8792cbc0d1780830ddd3dd7eb1c25f09f386ba8f04449ad830039469406a6ab3
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+
+      - run:
+          name: Upload Code Coverage
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+            ./cc-test-reporter after-build --coverage-input-type simplecov --input /tmp/workspace/ruby25-rails520/coverage/.resultset.json || true
 
 workflows:
   version: 2
@@ -177,3 +213,7 @@ workflows:
       
       - build-ruby26-rc-rails520
       
+
+      - upload-coverage:
+          requires:
+            - build-ruby25-rails520
