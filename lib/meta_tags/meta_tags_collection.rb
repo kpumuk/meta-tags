@@ -36,11 +36,8 @@ module MetaTags
     # @return [Hash] result of the merge.
     #
     def update(object = {})
-      if object.respond_to?(:to_meta_tags)
-        @meta_tags.deep_merge! normalize_open_graph(object.to_meta_tags)
-      else
-        @meta_tags.deep_merge! normalize_open_graph(object)
-      end
+      meta_tags = object.respond_to?(:to_meta_tags) ? object.to_meta_tags : object
+      @meta_tags.deep_merge! normalize_open_graph(meta_tags)
     end
 
     # Temporary merges defaults with current meta tags list and yields the block.
