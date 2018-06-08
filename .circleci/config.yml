@@ -7,12 +7,17 @@ version: 2
 shared_build_steps: &shared_build_steps
   - checkout
 
+  - run:
+      name: store rails version
+      command: |
+        echo "$RAILS_VERSION" > RAILS_VERSION
+
   # Download and cache dependencies
   - restore_cache:
       keys:
-      - v1-dependencies-{{ checksum "Gemfile.lock" }}
+      - v1-dependencies-{{ checksum "RAILS_VERSION" }}-{{ checksum "Gemfile" }}-{{ checksum "meta-tags.gemspec" }}
       # fallback to using the latest cache if no exact match is found
-      - v1-dependencies-
+      - v1-dependencies-{{ checksum "RAILS_VERSION" }}
 
   - run:
       name: install dependencies
@@ -22,7 +27,7 @@ shared_build_steps: &shared_build_steps
   - save_cache:
       paths:
         - ./vendor/bundle
-      key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      key: v1-dependencies-{{ checksum "RAILS_VERSION" }}-{{ checksum "Gemfile" }}-{{ checksum "meta-tags.gemspec" }}
 
   # run tests!
   - run:
