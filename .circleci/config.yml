@@ -1,0 +1,174 @@
+# To update the build configuration, edit the "builds" array below and run:
+# erb .circleci/config.yml.erb > .circleci/config.yml
+
+
+version: 2
+
+shared_build_steps: &shared_build_steps
+  - checkout
+
+  # Download and cache dependencies
+  - restore_cache:
+      keys:
+      - v1-dependencies-{{ checksum "Gemfile.lock" }}
+      # fallback to using the latest cache if no exact match is found
+      - v1-dependencies-
+
+  - run:
+      name: install dependencies
+      command: |
+        bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+  - save_cache:
+      paths:
+        - ./vendor/bundle
+      key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+  # run tests!
+  - run:
+      name: run tests
+      command: |
+        mkdir /tmp/test-results
+        TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+
+        bundle exec rspec --format progress \
+                          --format RspecJunitFormatter \
+                          --out /tmp/test-results/rspec.xml \
+                          --format progress \
+                          $TEST_FILES
+
+  # collect reports
+  - store_test_results:
+      path: /tmp/test-results
+  - store_artifacts:
+      path: /tmp/test-results
+      destination: test-results
+
+jobs:
+  
+  build-ruby24-rails4210:
+    docker:
+      - image: circleci/ruby:2.4
+        environment:
+          RAILS_VERSION: 4.2.10
+    working_directory: ~/meta-tags
+    steps: *shared_build_steps
+  
+  build-ruby24-rails507:
+    docker:
+      - image: circleci/ruby:2.4
+        environment:
+          RAILS_VERSION: 5.0.7
+    working_directory: ~/meta-tags
+    steps: *shared_build_steps
+  
+  build-ruby24-rails516:
+    docker:
+      - image: circleci/ruby:2.4
+        environment:
+          RAILS_VERSION: 5.1.6
+    working_directory: ~/meta-tags
+    steps: *shared_build_steps
+  
+  build-ruby24-rails520:
+    docker:
+      - image: circleci/ruby:2.4
+        environment:
+          RAILS_VERSION: 5.2.0
+    working_directory: ~/meta-tags
+    steps: *shared_build_steps
+  
+  build-ruby25-rails4210:
+    docker:
+      - image: circleci/ruby:2.5
+        environment:
+          RAILS_VERSION: 4.2.10
+    working_directory: ~/meta-tags
+    steps: *shared_build_steps
+  
+  build-ruby25-rails507:
+    docker:
+      - image: circleci/ruby:2.5
+        environment:
+          RAILS_VERSION: 5.0.7
+    working_directory: ~/meta-tags
+    steps: *shared_build_steps
+  
+  build-ruby25-rails516:
+    docker:
+      - image: circleci/ruby:2.5
+        environment:
+          RAILS_VERSION: 5.1.6
+    working_directory: ~/meta-tags
+    steps: *shared_build_steps
+  
+  build-ruby25-rails520:
+    docker:
+      - image: circleci/ruby:2.5
+        environment:
+          RAILS_VERSION: 5.2.0
+    working_directory: ~/meta-tags
+    steps: *shared_build_steps
+  
+  build-ruby26-rc-rails4210:
+    docker:
+      - image: circleci/ruby:2.6-rc
+        environment:
+          RAILS_VERSION: 4.2.10
+    working_directory: ~/meta-tags
+    steps: *shared_build_steps
+  
+  build-ruby26-rc-rails507:
+    docker:
+      - image: circleci/ruby:2.6-rc
+        environment:
+          RAILS_VERSION: 5.0.7
+    working_directory: ~/meta-tags
+    steps: *shared_build_steps
+  
+  build-ruby26-rc-rails516:
+    docker:
+      - image: circleci/ruby:2.6-rc
+        environment:
+          RAILS_VERSION: 5.1.6
+    working_directory: ~/meta-tags
+    steps: *shared_build_steps
+  
+  build-ruby26-rc-rails520:
+    docker:
+      - image: circleci/ruby:2.6-rc
+        environment:
+          RAILS_VERSION: 5.2.0
+    working_directory: ~/meta-tags
+    steps: *shared_build_steps
+  
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      
+      - build-ruby24-rails4210
+      
+      - build-ruby24-rails507
+      
+      - build-ruby24-rails516
+      
+      - build-ruby24-rails520
+      
+      - build-ruby25-rails4210
+      
+      - build-ruby25-rails507
+      
+      - build-ruby25-rails516
+      
+      - build-ruby25-rails520
+      
+      - build-ruby26-rc-rails4210
+      
+      - build-ruby26-rc-rails507
+      
+      - build-ruby26-rc-rails516
+      
+      - build-ruby26-rc-rails520
+      
