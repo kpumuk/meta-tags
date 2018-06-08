@@ -1,0 +1,122 @@
+# To update the build configuration, edit the "builds" array below and run:
+# erb .circleci/config.yml.erb > .circleci/config.yml
+<%
+  builds = [
+    # 2.4
+    ['2.4', '4.2.10'],
+    ['2.4', '5.0.7'],
+    ['2.4', '5.1.6'],
+    ['2.4', '5.2.0'],
+
+    # 2.5
+    ['2.5', '4.2.10'],
+    ['2.5', '5.0.7'],
+    ['2.5', '5.1.6'],
+    ['2.5', '5.2.0', true],
+
+    # 2.6
+    ['2.6-rc', '4.2.10'],
+    ['2.6-rc', '5.0.7'],
+    ['2.6-rc', '5.1.6'],
+    ['2.6-rc', '5.2.0'],
+  ]
+
+  cc_build = builds.find { |_, _, submit_cc| submit_cc }
+%>
+
+version: 2
+
+shared_build_steps: &shared_build_steps
+  - checkout
+
+  - attach_workspace:
+      at: /tmp/workspace
+
+  - run:
+      name: Store Rails Version
+      command: |
+        echo "$RUBY_VERSION/$RAILS_VERSION" > RAILS_VERSION
+        cat RAILS_VERSION
+
+  # Download and cache dependencies
+  - restore_cache:
+      keys:
+      - dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "RAILS_VERSION" }}-{{ checksum "Gemfile" }}-{{ checksum "meta-tags.gemspec" }}
+      # fallback to using the latest cache if no exact match is found
+      - dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "RAILS_VERSION" }}
+
+  - run:
+      name: Install Dependencies
+      command: |
+        bundle check || (bundle install --jobs=4 --retry=3 --path vendor/bundle && bundle clean)
+
+  - save_cache:
+      paths:
+        - ./vendor/bundle
+        - /usr/local/bundle/config
+      key: dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "RAILS_VERSION" }}-{{ checksum "Gemfile" }}-{{ checksum "meta-tags.gemspec" }}
+
+  # run tests!
+  - run:
+      name: Run Tests
+      command: |
+        mkdir /tmp/test-results
+        TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+
+        bundle exec rspec --format progress \
+                          --format RspecJunitFormatter \
+                          --out /tmp/test-results/rspec.xml \
+                          --format progress \
+                          $TEST_FILES
+
+  # collect reports
+  - store_test_results:
+      path: /tmp/test-results
+  - store_artifacts:
+      path: /tmp/test-results
+      destination: test-results
+
+  - persist_to_workspace:
+      root: ~/meta-tags
+      paths:
+        - "*/coverage/.resultset.json"
+
+jobs:
+  <% builds.each do |ruby_version, rails_version, submit_cc| %>
+  build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version %>:
+    docker:
+      - image: circleci/ruby:<%= ruby_version %>
+        environment:
+          RAILS_VERSION: <%= rails_version %>
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby<%= ruby_version.tr('.', '') %>-rails<%= rails_version.tr('.', '') %>
+    steps: *shared_build_steps
+  <% end %>
+
+  upload-coverage:
+    docker:
+      - image: circleci/ruby:<%= cc_build[0] %>
+        environment:
+          CC_TEST_REPORTER_ID: 8792cbc0d1780830ddd3dd7eb1c25f09f386ba8f04449ad830039469406a6ab3
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+
+      - run:
+          name: Upload Code Coverage
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+            ./cc-test-reporter after-build --coverage-input-type simplecov --input /tmp/workspace/ruby<%= cc_build[0].tr('.', '') %>-rails<%= cc_build[1].tr('.', '') %>/coverage/.resultset.json || true
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      <% builds.each do |ruby_version, rails_version| %>
+      - build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version %>
+      <% end %>
+
+      - upload-coverage:
+          requires:
+            - build-ruby<%= cc_build[0].tr('.', '') %>-rails-<%= cc_build[1] %>
