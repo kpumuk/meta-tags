@@ -25,11 +25,12 @@ shared_build_steps: &shared_build_steps
   - run:
       name: Install Dependencies
       command: |
-        bundle install --jobs=4 --retry=3 --path vendor/bundle
+        bundle check || (bundle install --jobs=4 --retry=3 --path vendor/bundle && bundle clean)
 
   - save_cache:
       paths:
         - ./vendor/bundle
+        - /usr/local/bundle/config
       key: v1-dependencies-{{ checksum "RAILS_VERSION" }}-{{ checksum "Gemfile" }}-{{ checksum "meta-tags.gemspec" }}
 
   # run tests!
