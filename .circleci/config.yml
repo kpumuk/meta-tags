@@ -61,7 +61,7 @@ shared_build_steps: &shared_build_steps
 
 jobs:
   
-  build-ruby24-rails4210:
+  build-ruby24-rails-4.2.10:
     docker:
       - image: circleci/ruby:2.4
         environment:
@@ -70,7 +70,7 @@ jobs:
     working_directory: ~/meta-tags/ruby24-rails4210
     steps: *shared_build_steps
   
-  build-ruby24-rails507:
+  build-ruby24-rails-5.0.7:
     docker:
       - image: circleci/ruby:2.4
         environment:
@@ -79,7 +79,7 @@ jobs:
     working_directory: ~/meta-tags/ruby24-rails507
     steps: *shared_build_steps
   
-  build-ruby24-rails516:
+  build-ruby24-rails-5.1.6:
     docker:
       - image: circleci/ruby:2.4
         environment:
@@ -88,7 +88,7 @@ jobs:
     working_directory: ~/meta-tags/ruby24-rails516
     steps: *shared_build_steps
   
-  build-ruby24-rails520:
+  build-ruby24-rails-5.2.0:
     docker:
       - image: circleci/ruby:2.4
         environment:
@@ -97,7 +97,7 @@ jobs:
     working_directory: ~/meta-tags/ruby24-rails520
     steps: *shared_build_steps
   
-  build-ruby25-rails4210:
+  build-ruby25-rails-4.2.10:
     docker:
       - image: circleci/ruby:2.5
         environment:
@@ -106,7 +106,7 @@ jobs:
     working_directory: ~/meta-tags/ruby25-rails4210
     steps: *shared_build_steps
   
-  build-ruby25-rails507:
+  build-ruby25-rails-5.0.7:
     docker:
       - image: circleci/ruby:2.5
         environment:
@@ -115,7 +115,7 @@ jobs:
     working_directory: ~/meta-tags/ruby25-rails507
     steps: *shared_build_steps
   
-  build-ruby25-rails516:
+  build-ruby25-rails-5.1.6:
     docker:
       - image: circleci/ruby:2.5
         environment:
@@ -124,7 +124,7 @@ jobs:
     working_directory: ~/meta-tags/ruby25-rails516
     steps: *shared_build_steps
   
-  build-ruby25-rails520:
+  build-ruby25-rails-5.2.0:
     docker:
       - image: circleci/ruby:2.5
         environment:
@@ -133,7 +133,7 @@ jobs:
     working_directory: ~/meta-tags/ruby25-rails520
     steps: *shared_build_steps
   
-  build-ruby26-rc-rails4210:
+  build-ruby26-rc-rails-4.2.10:
     docker:
       - image: circleci/ruby:2.6-rc
         environment:
@@ -142,7 +142,7 @@ jobs:
     working_directory: ~/meta-tags/ruby26-rc-rails4210
     steps: *shared_build_steps
   
-  build-ruby26-rc-rails507:
+  build-ruby26-rc-rails-5.0.7:
     docker:
       - image: circleci/ruby:2.6-rc
         environment:
@@ -151,7 +151,7 @@ jobs:
     working_directory: ~/meta-tags/ruby26-rc-rails507
     steps: *shared_build_steps
   
-  build-ruby26-rc-rails516:
+  build-ruby26-rc-rails-5.1.6:
     docker:
       - image: circleci/ruby:2.6-rc
         environment:
@@ -160,7 +160,7 @@ jobs:
     working_directory: ~/meta-tags/ruby26-rc-rails516
     steps: *shared_build_steps
   
-  build-ruby26-rc-rails520:
+  build-ruby26-rc-rails-5.2.0:
     docker:
       - image: circleci/ruby:2.6-rc
         environment:
@@ -191,31 +191,31 @@ workflows:
   test:
     jobs:
       
-      - build-ruby24-rails4210
+      - build-ruby24-rails-4.2.10
       
-      - build-ruby24-rails507
+      - build-ruby24-rails-5.0.7
       
-      - build-ruby24-rails516
+      - build-ruby24-rails-5.1.6
       
-      - build-ruby24-rails520
+      - build-ruby24-rails-5.2.0
       
-      - build-ruby25-rails4210
+      - build-ruby25-rails-4.2.10
       
-      - build-ruby25-rails507
+      - build-ruby25-rails-5.0.7
       
-      - build-ruby25-rails516
+      - build-ruby25-rails-5.1.6
       
-      - build-ruby25-rails520
+      - build-ruby25-rails-5.2.0
       
-      - build-ruby26-rc-rails4210
+      - build-ruby26-rc-rails-4.2.10
       
-      - build-ruby26-rc-rails507
+      - build-ruby26-rc-rails-5.0.7
       
-      - build-ruby26-rc-rails516
+      - build-ruby26-rc-rails-5.1.6
       
-      - build-ruby26-rc-rails520
+      - build-ruby26-rc-rails-5.2.0
       
 
       - upload-coverage:
           requires:
-            - build-ruby25-rails520
+            - build-ruby25-rails-5.2.0

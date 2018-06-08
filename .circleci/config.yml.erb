@@ -83,7 +83,7 @@ shared_build_steps: &shared_build_steps
 
 jobs:
   <% builds.each do |ruby_version, rails_version, submit_cc| %>
-  build-ruby<%= ruby_version.tr('.', '') %>-rails<%= rails_version.tr('.', '') %>:
+  build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version %>:
     docker:
       - image: circleci/ruby:<%= ruby_version %>
         environment:
@@ -114,9 +114,9 @@ workflows:
   test:
     jobs:
       <% builds.each do |ruby_version, rails_version| %>
-      - build-ruby<%= ruby_version.tr('.', '') %>-rails<%= rails_version.tr('.', '') %>
+      - build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version %>
       <% end %>
 
       - upload-coverage:
           requires:
-            - build-ruby<%= cc_build[0].tr('.', '') %>-rails<%= cc_build[1].tr('.', '') %>
+            - build-ruby<%= cc_build[0].tr('.', '') %>-rails-<%= cc_build[1] %>
