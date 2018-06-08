@@ -31,11 +31,16 @@ module MetaTags
 
     # Recursively merges a Hash of meta tag attributes into current list.
     #
-    # @param [Hash] meta_tags meta tags Hash to merge into current list.
+    # @param [Hash, #to_meta_tags] object Hash of meta tags (or object responding
+    #   to #to_meta_tags and returning a hash) to merge into the current list.
     # @return [Hash] result of the merge.
     #
-    def update(meta_tags = {})
-      @meta_tags.deep_merge! normalize_open_graph(meta_tags)
+    def update(object = {})
+      if object.respond_to?(:to_meta_tags)
+        @meta_tags.deep_merge! normalize_open_graph(object.to_meta_tags)
+      else
+        @meta_tags.deep_merge! normalize_open_graph(object)
+      end
     end
 
     # Temporary merges defaults with current meta tags list and yields the block.

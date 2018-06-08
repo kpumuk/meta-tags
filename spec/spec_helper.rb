@@ -63,12 +63,27 @@ RSpec.configure do |config|
 end
 
 shared_examples_for '.set_meta_tags' do
-  it 'should update meta tags' do
-    subject.set_meta_tags(title: 'hello')
-    expect(subject.meta_tags[:title]).to eq('hello')
+  context 'parameter is a Hash' do
+    it 'should update meta tags' do
+      subject.set_meta_tags(title: 'hello')
+      expect(subject.meta_tags[:title]).to eq('hello')
 
-    subject.set_meta_tags(title: 'world')
-    expect(subject.meta_tags[:title]).to eq('world')
+      subject.set_meta_tags(title: 'world')
+      expect(subject.meta_tags[:title]).to eq('world')
+    end
+  end
+
+  context 'parameter is an Object responding to #to_meta_tags' do
+    it 'should update meta tags' do
+      object1 = double(to_meta_tags: { title: 'hello' })
+      object2 = double(to_meta_tags: { title: 'world' })
+
+      subject.set_meta_tags(object1)
+      expect(subject.meta_tags[:title]).to eq('hello')
+
+      subject.set_meta_tags(object2)
+      expect(subject.meta_tags[:title]).to eq('world')
+    end
   end
 
   it 'should use deep merge when updating meta tags' do
