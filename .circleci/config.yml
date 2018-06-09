@@ -1,5 +1,7 @@
 # To update the build configuration, edit the "builds" array below and run:
-# erb .circleci/config.yml.erb > .circleci/config.yml
+#
+#   rake circleci
+#
 
 
 version: 2
