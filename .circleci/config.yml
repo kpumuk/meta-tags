@@ -11,7 +11,13 @@ shared_build_steps: &shared_build_steps
       at: /tmp/workspace
 
   - run:
-      name: Store Rails Version
+      name: Downloading CodeClimate Test Reporter
+      command: |
+        curl -sL https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+
+  - run:
+      name: Storing Rails Version
       command: |
         echo "$RUBY_VERSION/$RAILS_VERSION" > RAILS_VERSION
         cat RAILS_VERSION
@@ -24,7 +30,7 @@ shared_build_steps: &shared_build_steps
       - dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "RAILS_VERSION" }}
 
   - run:
-      name: Install Dependencies
+      name: Installing Dependencies
       command: |
         bundle check || (bundle install --jobs=4 --retry=3 --path vendor/bundle && bundle clean)
 
@@ -36,7 +42,7 @@ shared_build_steps: &shared_build_steps
 
   # run tests!
   - run:
-      name: Run Tests
+      name: Running Tests
       command: |
         mkdir /tmp/test-results
         TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
@@ -46,6 +52,11 @@ shared_build_steps: &shared_build_steps
                           --out /tmp/test-results/rspec.xml \
                           --format progress \
                           $TEST_FILES
+
+  - run:
+      name: Formatting Coverage
+      command: |
+        ./cc-test-reporter format-coverage --input-type simplecov --output coverage/codeclimate.coverage.json
 
   # collect reports
   - store_test_results:
@@ -57,7 +68,8 @@ shared_build_steps: &shared_build_steps
   - persist_to_workspace:
       root: ~/meta-tags
       paths:
-        - "*/coverage/.resultset.json"
+        - "*/coverage/codeclimate.coverage.json"
+        - "*/cc-test-reporter"
 
 jobs:
   
@@ -67,7 +79,7 @@ jobs:
         environment:
           RAILS_VERSION: 4.2.10
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby24-rails4210
+    working_directory: ~/meta-tags/ruby24-rails-4.2.10
     steps: *shared_build_steps
   
   build-ruby24-rails-5.0.7:
@@ -76,7 +88,7 @@ jobs:
         environment:
           RAILS_VERSION: 5.0.7
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby24-rails507
+    working_directory: ~/meta-tags/ruby24-rails-5.0.7
     steps: *shared_build_steps
   
   build-ruby24-rails-5.1.6:
@@ -85,7 +97,7 @@ jobs:
         environment:
           RAILS_VERSION: 5.1.6
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby24-rails516
+    working_directory: ~/meta-tags/ruby24-rails-5.1.6
     steps: *shared_build_steps
   
   build-ruby24-rails-5.2.0:
@@ -94,7 +106,7 @@ jobs:
         environment:
           RAILS_VERSION: 5.2.0
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby24-rails520
+    working_directory: ~/meta-tags/ruby24-rails-5.2.0
     steps: *shared_build_steps
   
   build-ruby25-rails-4.2.10:
@@ -103,7 +115,7 @@ jobs:
         environment:
           RAILS_VERSION: 4.2.10
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby25-rails4210
+    working_directory: ~/meta-tags/ruby25-rails-4.2.10
     steps: *shared_build_steps
   
   build-ruby25-rails-5.0.7:
@@ -112,7 +124,7 @@ jobs:
         environment:
           RAILS_VERSION: 5.0.7
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby25-rails507
+    working_directory: ~/meta-tags/ruby25-rails-5.0.7
     steps: *shared_build_steps
   
   build-ruby25-rails-5.1.6:
@@ -121,7 +133,7 @@ jobs:
         environment:
           RAILS_VERSION: 5.1.6
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby25-rails516
+    working_directory: ~/meta-tags/ruby25-rails-5.1.6
     steps: *shared_build_steps
   
   build-ruby25-rails-5.2.0:
@@ -130,7 +142,7 @@ jobs:
         environment:
           RAILS_VERSION: 5.2.0
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby25-rails520
+    working_directory: ~/meta-tags/ruby25-rails-5.2.0
     steps: *shared_build_steps
   
   build-ruby26-rc-rails-4.2.10:
@@ -139,7 +151,7 @@ jobs:
         environment:
           RAILS_VERSION: 4.2.10
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby26-rc-rails4210
+    working_directory: ~/meta-tags/ruby26-rc-rails-4.2.10
     steps: *shared_build_steps
   
   build-ruby26-rc-rails-5.0.7:
@@ -148,7 +160,7 @@ jobs:
         environment:
           RAILS_VERSION: 5.0.7
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby26-rc-rails507
+    working_directory: ~/meta-tags/ruby26-rc-rails-5.0.7
     steps: *shared_build_steps
   
   build-ruby26-rc-rails-5.1.6:
@@ -157,7 +169,7 @@ jobs:
         environment:
           RAILS_VERSION: 5.1.6
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby26-rc-rails516
+    working_directory: ~/meta-tags/ruby26-rc-rails-5.1.6
     steps: *shared_build_steps
   
   build-ruby26-rc-rails-5.2.0:
@@ -166,7 +178,7 @@ jobs:
         environment:
           RAILS_VERSION: 5.2.0
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby26-rc-rails520
+    working_directory: ~/meta-tags/ruby26-rc-rails-5.2.0
     steps: *shared_build_steps
   
 
@@ -180,11 +192,10 @@ jobs:
           at: /tmp/workspace
 
       - run:
-          name: Upload Code Coverage
+          name: Uploading Code Coverage
           command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-            ./cc-test-reporter after-build --coverage-input-type simplecov --input /tmp/workspace/ruby25-rails520/coverage/.resultset.json || true
+            cd /tmp/workspace/ruby25-rails-5.2.0
+            ./cc-test-reporter upload-coverage --input coverage/codeclimate.coverage.json || true
 
 workflows:
   version: 2

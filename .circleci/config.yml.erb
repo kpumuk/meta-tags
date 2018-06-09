@@ -33,7 +33,13 @@ shared_build_steps: &shared_build_steps
       at: /tmp/workspace
 
   - run:
-      name: Store Rails Version
+      name: Downloading CodeClimate Test Reporter
+      command: |
+        curl -sL https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+
+  - run:
+      name: Storing Rails Version
       command: |
         echo "$RUBY_VERSION/$RAILS_VERSION" > RAILS_VERSION
         cat RAILS_VERSION
@@ -46,7 +52,7 @@ shared_build_steps: &shared_build_steps
       - dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "RAILS_VERSION" }}
 
   - run:
-      name: Install Dependencies
+      name: Installing Dependencies
       command: |
         bundle check || (bundle install --jobs=4 --retry=3 --path vendor/bundle && bundle clean)
 
@@ -58,7 +64,7 @@ shared_build_steps: &shared_build_steps
 
   # run tests!
   - run:
-      name: Run Tests
+      name: Running Tests
       command: |
         mkdir /tmp/test-results
         TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
@@ -68,6 +74,11 @@ shared_build_steps: &shared_build_steps
                           --out /tmp/test-results/rspec.xml \
                           --format progress \
                           $TEST_FILES
+
+  - run:
+      name: Formatting Coverage
+      command: |
+        ./cc-test-reporter format-coverage --input-type simplecov --output coverage/codeclimate.coverage.json
 
   # collect reports
   - store_test_results:
@@ -79,7 +90,8 @@ shared_build_steps: &shared_build_steps
   - persist_to_workspace:
       root: ~/meta-tags
       paths:
-        - "*/coverage/.resultset.json"
+        - "*/coverage/codeclimate.coverage.json"
+        - "*/cc-test-reporter"
 
 jobs:
   <% builds.each do |ruby_version, rails_version, submit_cc| %>
@@ -89,7 +101,7 @@ jobs:
         environment:
           RAILS_VERSION: <%= rails_version %>
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby<%= ruby_version.tr('.', '') %>-rails<%= rails_version.tr('.', '') %>
+    working_directory: ~/meta-tags/ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version %>
     steps: *shared_build_steps
   <% end %>
 
@@ -103,11 +115,10 @@ jobs:
           at: /tmp/workspace
 
       - run:
-          name: Upload Code Coverage
+          name: Uploading Code Coverage
           command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-            ./cc-test-reporter after-build --coverage-input-type simplecov --input /tmp/workspace/ruby<%= cc_build[0].tr('.', '') %>-rails<%= cc_build[1].tr('.', '') %>/coverage/.resultset.json || true
+            cd /tmp/workspace/ruby<%= cc_build[0].tr('.', '') %>-rails-<%= cc_build[1] %>
+            ./cc-test-reporter upload-coverage --input coverage/codeclimate.coverage.json || true
 
 workflows:
   version: 2
