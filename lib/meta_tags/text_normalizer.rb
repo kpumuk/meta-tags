@@ -41,6 +41,10 @@ module MetaTags
     # to 200 characters.
     #
     def normalize_description(description)
+      # description could be another object not a string, but since it probably
+      # serves the same purpose we could just as it to convert itself to str
+      # and continue from there
+      description = description.to_str if description
       return '' if description.blank?
 
       description = cleanup_string(description)
