@@ -1,3 +1,11 @@
+## 2.11.0 (Development) [☰](https://github.com/kpumuk/meta-tags/compare/v2.10.0...v2.11.0)
+
+Features:
+  - Added a configuration option `minify_output` to remove new line characters between meta tags ([182](https://github.com/kpumuk/meta-tags/pull/182))
+
+Bugfixes:
+  - Truncate title before escaping HTML characters ([180](https://github.com/kpumuk/meta-tags/pull/180))
+
 ## 2.10.0 (June 8, 2018) [☰](https://github.com/kpumuk/meta-tags/compare/v2.9.0...v2.10.0)
 
 Features:

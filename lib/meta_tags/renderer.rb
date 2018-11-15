@@ -35,7 +35,7 @@ module MetaTags
       render_custom(tags)
 
       tags.tap(&:compact!).map! { |tag| tag.render(view) }
-      view.safe_join tags, "\n"
+      view.safe_join tags, MetaTags.config.minify_output ? "" : "\n"
     end
 
     protected
