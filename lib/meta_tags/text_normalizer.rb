@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module MetaTags
   # Module contains helpers that normalize text meta tag values.
   module TextNormalizer
-    extend self
+    extend self # rubocop:disable Style/ModuleFunction
 
     # Normalize title value.
     #
@@ -39,6 +41,7 @@ module MetaTags
     #
     def normalize_description(description)
       return '' if description.blank?
+
       description = cleanup_string(description)
       truncate(description, MetaTags.config.description_limit)
     end
@@ -50,6 +53,7 @@ module MetaTags
     #
     def normalize_keywords(keywords)
       return '' if keywords.blank?
+
       keywords = cleanup_strings(keywords)
       keywords.each(&:downcase!) if MetaTags.config.keywords_lowercase
       separator = strip_tags MetaTags.config.keywords_separator
@@ -101,7 +105,7 @@ module MetaTags
     # space characters squashed into a single space.
     #
     def cleanup_string(string)
-      strip_tags(string).gsub(/\s+/, ' ').strip.html_safe
+      strip_tags(string).gsub(/\s+/, ' ').strip
     end
 
     # Cleans multiple strings up.
@@ -122,8 +126,15 @@ module MetaTags
     # @return [String] truncated string.
     #
     def truncate(string, limit = nil, natural_separator = ' ')
-      return string if limit.to_i == 0
-      helpers.truncate(string, length: limit, separator: natural_separator, omission: '', escape: false)
+      return string if limit.to_i == 0 # rubocop:disable Lint/NumberConversion
+
+      helpers.truncate(
+        string,
+        length:    limit,
+        separator: natural_separator,
+        omission:  '',
+        escape:    false,
+      )
     end
 
     # Truncates a string to a specific limit.
@@ -165,7 +176,7 @@ module MetaTags
     end
 
     def truncate_title(site_title, title, separator)
-      if MetaTags.config.title_limit.to_i > 0
+      if MetaTags.config.title_limit.to_i > 0 # rubocop:disable Lint/NumberConversion
         site_title_limited_length, title_limited_length = calculate_title_limits(site_title, title, separator)
 
         title = title_limited_length > 0 ? truncate_array(title, title_limited_length, separator) : []

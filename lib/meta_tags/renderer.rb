@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MetaTags
   # This class is used by MetaTags gems to render HTML meta tags into page.
   class Renderer
@@ -32,7 +34,8 @@ module MetaTags
       render_hashes(tags)
       render_custom(tags)
 
-      tags.compact.map { |tag| tag.render(view) }.join("\n").html_safe
+      rendered_tags = tags.compact.map { |tag| tag.render(view) }
+      view.safe_join rendered_tags, "\n"
     end
 
     protected
@@ -66,14 +69,14 @@ module MetaTags
       icon = meta_tags.extract(:icon)
       return unless icon
 
-      if icon.kind_of?(String)
-        tags << Tag.new(:link, rel: 'icon', href: icon, type: 'image/x-icon')
-      else
-        icon = [icon] if icon.kind_of?(Hash)
-        icon.each do |icon_params|
-          icon_params = { rel: 'icon', type: 'image/x-icon' }.with_indifferent_access.merge(icon_params)
-          tags << Tag.new(:link, icon_params)
-        end
+      # String? Value is an href
+      icon = [{ href: icon }] if icon.kind_of?(String)
+      # Hash? Single icon instead of a list of icons
+      icon = [icon] if icon.kind_of?(Hash)
+
+      icon.each do |icon_params|
+        icon_params = { rel: 'icon', type: 'image/x-icon' }.with_indifferent_access.merge(icon_params)
+        tags << Tag.new(:link, icon_params)
       end
     end
 
@@ -160,9 +163,9 @@ module MetaTags
     #
     # @param [Array<Tag>] tags a buffer object to store tag in.
     #
-    def render_hashes(tags, options = {})
-      meta_tags.meta_tags.keys.each do |property|
-        render_hash(tags, property, options)
+    def render_hashes(tags, **opts)
+      meta_tags.meta_tags.each_key do |property|
+        render_hash(tags, property, **opts)
       end
     end
 
@@ -170,11 +173,11 @@ module MetaTags
     #
     # @param [Array<Tag>] tags a buffer object to store tag in.
     #
-    def render_hash(tags, key, options = {})
+    def render_hash(tags, key, **opts)
       data = meta_tags.meta_tags[key]
       return unless data.kind_of?(Hash)
 
-      process_hash(tags, key, data, options)
+      process_hash(tags, key, data, **opts)
       meta_tags.extract(key)
     end
 
@@ -198,7 +201,7 @@ module MetaTags
     # @param [Hash, Array, String, Symbol] content text content or a symbol reference to
     # top-level meta tag.
     #
-    def process_tree(tags, property, content, options = {})
+    def process_tree(tags, property, content, **opts)
       method = case content
                when Hash
                  :process_hash
@@ -207,7 +210,7 @@ module MetaTags
                else
                  :render_tag
                end
-      send(method, tags, property, content, options)
+      __send__(method, tags, property, content, **opts)
     end
 
     # Recursive method to process a hash with meta tags
@@ -216,11 +219,11 @@ module MetaTags
     # @param [String, Symbol] property a Hash or a String to render as meta tag.
     # @param [Hash] content nested meta tag attributes.
     #
-    def process_hash(tags, property, content, options = {})
+    def process_hash(tags, property, content, **opts)
       content.each do |key, value|
         key = key.to_s == '_' ? property : "#{property}:#{key}"
         value = normalized_meta_tags[value] if value.kind_of?(Symbol)
-        process_tree(tags, key, value, options)
+        process_tree(tags, key, value, **opts)
       end
     end
 
@@ -230,8 +233,8 @@ module MetaTags
     # @param [String, Symbol] property a Hash or a String to render as meta tag.
     # @param [Array] content array of nested meta tag attributes or values.
     #
-    def process_array(tags, property, content, options = {})
-      content.each { |v| process_tree(tags, property, v, options) }
+    def process_array(tags, property, content, **opts)
+      content.each { |v| process_tree(tags, property, v, **opts) }
     end
 
     # Recursive method to process a hash with meta tags
@@ -241,10 +244,9 @@ module MetaTags
     # @param [String, Symbol] value text content or a symbol reference to
     # top-level meta tag.
     #
-    def render_tag(tags, name, value, options = {})
-      name_key = options.fetch(:name_key, configured_name_key(name))
-      value_key = options.fetch(:value_key, :content)
-      tags << Tag.new(:meta, name_key => name.to_s, value_key => value) unless value.blank?
+    def render_tag(tags, name, value, name_key: nil, value_key: :content)
+      name_key ||= configured_name_key(name)
+      tags << Tag.new(:meta, name_key => name.to_s, value_key => value) if value.present?
     end
 
     # Returns meta tag property name for a give meta tag based on the

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe MetaTags::TextNormalizer, '.truncate_array' do

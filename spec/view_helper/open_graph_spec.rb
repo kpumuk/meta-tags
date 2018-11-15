@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
@@ -7,8 +9,8 @@ describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
     subject.set_meta_tags(
       open_graph: {
         title:       'Facebook Share Title',
-        description: 'Facebook Share Description'
-      }
+        description: 'Facebook Share Description',
+      },
     )
     subject.display_meta_tags(site: 'someSite').tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "Facebook Share Title", property: "og:title" })
@@ -20,8 +22,8 @@ describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
     subject.set_meta_tags(
       og: {
         title:       'Facebook Share Title',
-        description: 'Facebook Share Description'
-      }
+        description: 'Facebook Share Description',
+      },
     )
     subject.display_meta_tags(site: 'someSite').tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "Facebook Share Title", property: "og:title" })
@@ -41,8 +43,8 @@ describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
     subject.set_meta_tags(
       open_graph: {
         title:       '',
-        description: ''
-      }
+        description: '',
+      },
     )
     subject.display_meta_tags(site: 'someSite').tap do |meta|
       expect(meta).to_not have_tag('meta', with: { content: "", property: "og:title" })
@@ -88,9 +90,9 @@ describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
             _:      'http://example.com/2.png',
             width:  50,
             height: 50,
-          }
+          },
         ],
-      }
+      },
     )
     subject.display_meta_tags(site: 'someTitle').tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "someTitle", property: "og:title" })
@@ -104,8 +106,8 @@ describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
   end
 
   it "should format dates using ISO 8601" do
-    time = Time.now
-    subject.set_meta_tags(article: { published_time: Time.now })
+    time = Time.now.utc
+    subject.set_meta_tags(article: { published_time: time })
     subject.display_meta_tags(site: 'someSite').tap do |meta|
       expect(meta).to have_tag('meta', with: { content: time.iso8601, property: "article:published_time" })
     end

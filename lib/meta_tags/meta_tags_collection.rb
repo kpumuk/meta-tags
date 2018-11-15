@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MetaTags
   # Class represents a collection of meta tags. Basically a wrapper around
   # HashWithIndifferentAccess, with some additional helper methods.
@@ -47,7 +49,7 @@ module MetaTags
     #
     def with_defaults(defaults = {})
       old_meta_tags = @meta_tags
-      @meta_tags = normalize_open_graph(defaults).deep_merge!(self.meta_tags)
+      @meta_tags = normalize_open_graph(defaults).deep_merge!(@meta_tags)
       yield
     ensure
       @meta_tags = old_meta_tags
@@ -113,7 +115,8 @@ module MetaTags
       return unless title
 
       title = Array(title)
-      title.each(&:downcase!) if extract(:lowercase) == true
+      return title.map(&:downcase) if extract(:lowercase) == true
+
       title
     end
 
@@ -148,9 +151,17 @@ module MetaTags
 
       noindex_attributes = if noindex_name == follow_name && (noindex_value || follow_value)
                              # noindex has higher priority than index and follow has higher priority than nofollow
-                             [[noindex_name, noindex_value || index_value], [follow_name, follow_value || nofollow_value]]
+                             [
+                               [noindex_name, noindex_value || index_value],
+                               [follow_name, follow_value || nofollow_value],
+                             ]
                            else
-                             [[index_name, index_value], [follow_name, follow_value], [noindex_name, noindex_value], [nofollow_name, nofollow_value]]
+                             [
+                               [index_name, index_value],
+                               [follow_name, follow_value],
+                               [noindex_name, noindex_value],
+                               [nofollow_name, nofollow_value],
+                             ]
                            end
       append_noarchive_attribute group_attributes_by_key noindex_attributes
     end

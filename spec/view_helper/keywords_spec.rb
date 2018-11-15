@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe MetaTags::ViewHelper, 'displaying keywords' do
@@ -39,13 +41,13 @@ describe MetaTags::ViewHelper, 'displaying keywords' do
   end
 
   it 'should join keywords from Array' do
-    subject.display_meta_tags(site: 'someSite', keywords: %w(keyword1 keyword2)).tap do |meta|
+    subject.display_meta_tags(site: 'someSite', keywords: %w[keyword1 keyword2]).tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "keyword1, keyword2", name: "keywords" })
     end
   end
 
   it 'should join keywords from nested Arrays' do
-    subject.display_meta_tags(site: 'someSite', keywords: [%w(keyword1 keyword2), 'keyword3']).tap do |meta|
+    subject.display_meta_tags(site: 'someSite', keywords: [%w[keyword1 keyword2], 'keyword3']).tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "keyword1, keyword2, keyword3", name: "keywords" })
     end
   end
