@@ -97,6 +97,14 @@ describe MetaTags::ViewHelper do
       end
     end
 
+    it 'should be lowercase if :lowercase' do
+      title = "TITLE"
+      subject.display_meta_tags(title: title, lowercase: true).tap do |meta|
+        expect(meta).to eq('<title>title</title>')
+      end
+      expect(title).to eq('TITLE')
+    end
+
     # rubocop:disable Rails/OutputSafety
     it 'should use custom separator if :separator' do
       subject.title('someTitle')
