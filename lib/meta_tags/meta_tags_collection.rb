@@ -115,7 +115,8 @@ module MetaTags
       return unless title
 
       title = Array(title)
-      title.each(&:downcase!) if extract(:lowercase) == true
+      return title.map(&:downcase) if extract(:lowercase) == true
+
       title
     end
 
