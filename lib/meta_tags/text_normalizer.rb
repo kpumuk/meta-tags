@@ -78,10 +78,9 @@ module MetaTags
     def strip_tags(string)
       if defined?(Loofah)
         # Instead of strip_tags we will use Loofah to strip tags from now on
-        stripped_unescaped = Loofah.fragment(string).text(encode_special_chars: false)
-        ERB::Util.html_escape stripped_unescaped
+        Loofah.fragment(string).text(encode_special_chars: false)
       else
-        ERB::Util.html_escape helpers.strip_tags(string)
+        helpers.strip_tags(string)
       end
     end
 
@@ -133,7 +132,7 @@ module MetaTags
         length:    limit,
         separator: natural_separator,
         omission:  '',
-        escape:    false,
+        escape:    true,
       )
     end
 
