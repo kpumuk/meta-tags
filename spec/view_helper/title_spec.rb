@@ -47,7 +47,7 @@ describe MetaTags::ViewHelper do
     it 'should escape a very long title when "set_meta_tags" is used' do
       subject.set_meta_tags(title: 'Kombucha kale chips forage try-hard & green juice. IPhone marfa PBR&B venmo listicle, irony kitsch thundercats.')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to eq('<title>someSite | Kombucha kale chips forage try-hard &amp; green juice.</title>')
+        expect(meta).to eq('<title>someSite | Kombucha kale chips forage try-hard &amp; green juice. IPhone</title>')
       end
     end
 
@@ -61,7 +61,7 @@ describe MetaTags::ViewHelper do
     it 'should strip tags from very long titles' do
       subject.set_meta_tags(title: 'Kombucha <b>kale</b> chips forage try-hard & green juice. IPhone marfa PBR&B venmo listicle, irony kitsch thundercats.')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to eq('<title>someSite | Kombucha kale chips forage try-hard &amp; green juice.</title>')
+        expect(meta).to eq('<title>someSite | Kombucha kale chips forage try-hard &amp; green juice. IPhone</title>')
       end
     end
 
