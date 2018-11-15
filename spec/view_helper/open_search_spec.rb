@@ -36,8 +36,8 @@ describe MetaTags::ViewHelper, 'displaying Open Search meta tags' do
       expect(meta).to_not have_tag(
         'link',
         with: {
-          rel:   'search',
-          type:  'application/opensearchdescription+xml',
+          rel:  'search',
+          type: 'application/opensearchdescription+xml',
         },
       )
     end

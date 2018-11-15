@@ -23,8 +23,8 @@ describe MetaTags::ViewHelper, "displaying Article meta tags" do
   it "should not display meta tags without content" do
     subject.set_meta_tags(
       article: {
-        author:       "",
-        publisher:    "",
+        author:    "",
+        publisher: "",
       },
     )
     subject.display_meta_tags(site: "someSite").tap do |meta|

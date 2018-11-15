@@ -24,6 +24,11 @@ AllCops:
 Bundler/OrderedGems:
   TreatCommentsAsGroupSeparators: true
 
+Layout/AlignHash:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table
+  EnforcedLastArgumentHashStyle: always_inspect
+
 Layout/DotPosition:
   EnforcedStyle: trailing
 

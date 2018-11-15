@@ -54,7 +54,7 @@ describe MetaTags::ViewHelper do
 
     it 'should allow to specify an array of alternate links' do
       subject.display_meta_tags(
-        site: 'someSite',
+        site:      'someSite',
         alternate: [
           { href: 'http://example.fr/base/url', hreflang: 'fr' },
           { href: 'http://example.com/feed.rss', type: 'application/rss+xml', title: 'RSS' },
