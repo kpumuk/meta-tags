@@ -74,9 +74,9 @@ describe MetaTags::ViewHelper do
   def test_hashes_and_arrays(name_key: :name) # rubocop:disable Metrics/AbcSize
     subject.set_meta_tags(
       foo: {
-        _: "test",
-        bar: "lorem",
-        baz: {
+        _:    "test",
+        bar:  "lorem",
+        baz:  {
           qux: ["lorem", "ipsum"],
         },
         quux: [

@@ -60,9 +60,9 @@ describe MetaTags::ViewHelper do
       subject.set_meta_tags(
         'al' => {
           'ios' => {
-            'url' => 'applinks://docs',
+            'url'          => 'applinks://docs',
             'app_store_id' => 12_345,
-            'app_name' => 'App Links',
+            'app_name'     => 'App Links',
           },
         },
       )

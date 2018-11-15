@@ -226,7 +226,7 @@ module MetaTags
     # @return [Hash<String, String>] hash of grouped noindex keys and values
     #
     def group_attributes_by_key(attributes)
-      Hash[attributes.group_by(&:first).map { |k, v| [k, v.map(&:last).compact.join(', ')] }]
+      Hash[attributes.group_by(&:first).map { |k, v| [k, v.map(&:last).tap(&:compact!).join(', ')] }]
     end
   end
 end

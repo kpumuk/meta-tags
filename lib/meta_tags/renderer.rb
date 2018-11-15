@@ -34,8 +34,8 @@ module MetaTags
       render_hashes(tags)
       render_custom(tags)
 
-      rendered_tags = tags.compact.map { |tag| tag.render(view) }
-      view.safe_join rendered_tags, "\n"
+      tags.tap(&:compact!).map! { |tag| tag.render(view) }
+      view.safe_join tags, "\n"
     end
 
     protected

@@ -14,7 +14,8 @@ module MetaTags
     # @return [Array<String>] array of title parts with tags removed.
     #
     def normalize_title(site_title, title, separator, reverse = false)
-      title = Array(title).flatten.map(&method(:strip_tags)).reject(&:blank?)
+      title = Array(title).flatten.map!(&method(:strip_tags))
+      title.reject!(&:blank?)
       title.reverse! if reverse
 
       site_title = strip_tags(site_title)
@@ -114,7 +115,7 @@ module MetaTags
     # @see cleanup_string
     #
     def cleanup_strings(strings)
-      Array(strings).flatten.map(&method(:cleanup_string))
+      Array(strings).flatten.map!(&method(:cleanup_string))
     end
 
     # Truncates a string to a specific limit. Return string without truncation when limit 0 or nil
