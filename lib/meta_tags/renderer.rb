@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MetaTags
   # This class is used by MetaTags gems to render HTML meta tags into page.
   class Renderer

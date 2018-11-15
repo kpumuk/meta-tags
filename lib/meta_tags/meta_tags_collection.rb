@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MetaTags
   # Class represents a collection of meta tags. Basically a wrapper around
   # HashWithIndifferentAccess, with some additional helper methods.

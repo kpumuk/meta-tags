@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if ENV['ENABLE_CODE_COVERAGE']
   require 'simplecov'
   SimpleCov.start

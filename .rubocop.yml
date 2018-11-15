@@ -6,7 +6,12 @@ AllCops:
   DisplayStyleGuide: true
   DisplayCopNames: true
   # Target versions
-  TargetRubyVersion: 2.2
+  # We do not specify Ruby version, because CodeClimate should by default
+  # read .ruby-version, and send it down to Rubocop
+  # (see https://github.com/codeclimate/codeclimate-rubocop/pull/68)
+  # TargetRubyVersion: 2.4
+  # We will lock Rails version to the newest we have in the company, so we're
+  # always looking to the future.
   TargetRailsVersion: 5.1
   # Exclude auto-generated and vendored files
   Exclude:
@@ -44,6 +49,7 @@ Metrics/BlockLength:
     - 'config/routes.rb'
     - '**/*.rake'
     - 'spec/**/*_spec.rb'
+    - 'spec/spec_helper.rb'
 
 Metrics/ClassLength:
   Max: 250
@@ -85,7 +91,10 @@ Style/Lambda:
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: consistent_comma
 
-Style/TrailingCommaInLiteral:
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma
 
 #-------------------------------------------------------------------------------
@@ -98,6 +107,13 @@ Naming/FileName:
 
 # Allow not null columns without a default value
 Rails/NotNullColumn:
+  Enabled: false
+
+# This check does not distinguish between "private :x" and "private def x"
+Style/AccessModifierDeclarations:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
   Enabled: false
 
 # Do not require copyright information
@@ -114,10 +130,6 @@ Style/DocumentationMethod:
 
 # Allow double negation (!!@var)
 Style/DoubleNegation:
-  Enabled: false
-
-# Do not require frozen string literal
-Style/FrozenStringLiteralComment:
   Enabled: false
 
 # Do not enforce if modifier, sometimes it is better to split for long lines

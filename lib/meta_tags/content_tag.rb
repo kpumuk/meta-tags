@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MetaTags
   # Represents an HTML meta tag with content (<tag></tag>).
   # Content should be passed as a `:content` attribute.
