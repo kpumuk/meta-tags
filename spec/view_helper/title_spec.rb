@@ -182,6 +182,17 @@ describe MetaTags::ViewHelper do
         expect(meta).to eq('<title>anotherTitle -:+ someTitle -:+ someSite</title>')
       end
     end
+
+    it 'should minify the output when asked to' do
+      subject.display_meta_tags(title: 'hello', description: 'world').tap do |meta|
+        expect(meta).to eq("<title>hello</title>\n<meta name=\"description\" content=\"world\">")
+      end
+
+      MetaTags.config.minify_output = true
+      subject.display_meta_tags(title: 'hello', description: 'world').tap do |meta|
+        expect(meta).to eq("<title>hello</title><meta name=\"description\" content=\"world\">")
+      end
+    end
   end
 
   context '.display_title' do

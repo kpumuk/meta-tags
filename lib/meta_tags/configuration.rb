@@ -25,6 +25,10 @@ module MetaTags
     # Default is true, which means "open".
     attr_accessor :open_meta_tags
 
+    # When true, the output will not include new line characters between meta tags.
+    # Default is false.
+    attr_accessor :minify_output
+
     # Custom meta tags that should use `property` attribute instead of `name`
     # - an array of strings or symbols representing their names or name-prefixes.
     attr_reader :property_tags
@@ -72,6 +76,7 @@ module MetaTags
       @keywords_lowercase = true
       @property_tags = default_property_tags.dup
       @open_meta_tags = true
+      @minify_output = false
     end
   end
 end
