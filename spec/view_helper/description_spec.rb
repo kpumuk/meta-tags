@@ -66,4 +66,22 @@ describe MetaTags::ViewHelper, 'displaying description' do
       expect(meta).to have_tag('meta', with: { content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dolor lorem, lobortis quis faucibus id, tristique at lorem. Nullam sit amet mollis libero. Morbi ut sem malesuada massa faucibus vestibulum non sed quam. Duis quis consectetur lacus. Donec vitae nunc risus. Sed placerat semper elit, sit", name: "description" })
     end
   end
+
+  it 'should treat nil as an empty string' do
+    subject.display_meta_tags(description: nil).tap do |meta|
+      expect(meta).to_not have_tag('meta', with: { name: "description" })
+    end
+  end
+
+  it 'should allow objects that respond to #to_str' do
+    description = double(to_str: 'some description')
+    subject.display_meta_tags(description: description).tap do |meta|
+      expect(meta).to have_tag('meta', with: { content: "some description", name: "description" })
+    end
+  end
+
+  it 'should fail when title is not a String-like object' do
+    expect { subject.display_meta_tags(description: 5) }.to \
+      raise_error ArgumentError, 'Expected a string or an object that implements #to_str'
+  end
 end
