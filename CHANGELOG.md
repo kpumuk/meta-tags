@@ -1,7 +1,8 @@
-## 2.11.0 (Development) [☰](https://github.com/kpumuk/meta-tags/compare/v2.10.0...v2.11.0)
+## 2.11.0 (November 16, 2018) [☰](https://github.com/kpumuk/meta-tags/compare/v2.10.0...v2.11.0)
 
 Features:
   - Added a configuration option `minify_output` to remove new line characters between meta tags ([182](https://github.com/kpumuk/meta-tags/pull/182))
+  – Title, description, and keywords can be an object responding to `#to_str` ([183](https://github.com/kpumuk/meta-tags/pull/183))
 
 Bugfixes:
   - Truncate title before escaping HTML characters ([180](https://github.com/kpumuk/meta-tags/pull/180))
