@@ -65,7 +65,7 @@ RSpec.configure do |config|
 end
 
 shared_examples_for '.set_meta_tags' do
-  context 'parameter is a Hash' do
+  context 'with a Hash parameter' do
     it 'updates meta tags' do
       subject.set_meta_tags(title: 'hello')
       expect(subject.meta_tags[:title]).to eq('hello')
@@ -75,7 +75,7 @@ shared_examples_for '.set_meta_tags' do
     end
   end
 
-  context 'parameter is an Object responding to #to_meta_tags' do
+  context 'with an Object responding to #to_meta_tags parameter' do
     it 'updates meta tags' do
       object1 = double(to_meta_tags: { title: 'hello' })
       object2 = double(to_meta_tags: { title: 'world' })

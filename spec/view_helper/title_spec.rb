@@ -97,7 +97,7 @@ describe MetaTags::ViewHelper do
       end
     end
 
-    it 'should be lowercase if :lowercase' do
+    it 'does not change original title string' do
       title = "TITLE"
       subject.display_meta_tags(title: title, lowercase: true).tap do |meta|
         expect(meta).to eq('<title>title</title>')
@@ -106,7 +106,7 @@ describe MetaTags::ViewHelper do
     end
 
     # rubocop:disable Rails/OutputSafety
-    it 'should use custom separator if :separator' do
+    it 'uses custom separator when :separator specified' do
       subject.title('someTitle')
       subject.display_meta_tags(site: 'someSite', separator: '-').tap do |meta|
         expect(meta).to eq('<title>someSite - someTitle</title>')
@@ -173,20 +173,20 @@ describe MetaTags::ViewHelper do
       end
     end
 
-    it 'should treat nil as an empty string' do
+    it 'treats nil as an empty string' do
       subject.display_meta_tags(title: nil).tap do |meta|
-        expect(meta).to_not have_tag('title')
+        expect(meta).not_to have_tag('title')
       end
     end
 
-    it 'should allow objects that respond to #to_str' do
+    it 'allows objects that respond to #to_str' do
       title = double(to_str: 'someTitle')
       subject.display_meta_tags(site: 'someSite', title: title).tap do |meta|
         expect(meta).to eq('<title>someSite | someTitle</title>')
       end
     end
 
-    it 'should fail when title is not a String-like object' do
+    it 'fails when title is not a String-like object' do
       expect { subject.display_meta_tags(site: 'someSite', title: 5) }.to \
         raise_error ArgumentError, 'Expected a string or an object that implements #to_str'
     end
@@ -204,7 +204,7 @@ describe MetaTags::ViewHelper do
       end
     end
 
-    it 'should minify the output when asked to' do
+    it 'minifies the output when asked to' do
       subject.display_meta_tags(title: 'hello', description: 'world').tap do |meta|
         expect(meta).to eq("<title>hello</title>\n<meta name=\"description\" content=\"world\">")
       end

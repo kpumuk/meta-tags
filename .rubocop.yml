@@ -1,3 +1,5 @@
+require: rubocop-rspec
+
 AllCops:
   # Enable all the rules by default
   EnabledByDefault: true
@@ -105,6 +107,34 @@ Style/TrailingCommaInArrayLiteral:
 
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma
+
+#-------------------------------------------------------------------------------
+# RSpec rules
+#-------------------------------------------------------------------------------
+
+RSpec/MultipleExpectations:
+  Max: 7
+
+# Name your test subject if you need to reference it explicitly. (http://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/NamedSubject)
+RSpec/NamedSubject:
+  Enabled: false
+
+# Spec path should end with _spec (http://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/FilePath)
+# example: meta_tags/view_helper*displayingdescription*_spec.rb.
+RSpec/FilePath:
+  Enabled: false
+
+# The second argument to describe should be the method being tested. '#instance' or '.class'. (http://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/DescribeMethod)
+# example: describe MetaTags::ViewHelper, 'displaying description' do
+RSpec/DescribeMethod:
+  Enabled: false
+
+# Example has too many lines. (http://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/ExampleLength)
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/VerifiedDoubles:
+  Enabled: false
 
 #-------------------------------------------------------------------------------
 # Disabled rules

@@ -82,7 +82,7 @@ describe MetaTags::TextNormalizer, '.normalize_title' do
       expect(subject.normalize_title(site_title, title, '-')).to eq("#{site_title}-#{title}")
     end
 
-    it 'should truncate title when limit is reached on unescaped value' do
+    it 'truncates title when limit is reached on unescaped value' do
       site_title = 'a' * 20
       title = '"' * (MetaTags.config.title_limit + 10)
       expect(subject.normalize_title(site_title, title, '-')).to eq("#{site_title}-#{'&quot;' * (MetaTags.config.title_limit - 21)}")

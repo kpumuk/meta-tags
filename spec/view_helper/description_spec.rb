@@ -62,25 +62,25 @@ describe MetaTags::ViewHelper, 'displaying description' do
   end
 
   it 'truncates correctly' do
-    subject.display_meta_tags(site: 'someSite', description: "Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.").tap do |meta|
-      expect(meta).to have_tag('meta', with: { content: "Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At", name: "description" })
+    subject.display_meta_tags(site: 'someSite', description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dolor lorem, lobortis quis faucibus id, tristique at lorem. Nullam sit amet mollis libero. Morbi ut sem malesuada massa faucibus vestibulum non sed quam. Duis quis consectetur lacus. Donec vitae nunc risus. Sed placerat semper elit, sit amet tristique dolor. Maecenas hendrerit volutpat.").tap do |meta|
+      expect(meta).to have_tag('meta', with: { content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dolor lorem, lobortis quis faucibus id, tristique at lorem. Nullam sit amet mollis libero. Morbi ut sem malesuada massa faucibus vestibulum non sed quam. Duis quis consectetur lacus. Donec vitae nunc risus. Sed placerat semper elit, sit", name: "description" })
     end
   end
 
   it 'treats nil as an empty string' do
     subject.display_meta_tags(description: nil).tap do |meta|
-      expect(meta).to_not have_tag('meta', with: { name: "description" })
+      expect(meta).not_to have_tag('meta', with: { name: "description" })
     end
   end
 
-  it 'should allow objects that respond to #to_str' do
+  it 'allows objects that respond to #to_str' do
     description = double(to_str: 'some description')
     subject.display_meta_tags(description: description).tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "some description", name: "description" })
     end
   end
 
-  it 'should fail when title is not a String-like object' do
+  it 'fails when title is not a String-like object' do
     expect { subject.display_meta_tags(description: 5) }.to \
       raise_error ArgumentError, 'Expected a string or an object that implements #to_str'
   end
