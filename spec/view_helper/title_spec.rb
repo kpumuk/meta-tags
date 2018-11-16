@@ -117,11 +117,14 @@ describe MetaTags::ViewHelper do
       subject.display_meta_tags(site: 'someSite', separator: '&amp;').tap do |meta|
         expect(meta).to eq('<title>someSite &amp;amp; someTitle</title>')
       end
+      subject.display_meta_tags(site: 'someSite', separator: '&').tap do |meta|
+        expect(meta).to eq('<title>someSite &amp; someTitle</title>')
+      end
       subject.display_meta_tags(site: 'someSite', separator: '&amp;'.html_safe).tap do |meta|
         expect(meta).to eq('<title>someSite &amp; someTitle</title>')
       end
-      subject.display_meta_tags(site: 'someSite: ', separator: false).tap do |meta|
-        expect(meta).to eq('<title>someSite: someTitle</title>')
+      subject.display_meta_tags(site: 'someSite:', separator: false).tap do |meta|
+        expect(meta).to eq('<title>someSite:someTitle</title>')
       end
     end
     # rubocop:enable Rails/OutputSafety
@@ -168,6 +171,24 @@ describe MetaTags::ViewHelper do
       subject.display_meta_tags(site: 'someSite', title: ['someTitle', 'anotherTitle'], lowercase: true).tap do |meta|
         expect(meta).to eq('<title>someSite | sometitle | anothertitle</title>')
       end
+    end
+
+    it 'should treat nil as an empty string' do
+      subject.display_meta_tags(title: nil).tap do |meta|
+        expect(meta).to_not have_tag('title')
+      end
+    end
+
+    it 'should allow objects that respond to #to_str' do
+      title = double(to_str: 'someTitle')
+      subject.display_meta_tags(site: 'someSite', title: title).tap do |meta|
+        expect(meta).to eq('<title>someSite | someTitle</title>')
+      end
+    end
+
+    it 'should fail when title is not a String-like object' do
+      expect { subject.display_meta_tags(site: 'someSite', title: 5) }.to \
+        raise_error ArgumentError, 'Expected a string or an object that implements #to_str'
     end
 
     it 'should build title in reverse order if :reverse' do

@@ -73,6 +73,10 @@ Metrics/MethodLength:
   Exclude:
     - 'db/migrate/*'
 
+Metrics/ModuleLength:
+  Max: 250
+  CountComments: false
+
 Rails/UnknownEnv:
   Environments:
     - development
