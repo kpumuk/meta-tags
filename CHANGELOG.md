@@ -2,7 +2,7 @@
 
 Features:
   - Added a configuration option `minify_output` to remove new line characters between meta tags ([182](https://github.com/kpumuk/meta-tags/pull/182))
-  – Title, description, and keywords can be an object responding to `#to_str` ([183](https://github.com/kpumuk/meta-tags/pull/183))
+  - Title, description, and keywords can be an object responding to `#to_str` ([183](https://github.com/kpumuk/meta-tags/pull/183))
 
 Bugfixes:
   - Truncate title before escaping HTML characters ([180](https://github.com/kpumuk/meta-tags/pull/180))
