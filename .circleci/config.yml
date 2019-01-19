@@ -207,6 +207,13 @@ jobs:
           command: |
             cd /tmp/workspace/ruby25-rails-5.2.2
             ./cc-test-reporter upload-coverage --input coverage/codeclimate.coverage.json || true
+  tests:
+    docker:
+      - image: alpine
+    steps:
+      - run:
+          name: All tests succeeded
+          command: ':'
 
 workflows:
   version: 2
@@ -243,3 +250,33 @@ workflows:
       - upload-coverage:
           requires:
             - build-ruby25-rails-5.2.2
+
+      - tests:
+          requires:
+            
+            - build-ruby24-rails-4.2.10
+            
+            - build-ruby24-rails-5.0.7
+            
+            - build-ruby24-rails-5.1.6
+            
+            - build-ruby24-rails-5.2.2
+            
+            - build-ruby25-rails-4.2.10
+            
+            - build-ruby25-rails-5.0.7
+            
+            - build-ruby25-rails-5.1.6
+            
+            - build-ruby25-rails-5.2.2
+            
+            - build-ruby25-rails-6.0.0.beta1
+            
+            - build-ruby26-rails-5.0.7
+            
+            - build-ruby26-rails-5.1.6
+            
+            - build-ruby26-rails-5.2.2
+            
+            - build-ruby26-rails-6.0.0.beta1
+            
