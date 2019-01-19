@@ -8,19 +8,20 @@
     ['2.4', '4.2.10'],
     ['2.4', '5.0.7'],
     ['2.4', '5.1.6'],
-    ['2.4', '5.2.0'],
+    ['2.4', '5.2.2'],
 
     # 2.5
     ['2.5', '4.2.10'],
     ['2.5', '5.0.7'],
     ['2.5', '5.1.6'],
-    ['2.5', '5.2.0', true],
+    ['2.5', '5.2.2', true],
+    ['2.5', '6.0.0.beta1'],
 
     # 2.6
-    ['2.6-rc', '4.2.10'],
-    ['2.6-rc', '5.0.7'],
-    ['2.6-rc', '5.1.6'],
-    ['2.6-rc', '5.2.0'],
+    ['2.6', '5.0.7'],
+    ['2.6', '5.1.6'],
+    ['2.6', '5.2.2'],
+    ['2.6', '6.0.0.beta1'],
   ]
 
   cc_build = builds.find { |_, _, submit_cc| submit_cc }
@@ -121,6 +122,13 @@ jobs:
           command: |
             cd /tmp/workspace/ruby<%= cc_build[0].tr('.', '') %>-rails-<%= cc_build[1] %>
             ./cc-test-reporter upload-coverage --input coverage/codeclimate.coverage.json || true
+  tests:
+    docker:
+      - image: alpine
+    steps:
+      - run:
+          name: All tests succeeded
+          command: ':'
 
 workflows:
   version: 2
@@ -133,3 +141,9 @@ workflows:
       - upload-coverage:
           requires:
             - build-ruby<%= cc_build[0].tr('.', '') %>-rails-<%= cc_build[1] %>
+
+      - tests:
+          requires:
+            <% builds.each do |ruby_version, rails_version, submit_cc| %>
+            - build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version %>
+            <% end %>
