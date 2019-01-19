@@ -1,3 +1,8 @@
+## 2.11.1 (January 19, 2019) [☰](https://github.com/kpumuk/meta-tags/compare/v2.11.0...v2.11.1)
+
+Features:
+  - Rails 6 is officially supported.
+
 ## 2.11.0 (November 16, 2018) [☰](https://github.com/kpumuk/meta-tags/compare/v2.10.0...v2.11.0)
 
 Features:
