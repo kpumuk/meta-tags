@@ -36,7 +36,7 @@ truncation have recommended values, you can change them to reflect your own
 preferences. Keywords are converted to lowercase by default, but this is also
 configurable.
 
-To overide the defaults, create an initializer
+To override the defaults, create an initializer
 `config/initializers/meta_tags.rb` using the following command:
 
 ```bash
