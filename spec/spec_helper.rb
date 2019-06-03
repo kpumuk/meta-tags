@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if ENV['ENABLE_CODE_COVERAGE']
   require 'simplecov'
   SimpleCov.start
@@ -34,7 +36,7 @@ RSpec.configure do |config|
   config.include RSpecHtmlMatchers
 
   # Reset MetaTags configuration after every spec.
-  config.after :each do
+  config.after do
     MetaTags.config.reset_defaults!
   end
 
@@ -63,15 +65,30 @@ RSpec.configure do |config|
 end
 
 shared_examples_for '.set_meta_tags' do
-  it 'should update meta tags' do
-    subject.set_meta_tags(title: 'hello')
-    expect(subject.meta_tags[:title]).to eq('hello')
+  context 'with a Hash parameter' do
+    it 'updates meta tags' do
+      subject.set_meta_tags(title: 'hello')
+      expect(subject.meta_tags[:title]).to eq('hello')
 
-    subject.set_meta_tags(title: 'world')
-    expect(subject.meta_tags[:title]).to eq('world')
+      subject.set_meta_tags(title: 'world')
+      expect(subject.meta_tags[:title]).to eq('world')
+    end
   end
 
-  it 'should use deep merge when updating meta tags' do
+  context 'with an Object responding to #to_meta_tags parameter' do
+    it 'updates meta tags' do
+      object1 = double(to_meta_tags: { title: 'hello' })
+      object2 = double(to_meta_tags: { title: 'world' })
+
+      subject.set_meta_tags(object1)
+      expect(subject.meta_tags[:title]).to eq('hello')
+
+      subject.set_meta_tags(object2)
+      expect(subject.meta_tags[:title]).to eq('world')
+    end
+  end
+
+  it 'uses deep merge when updating meta tags' do
     subject.set_meta_tags(og: { title: 'hello' })
     expect(subject.meta_tags[:og]).to eq('title' => 'hello')
 
@@ -82,7 +99,7 @@ shared_examples_for '.set_meta_tags' do
     expect(subject.meta_tags[:og]).to eq('title' => 'hello', 'description' => 'world', 'admin' => { 'id' => 1 })
   end
 
-  it 'should normalize :open_graph to :og' do
+  it 'normalizes :open_graph to :og' do
     subject.set_meta_tags(open_graph: { title: 'hello' })
     expect(subject.meta_tags[:og]).to eq('title' => 'hello')
   end

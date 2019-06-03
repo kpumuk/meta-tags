@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MetaTags
   # Class represents a collection of meta tags. Basically a wrapper around
   # HashWithIndifferentAccess, with some additional helper methods.
@@ -31,10 +33,12 @@ module MetaTags
 
     # Recursively merges a Hash of meta tag attributes into current list.
     #
-    # @param [Hash] meta_tags meta tags Hash to merge into current list.
+    # @param [Hash, #to_meta_tags] object Hash of meta tags (or object responding
+    #   to #to_meta_tags and returning a hash) to merge into the current list.
     # @return [Hash] result of the merge.
     #
-    def update(meta_tags = {})
+    def update(object = {})
+      meta_tags = object.respond_to?(:to_meta_tags) ? object.to_meta_tags : object
       @meta_tags.deep_merge! normalize_open_graph(meta_tags)
     end
 
@@ -45,7 +49,7 @@ module MetaTags
     #
     def with_defaults(defaults = {})
       old_meta_tags = @meta_tags
-      @meta_tags = normalize_open_graph(defaults).deep_merge!(self.meta_tags)
+      @meta_tags = normalize_open_graph(defaults).deep_merge!(@meta_tags)
       yield
     ensure
       @meta_tags = old_meta_tags
@@ -111,7 +115,8 @@ module MetaTags
       return unless title
 
       title = Array(title)
-      title.each(&:downcase!) if extract(:lowercase) == true
+      return title.map(&:downcase) if extract(:lowercase) == true
+
       title
     end
 
@@ -146,9 +151,17 @@ module MetaTags
 
       noindex_attributes = if noindex_name == follow_name && (noindex_value || follow_value)
                              # noindex has higher priority than index and follow has higher priority than nofollow
-                             [[noindex_name, noindex_value || index_value], [follow_name, follow_value || nofollow_value]]
+                             [
+                               [noindex_name, noindex_value || index_value],
+                               [follow_name, follow_value || nofollow_value],
+                             ]
                            else
-                             [[index_name, index_value], [follow_name, follow_value], [noindex_name, noindex_value], [nofollow_name, nofollow_value]]
+                             [
+                               [index_name, index_value],
+                               [follow_name, follow_value],
+                               [noindex_name, noindex_value],
+                               [nofollow_name, nofollow_value],
+                             ]
                            end
       append_noarchive_attribute group_attributes_by_key noindex_attributes
     end
@@ -213,7 +226,7 @@ module MetaTags
     # @return [Hash<String, String>] hash of grouped noindex keys and values
     #
     def group_attributes_by_key(attributes)
-      Hash[attributes.group_by(&:first).map { |k, v| [k, v.map(&:last).compact.join(', ')] }]
+      Hash[attributes.group_by(&:first).map { |k, v| [k, v.map(&:last).tap(&:compact!).join(', ')] }]
     end
   end
 end

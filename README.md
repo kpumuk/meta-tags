@@ -1,6 +1,6 @@
 # MetaTags: a gem to make your Rails application SEO-friendly
 
-[![Travis-CI build status](https://secure.travis-ci.org/kpumuk/meta-tags.svg)](http://travis-ci.org/kpumuk/meta-tags)
+[![CircleCI](https://circleci.com/gh/kpumuk/meta-tags.svg?style=shield)](https://circleci.com/gh/kpumuk/meta-tags)
 [![Gem Version](https://badge.fury.io/rb/meta-tags.svg)](https://badge.fury.io/rb/meta-tags)
 [![Code Climate](https://codeclimate.com/github/kpumuk/meta-tags/badges/gpa.svg)](https://codeclimate.com/github/kpumuk/meta-tags)
 [![Test Coverage](https://codeclimate.com/github/kpumuk/meta-tags/badges/coverage.svg)](https://codeclimate.com/github/kpumuk/meta-tags/coverage)
@@ -12,7 +12,7 @@ Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 ## Ruby on Rails
 
 MetaTags master branch fully supports Ruby on Rails 4.2+, and is tested against all
-major Rails releases up to 5.1.
+major Rails releases up to 6.0.beta2.
 
 Ruby versions older than 2.2.0 are no longer officially supported.
 
@@ -36,7 +36,7 @@ truncation have recommended values, you can change them to reflect your own
 preferences. Keywords are converted to lowercase by default, but this is also
 configurable.
 
-To overide the defaults, create an initializer
+To override the defaults, create an initializer
 `config/initializers/meta_tags.rb` using the following command:
 
 ```bash
@@ -117,6 +117,22 @@ Also there is `set_meta_tags` method exists:
 <% set_meta_tags title: 'Member Login',
                  description: 'Member login page.',
                  keywords: 'Site, Login, Members' %>
+```
+
+You can pass an object that implements `#to_meta_tags` method and returns a Hash:
+
+```ruby
+class Document < ApplicationRecord
+  def to_meta_tags
+    {
+      title: title,
+      description: summary,
+    }
+  end
+end
+
+@document = Document.first
+set_meta_tags @document
 ```
 
 The `title` method returns title itself, so you can use it to show the title

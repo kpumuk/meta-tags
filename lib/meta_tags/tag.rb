@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MetaTags
   # Represents an HTML meta tag with no content (<tag />).
   class Tag

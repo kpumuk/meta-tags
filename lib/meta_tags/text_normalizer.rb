@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module MetaTags
   # Module contains helpers that normalize text meta tag values.
   module TextNormalizer
-    extend self
+    extend self # rubocop:disable Style/ModuleFunction
 
     # Normalize title value.
     #
@@ -12,11 +14,11 @@ module MetaTags
     # @return [Array<String>] array of title parts with tags removed.
     #
     def normalize_title(site_title, title, separator, reverse = false)
-      title = Array(title).flatten.map(&method(:strip_tags)).reject(&:blank?)
+      title = cleanup_strings(title)
       title.reverse! if reverse
 
-      site_title = strip_tags(site_title)
-      separator = strip_tags(separator)
+      site_title = cleanup_string(site_title)
+      separator = cleanup_string(separator, strip: false)
 
       # Truncate title and site title
       site_title, title = truncate_title(site_title, title, separator)
@@ -38,8 +40,12 @@ module MetaTags
     # to 200 characters.
     #
     def normalize_description(description)
-      return '' if description.blank?
+      # description could be another object not a string, but since it probably
+      # serves the same purpose we could just as it to convert itself to str
+      # and continue from there
       description = cleanup_string(description)
+      return '' if description.blank?
+
       truncate(description, MetaTags.config.description_limit)
     end
 
@@ -49,10 +55,11 @@ module MetaTags
     # @return [String] list of keywords joined with comma, with tags removed.
     #
     def normalize_keywords(keywords)
-      return '' if keywords.blank?
       keywords = cleanup_strings(keywords)
+      return '' if keywords.blank?
+
       keywords.each(&:downcase!) if MetaTags.config.keywords_lowercase
-      separator = strip_tags MetaTags.config.keywords_separator
+      separator = cleanup_string MetaTags.config.keywords_separator, strip: false
 
       keywords = truncate_array(keywords, MetaTags.config.keywords_limit, separator)
       safe_join(keywords, separator)
@@ -74,10 +81,9 @@ module MetaTags
     def strip_tags(string)
       if defined?(Loofah)
         # Instead of strip_tags we will use Loofah to strip tags from now on
-        stripped_unescaped = Loofah.fragment(string).text(encode_special_chars: false)
-        ERB::Util.html_escape stripped_unescaped
+        Loofah.fragment(string).text(encode_special_chars: false)
       else
-        ERB::Util.html_escape helpers.strip_tags(string)
+        helpers.strip_tags(string)
       end
     end
 
@@ -100,8 +106,14 @@ module MetaTags
     # @return [String] input string with no HTML tags and consequent white
     # space characters squashed into a single space.
     #
-    def cleanup_string(string)
-      strip_tags(string).gsub(/\s+/, ' ').strip.html_safe
+    def cleanup_string(string, strip: true)
+      return '' if string.nil?
+      raise ArgumentError, 'Expected a string or an object that implements #to_str' unless string.respond_to?(:to_str)
+
+      strip_tags(string.to_str).tap do |s|
+        s.gsub!(/\s+/, ' ')
+        s.strip! if strip
+      end
     end
 
     # Cleans multiple strings up.
@@ -110,8 +122,10 @@ module MetaTags
     # @return [Array<String>] clean strings.
     # @see cleanup_string
     #
-    def cleanup_strings(strings)
-      Array(strings).flatten.map(&method(:cleanup_string))
+    def cleanup_strings(strings, strip: true)
+      strings = Array(strings).flatten.map! { |s| cleanup_string(s, strip: strip) }
+      strings.reject!(&:blank?)
+      strings
     end
 
     # Truncates a string to a specific limit. Return string without truncation when limit 0 or nil
@@ -122,8 +136,15 @@ module MetaTags
     # @return [String] truncated string.
     #
     def truncate(string, limit = nil, natural_separator = ' ')
-      return string if limit.to_i == 0
-      helpers.truncate(string, length: limit, separator: natural_separator, omission: '', escape: false)
+      return string if limit.to_i == 0 # rubocop:disable Lint/NumberConversion
+
+      helpers.truncate(
+        string,
+        length:    limit,
+        separator: natural_separator,
+        omission:  '',
+        escape:    true,
+      )
     end
 
     # Truncates a string to a specific limit.
@@ -165,7 +186,7 @@ module MetaTags
     end
 
     def truncate_title(site_title, title, separator)
-      if MetaTags.config.title_limit.to_i > 0
+      if MetaTags.config.title_limit.to_i > 0 # rubocop:disable Lint/NumberConversion
         site_title_limited_length, title_limited_length = calculate_title_limits(site_title, title, separator)
 
         title = title_limited_length > 0 ? truncate_array(title, title_limited_length, separator) : []

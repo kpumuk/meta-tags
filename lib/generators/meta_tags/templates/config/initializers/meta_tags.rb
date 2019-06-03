@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Use this setup block to configure all options available in MetaTags.
 MetaTags.configure do |config|
   # How many characters should the title meta tag have at most. Default is 70.
@@ -21,6 +23,10 @@ MetaTags.configure do |config|
   # When true, keywords will be converted to lowercase, otherwise they will
   # appear on the page as is. Default is true.
   # config.keywords_lowercase = true
+
+  # When true, the output will not include new line characters between meta tags.
+  # Default is false.
+  # config.minify_output = false
 
   # When false, generated meta tags will be self-closing (<meta ... />) instead
   # of open (`<meta ...>`). Default is true.

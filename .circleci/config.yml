@@ -1,0 +1,282 @@
+# To update the build configuration, edit the "builds" array below and run:
+#
+#   rake circleci
+#
+
+
+version: 2
+
+shared_build_steps: &shared_build_steps
+  - checkout
+
+  - attach_workspace:
+      at: /tmp/workspace
+
+  - run:
+      name: Downloading CodeClimate Test Reporter
+      command: |
+        curl -sL https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+
+  - run:
+      name: Storing Rails Version
+      command: |
+        echo "$RUBY_VERSION/$RAILS_VERSION" > RAILS_VERSION
+        cat RAILS_VERSION
+
+  # Download and cache dependencies
+  - restore_cache:
+      keys:
+      - dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "RAILS_VERSION" }}-{{ checksum "Gemfile" }}-{{ checksum "meta-tags.gemspec" }}
+      # fallback to using the latest cache if no exact match is found
+      - dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "RAILS_VERSION" }}
+
+  - run:
+      name: Installing Dependencies
+      command: |
+        bundle check || (bundle install --jobs=4 --retry=3 --path vendor/bundle && bundle clean)
+
+  - save_cache:
+      paths:
+        - ./vendor/bundle
+        - /usr/local/bundle/config
+      key: dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "RAILS_VERSION" }}-{{ checksum "Gemfile" }}-{{ checksum "meta-tags.gemspec" }}
+
+  # run tests!
+  - run:
+      name: Running Tests
+      command: |
+        mkdir /tmp/test-results
+        TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+
+        bundle exec rspec --format progress \
+                          --format RspecJunitFormatter \
+                          --out /tmp/test-results/rspec.xml \
+                          --format progress \
+                          $TEST_FILES
+
+  - run:
+      name: Formatting Coverage
+      command: |
+        ./cc-test-reporter format-coverage --input-type simplecov --output coverage/codeclimate.coverage.json
+
+  # collect reports
+  - store_test_results:
+      path: /tmp/test-results
+  - store_artifacts:
+      path: /tmp/test-results
+      destination: test-results
+
+  - persist_to_workspace:
+      root: ~/meta-tags
+      paths:
+        - "*/coverage/codeclimate.coverage.json"
+        - "*/cc-test-reporter"
+
+jobs:
+  
+  build-ruby24-rails-4.2.10:
+    docker:
+      - image: circleci/ruby:2.4
+        environment:
+          RAILS_VERSION: 4.2.10
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby24-rails-4.2.10
+    steps: *shared_build_steps
+  
+  build-ruby24-rails-5.0.7:
+    docker:
+      - image: circleci/ruby:2.4
+        environment:
+          RAILS_VERSION: 5.0.7
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby24-rails-5.0.7
+    steps: *shared_build_steps
+  
+  build-ruby24-rails-5.1.6:
+    docker:
+      - image: circleci/ruby:2.4
+        environment:
+          RAILS_VERSION: 5.1.6
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby24-rails-5.1.6
+    steps: *shared_build_steps
+  
+  build-ruby24-rails-5.2.2:
+    docker:
+      - image: circleci/ruby:2.4
+        environment:
+          RAILS_VERSION: 5.2.2
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby24-rails-5.2.2
+    steps: *shared_build_steps
+  
+  build-ruby25-rails-4.2.10:
+    docker:
+      - image: circleci/ruby:2.5
+        environment:
+          RAILS_VERSION: 4.2.10
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby25-rails-4.2.10
+    steps: *shared_build_steps
+  
+  build-ruby25-rails-5.0.7:
+    docker:
+      - image: circleci/ruby:2.5
+        environment:
+          RAILS_VERSION: 5.0.7
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby25-rails-5.0.7
+    steps: *shared_build_steps
+  
+  build-ruby25-rails-5.1.6:
+    docker:
+      - image: circleci/ruby:2.5
+        environment:
+          RAILS_VERSION: 5.1.6
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby25-rails-5.1.6
+    steps: *shared_build_steps
+  
+  build-ruby25-rails-5.2.2:
+    docker:
+      - image: circleci/ruby:2.5
+        environment:
+          RAILS_VERSION: 5.2.2
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby25-rails-5.2.2
+    steps: *shared_build_steps
+  
+  build-ruby25-rails-6.0.0.beta1:
+    docker:
+      - image: circleci/ruby:2.5
+        environment:
+          RAILS_VERSION: 6.0.0.beta1
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby25-rails-6.0.0.beta1
+    steps: *shared_build_steps
+  
+  build-ruby26-rails-5.0.7:
+    docker:
+      - image: circleci/ruby:2.6
+        environment:
+          RAILS_VERSION: 5.0.7
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby26-rails-5.0.7
+    steps: *shared_build_steps
+  
+  build-ruby26-rails-5.1.6:
+    docker:
+      - image: circleci/ruby:2.6
+        environment:
+          RAILS_VERSION: 5.1.6
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby26-rails-5.1.6
+    steps: *shared_build_steps
+  
+  build-ruby26-rails-5.2.2:
+    docker:
+      - image: circleci/ruby:2.6
+        environment:
+          RAILS_VERSION: 5.2.2
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby26-rails-5.2.2
+    steps: *shared_build_steps
+  
+  build-ruby26-rails-6.0.0.beta1:
+    docker:
+      - image: circleci/ruby:2.6
+        environment:
+          RAILS_VERSION: 6.0.0.beta1
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby26-rails-6.0.0.beta1
+    steps: *shared_build_steps
+  
+
+  upload-coverage:
+    docker:
+      - image: circleci/ruby:2.5
+        environment:
+          CC_TEST_REPORTER_ID: 8792cbc0d1780830ddd3dd7eb1c25f09f386ba8f04449ad830039469406a6ab3
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+
+      - run:
+          name: Uploading Code Coverage
+          command: |
+            cd /tmp/workspace/ruby25-rails-5.2.2
+            ./cc-test-reporter upload-coverage --input coverage/codeclimate.coverage.json || true
+  tests:
+    docker:
+      - image: alpine
+    steps:
+      - run:
+          name: All tests succeeded
+          command: ':'
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      
+      - build-ruby24-rails-4.2.10
+      
+      - build-ruby24-rails-5.0.7
+      
+      - build-ruby24-rails-5.1.6
+      
+      - build-ruby24-rails-5.2.2
+      
+      - build-ruby25-rails-4.2.10
+      
+      - build-ruby25-rails-5.0.7
+      
+      - build-ruby25-rails-5.1.6
+      
+      - build-ruby25-rails-5.2.2
+      
+      - build-ruby25-rails-6.0.0.beta1
+      
+      - build-ruby26-rails-5.0.7
+      
+      - build-ruby26-rails-5.1.6
+      
+      - build-ruby26-rails-5.2.2
+      
+      - build-ruby26-rails-6.0.0.beta1
+      
+
+      - upload-coverage:
+          requires:
+            - build-ruby25-rails-5.2.2
+
+      - tests:
+          requires:
+            
+            - build-ruby24-rails-4.2.10
+            
+            - build-ruby24-rails-5.0.7
+            
+            - build-ruby24-rails-5.1.6
+            
+            - build-ruby24-rails-5.2.2
+            
+            - build-ruby25-rails-4.2.10
+            
+            - build-ruby25-rails-5.0.7
+            
+            - build-ruby25-rails-5.1.6
+            
+            - build-ruby25-rails-5.2.2
+            
+            - build-ruby25-rails-6.0.0.beta1
+            
+            - build-ruby26-rails-5.0.7
+            
+            - build-ruby26-rails-5.1.6
+            
+            - build-ruby26-rails-5.2.2
+            
+            - build-ruby26-rails-6.0.0.beta1
+            
