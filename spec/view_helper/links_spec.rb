@@ -151,4 +151,25 @@ describe MetaTags::ViewHelper do
       end
     end
   end
+
+  describe 'displaying manifest url' do
+    it 'does not display manifest url by default' do
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).not_to have_tag('link', with: { rel: "manifest" })
+      end
+    end
+
+    it 'displays manifest url when "set_meta_tags" used' do
+      subject.set_meta_tags(manifest: '/manifest.webmanifest')
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('link', with: { href: "/manifest.webmanifest", rel: "manifest" })
+      end
+    end
+
+    it 'displays default manifest url' do
+      subject.display_meta_tags(site: 'someSite', manifest: '/manifest.webmanifest').tap do |meta|
+        expect(meta).to have_tag('link', with: { href: "/manifest.webmanifest", rel: "manifest" })
+      end
+    end
+  end
 end
