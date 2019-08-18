@@ -150,7 +150,7 @@ module MetaTags
     # @param [Array<Tag>] tags a buffer object to store tag in.
     #
     def render_links(tags)
-      [ :amphtml, :canonical, :prev, :next, :image_src ].each do |tag_name|
+      [ :amphtml, :canonical, :prev, :next, :image_src, :manifest ].each do |tag_name|
         href = meta_tags.extract(tag_name)
         if href.present?
           @normalized_meta_tags[tag_name] = href
