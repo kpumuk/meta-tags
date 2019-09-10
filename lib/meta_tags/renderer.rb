@@ -97,7 +97,7 @@ module MetaTags
     # @param [Array<Tag>] tags a buffer object to store tag in.
     #
     def render_noindex(tags)
-      meta_tags.extract_noindex.each do |name, content|
+      meta_tags.extract_robots.each do |name, content|
         tags << Tag.new(:meta, name: name, content: content) if content.present?
       end
     end

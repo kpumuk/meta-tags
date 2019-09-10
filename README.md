@@ -164,11 +164,11 @@ Use these options to customize the title format:
 | `:suffix`      | text between separator and page title |
 | `:lowercase`   | when true, the page name will be lowercase |
 | `:reverse`     | when true, the page and site names will be reversed |
-| `:noindex`     | add noindex meta tag; when true, 'robots' will be used, otherwise the string will be used |
-| `:index`       | add index meta tag; when true, 'robots' will be used, otherwise the string will be used |
-| `:nofollow`    | add nofollow meta tag; when true, 'robots' will be used, otherwise the string will be used |
-| `:follow`      | add follow meta tag; when true, 'robots' will be used, otherwise the string will be used |
-| `:noarchive`   | add noarchive meta tag; when true, 'robots' will be used, otherwise the string will be used |
+| `:noindex`     | add noindex meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings |
+| `:index`       | add index meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings |
+| `:nofollow`    | add nofollow meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings |
+| `:follow`      | add follow meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings |
+| `:noarchive`   | add noarchive meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings |
 | `:canonical`   | add canonical link tag |
 | `:prev`        | add prev link tag |
 | `:next`        | add next link tag |
