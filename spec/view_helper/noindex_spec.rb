@@ -27,6 +27,14 @@ describe MetaTags::ViewHelper do
       end
     end
 
+    it 'accepts multiple custom noindex robots in an array' do
+      subject.noindex(['some-noindex', 'another-noindex'])
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "noindex", name: "some-noindex" })
+        expect(meta).to have_tag('meta', with: { content: "noindex", name: "another-noindex" })
+      end
+    end
+
     it 'displays nothing by default' do
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).not_to have_tag('meta', with: { content: "noindex" })
@@ -63,6 +71,14 @@ describe MetaTags::ViewHelper do
       subject.nofollow('some-nofollow')
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "nofollow", name: "some-nofollow" })
+      end
+    end
+
+    it 'accepts multiple custom nofollow robots in an array' do
+      subject.nofollow(['some-nofollow', 'another-nofollow'])
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: "nofollow", name: "some-nofollow" })
+        expect(meta).to have_tag('meta', with: { content: "nofollow", name: "another-nofollow" })
       end
     end
 
@@ -185,6 +201,24 @@ describe MetaTags::ViewHelper do
       subject.display_meta_tags(site: 'someSite').tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "noarchive", name: "some-robots" })
       end
+    end
+  end
+
+  it 'properly handles priorities and multiple robot names' do
+    subject.set_meta_tags(
+      noindex:   true,
+      index:     'yahoo',
+      follow:    ['google', 'yahoo', 'github'],
+      nofollow:  ['yandex', :google],
+      noarchive: ['yahoo', 'bing'],
+    )
+    subject.display_meta_tags(site: 'someSite').tap do |meta|
+      expect(meta).to have_tag('meta', with: { name: "robots", content: "noindex" })
+      expect(meta).to have_tag('meta', with: { name: "yahoo", content: "index, follow, noarchive" })
+      expect(meta).to have_tag('meta', with: { name: "google", content: "follow" })
+      expect(meta).to have_tag('meta', with: { name: "github", content: "follow" })
+      expect(meta).to have_tag('meta', with: { name: "yandex", content: "nofollow" })
+      expect(meta).to have_tag('meta', with: { name: "bing", content: "noarchive" })
     end
   end
 end

@@ -152,17 +152,7 @@ module MetaTags
         [:follow, :nofollow],
         :noarchive,
       ].each do |attribute|
-        if attribute.kind_of?(Array)
-          left, right = attribute
-          lname, lvalue = extract_robots_attribute(left)
-          rname, rvalue = extract_robots_attribute(right)
-
-          result[lname] << lvalue if lvalue
-          result[rname] << rvalue if rvalue && !(lname == rname && lvalue)
-        else
-          name, value = extract_robots_attribute(attribute)
-          result[name] << value if value
-        end
+        apply_robots_attributes(result, attribute)
       end
 
       result.transform_values { |v| v.join(', ') }
@@ -199,10 +189,26 @@ module MetaTags
     #
     def extract_robots_attribute(name)
       noindex       = extract(name)
-      noindex_name  = noindex.kind_of?(String) ? noindex : 'robots'
+      noindex_name  = noindex.kind_of?(String) || noindex.kind_of?(Array) ? noindex : 'robots'
       noindex_value = noindex ? name.to_s : nil
 
       [ noindex_name, noindex_value ]
+    end
+
+    def apply_robots_attributes(result, attributes)
+      processed = Set.new
+      Array(attributes).each do |attribute|
+        names, value = extract_robots_attribute(attribute)
+        Array(names).each do |name|
+          next unless value
+
+          name = name.to_s
+          next if processed.include?(name)
+
+          result[name] << value
+          processed << name
+        end
+      end
     end
   end
 end
