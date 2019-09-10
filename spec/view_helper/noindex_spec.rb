@@ -89,6 +89,14 @@ describe MetaTags::ViewHelper do
       end
     end
 
+    it 'displays two meta tags when different names used with "set_meta_tags"' do
+      subject.set_meta_tags(noindex: 'robots', nofollow: 'googlebot')
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('meta', with: { content: 'noindex', name: 'robots' })
+        expect(meta).to have_tag('meta', with: { content: 'nofollow', name: 'googlebot' })
+      end
+    end
+
     it 'uses custom name if string is used' do
       subject.noindex('some-name')
       subject.nofollow('some-name')
