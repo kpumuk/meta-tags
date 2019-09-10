@@ -1,3 +1,11 @@
+## 2.12.0 (Development) [☰](https://github.com/kpumuk/meta-tags/compare/v2.11.1...master)
+
+Features:
+  - Indexing directives (`noindex`, `nofollow`, etc. now support an array of robot names as a value).
+
+Bugfixes:
+  - When `noindex` uses "robots" as a value, `nofollow` ignores a custom robot name, and switches to "robots" as well
+
 ## 2.11.1 (January 19, 2019) [☰](https://github.com/kpumuk/meta-tags/compare/v2.11.0...v2.11.1)
 
 Features:
