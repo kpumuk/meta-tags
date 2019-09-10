@@ -151,8 +151,8 @@ module MetaTags
         # follow has higher priority than nofollow
         [:follow, :nofollow],
         :noarchive,
-      ].each do |attribute|
-        apply_robots_attributes(result, attribute)
+      ].each do |attributes|
+        calculate_robots_attributes(result, attributes)
       end
 
       result.transform_values { |v| v.join(', ') }
@@ -195,20 +195,24 @@ module MetaTags
       [ noindex_name, noindex_value ]
     end
 
-    def apply_robots_attributes(result, attributes)
+    def calculate_robots_attributes(result, attributes)
       processed = Set.new
       Array(attributes).each do |attribute|
         names, value = extract_robots_attribute(attribute)
+        next unless value
+
         Array(names).each do |name|
-          next unless value
-
-          name = name.to_s
-          next if processed.include?(name)
-
-          result[name] << value
-          processed << name
+          apply_robots_value(result, name, value, processed)
         end
       end
+    end
+
+    def apply_robots_value(result, name, value, processed)
+      name = name.to_s
+      return if processed.include?(name)
+
+      result[name] << value
+      processed << name
     end
   end
 end
