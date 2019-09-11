@@ -13,7 +13,9 @@ end
 group :test do
   # Lock rubocop to a specific version we use on CI. If you update this,
   # don't forget to switch rubocop channel in the .codeclimate.yml
-  gem 'rubocop', '~> 0.67.0'
+  gem 'rubocop', '~> 0.74.0'
+  # Cops for rails apps
+  gem 'rubocop-rails'
   # Apply RSpec rubocop cops
   gem 'rubocop-rspec', require: false
   # We use this gem on CI to calculate code coverage.
