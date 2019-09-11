@@ -1,7 +1,8 @@
-## 2.12.0 (Development) [☰](https://github.com/kpumuk/meta-tags/compare/v2.11.1...master)
+## 2.12.0 (September 10, 2019) [☰](https://github.com/kpumuk/meta-tags/compare/v2.11.1...v2.12.0)
 
 Features:
   - Indexing directives (`noindex`, `nofollow`, etc. now support an array of robot names as a value).
+  - Added support for `link[rel='manifest']` ([199](https://github.com/kpumuk/meta-tags/pull/199))
 
 Bugfixes:
   - When `noindex` uses "robots" as a value, `nofollow` ignores a custom robot name, and switches to "robots" as well
