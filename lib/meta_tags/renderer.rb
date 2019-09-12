@@ -265,9 +265,9 @@ module MetaTags
     # @param [String, Symbol] value text content or a symbol reference to
     # top-level meta tag.
     #
-    def render_tag(tags, name, value, name_key: nil, value_key: :content, itemprop: nil)
+    def render_tag(tags, name, value, itemprop: nil)
       name_key ||= configured_name_key(name)
-      tags << Tag.new(:meta, name_key => name.to_s, value_key => value, itemprop: itemprop) if value.present?
+      tags << Tag.new(:meta, name_key => name.to_s, content: value, itemprop: itemprop) if value.present?
     end
 
     # Returns meta tag property name for a give meta tag based on the

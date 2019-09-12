@@ -39,7 +39,7 @@ describe MetaTags::ViewHelper do
       subject.set_meta_tags(
         og: {
           image: {
-               _:     'image.png',
+            _:        'image.png',
             type:     'image/jpeg',
             width:    200,
             height:   {
