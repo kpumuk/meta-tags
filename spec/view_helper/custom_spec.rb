@@ -3,8 +3,6 @@
 require 'spec_helper'
 
 describe MetaTags::ViewHelper do
-  subject { ActionView::Base.new }
-
   describe 'display any named meta tag that you want to' do
     it 'displays testing meta tag' do
       subject.display_meta_tags(testing: 'this is a test').tap do |meta|

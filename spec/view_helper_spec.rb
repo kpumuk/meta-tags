@@ -2,9 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::ViewHelper do
-  subject { ActionView::Base.new }
-
+describe MetaTags::ViewHelper, type: :view_helper do
   describe 'returning values' do
     it 'returns headline if specified' do
       expect(subject.title('some-title', 'some-headline')).to eq('some-headline')

@@ -3,8 +3,6 @@
 require 'spec_helper'
 
 describe MetaTags::ViewHelper, 'displaying keywords' do
-  subject { ActionView::Base.new }
-
   it 'does not display keywords if blank' do
     subject.keywords('')
     expect(subject.display_meta_tags).to eq('')
