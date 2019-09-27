@@ -3,8 +3,6 @@
 require 'spec_helper'
 
 describe MetaTags::ViewHelper, 'displaying Open Search meta tags' do
-  subject { ActionView::Base.new }
-
   it 'displays meta tags specified with :open_search' do
     subject.set_meta_tags(
       open_search: {

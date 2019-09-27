@@ -3,8 +3,6 @@
 require 'spec_helper'
 
 describe MetaTags::ViewHelper do
-  subject { ActionView::Base.new }
-
   describe 'displaying canonical url' do
     it 'does not display canonical url by default' do
       subject.display_meta_tags(site: 'someSite').tap do |meta|

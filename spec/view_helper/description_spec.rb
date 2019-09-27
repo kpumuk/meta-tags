@@ -3,8 +3,6 @@
 require 'spec_helper'
 
 describe MetaTags::ViewHelper, 'displaying description' do
-  subject { ActionView::Base.new }
-
   it 'does not display description if blank' do
     subject.description('')
     expect(subject.display_meta_tags).to eq('')

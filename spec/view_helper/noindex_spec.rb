@@ -3,8 +3,6 @@
 require 'spec_helper'
 
 describe MetaTags::ViewHelper do
-  subject { ActionView::Base.new }
-
   describe 'displaying noindex' do
     it 'displays noindex when "noindex" used' do
       subject.noindex(true)

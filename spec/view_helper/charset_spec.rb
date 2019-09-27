@@ -3,8 +3,6 @@
 require 'spec_helper'
 
 describe MetaTags::ViewHelper, 'displaying charset' do
-  subject { ActionView::Base.new }
-
   it 'does not display charset if blank' do
     expect(subject.display_meta_tags).to eq('')
     expect(subject.display_meta_tags(charset: '')).to eq('')

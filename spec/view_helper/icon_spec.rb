@@ -3,8 +3,6 @@
 require 'spec_helper'
 
 describe MetaTags::ViewHelper do
-  subject { ActionView::Base.new }
-
   it 'does not display icon by default' do
     subject.display_meta_tags(site: 'someSite').tap do |meta|
       expect(meta).not_to have_tag('link', with: { rel: 'icon' })
