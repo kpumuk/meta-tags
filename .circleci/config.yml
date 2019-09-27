@@ -147,13 +147,13 @@ jobs:
     working_directory: ~/meta-tags/ruby25-rails-5.2.2
     steps: *shared_build_steps
   
-  build-ruby25-rails-6.0.0.beta1:
+  build-ruby25-rails-6.0.0:
     docker:
       - image: circleci/ruby:2.5
         environment:
-          RAILS_VERSION: 6.0.0.beta1
+          RAILS_VERSION: 6.0.0
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby25-rails-6.0.0.beta1
+    working_directory: ~/meta-tags/ruby25-rails-6.0.0
     steps: *shared_build_steps
   
   build-ruby26-rails-5.0.7:
@@ -183,19 +183,19 @@ jobs:
     working_directory: ~/meta-tags/ruby26-rails-5.2.2
     steps: *shared_build_steps
   
-  build-ruby26-rails-6.0.0.beta1:
+  build-ruby26-rails-6.0.0:
     docker:
       - image: circleci/ruby:2.6
         environment:
-          RAILS_VERSION: 6.0.0.beta1
+          RAILS_VERSION: 6.0.0
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby26-rails-6.0.0.beta1
+    working_directory: ~/meta-tags/ruby26-rails-6.0.0
     steps: *shared_build_steps
   
 
   upload-coverage:
     docker:
-      - image: circleci/ruby:2.5
+      - image: circleci/ruby:2.6
         environment:
           CC_TEST_REPORTER_ID: 8792cbc0d1780830ddd3dd7eb1c25f09f386ba8f04449ad830039469406a6ab3
     steps:
@@ -205,7 +205,7 @@ jobs:
       - run:
           name: Uploading Code Coverage
           command: |
-            cd /tmp/workspace/ruby25-rails-5.2.2
+            cd /tmp/workspace/ruby26-rails-6.0.0
             ./cc-test-reporter upload-coverage --input coverage/codeclimate.coverage.json || true
   tests:
     docker:
@@ -236,7 +236,7 @@ workflows:
       
       - build-ruby25-rails-5.2.2
       
-      - build-ruby25-rails-6.0.0.beta1
+      - build-ruby25-rails-6.0.0
       
       - build-ruby26-rails-5.0.7
       
@@ -244,12 +244,12 @@ workflows:
       
       - build-ruby26-rails-5.2.2
       
-      - build-ruby26-rails-6.0.0.beta1
+      - build-ruby26-rails-6.0.0
       
 
       - upload-coverage:
           requires:
-            - build-ruby25-rails-5.2.2
+            - build-ruby26-rails-6.0.0
 
       - tests:
           requires:
@@ -270,7 +270,7 @@ workflows:
             
             - build-ruby25-rails-5.2.2
             
-            - build-ruby25-rails-6.0.0.beta1
+            - build-ruby25-rails-6.0.0
             
             - build-ruby26-rails-5.0.7
             
@@ -278,5 +278,5 @@ workflows:
             
             - build-ruby26-rails-5.2.2
             
-            - build-ruby26-rails-6.0.0.beta1
+            - build-ruby26-rails-6.0.0
             
