@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require 'English'
-require 'action_controller'
-require 'action_view'
-
 # MetaTags gem namespace.
 module MetaTags
   # Returns MetaTags gem configuration.
