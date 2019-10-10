@@ -24,8 +24,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "actionpack", ">= 3.2.0", "< 6.1"
 
   spec.add_development_dependency "railties", ">= 3.2.0", "< 6.1"
-  spec.add_development_dependency "rake", "~> 12.0"
-  spec.add_development_dependency "rspec", "~> 3.8.0"
+  spec.add_development_dependency "rake", "~> 13.0"
+  spec.add_development_dependency "rspec", "~> 3.9.0"
   spec.add_development_dependency "rspec-html-matchers", "~> 0.9.1"
 
   spec.cert_chain    = ["certs/kpumuk.pem"]
