@@ -8,3 +8,4 @@ doc
 pkg
 *.gem
 .idea
+log/

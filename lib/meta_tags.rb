@@ -36,5 +36,4 @@ require 'meta_tags/content_tag'
 require 'meta_tags/text_normalizer'
 require 'meta_tags/view_helper'
 
-ActionView::Base.include MetaTags::ViewHelper
-ActionController::Base.include MetaTags::ControllerHelper
+require 'meta_tags/railtie.rb' if defined?(Rails)

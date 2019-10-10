@@ -7,7 +7,7 @@ gemspec
 
 if ENV['RAILS_VERSION']
   # Install specified version of actionpack if requested
-  gem 'actionpack', "~> #{ENV['RAILS_VERSION']}"
+  gem 'railties', "~> #{ENV['RAILS_VERSION']}"
 end
 
 group :test do

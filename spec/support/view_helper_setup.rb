@@ -8,6 +8,6 @@ end
 
 RSpec.shared_examples "initialize a view for the view helpers", type: :view_helper do
   subject do
-    ActionView::Base.new(ActionView::LookupContext.new([]))
+    MetaTagsRailsApp::MetaTagsView.new(ActionView::LookupContext.new([]))
   end
 end
