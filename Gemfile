@@ -7,13 +7,13 @@ gemspec
 
 if ENV['RAILS_VERSION']
   # Install specified version of actionpack if requested
-  gem 'actionpack', "~> #{ENV['RAILS_VERSION']}"
+  gem 'railties', "~> #{ENV['RAILS_VERSION']}"
 end
 
 group :test do
   # Lock rubocop to a specific version we use on CI. If you update this,
   # don't forget to switch rubocop channel in the .codeclimate.yml
-  gem 'rubocop', '~> 0.74.0'
+  gem 'rubocop', '~> 0.75.0'
   # Cops for rails apps
   gem 'rubocop-rails'
   # Apply RSpec rubocop cops

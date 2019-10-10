@@ -6,8 +6,8 @@ RSpec.configure do |config|
   end
 end
 
-RSpec.shared_examples "initialize a view for the view helpers", type: :view_helper do
+RSpec.shared_context "with an initialized view", type: :view_helper do
   subject do
-    ActionView::Base.new(ActionView::LookupContext.new([]))
+    MetaTagsRailsApp::MetaTagsView.new(ActionView::LookupContext.new([]))
   end
 end

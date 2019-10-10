@@ -2,25 +2,9 @@
 
 require 'spec_helper'
 
-class MetaTagsController < ActionController::Base
-  def index
-    @page_title       = 'title'
-    @page_keywords    = 'key1, key2, key3'
-    @page_description = 'description'
-
-    if Gem.loaded_specs["actionpack"].version > Gem::Version.new('4.2.0')
-      render plain: '_rendered_'
-    else
-      render text: '_rendered_'
-    end
-  end
-
-  public :set_meta_tags, :meta_tags
-end
-
 describe MetaTags::ControllerHelper do
   subject do
-    MetaTagsController.new.tap do |c|
+    MetaTagsRailsApp::MetaTagsController.new.tap do |c|
       c.response = ActionDispatch::TestResponse.new
     end
   end

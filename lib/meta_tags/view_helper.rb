@@ -205,7 +205,5 @@ module MetaTags
     def display_title(defaults = {})
       @meta_tags.full_title(defaults)
     end
-
-    # safe_helper :display_meta_tags if defined?(:safe_helper)
   end
 end
