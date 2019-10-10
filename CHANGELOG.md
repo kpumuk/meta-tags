@@ -1,3 +1,8 @@
+## 2.13.0 (October 10, 2019) [☰](https://github.com/kpumuk/meta-tags/compare/v2.12.0...v2.13.0)
+
+Bugfixes:
+  - Fixed Rails 6 deprecation warning.
+
 ## 2.12.0 (September 10, 2019) [☰](https://github.com/kpumuk/meta-tags/compare/v2.11.1...v2.12.0)
 
 Features:
