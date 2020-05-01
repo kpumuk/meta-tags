@@ -8,6 +8,7 @@ Bugfixes:
 Features:
   - Indexing directives (`noindex`, `nofollow`, etc. now support an array of robot names as a value).
   - Added support for `link[rel='manifest']` ([199](https://github.com/kpumuk/meta-tags/pull/199))
+  - Minimal required Ruby version is now 2.4.0
 
 Bugfixes:
   - When `noindex` uses "robots" as a value, `nofollow` ignores a custom robot name, and switches to "robots" as well
