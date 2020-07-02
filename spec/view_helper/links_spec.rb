@@ -22,6 +22,37 @@ describe MetaTags::ViewHelper do
         expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "canonical" })
       end
     end
+
+    it 'does display canonical url when page is marked as noindex per default' do
+      subject.set_meta_tags(canonical: 'http://example.com/base/url', noindex: true)
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "canonical" })
+      end
+    end
+
+    describe 'with config.skip_canonical_links_on_noindex is set' do
+      around do |example|
+        default = MetaTags.config.skip_canonical_links_on_noindex
+        MetaTags.config.skip_canonical_links_on_noindex = true
+        example.run
+        MetaTags.config.skip_canonical_links_on_noindex = default
+      end
+
+      it 'does display canonical url when page is marked as index' do
+        subject.set_meta_tags(canonical: 'http://example.com/base/url', index: true)
+        subject.display_meta_tags(site: 'someSite').tap do |meta|
+          expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "canonical" })
+        end
+      end
+
+      it 'does not display canonical url when page is marked as noindex' do
+        subject.set_meta_tags(canonical: 'http://example.com/base/url', noindex: true)
+        subject.display_meta_tags(site: 'someSite').tap do |meta|
+          expect(meta).not_to have_tag('link', with: { href: "http://example.com/base/url", rel: "canonical" })
+          expect(meta).not_to have_tag('meta', with: { content: "http://example.com/base/url", name: "canonical" })
+        end
+      end
+    end
   end
 
   describe 'displaying alternate url' do
