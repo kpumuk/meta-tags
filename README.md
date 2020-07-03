@@ -409,6 +409,9 @@ Canonical link element tells a search engine what is the canonical or main URL
 for a content which have multiple URLs. The search engine will always return
 that URL, and link popularity and authority will be applied to that URL.
 
+Note: If you like follow a hint of John Mueller that you shouldn't mix canonical with noindex, then you can
+set `MetaTags.config.skip_canonical_links_on_noindex = true` and we'll handle it for you.
+
 ```ruby
 set_meta_tags canonical: "http://yoursite.com/canonical/url"
 # <link rel="canonical" href="http://yoursite.com/canonical/url">

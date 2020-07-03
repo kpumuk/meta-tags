@@ -26,6 +26,7 @@ module MetaTags
       render_with_normalization(tags, :description)
       render_with_normalization(tags, :keywords)
       render_refresh(tags)
+      render_canonical_link(tags)
       render_noindex(tags)
       render_alternate(tags)
       render_open_search(tags)
@@ -150,13 +151,26 @@ module MetaTags
     # @param [Array<Tag>] tags a buffer object to store tag in.
     #
     def render_links(tags)
-      [ :amphtml, :canonical, :prev, :next, :image_src, :manifest ].each do |tag_name|
+      [ :amphtml, :prev, :next, :image_src, :manifest ].each do |tag_name|
         href = meta_tags.extract(tag_name)
         if href.present?
           @normalized_meta_tags[tag_name] = href
           tags << Tag.new(:link, rel: tag_name, href: href)
         end
       end
+    end
+
+    # Renders canonical link
+    #
+    # @param [Array<Tag>] tags a buffer object to store tag in.
+    #
+    def render_canonical_link(tags)
+      href = meta_tags.extract(:canonical) # extract, so its not used anywhere else
+      return if MetaTags.config.skip_canonical_links_on_noindex && meta_tags[:noindex]
+      return if href.blank?
+
+      @normalized_meta_tags[:canonical] = href
+      tags << Tag.new(:link, rel: :canonical, href: href)
     end
 
     # Renders complex hash objects.

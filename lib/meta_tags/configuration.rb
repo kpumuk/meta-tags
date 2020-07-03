@@ -33,6 +33,12 @@ module MetaTags
     # - an array of strings or symbols representing their names or name-prefixes.
     attr_reader :property_tags
 
+    # Configure whenever Meta-Tags should skip canonicals on pages with noindex: true
+    # "shouldn't mix noindex & rel=canonical comes from: they're very contradictory pieces of information for us."
+    # - John Mueller (Webmaster Trends Analyst at Google)
+    # https://www.reddit.com/r/TechSEO/comments/8yahdr/2_questions_about_the_canonical_tag/e2dey9i/
+    attr_accessor :skip_canonical_links_on_noindex
+
     # Initializes a new instance of Configuration class.
     def initialize
       reset_defaults!
@@ -77,6 +83,7 @@ module MetaTags
       @property_tags = default_property_tags.dup
       @open_meta_tags = true
       @minify_output = false
+      @skip_canonical_links_on_noindex = false
     end
   end
 end
