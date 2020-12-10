@@ -75,127 +75,118 @@ shared_build_steps: &shared_build_steps
 
 jobs:
   
-  build-ruby24-rails-4.2.10:
-    docker:
-      - image: circleci/ruby:2.4
-        environment:
-          RAILS_VERSION: 4.2.10
-          ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby24-rails-4.2.10
-    steps: *shared_build_steps
-  
-  build-ruby24-rails-5.0.7:
-    docker:
-      - image: circleci/ruby:2.4
-        environment:
-          RAILS_VERSION: 5.0.7
-          ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby24-rails-5.0.7
-    steps: *shared_build_steps
-  
-  build-ruby24-rails-5.1.6:
-    docker:
-      - image: circleci/ruby:2.4
-        environment:
-          RAILS_VERSION: 5.1.6
-          ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby24-rails-5.1.6
-    steps: *shared_build_steps
-  
-  build-ruby24-rails-5.2.2:
-    docker:
-      - image: circleci/ruby:2.4
-        environment:
-          RAILS_VERSION: 5.2.2
-          ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby24-rails-5.2.2
-    steps: *shared_build_steps
-  
-  build-ruby25-rails-4.2.10:
+  build-ruby25-rails-5.1.7:
     docker:
       - image: circleci/ruby:2.5
         environment:
-          RAILS_VERSION: 4.2.10
+          RAILS_VERSION: 5.1.7
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby25-rails-4.2.10
+    working_directory: ~/meta-tags/ruby25-rails-5.1.7
     steps: *shared_build_steps
   
-  build-ruby25-rails-5.0.7:
+  build-ruby25-rails-5.2.4.4:
     docker:
       - image: circleci/ruby:2.5
         environment:
-          RAILS_VERSION: 5.0.7
+          RAILS_VERSION: 5.2.4.4
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby25-rails-5.0.7
+    working_directory: ~/meta-tags/ruby25-rails-5.2.4.4
     steps: *shared_build_steps
   
-  build-ruby25-rails-5.1.6:
+  build-ruby25-rails-6.0.3.4:
     docker:
       - image: circleci/ruby:2.5
         environment:
-          RAILS_VERSION: 5.1.6
+          RAILS_VERSION: 6.0.3.4
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby25-rails-5.1.6
+    working_directory: ~/meta-tags/ruby25-rails-6.0.3.4
     steps: *shared_build_steps
   
-  build-ruby25-rails-5.2.2:
+  build-ruby25-rails-6.1.0:
     docker:
       - image: circleci/ruby:2.5
         environment:
-          RAILS_VERSION: 5.2.2
+          RAILS_VERSION: 6.1.0
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby25-rails-5.2.2
+    working_directory: ~/meta-tags/ruby25-rails-6.1.0
     steps: *shared_build_steps
   
-  build-ruby25-rails-6.0.0:
-    docker:
-      - image: circleci/ruby:2.5
-        environment:
-          RAILS_VERSION: 6.0.0
-          ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby25-rails-6.0.0
-    steps: *shared_build_steps
-  
-  build-ruby26-rails-5.0.7:
+  build-ruby26-rails-5.1.7:
     docker:
       - image: circleci/ruby:2.6
         environment:
-          RAILS_VERSION: 5.0.7
+          RAILS_VERSION: 5.1.7
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby26-rails-5.0.7
+    working_directory: ~/meta-tags/ruby26-rails-5.1.7
     steps: *shared_build_steps
   
-  build-ruby26-rails-5.1.6:
+  build-ruby26-rails-5.2.4.4:
     docker:
       - image: circleci/ruby:2.6
         environment:
-          RAILS_VERSION: 5.1.6
+          RAILS_VERSION: 5.2.4.4
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby26-rails-5.1.6
+    working_directory: ~/meta-tags/ruby26-rails-5.2.4.4
     steps: *shared_build_steps
   
-  build-ruby26-rails-5.2.2:
+  build-ruby26-rails-6.0.3.4:
     docker:
       - image: circleci/ruby:2.6
         environment:
-          RAILS_VERSION: 5.2.2
+          RAILS_VERSION: 6.0.3.4
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby26-rails-5.2.2
+    working_directory: ~/meta-tags/ruby26-rails-6.0.3.4
     steps: *shared_build_steps
   
-  build-ruby26-rails-6.0.0:
+  build-ruby26-rails-6.1.0:
     docker:
       - image: circleci/ruby:2.6
         environment:
-          RAILS_VERSION: 6.0.0
+          RAILS_VERSION: 6.1.0
           ENABLE_CODE_COVERAGE: 1
-    working_directory: ~/meta-tags/ruby26-rails-6.0.0
+    working_directory: ~/meta-tags/ruby26-rails-6.1.0
+    steps: *shared_build_steps
+  
+  build-ruby27-rails-5.1.7:
+    docker:
+      - image: circleci/ruby:2.7
+        environment:
+          RAILS_VERSION: 5.1.7
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby27-rails-5.1.7
+    steps: *shared_build_steps
+  
+  build-ruby27-rails-5.2.4.4:
+    docker:
+      - image: circleci/ruby:2.7
+        environment:
+          RAILS_VERSION: 5.2.4.4
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby27-rails-5.2.4.4
+    steps: *shared_build_steps
+  
+  build-ruby27-rails-6.0.3.4:
+    docker:
+      - image: circleci/ruby:2.7
+        environment:
+          RAILS_VERSION: 6.0.3.4
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby27-rails-6.0.3.4
+    steps: *shared_build_steps
+  
+  build-ruby27-rails-6.1.0:
+    docker:
+      - image: circleci/ruby:2.7
+        environment:
+          RAILS_VERSION: 6.1.0
+          ENABLE_CODE_COVERAGE: 1
+    working_directory: ~/meta-tags/ruby27-rails-6.1.0
     steps: *shared_build_steps
   
 
   upload-coverage:
     docker:
-      - image: circleci/ruby:2.6
+      - image: circleci/ruby:2.7
         environment:
           CC_TEST_REPORTER_ID: 8792cbc0d1780830ddd3dd7eb1c25f09f386ba8f04449ad830039469406a6ab3
     steps:
@@ -205,7 +196,7 @@ jobs:
       - run:
           name: Uploading Code Coverage
           command: |
-            cd /tmp/workspace/ruby26-rails-6.0.0
+            cd /tmp/workspace/ruby27-rails-6.1.0
             ./cc-test-reporter upload-coverage --input coverage/codeclimate.coverage.json || true
   tests:
     docker:
@@ -220,63 +211,59 @@ workflows:
   test:
     jobs:
       
-      - build-ruby24-rails-4.2.10
+      - build-ruby25-rails-5.1.7
       
-      - build-ruby24-rails-5.0.7
+      - build-ruby25-rails-5.2.4.4
       
-      - build-ruby24-rails-5.1.6
+      - build-ruby25-rails-6.0.3.4
       
-      - build-ruby24-rails-5.2.2
+      - build-ruby25-rails-6.1.0
       
-      - build-ruby25-rails-4.2.10
+      - build-ruby26-rails-5.1.7
       
-      - build-ruby25-rails-5.0.7
+      - build-ruby26-rails-5.2.4.4
       
-      - build-ruby25-rails-5.1.6
+      - build-ruby26-rails-6.0.3.4
       
-      - build-ruby25-rails-5.2.2
+      - build-ruby26-rails-6.1.0
       
-      - build-ruby25-rails-6.0.0
+      - build-ruby27-rails-5.1.7
       
-      - build-ruby26-rails-5.0.7
+      - build-ruby27-rails-5.2.4.4
       
-      - build-ruby26-rails-5.1.6
+      - build-ruby27-rails-6.0.3.4
       
-      - build-ruby26-rails-5.2.2
-      
-      - build-ruby26-rails-6.0.0
+      - build-ruby27-rails-6.1.0
       
 
       - upload-coverage:
           requires:
-            - build-ruby26-rails-6.0.0
+            - build-ruby27-rails-6.1.0
 
       - tests:
           requires:
             
-            - build-ruby24-rails-4.2.10
+            - build-ruby25-rails-5.1.7
             
-            - build-ruby24-rails-5.0.7
+            - build-ruby25-rails-5.2.4.4
             
-            - build-ruby24-rails-5.1.6
+            - build-ruby25-rails-6.0.3.4
             
-            - build-ruby24-rails-5.2.2
+            - build-ruby25-rails-6.1.0
             
-            - build-ruby25-rails-4.2.10
+            - build-ruby26-rails-5.1.7
             
-            - build-ruby25-rails-5.0.7
+            - build-ruby26-rails-5.2.4.4
             
-            - build-ruby25-rails-5.1.6
+            - build-ruby26-rails-6.0.3.4
             
-            - build-ruby25-rails-5.2.2
+            - build-ruby26-rails-6.1.0
             
-            - build-ruby25-rails-6.0.0
+            - build-ruby27-rails-5.1.7
             
-            - build-ruby26-rails-5.0.7
+            - build-ruby27-rails-5.2.4.4
             
-            - build-ruby26-rails-5.1.6
+            - build-ruby27-rails-6.0.3.4
             
-            - build-ruby26-rails-5.2.2
-            
-            - build-ruby26-rails-6.0.0
+            - build-ruby27-rails-6.1.0
             
