@@ -5,6 +5,7 @@ require 'spec_helper'
 describe MetaTags::ControllerHelper do
   subject do
     MetaTagsRailsApp::MetaTagsController.new.tap do |c|
+      c.request = ActionDispatch::TestRequest.create
       c.response = ActionDispatch::TestResponse.new
     end
   end
