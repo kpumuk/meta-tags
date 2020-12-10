@@ -11,13 +11,13 @@ Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 
 ## Ruby on Rails
 
-MetaTags master branch fully supports Ruby on Rails 4.2+, and is tested against all
-major Rails releases up to 6.0.beta2.
+MetaTags master branch fully supports Ruby on Rails 5.1+, and is tested against all
+major Rails releases up to 6.1.
 
-Ruby versions older than 2.2.0 are no longer officially supported.
+Ruby versions older than 2.5 are no longer officially supported.
 
-_Please note_ that we are no longer support Ruby versions older than 2.2.0 and
-Ruby on Rails older than 4.2, because they [reached their End of Life](https://github.com/kpumuk/meta-tags/pull/143).
+_Please note_ that we are no longer support Ruby versions older than 2.4.0 and
+Ruby on Rails older than 5.1, because they [reached their End of Life](https://github.com/kpumuk/meta-tags/pull/143).
 
 ## Installation
 
@@ -152,30 +152,30 @@ If you want to set the title and display another text, use this:
 
 Use these options to customize the title format:
 
-| Option         | Description |
-| -------------- | ----------- |
-| `:site`        | site title |
-| `:title`       | page title |
-| `:description` | page description |
-| `:keywords`    | page keywords |
-| `:charset`     | page character set |
-| `:prefix`      | text between site name and separator |
-| `:separator`   | text used to separate website name from page title |
-| `:suffix`      | text between separator and page title |
-| `:lowercase`   | when true, the page name will be lowercase |
-| `:reverse`     | when true, the page and site names will be reversed |
-| `:noindex`     | add noindex meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings |
-| `:index`       | add index meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings |
-| `:nofollow`    | add nofollow meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings |
-| `:follow`      | add follow meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings |
+| Option         | Description                                                                                                          |
+| -------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `:site`        | site title                                                                                                           |
+| `:title`       | page title                                                                                                           |
+| `:description` | page description                                                                                                     |
+| `:keywords`    | page keywords                                                                                                        |
+| `:charset`     | page character set                                                                                                   |
+| `:prefix`      | text between site name and separator                                                                                 |
+| `:separator`   | text used to separate website name from page title                                                                   |
+| `:suffix`      | text between separator and page title                                                                                |
+| `:lowercase`   | when true, the page name will be lowercase                                                                           |
+| `:reverse`     | when true, the page and site names will be reversed                                                                  |
+| `:noindex`     | add noindex meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings   |
+| `:index`       | add index meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings     |
+| `:nofollow`    | add nofollow meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings  |
+| `:follow`      | add follow meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings    |
 | `:noarchive`   | add noarchive meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings |
-| `:canonical`   | add canonical link tag |
-| `:prev`        | add prev link tag |
-| `:next`        | add next link tag |
-| `:image_src`   | add image_src link tag |
-| `:og`          | add Open Graph tags (Hash) |
-| `:twitter`     | add Twitter tags (Hash) |
-| `:refresh`     | refresh interval and optionally url to redirect to |
+| `:canonical`   | add canonical link tag                                                                                               |
+| `:prev`        | add prev link tag                                                                                                    |
+| `:next`        | add next link tag                                                                                                    |
+| `:image_src`   | add image_src link tag                                                                                               |
+| `:og`          | add Open Graph tags (Hash)                                                                                           |
+| `:twitter`     | add Twitter tags (Hash)                                                                                              |
+| `:refresh`     | refresh interval and optionally url to redirect to                                                                   |
 
 And here are a few examples to give you ideas.
 
@@ -307,7 +307,7 @@ Recommended title tag length: up to <b>70 characters</b>, <b>10 words</b>.
 
 Further reading:
 
-* [Title Tag](https://moz.com/learn/seo/title-tag)
+- [Title Tag](https://moz.com/learn/seo/title-tag)
 
 ### Description
 
@@ -325,8 +325,8 @@ Recommended description tag length: up to <b>300 characters</b>.
 
 Further reading:
 
-* [Meta Description](https://moz.com/learn/seo/meta-description)
-* [How Long Should Your Meta Description Be? (2018 Edition)](https://moz.com/blog/how-long-should-your-meta-description-be-2018)
+- [Meta Description](https://moz.com/learn/seo/meta-description)
+- [How Long Should Your Meta Description Be? (2018 Edition)](https://moz.com/blog/how-long-should-your-meta-description-be-2018)
 
 ### Keywords
 
@@ -360,8 +360,8 @@ This is useful for pages like login, password reset, privacy policy, etc.
 
 Further reading:
 
-* [Blocking Google](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=93708)
-* [Using meta tags to block access to your site](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=93710)
+- [Blocking Google](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=93708)
+- [Using meta tags to block access to your site](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=93710)
 
 ### Index
 
@@ -388,12 +388,12 @@ set_meta_tags nofollow: 'googlebot'
 
 Further reading:
 
-* [About rel="nofollow"](http://www.google.com/support/webmasters/bin/answer.py?answer=96569)
-* [Meta tags](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=79812)
+- [About rel="nofollow"](http://www.google.com/support/webmasters/bin/answer.py?answer=96569)
+- [Meta tags](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=79812)
 
 ### Follow
 
-Follow will work with Noindex  meta tag
+Follow will work with Noindex meta tag
 
 ```ruby
 set_meta_tags noindex: true, follow: true
@@ -416,8 +416,8 @@ set_meta_tags canonical: "http://yoursite.com/canonical/url"
 
 Further reading:
 
-* [About rel="canonical"](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139394)
-* [Canonicalization](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139066)
+- [About rel="canonical"](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139394)
+- [Canonicalization](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139066)
 
 ### Icon
 
@@ -440,9 +440,8 @@ set_meta_tags icon: [
 
 Further reading:
 
-* [Favicon](https://www.wikiwand.com/en/Favicon)
-* [Touch Icons](https://mathiasbynens.be/notes/touch-icons)
-
+- [Favicon](https://www.wikiwand.com/en/Favicon)
+- [Touch Icons](https://mathiasbynens.be/notes/touch-icons)
 
 ### Multi-regional and multilingual URLs, RSS and mobile links
 
@@ -471,9 +470,9 @@ set_meta_tags alternate: [
 
 Further reading:
 
-* [Multi-regional and multilingual sites](https://support.google.com/webmasters/answer/182192)
-* [About rel="alternate" hreflang="x"](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=189077)
-* [Separate URLs](https://developers.google.com/webmasters/mobile-sites/mobile-seo/configurations/separate-urls#annotation-in-the-html)
+- [Multi-regional and multilingual sites](https://support.google.com/webmasters/answer/182192)
+- [About rel="alternate" hreflang="x"](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=189077)
+- [Separate URLs](https://developers.google.com/webmasters/mobile-sites/mobile-seo/configurations/separate-urls#annotation-in-the-html)
 
 ### Pagination links
 
@@ -490,8 +489,8 @@ set_meta_tags next: "http://yoursite.com/url?page=3"
 
 Further reading:
 
-* [Pagination](http://support.google.com/webmasters/bin/answer.py?hl=en&answer=1663744)
-* [Pagination with rel="next" and rel="prev"](http://googlewebmastercentral.blogspot.ca/2011/09/pagination-with-relnext-and-relprev.html)
+- [Pagination](http://support.google.com/webmasters/bin/answer.py?hl=en&answer=1663744)
+- [Pagination with rel="next" and rel="prev"](http://googlewebmastercentral.blogspot.ca/2011/09/pagination-with-relnext-and-relprev.html)
 
 ### image_src links
 
@@ -518,8 +517,8 @@ set_meta_tags amphtml: url_for(format: :amp, only_path: false)
 
 To link back to normal version, use `canonical`.
 
-* [What Is AMP?](https://www.ampproject.org/learn/about-amp/)
-* [Make Your Page Discoverable](https://www.ampproject.org/docs/guides/discovery)
+- [What Is AMP?](https://www.ampproject.org/learn/about-amp/)
+- [Make Your Page Discoverable](https://www.ampproject.org/docs/guides/discovery)
 
 ### Refresh interval and redirect URL
 
@@ -539,9 +538,8 @@ set_meta_tags refresh: '5;url=http://example.com'
 
 Further reading:
 
-* [Meta refresh](http://en.wikipedia.org/wiki/Meta_refresh)
-* [What is the Meta Refresh Tag](http://webdesign.about.com/od/metataglibraries/a/aa080300a.htm)
-
+- [Meta refresh](http://en.wikipedia.org/wiki/Meta_refresh)
+- [What is the Meta Refresh Tag](http://webdesign.about.com/od/metataglibraries/a/aa080300a.htm)
 
 ### Open Search
 
@@ -557,8 +555,8 @@ set_meta_tags open_search: {
 
 Further reading:
 
-* [OpenSearch specs](http://www.opensearch.org/Specifications/OpenSearch/1.1)
-* [OpenSearch wiki](http://en.wikipedia.org/wiki/OpenSearch)
+- [OpenSearch specs](http://www.opensearch.org/Specifications/OpenSearch/1.1)
+- [OpenSearch wiki](http://en.wikipedia.org/wiki/OpenSearch)
 
 ### Hashes
 
@@ -660,8 +658,8 @@ set_meta_tags article: {
 
 Further reading:
 
-* [Open Graph protocol](http://developers.facebook.com/docs/opengraph/)
-* [Must-Have Social Meta Tags for Twitter, Google+, Facebook and More](https://moz.com/blog/meta-data-templates-123)
+- [Open Graph protocol](http://developers.facebook.com/docs/opengraph/)
+- [Must-Have Social Meta Tags for Twitter, Google+, Facebook and More](https://moz.com/blog/meta-data-templates-123)
 
 ### Twitter Cards
 
@@ -698,7 +696,7 @@ set_meta_tags twitter: {
 
 Further reading:
 
-* [Twitter Cards Documentation](https://dev.twitter.com/cards/)
+- [Twitter Cards Documentation](https://dev.twitter.com/cards/)
 
 ### App Links
 
@@ -719,7 +717,7 @@ set_meta_tags al: {
 
 Further reading:
 
-* [App Links Documentation](https://developers.facebook.com/docs/applinks)
+- [App Links Documentation](https://developers.facebook.com/docs/applinks)
 
 ### Custom meta tags
 
