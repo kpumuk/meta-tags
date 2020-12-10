@@ -8,6 +8,8 @@ end
 
 RSpec.shared_context "with an initialized view", type: :view_helper do
   subject do
-    MetaTagsRailsApp::MetaTagsView.new(ActionView::LookupContext.new([]))
+    assigns = {}
+    controller = nil
+    MetaTagsRailsApp::MetaTagsView.new(ActionView::LookupContext.new([]), assigns, controller)
   end
 end
