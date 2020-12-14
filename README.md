@@ -176,6 +176,7 @@ Use these options to customize the title format:
 | `:og`          | add Open Graph tags (Hash)                                                                                           |
 | `:twitter`     | add Twitter tags (Hash)                                                                                              |
 | `:refresh`     | refresh interval and optionally url to redirect to                                                                   |
+| `:robots`      | add custom robots tags (Hash)                                                                                        |
 
 And here are a few examples to give you ideas.
 
@@ -718,6 +719,23 @@ set_meta_tags al: {
 Further reading:
 
 - [App Links Documentation](https://developers.facebook.com/docs/applinks)
+
+### Robots
+
+Besides using noindex, there's still other custom robots met tags options to instruct search engine to serve crawled site content in specific ways.
+
+```ruby
+set_meta_tags robots: {
+  "max-snippet": -1,
+  "max-video-preview": -1
+}
+
+#　<meta name="robots" content="max-snippet:-1, max-video-preview:-1">
+```
+
+Further reading:
+
+* [Robots meta tag, data-nosnippet, and X-Robots-Tag specifications](https://developers.google.com/search/reference/robots_meta_tag)
 
 ### Custom meta tags
 

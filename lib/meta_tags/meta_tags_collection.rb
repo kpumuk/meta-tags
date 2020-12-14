@@ -155,6 +155,11 @@ module MetaTags
         calculate_robots_attributes(result, attributes)
       end
 
+      robots = extract(:robots).presence
+      if robots
+        result['robots'].concat robots.map { |k, v| "#{k}:#{v}" }
+      end
+
       result.transform_values { |v| v.join(', ') }
     end
 
