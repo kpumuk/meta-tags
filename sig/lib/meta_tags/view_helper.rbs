@@ -4,6 +4,7 @@ module MetaTags
 
     type stringish = String | (_Stringish & Object)
     type robots_value = bool | String | Array[String]
+    type meta_tags = Hash[Renderer::meta_key, Renderer::meta_value]
 
     def meta_tags: () -> MetaTagsCollection
 
