@@ -30,6 +30,9 @@ module MetaTags
     #     open_search: Hash[Renderer::meta_key, Renderer::meta_value],
     #     article: Hash[Renderer::meta_key, Renderer::meta_value],
     #     al: Hash[Renderer::meta_key, Renderer::meta_value],
+    #     robots: Hash[Renderer::meta_key, Renderer::meta_value],
+    #     googlebot: Hash[Renderer::meta_key, Renderer::meta_value],
+    #     bingbot: Hash[Renderer::meta_key, Renderer::meta_value],
     #     refresh: Integer | String | nil,
     #   } & Hash[Renderer::meta_key, Renderer::meta_value]
     type meta_tags = Hash[Renderer::meta_key, Renderer::meta_value]
