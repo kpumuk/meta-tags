@@ -8,11 +8,11 @@ describe MetaTags::ViewHelper, 'module' do
   end
 
   it 'responds to "title" helper' do
-    expect(subject).to respond_to(:title)
+    expect(subject).to respond_to(:page_title)
   end
 
   it 'responds to "description" helper' do
-    expect(subject).to respond_to(:description)
+    expect(subject).to respond_to(:page_description)
   end
 
   it 'responds to "keywords" helper' do

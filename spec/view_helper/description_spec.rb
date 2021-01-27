@@ -4,12 +4,12 @@ require 'spec_helper'
 
 describe MetaTags::ViewHelper, 'displaying description' do
   it 'does not display description if blank' do
-    subject.description('')
+    subject.page_description('')
     expect(subject.display_meta_tags).to eq('')
   end
 
   it 'displays description when "description" used' do
-    subject.description('someDescription')
+    subject.page_description('someDescription')
     subject.display_meta_tags(site: 'someSite').tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "someDescription", name: "description" })
     end
@@ -29,7 +29,7 @@ describe MetaTags::ViewHelper, 'displaying description' do
   end
 
   it 'uses custom description if given' do
-    subject.description('someDescription')
+    subject.page_description('someDescription')
     subject.display_meta_tags(site: 'someSite', description: 'defaultDescription').tap do |meta|
       expect(meta).to have_tag('meta', with: { content: "someDescription", name: "description" })
     end

@@ -5,16 +5,16 @@ require 'spec_helper'
 describe MetaTags::ViewHelper, type: :view_helper do
   describe 'returning values' do
     it 'returns headline if specified' do
-      expect(subject.title('some-title', 'some-headline')).to eq('some-headline')
+      expect(subject.page_title('some-title', 'some-headline')).to eq('some-headline')
     end
 
     it 'returns title' do
-      expect(subject.title('some-title')).to eq('some-title')
-      expect(subject.title).to eq('some-title')
+      expect(subject.page_title('some-title')).to eq('some-title')
+      expect(subject.page_title).to eq('some-title')
     end
 
     it 'returns description' do
-      expect(subject.description('some-description')).to eq('some-description')
+      expect(subject.page_description('some-description')).to eq('some-description')
     end
 
     it 'returns keywords' do
