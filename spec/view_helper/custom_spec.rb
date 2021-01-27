@@ -35,6 +35,32 @@ describe MetaTags::ViewHelper do
       end
     end
 
+    it 'allows to specify itemprop' do
+      subject.set_meta_tags(
+        og: {
+          image: {
+            _:        'image.png',
+            type:     'image/jpeg',
+            width:    200,
+            height:   {
+              _:        200,
+              itemprop: 'custom',
+            },
+            itemprop: 'image',
+          },
+        },
+      )
+
+      meta = subject.display_meta_tags
+      aggregate_failures 'meta tags' do
+        expect(meta).to have_tag('meta', with: { property: "og:image", content: "image.png", itemprop: "image" })
+        expect(meta).to have_tag('meta', with: { property: "og:image:type", content: "image/jpeg" }, without: { itemprop: "image" })
+        expect(meta).to have_tag('meta', with: { property: "og:image:width", content: "200" }, without: { itemprop: "image" })
+        expect(meta).to have_tag('meta', with: { property: "og:image:height", content: "200", itemprop: "custom" })
+        expect(meta).not_to have_tag('meta', with: { property: "og:image:itemprop" })
+      end
+    end
+
     it 'displays meta tags with hashes and arrays' do
       test_hashes_and_arrays
     end
