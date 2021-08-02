@@ -5,13 +5,13 @@
 [![Code Climate](https://codeclimate.com/github/kpumuk/meta-tags/badges/gpa.svg)](https://codeclimate.com/github/kpumuk/meta-tags)
 [![Test Coverage](https://codeclimate.com/github/kpumuk/meta-tags/badges/coverage.svg)](https://codeclimate.com/github/kpumuk/meta-tags/coverage)
 [![Gem Downloads](https://img.shields.io/gem/dt/meta-tags.svg)](https://badge.fury.io/rb/meta-tags)
-[![Changelog](https://img.shields.io/badge/Changelog-latest-blue.svg)](https://github.com/kpumuk/meta-tags/blob/master/CHANGELOG.md)
+[![Changelog](https://img.shields.io/badge/Changelog-latest-blue.svg)](https://github.com/kpumuk/meta-tags/blob/main/CHANGELOG.md)
 
 Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 
 ## Ruby on Rails
 
-MetaTags master branch fully supports Ruby on Rails 5.1+, and is tested against all
+MetaTags main branch fully supports Ruby on Rails 5.1+, and is tested against all
 major Rails releases up to 6.1.
 
 Ruby versions older than 2.5 are no longer officially supported.
