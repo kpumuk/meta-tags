@@ -697,6 +697,24 @@ set_meta_tags twitter: {
 # <meta name="twitter:image:height" content="100">
 ```
 
+Special parameter `itemprop` can be used on a "anonymous" tag "\_" to generate "itemprop" HTML attribute:
+
+```ruby
+set_meta_tags twitter: {
+  card:  "photo",
+  image: {
+    _:        "http://example.com/1.png",
+    width:    100,
+    height:   100,
+    itemprop: "image",
+  }
+}
+# <meta name="twitter:card" content="photo">
+# <meta name="twitter:image" content="http://example.com/1.png" itemprop="image">
+# <meta name="twitter:image:width" content="100">
+# <meta name="twitter:image:height" content="100">
+```
+
 Further reading:
 
 - [Twitter Cards Documentation](https://dev.twitter.com/cards/)

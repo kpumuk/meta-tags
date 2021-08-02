@@ -1,3 +1,19 @@
+# Changelog
+
+## 2.15.0 (August 2, 2021) [☰](https://github.com/kpumuk/meta-tags/compare/v2.14.0...v2.15.0)
+
+Changes:
+
+- Added Ruby 3.0 to supported versions
+- Ruby 2.5 is now a required minimum version (we dropped official support for Ruby versions older than 2.5 about 8 months ago)
+- Added `skip_canonical_links_on_noindex` configuration variable that allows to disable canonical links of the pages that are excluded from indexing ([214](https://github.com/kpumuk/meta-tags/pull/214))
+- Added support for `itemprop` in `_` tag for custom tags ([203](https://github.com/kpumuk/meta-tags/pull/203))
+
+Bugfixes:
+
+- Fixed error "can't modify frozen String" in `strip_tags`.
+- Fixed Ruby warning about an instance variable that is not initialized.
+
 ## 2.14.0 (December 10, 2020) [☰](https://github.com/kpumuk/meta-tags/compare/v2.13.0...v2.14.0)
 
 Changes:
