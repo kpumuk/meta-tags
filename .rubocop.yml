@@ -9,6 +9,7 @@ AllCops:
   ExtraDetails: true
   DisplayStyleGuide: true
   DisplayCopNames: true
+  SuggestExtensions: false
   # Target versions
   # We do not specify Ruby version, because CodeClimate should by default
   # read .ruby-version, and send it down to Rubocop
@@ -19,7 +20,7 @@ AllCops:
   TargetRailsVersion: 5.1
   # Exclude auto-generated and vendored files
   Exclude:
-    - 'db/schema.rb'
+    - "db/schema.rb"
 
 #-------------------------------------------------------------------------------
 # Rules configuration
@@ -28,13 +29,21 @@ AllCops:
 Bundler/OrderedGems:
   TreatCommentsAsGroupSeparators: true
 
-Layout/AlignHash:
+Layout/HashAlignment:
   EnforcedColonStyle: table
   EnforcedHashRocketStyle: table
   EnforcedLastArgumentHashStyle: always_inspect
 
 Layout/DotPosition:
   EnforcedStyle: trailing
+
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - "db/migrate/*"
+    - "spec/**/*"
+  IgnoredPatterns:
+    - "^#.*"
 
 Layout/MultilineAssignmentLayout:
   EnforcedStyle: same_line
@@ -50,32 +59,24 @@ Layout/SpaceInsideArrayLiteralBrackets:
 Metrics/AbcSize:
   Max: 25
   Exclude:
-    - 'db/migrate/*.rb'
+    - "db/migrate/*.rb"
 
 Metrics/BlockLength:
   Exclude:
-    - 'db/migrate/*.rb'
-    - 'config/routes.rb'
-    - '**/*.rake'
-    - 'spec/**/*_spec.rb'
-    - 'spec/spec_helper.rb'
+    - "db/migrate/*.rb"
+    - "config/routes.rb"
+    - "**/*.rake"
+    - "spec/**/*_spec.rb"
+    - "spec/spec_helper.rb"
 
 Metrics/ClassLength:
   Max: 250
   CountComments: false
 
-Metrics/LineLength:
-  Max: 120
-  Exclude:
-    - 'db/migrate/*'
-    - 'spec/**/*'
-  IgnoredPatterns:
-    - '^#.*'
-
 Metrics/MethodLength:
   Max: 30
   Exclude:
-    - 'db/migrate/*'
+    - "db/migrate/*"
 
 Metrics/ModuleLength:
   Max: 250
@@ -109,6 +110,9 @@ Style/TrailingCommaInArrayLiteral:
 
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma
+
+Style/BlockDelimiters:
+  EnforcedStyle: braces_for_chaining
 
 #-------------------------------------------------------------------------------
 # RSpec rules
@@ -148,6 +152,14 @@ Naming/FileName:
 
 # Allow not null columns without a default value
 Rails/NotNullColumn:
+  Enabled: false
+
+# Do not require loading Rails enviroment for Rake tasks as we are not a Rails application.
+Rails/RakeEnvironment:
+  Enabled: false
+
+# Do not require subclassing from ApplicationController as we're not a rails application
+Rails/ApplicationController:
   Enabled: false
 
 # This check does not distinguish between "private :x" and "private def x"
@@ -207,4 +219,28 @@ Style/SymbolArray:
 
 # Do not require to use %w[] around word arrays
 Style/WordArray:
+  Enabled: false
+
+# Do not prohibit explicit Rubocop enable/disable directives
+Style/DisableCopsWithinSourceCodeDirective:
+  Enabled: false
+
+# Do not require keyword arguments when defining method with boolean argument (historical API)
+Style/OptionalBooleanParameter:
+  Enabled: false
+
+# Do not require fully qualified constants
+Lint/ConstantResolution:
+  Enabled: false
+
+# Bundler is only used for gem development
+Bundler/GemVersion:
+  Enabled: false
+
+# Developers can decide where to put their line breaks, thank you very much
+Layout/RedundantLineBreak:
+  Enabled: false
+
+# Do not enforce Ruby version, as we're not ready to release a breaking change yet
+Gemspec/RequiredRubyVersion:
   Enabled: false

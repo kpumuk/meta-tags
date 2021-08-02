@@ -32,4 +32,4 @@ require 'meta_tags/content_tag'
 require 'meta_tags/text_normalizer'
 require 'meta_tags/view_helper'
 
-require 'meta_tags/railtie.rb' if defined?(Rails)
+require 'meta_tags/railtie' if defined?(Rails)
