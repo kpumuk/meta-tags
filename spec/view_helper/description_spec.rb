@@ -78,6 +78,13 @@ describe MetaTags::ViewHelper, 'displaying description' do
     end
   end
 
+  it 'works with frozen strings' do
+    allow(MetaTags::TextNormalizer).to receive(:strip_tags) { |s| s }
+    subject.display_meta_tags(description: "some description".freeze).tap do |meta|
+      expect(meta).to have_tag('meta', with: { content: "some description", name: "description" })
+    end
+  end
+
   it 'fails when title is not a String-like object' do
     expect {
       subject.display_meta_tags(description: 5)
