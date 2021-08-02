@@ -28,6 +28,10 @@ module MetaTagsRailsApp
       render plain: '_rendered_'
     end
 
+    def show
+      render plain: '_rendered_'
+    end
+
     public :set_meta_tags, :meta_tags
   end
 

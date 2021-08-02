@@ -26,6 +26,12 @@ describe MetaTags::ControllerHelper do
       expect(subject.response.body).to eq('_rendered_')
       expect(subject.meta_tags.meta_tags).to eq('title' => 'title', 'keywords' => 'key1, key2, key3', 'description' => 'description')
     end
+
+    it 'does not require instance variables' do
+      subject.show
+      expect(subject.response.body).to eq('_rendered_')
+      expect(subject.meta_tags.meta_tags).to eq({})
+    end
   end
 
   it_behaves_like '.set_meta_tags'
