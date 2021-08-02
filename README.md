@@ -5,13 +5,13 @@
 [![Code Climate](https://codeclimate.com/github/kpumuk/meta-tags/badges/gpa.svg)](https://codeclimate.com/github/kpumuk/meta-tags)
 [![Test Coverage](https://codeclimate.com/github/kpumuk/meta-tags/badges/coverage.svg)](https://codeclimate.com/github/kpumuk/meta-tags/coverage)
 [![Gem Downloads](https://img.shields.io/gem/dt/meta-tags.svg)](https://badge.fury.io/rb/meta-tags)
-[![Changelog](https://img.shields.io/badge/Changelog-latest-blue.svg)](https://github.com/kpumuk/meta-tags/blob/master/CHANGELOG.md)
+[![Changelog](https://img.shields.io/badge/Changelog-latest-blue.svg)](https://github.com/kpumuk/meta-tags/blob/main/CHANGELOG.md)
 
 Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 
 ## Ruby on Rails
 
-MetaTags master branch fully supports Ruby on Rails 5.1+, and is tested against all
+MetaTags main branch fully supports Ruby on Rails 5.1+, and is tested against all
 major Rails releases up to 6.1.
 
 Ruby versions older than 2.5 are no longer officially supported.
@@ -409,6 +409,9 @@ Canonical link element tells a search engine what is the canonical or main URL
 for a content which have multiple URLs. The search engine will always return
 that URL, and link popularity and authority will be applied to that URL.
 
+Note: If you like follow a hint of John Mueller that you shouldn't mix canonical with noindex, then you can
+set `MetaTags.config.skip_canonical_links_on_noindex = true` and we'll handle it for you.
+
 ```ruby
 set_meta_tags canonical: "http://yoursite.com/canonical/url"
 # <link rel="canonical" href="http://yoursite.com/canonical/url">
@@ -690,6 +693,24 @@ set_meta_tags twitter: {
 }
 # <meta name="twitter:card" content="photo">
 # <meta name="twitter:image" content="http://example.com/1.png">
+# <meta name="twitter:image:width" content="100">
+# <meta name="twitter:image:height" content="100">
+```
+
+Special parameter `itemprop` can be used on a "anonymous" tag "\_" to generate "itemprop" HTML attribute:
+
+```ruby
+set_meta_tags twitter: {
+  card:  "photo",
+  image: {
+    _:        "http://example.com/1.png",
+    width:    100,
+    height:   100,
+    itemprop: "image",
+  }
+}
+# <meta name="twitter:card" content="photo">
+# <meta name="twitter:image" content="http://example.com/1.png" itemprop="image">
 # <meta name="twitter:image:width" content="100">
 # <meta name="twitter:image:height" content="100">
 ```

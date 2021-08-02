@@ -14,7 +14,7 @@ AllCops:
   # We do not specify Ruby version, because CodeClimate should by default
   # read .ruby-version, and send it down to Rubocop
   # (see https://github.com/codeclimate/codeclimate-rubocop/pull/68)
-  # TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.5
   # We will lock Rails version to the newest we have in the company, so we're
   # always looking to the future.
   TargetRailsVersion: 5.1
@@ -239,8 +239,4 @@ Bundler/GemVersion:
 
 # Developers can decide where to put their line breaks, thank you very much
 Layout/RedundantLineBreak:
-  Enabled: false
-
-# Do not enforce Ruby version, as we're not ready to release a breaking change yet
-Gemspec/RequiredRubyVersion:
   Enabled: false

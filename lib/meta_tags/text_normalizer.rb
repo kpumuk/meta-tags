@@ -110,10 +110,12 @@ module MetaTags
       return '' if string.nil?
       raise ArgumentError, 'Expected a string or an object that implements #to_str' unless string.respond_to?(:to_str)
 
-      strip_tags(string.to_str).tap do |s|
-        s.gsub!(/\s+/, ' ')
-        s.strip! if strip
-      end
+      s = strip_tags(string.to_str)
+      s = s.dup if s.frozen?
+      s.gsub!(/\s+/, ' ')
+      s.strip! if strip
+
+      s
     end
 
     # Cleans multiple strings up.

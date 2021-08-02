@@ -9,3 +9,4 @@ pkg
 *.gem
 .idea
 log/
+tmp/

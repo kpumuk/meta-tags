@@ -26,6 +26,7 @@ module MetaTags
       render_with_normalization(tags, :description)
       render_with_normalization(tags, :keywords)
       render_refresh(tags)
+      render_canonical_link(tags)
       render_noindex(tags)
       render_alternate(tags)
       render_open_search(tags)
@@ -150,13 +151,26 @@ module MetaTags
     # @param [Array<Tag>] tags a buffer object to store tag in.
     #
     def render_links(tags)
-      [ :amphtml, :canonical, :prev, :next, :image_src, :manifest ].each do |tag_name|
+      [ :amphtml, :prev, :next, :image_src, :manifest ].each do |tag_name|
         href = meta_tags.extract(tag_name)
         if href.present?
           @normalized_meta_tags[tag_name] = href
           tags << Tag.new(:link, rel: tag_name, href: href)
         end
       end
+    end
+
+    # Renders canonical link
+    #
+    # @param [Array<Tag>] tags a buffer object to store tag in.
+    #
+    def render_canonical_link(tags)
+      href = meta_tags.extract(:canonical) # extract, so its not used anywhere else
+      return if MetaTags.config.skip_canonical_links_on_noindex && meta_tags[:noindex]
+      return if href.blank?
+
+      @normalized_meta_tags[:canonical] = href
+      tags << Tag.new(:link, rel: :canonical, href: href)
     end
 
     # Renders complex hash objects.
@@ -201,16 +215,17 @@ module MetaTags
     # @param [Hash, Array, String, Symbol] content text content or a symbol reference to
     # top-level meta tag.
     #
-    def process_tree(tags, property, content, **opts)
+    def process_tree(tags, property, content, itemprop: nil, **opts)
       method = case content
                when Hash
                  :process_hash
                when Array
                  :process_array
                else
+                 iprop = itemprop
                  :render_tag
                end
-      __send__(method, tags, property, content, **opts)
+      __send__(method, tags, property, content, itemprop: iprop, **opts)
     end
 
     # Recursive method to process a hash with meta tags
@@ -220,10 +235,16 @@ module MetaTags
     # @param [Hash] content nested meta tag attributes.
     #
     def process_hash(tags, property, content, **opts)
+      itemprop = content.delete(:itemprop)
       content.each do |key, value|
-        key = key.to_s == '_' ? property : "#{property}:#{key}"
+        if key.to_s == '_'
+          iprop = itemprop
+          key = property
+        else
+          key = "#{property}:#{key}"
+        end
         value = normalized_meta_tags[value] if value.kind_of?(Symbol)
-        process_tree(tags, key, value, **opts)
+        process_tree(tags, key, value, **opts.merge(itemprop: iprop))
       end
     end
 
@@ -244,9 +265,9 @@ module MetaTags
     # @param [String, Symbol] value text content or a symbol reference to
     # top-level meta tag.
     #
-    def render_tag(tags, name, value, name_key: nil, value_key: :content)
+    def render_tag(tags, name, value, itemprop: nil)
       name_key ||= configured_name_key(name)
-      tags << Tag.new(:meta, name_key => name.to_s, value_key => value) if value.present?
+      tags << Tag.new(:meta, name_key => name.to_s, content: value, itemprop: itemprop) if value.present?
     end
 
     # Returns meta tag property name for a give meta tag based on the

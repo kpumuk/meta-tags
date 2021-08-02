@@ -2,6 +2,6 @@
 
 module MetaTags
   # Gem version.
-  VERSION = '2.14.0'
+  VERSION = '2.15.0'
   public_constant :VERSION
 end
