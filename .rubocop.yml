@@ -68,6 +68,7 @@ Metrics/BlockLength:
     - "**/*.rake"
     - "spec/**/*_spec.rb"
     - "spec/spec_helper.rb"
+    - "meta-tags.gemspec"
 
 Metrics/ClassLength:
   Max: 250
