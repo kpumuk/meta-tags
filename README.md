@@ -523,6 +523,15 @@ To link back to normal version, use `canonical`.
 - [What Is AMP?](https://www.ampproject.org/learn/about-amp/)
 - [Make Your Page Discoverable](https://www.ampproject.org/docs/guides/discovery)
 
+### Manifest links
+
+```ruby
+set_meta_tags manifest: 'manifest.json'
+# <link rel="manifest" href="manifest.json">
+```
+
+- [What is manifest?](https://developer.mozilla.org/en-US/docs/Web/Manifest)
+
 ### Refresh interval and redirect URL
 
 Meta refresh is a method of instructing a web browser to automatically
