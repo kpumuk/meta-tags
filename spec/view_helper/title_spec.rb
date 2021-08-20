@@ -183,6 +183,8 @@ describe MetaTags::ViewHelper do
     end
 
     it 'fails when title is not a String-like object' do
+      skip("Fails RBS") if ENV["RBS_TEST_TARGET"] # rubocop:disable RSpec/Pending
+
       expect {
         subject.display_meta_tags(site: 'someSite', title: 5)
       }.to raise_error ArgumentError, 'Expected a string or an object that implements #to_str'

@@ -1,0 +1,16 @@
+module MetaTags
+  def self.config: () -> Configuration
+  def self.configure: () { (Configuration) -> void } -> void
+
+  interface _Stringish
+    def to_str: () -> String
+  end
+
+  interface _Timish
+    def iso8601: () -> String
+  end
+
+  interface _MetaTagish
+    def to_meta_tags: () -> Hash[String | Symbol, untyped]
+  end
+end

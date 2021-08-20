@@ -97,8 +97,8 @@ module MetaTags
 
     # Set the noindex meta tag
     #
-    # @param [Boolean, String] noindex a noindex value.
-    # @return [Boolean, String] passed value.
+    # @param [Boolean, String, Array<String>] noindex a noindex value.
+    # @return [Boolean, String, Array<String>] passed value.
     #
     # @example
     #   noindex true
@@ -113,8 +113,8 @@ module MetaTags
 
     # Set the nofollow meta tag
     #
-    # @param [Boolean, String] nofollow a nofollow value.
-    # @return [Boolean, String] passed value.
+    # @param [Boolean, String, Array<String>] nofollow a nofollow value.
+    # @return [Boolean, String, Array<String>] passed value.
     #
     # @example
     #   nofollow true

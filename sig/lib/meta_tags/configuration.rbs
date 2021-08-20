@@ -1,0 +1,19 @@
+module MetaTags
+  class Configuration
+    attr_accessor title_limit: Integer?
+    attr_accessor truncate_site_title_first: bool
+    attr_accessor description_limit: Integer
+    attr_accessor keywords_limit: Integer
+    attr_accessor keywords_separator: String
+    attr_accessor keywords_lowercase: bool
+    attr_accessor open_meta_tags: bool
+    attr_accessor minify_output: bool
+    attr_reader property_tags: Array[String | Symbol]
+    attr_accessor skip_canonical_links_on_noindex: bool
+
+    def initialize: () -> void
+    def default_property_tags: () -> Array[String | Symbol]
+    def open_meta_tags?: () -> bool
+    def reset_defaults!: () -> void
+  end
+end

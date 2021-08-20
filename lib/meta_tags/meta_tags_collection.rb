@@ -38,7 +38,13 @@ module MetaTags
     # @return [Hash] result of the merge.
     #
     def update(object = {})
-      meta_tags = object.respond_to?(:to_meta_tags) ? object.to_meta_tags : object
+      meta_tags = if object.respond_to?(:to_meta_tags)
+                    # @type var object: (_MetaTagish & Object)
+                    object.to_meta_tags
+                  else
+                    # @type var object: Hash[String | Symbol, untyped]
+                    object
+                  end
       @meta_tags.deep_merge! normalize_open_graph(meta_tags)
     end
 
@@ -99,7 +105,7 @@ module MetaTags
     #
     def extract_full_title
       site_title = extract(:site) || ''
-      title      = extract_title || []
+      title      = extract_title
       separator  = extract_separator
       reverse    = extract(:reverse) == true
 
@@ -112,8 +118,9 @@ module MetaTags
     #
     def extract_title
       title = extract(:title).presence
-      return unless title
+      return [] unless title
 
+      # @type var title: Array[String]
       title = Array(title)
       return title.map(&:downcase) if extract(:lowercase) == true
 

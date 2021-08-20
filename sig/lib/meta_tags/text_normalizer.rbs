@@ -1,0 +1,36 @@
+module MetaTags
+  module TextNormalizer
+    extend ::MetaTags::TextNormalizer
+
+    type keyword = String? | (_Stringish & Object)
+    type keywords = keyword | Array[keywords]
+
+    def normalize_title: (String? site_title, keywords title, String separator, ?bool reverse) -> String
+
+    def normalize_description: (keyword description) -> String
+
+    def normalize_keywords: (keywords keywords) -> String
+
+    def helpers: () -> _ActionViewBase
+
+    def strip_tags: (String string) -> String
+
+    def safe_join: (Array[String] array, ?String sep) -> String
+
+    def cleanup_string: (keyword string, ?strip: bool strip) -> String
+
+    def cleanup_strings: (keywords? strings, ?strip: bool strip) -> Array[String]
+
+    def truncate: (String string, ?Integer limit, ?String natural_separator) -> String
+
+    def truncate_array: (Array[String] string_array, ?Integer? limit, ?String separator, ?String natural_separator) -> Array[String]
+
+    private
+
+    def calculate_limit_left: (Integer limit, Integer length, Array[String] result, String separator) -> untyped
+
+    def truncate_title: (String site_title, Array[String] title, String separator) -> ::Array[untyped]
+
+    def calculate_title_limits: (String site_title, Array[String] title, String separator, Integer global_limit) -> untyped
+  end
+end
