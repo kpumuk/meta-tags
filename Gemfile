@@ -11,7 +11,7 @@ if ENV['RAILS_VERSION']
 end
 
 # Ruby typings
-gem 'steep'
+gem 'steep', platform: :mri unless ENV["NO_STEEP"] == '1'
 
 group :test do
   # Lock rubocop to a specific version we use on CI. If you update this,

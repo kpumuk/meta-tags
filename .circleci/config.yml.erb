@@ -82,11 +82,17 @@ shared_build_steps: &shared_build_steps
                           $TEST_FILES
 
   - when:
-      name: Verify Ruby Types
       condition: << parameters.is_main_build >>
       steps:
-          - run: |
+        - run:
+            name: Verify Ruby Types (Static)
+            command: |
               bundle exec rake steep
+
+        - run:
+            name: Verify Ruby Types (Runtime)
+            command: |
+              bundle exec rake rbs:spec
 
   - run:
       name: Formatting Coverage
@@ -107,7 +113,7 @@ shared_build_steps: &shared_build_steps
         - "*/cc-test-reporter"
 
 jobs:
-  <% builds.each do |ruby_version, rails_version| %>
+  <% builds.each do |ruby_version, rails_version, is_main_build| %>
   build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version.tr('.', '_') %>:
     parameters:
       is_main_build:
@@ -118,6 +124,7 @@ jobs:
         environment:
           RAILS_VERSION: <%= rails_version %>
           ENABLE_CODE_COVERAGE: 1
+          NO_STEEP: <%= is_main_build ? 0 : 1  %>
     working_directory: ~/meta-tags/ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version %>
     steps: *shared_build_steps
   <% end %>
