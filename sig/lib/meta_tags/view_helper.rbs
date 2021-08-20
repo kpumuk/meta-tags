@@ -1,0 +1,55 @@
+module MetaTags
+  module ViewHelper : Module, _ActionViewBase
+    # type meta_tags = {
+    #     site: String?,
+    #     title: Array[String] | String?,
+    #     description: String?,
+    #     keywords: Array[String] | String?,
+    #     charset: String,
+    #     prefix: String,
+    #     separator: String,
+    #     suffix: String,
+    #     lowercase: bool,
+    #     reverse: bool,
+    #     noindex: bool | String | Array[String],
+    #     index: bool | String | Array[String],
+    #     nofollow: bool | String | Array[String],
+    #     follow: bool | String | Array[String],
+    #     noarchive: bool | String | Array[String],
+    #     canonical: String,
+    #     prev: String,
+    #     next: String,
+    #     image_src: String,
+    #     alternate: String,
+    #     amphtml: String,
+    #     manifest: String,
+    #     og: Hash[Renderer::meta_key, Renderer::meta_value],
+    #     twitter: Hash[Renderer::meta_key, Renderer::meta_value],
+    #     open_search: Hash[Renderer::meta_key, Renderer::meta_value],
+    #     article: Hash[Renderer::meta_key, Renderer::meta_value],
+    #     al: Hash[Renderer::meta_key, Renderer::meta_value],
+    #     refresh: Integer | String | nil,
+    #   } & Hash[Renderer::meta_key, Renderer::meta_value]
+    type meta_tags = Hash[Renderer::meta_key, Renderer::meta_value]
+
+    def meta_tags: () -> MetaTagsCollection
+
+    def set_meta_tags: (?meta_tags | (_MetaTagish&Object) meta_tags) -> void
+
+    def title: (?String? title, ?::String? headline) -> String
+
+    def keywords: (Array[String] | String? keywords) -> (Array[String] | String?)
+
+    def description: (String? description) -> String?
+
+    def noindex: (?String | Array[String] | bool noindex) -> (String | bool | Array[String])
+
+    def nofollow: (?String | Array[String] | bool nofollow) -> (String | bool | Array[String])
+
+    def refresh: (String? | Integer? refresh) -> (String? | Integer?)
+
+    def display_meta_tags: (?meta_tags defaults) -> String
+
+    def display_title: (?meta_tags defaults) -> String
+  end
+end

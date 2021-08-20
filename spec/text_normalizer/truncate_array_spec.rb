@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::TextNormalizer, '.truncate_array' do
+RSpec.describe MetaTags::TextNormalizer, '.truncate_array' do
   it 'returns array as is when limit is not specified' do
     arr = %w[a]
     expect(subject.truncate_array(arr, nil)).to be(arr)

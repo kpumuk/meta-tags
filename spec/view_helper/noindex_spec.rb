@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::ViewHelper do
+RSpec.describe MetaTags::ViewHelper do
   describe 'displaying noindex' do
     it 'displays noindex when "noindex" used' do
       subject.noindex(true)

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::ViewHelper do
+RSpec.describe MetaTags::ViewHelper do
   describe 'displaying canonical url' do
     it 'does not display canonical url by default' do
       subject.display_meta_tags(site: 'someSite').tap do |meta|

@@ -2,12 +2,16 @@
 
 require 'spec_helper'
 
-describe MetaTags::ControllerHelper do
+RSpec.describe MetaTags::ControllerHelper do
   subject do
     MetaTagsRailsApp::MetaTagsController.new.tap do |c|
       c.request = ActionDispatch::TestRequest.create
       c.response = ActionDispatch::TestResponse.new
     end
+  end
+
+  before do
+    skip("Does not work properly with RBS") if ENV["RBS_TEST_TARGET"] # rubocop:disable RSpec/Pending
   end
 
   describe 'module' do

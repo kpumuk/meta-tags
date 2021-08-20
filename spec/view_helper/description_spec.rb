@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::ViewHelper, 'displaying description' do
+RSpec.describe MetaTags::ViewHelper, 'displaying description' do
   it 'does not display description if blank' do
     subject.description('')
     expect(subject.display_meta_tags).to eq('')
@@ -86,6 +86,8 @@ describe MetaTags::ViewHelper, 'displaying description' do
   end
 
   it 'fails when title is not a String-like object' do
+    skip("Fails RBS") if ENV["RBS_TEST_TARGET"] # rubocop:disable RSpec/Pending
+
     expect {
       subject.display_meta_tags(description: 5)
     }.to raise_error ArgumentError, 'Expected a string or an object that implements #to_str'

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::Configuration do
+RSpec.describe MetaTags::Configuration do
   it 'is returned by MetaTags.config' do
     expect(MetaTags.config).to be_instance_of(described_class)
   end

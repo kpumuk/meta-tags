@@ -243,8 +243,13 @@ module MetaTags
         else
           key = "#{property}:#{key}"
         end
-        value = normalized_meta_tags[value] if value.kind_of?(Symbol)
-        process_tree(tags, key, value, **opts.merge(itemprop: iprop))
+
+        normalized_value = if value.kind_of?(Symbol)
+                             normalized_meta_tags[value]
+                           else
+                             value
+                           end
+        process_tree(tags, key, normalized_value, **opts.merge(itemprop: iprop))
       end
     end
 
@@ -264,6 +269,7 @@ module MetaTags
     # @param [String, Symbol] name a Hash or a String to render as meta tag.
     # @param [String, Symbol] value text content or a symbol reference to
     # top-level meta tag.
+    # @param [String, Symbol] itemprop value of the itemprop attribute.
     #
     def render_tag(tags, name, value, itemprop: nil)
       name_key ||= configured_name_key(name)
@@ -273,8 +279,8 @@ module MetaTags
     # Returns meta tag property name for a give meta tag based on the
     # configured list of property tags in MetaTags::Configuration#property_tags.
     #
-    # @param [String, Symbol] meta tag key.
-    # @return [String] meta tag attribute name ("property" or "name").
+    # @param [String, Symbol] name tag key.
+    # @return [Symbol] meta tag attribute name (:property or :name).
     #
     def configured_name_key(name)
       is_property_tag = MetaTags.config.property_tags.any? do |tag_name|

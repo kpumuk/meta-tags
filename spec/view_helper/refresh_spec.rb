@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::ViewHelper, 'displaying refresh' do
+RSpec.describe MetaTags::ViewHelper, 'displaying refresh' do
   it 'displays refresh when "refresh" is used' do
     subject.refresh(5)
     subject.display_meta_tags(site: 'someSite').tap do |meta|

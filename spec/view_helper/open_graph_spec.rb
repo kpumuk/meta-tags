@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
+RSpec.describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
   it 'displays meta tags specified with :open_graph' do
     subject.set_meta_tags(
       open_graph: {

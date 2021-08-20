@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::ViewHelper, 'meta tags' do
+RSpec.describe MetaTags::ViewHelper, 'meta tags' do
   context "with open_meta_tags=true" do
     it 'generates open charset tag' do
       subject.display_meta_tags(charset: 'UTF-8').tap do |meta|
