@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::ViewHelper, 'displaying charset' do
+RSpec.describe MetaTags::ViewHelper, 'displaying charset' do
   it 'does not display charset if blank' do
     expect(subject.display_meta_tags).to eq('')
     expect(subject.display_meta_tags(charset: '')).to eq('')

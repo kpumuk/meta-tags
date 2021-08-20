@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::ViewHelper, 'displaying keywords' do
+RSpec.describe MetaTags::ViewHelper, 'displaying keywords' do
   it 'does not display keywords if blank' do
     subject.keywords('')
     expect(subject.display_meta_tags).to eq('')

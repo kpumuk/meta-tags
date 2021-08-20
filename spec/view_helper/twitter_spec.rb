@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::ViewHelper, 'displaying Twitter meta tags' do
+RSpec.describe MetaTags::ViewHelper, 'displaying Twitter meta tags' do
   it 'displays meta tags specified with :twitter' do
     subject.set_meta_tags(
       twitter: {

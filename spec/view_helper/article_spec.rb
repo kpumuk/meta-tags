@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe MetaTags::ViewHelper, "displaying Article meta tags" do
+RSpec.describe MetaTags::ViewHelper, "displaying Article meta tags" do
   it "displays meta tags specified with :article" do
     subject.set_meta_tags(article: { author: "https://www.facebook.com/facebook" })
     subject.display_meta_tags(site: "someSite").tap do |meta|

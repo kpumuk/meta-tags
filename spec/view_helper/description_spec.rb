@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::ViewHelper, 'displaying description' do
+RSpec.describe MetaTags::ViewHelper, 'displaying description' do
   it 'does not display description if blank' do
     subject.description('')
     expect(subject.display_meta_tags).to eq('')

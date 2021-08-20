@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::ViewHelper, 'module' do
+RSpec.describe MetaTags::ViewHelper, 'module' do
   it 'is mixed into ActionView::Base' do
     expect(ActionView::Base.included_modules).to include(described_class)
   end

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::TextNormalizer, '.normalize_title' do
+RSpec.describe MetaTags::TextNormalizer, '.normalize_title' do
   context 'when site_title is blank' do
     it 'returns title when site_title is blank' do
       expect(subject.normalize_title(nil, 'title', '-')).to eq('title')
