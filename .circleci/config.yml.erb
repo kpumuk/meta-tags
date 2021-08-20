@@ -27,10 +27,10 @@
     ['3.0', '6.1.4', true],
   ]
 
-  cc_build = builds.find { |_, _, submit_cc| submit_cc }
+  main_build = builds.find { |_, _, is_main_build| is_main_build }
 %>
 
-version: 2
+version: 2.1
 
 shared_build_steps: &shared_build_steps
   - checkout
@@ -81,6 +81,13 @@ shared_build_steps: &shared_build_steps
                           --format progress \
                           $TEST_FILES
 
+  - when:
+      name: Verify Ruby Types
+      condition: << parameters.is_main_build >>
+      steps:
+          - run: |
+              bundle exec rake steep
+
   - run:
       name: Formatting Coverage
       command: |
@@ -100,8 +107,12 @@ shared_build_steps: &shared_build_steps
         - "*/cc-test-reporter"
 
 jobs:
-  <% builds.each do |ruby_version, rails_version, submit_cc| %>
-  build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version %>:
+  <% builds.each do |ruby_version, rails_version| %>
+  build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version.tr('.', '_') %>:
+    parameters:
+      is_main_build:
+        type: boolean
+        default: false
     docker:
       - image: circleci/ruby:<%= ruby_version %>
         environment:
@@ -113,7 +124,7 @@ jobs:
 
   upload-coverage:
     docker:
-      - image: circleci/ruby:<%= cc_build[0] %>
+      - image: circleci/ruby:<%= main_build[0] %>
         environment:
           CC_TEST_REPORTER_ID: 8792cbc0d1780830ddd3dd7eb1c25f09f386ba8f04449ad830039469406a6ab3
     steps:
@@ -123,7 +134,7 @@ jobs:
       - run:
           name: Uploading Code Coverage
           command: |
-            cd /tmp/workspace/ruby<%= cc_build[0].tr('.', '') %>-rails-<%= cc_build[1] %>
+            cd /tmp/workspace/ruby<%= main_build[0].tr('.', '') %>-rails-<%= main_build[1] %>
             ./cc-test-reporter upload-coverage --input coverage/codeclimate.coverage.json || true
   tests:
     docker:
@@ -137,16 +148,17 @@ workflows:
   version: 2
   test:
     jobs:
-      <% builds.each do |ruby_version, rails_version| %>
-      - build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version %>
+      <% builds.each do |ruby_version, rails_version, is_main_build| %>
+      - build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version.tr('.', '_') %>:
+          is_main_build: <%= !!is_main_build %>
       <% end %>
 
       - upload-coverage:
           requires:
-            - build-ruby<%= cc_build[0].tr('.', '') %>-rails-<%= cc_build[1] %>
+            - build-ruby<%= main_build[0].tr('.', '') %>-rails-<%= main_build[1].tr('.', '_') %>
 
       - tests:
           requires:
-            <% builds.each do |ruby_version, rails_version, submit_cc| %>
-            - build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version %>
+            <% builds.each do |ruby_version, rails_version| %>
+            - build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version.tr('.', '_') %>
             <% end %>
