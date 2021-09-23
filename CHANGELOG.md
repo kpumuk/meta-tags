@@ -5,7 +5,7 @@
 
 Changes:
 
-- Removed maximum dependency specified in gemspec (Getting Ready for Rails 7)
+- Updated maximum dependency specified in gemspec (Getting Ready for Rails 7)
 
 ## 2.15.0 (August 2, 2021) [☰](https://github.com/kpumuk/meta-tags/compare/v2.14.0...v2.15.0)
 
