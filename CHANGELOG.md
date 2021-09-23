@@ -1,5 +1,12 @@
 # Changelog
 
+
+## 2.16.0 (September 24, 2021) [☰](https://github.com/kpumuk/meta-tags/compare/v2.15.0...v2.16.0)
+
+Changes:
+
+- Removed maximum dependency specified in gemspec (Getting Ready for Rails 7)
+
 ## 2.15.0 (August 2, 2021) [☰](https://github.com/kpumuk/meta-tags/compare/v2.14.0...v2.15.0)
 
 Changes:
