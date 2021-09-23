@@ -256,6 +256,20 @@ jobs:
     working_directory: ~/meta-tags/ruby27-rails-6.1.4
     steps: *shared_build_steps
   
+  build-ruby27-rails-7_0_0_alpha2:
+    parameters:
+      is_main_build:
+        type: boolean
+        default: false
+    docker:
+      - image: circleci/ruby:2.7
+        environment:
+          RAILS_VERSION: 7.0.0.alpha2
+          ENABLE_CODE_COVERAGE: 1
+          NO_STEEP: 1
+    working_directory: ~/meta-tags/ruby27-rails-7.0.0.alpha2
+    steps: *shared_build_steps
+  
   build-ruby30-rails-6_0_4:
     parameters:
       is_main_build:
@@ -282,6 +296,20 @@ jobs:
           ENABLE_CODE_COVERAGE: 1
           NO_STEEP: 0
     working_directory: ~/meta-tags/ruby30-rails-6.1.4
+    steps: *shared_build_steps
+  
+  build-ruby30-rails-7_0_0_alpha2:
+    parameters:
+      is_main_build:
+        type: boolean
+        default: false
+    docker:
+      - image: circleci/ruby:3.0
+        environment:
+          RAILS_VERSION: 7.0.0.alpha2
+          ENABLE_CODE_COVERAGE: 1
+          NO_STEEP: 1
+    working_directory: ~/meta-tags/ruby30-rails-7.0.0.alpha2
     steps: *shared_build_steps
   
 
@@ -348,11 +376,17 @@ workflows:
       - build-ruby27-rails-6_1_4:
           is_main_build: false
       
+      - build-ruby27-rails-7_0_0_alpha2:
+          is_main_build: false
+      
       - build-ruby30-rails-6_0_4:
           is_main_build: false
       
       - build-ruby30-rails-6_1_4:
           is_main_build: true
+      
+      - build-ruby30-rails-7_0_0_alpha2:
+          is_main_build: false
       
 
       - upload-coverage:
@@ -386,7 +420,11 @@ workflows:
             
             - build-ruby27-rails-6_1_4
             
+            - build-ruby27-rails-7_0_0_alpha2
+            
             - build-ruby30-rails-6_0_4
             
             - build-ruby30-rails-6_1_4
+            
+            - build-ruby30-rails-7_0_0_alpha2
             
