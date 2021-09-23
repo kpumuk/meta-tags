@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Collection of SEO helpers for Ruby on Rails."
   spec.description   = "Search Engine Optimization (SEO) plugin for Ruby on Rails applications."
-  spec.homepage      = "http://github.com/kpumuk/meta-tags"
+  spec.homepage      = "https://github.com/kpumuk/meta-tags"
   spec.license       = "MIT"
   spec.platform      = Gem::Platform::RUBY
   spec.required_ruby_version = '>= 2.5.0'
