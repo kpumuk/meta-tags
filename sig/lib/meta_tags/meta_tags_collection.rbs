@@ -1,0 +1,41 @@
+module MetaTags
+  class MetaTagsCollection
+    attr_reader meta_tags: Hash[String | Symbol, untyped]
+
+    def initialize: () -> void
+
+    def []: (String | Symbol name) -> untyped
+
+    def []=: (String | Symbol name, untyped value) -> untyped
+
+    def update: (?::Hash[String | Symbol, untyped] | (_MetaTagish & Object) object) -> Hash[String | Symbol, untyped]
+
+    def with_defaults: (?::Hash[String | Symbol, untyped] defaults) { () -> untyped } -> untyped
+
+    def full_title: (?::Hash[String | Symbol, untyped] defaults) -> String
+
+    def page_title: (?::Hash[String | Symbol, untyped] defaults) -> String
+
+    def extract: (String | Symbol name) -> untyped
+
+    def delete: (*String | Symbol names) -> void
+
+    def extract_full_title: () -> String
+
+    def extract_title: () -> Array[String | (_Stringish & Object)]
+
+    def extract_separator: () -> String
+
+    def extract_robots: () -> Hash[String, String]
+
+    def normalize_open_graph: (Hash[String | Symbol, untyped] meta_tags) -> Hash[String | Symbol, untyped]
+
+    def extract_separator_section: (String | Symbol name, String default) -> String
+
+    def extract_robots_attribute: (String | Symbol name) -> [String | Array[String | Symbol], String?]
+
+    def calculate_robots_attributes: (untyped result, untyped attributes) -> untyped
+
+    def apply_robots_value: (untyped result, untyped name, untyped value, untyped processed) -> (nil | untyped)
+  end
+end

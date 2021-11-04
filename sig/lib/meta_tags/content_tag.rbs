@@ -1,0 +1,5 @@
+module MetaTags
+  class ContentTag < Tag
+    def render: (_ActionViewBase view) -> untyped
+  end
+end

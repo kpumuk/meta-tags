@@ -11,7 +11,7 @@ module MetaTags
     # @param [Hash] attributes list of HTML tag attributes
     #
     def initialize(name, attributes = {})
-      @name = name
+      @name = name.to_s
       @attributes = attributes
     end
 

@@ -2,9 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::ViewHelper do
-  subject { ActionView::Base.new }
-
+RSpec.describe MetaTags::ViewHelper do
   describe 'displaying title' do
     it 'does not display title if blank' do
       expect(subject.display_meta_tags).to eq('')
@@ -105,7 +103,6 @@ describe MetaTags::ViewHelper do
       expect(title).to eq('TITLE')
     end
 
-    # rubocop:disable Rails/OutputSafety
     it 'uses custom separator when :separator specified' do
       subject.page_title('someTitle')
       subject.display_meta_tags(site: 'someSite', separator: '-').tap do |meta|
@@ -127,7 +124,6 @@ describe MetaTags::ViewHelper do
         expect(meta).to eq('<title>someSite:someTitle</title>')
       end
     end
-    # rubocop:enable Rails/OutputSafety
 
     it 'uses custom prefix and suffix if available' do
       subject.display_meta_tags(site: 'someSite', title: 'someTitle', prefix: ' -', suffix: '- ').tap do |meta|
@@ -187,8 +183,11 @@ describe MetaTags::ViewHelper do
     end
 
     it 'fails when title is not a String-like object' do
-      expect { subject.display_meta_tags(site: 'someSite', title: 5) }.to \
-        raise_error ArgumentError, 'Expected a string or an object that implements #to_str'
+      skip("Fails RBS") if ENV["RBS_TEST_TARGET"] # rubocop:disable RSpec/Pending
+
+      expect {
+        subject.display_meta_tags(site: 'someSite', title: 5)
+      }.to raise_error ArgumentError, 'Expected a string or an object that implements #to_str'
     end
 
     it 'builds title in reverse order if :reverse' do

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::TextNormalizer, '.normalize_description' do
+RSpec.describe MetaTags::TextNormalizer, '.normalize_description' do
   describe 'description limit setting' do
     let(:description) { 'd' * (MetaTags.config.description_limit + 10) }
 

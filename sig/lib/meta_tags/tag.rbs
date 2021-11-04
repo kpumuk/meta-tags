@@ -1,0 +1,12 @@
+module MetaTags
+  class Tag
+    attr_reader name: String
+    attr_reader attributes: Hash[String | Symbol, untyped]
+
+    def initialize: (String | Symbol name, ?Hash[String | Symbol, untyped] attributes) -> void
+
+    def render: (_ActionViewBase view) -> void
+
+    def prepare_attributes: (Hash[String | Symbol, untyped] attributes) -> Hash[String | Symbol, untyped]
+  end
+end

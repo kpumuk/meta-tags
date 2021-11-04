@@ -1,0 +1,13 @@
+module MetaTags
+  module ControllerHelper : _ActionControllerBase
+    @page_title: String?
+    @page_description: String?
+    @page_keywords: String? | Array[String]
+
+    def render: (*untyped args) { () -> untyped } -> untyped
+
+    def set_meta_tags: (ViewHelper::meta_tags | (_MetaTagish & Object) meta_tags) -> void
+
+    def meta_tags: () -> MetaTagsCollection
+  end
+end

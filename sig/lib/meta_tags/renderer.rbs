@@ -1,0 +1,50 @@
+module MetaTags
+  class Renderer
+    type meta_key = String | Symbol
+    type meta_value = Hash[meta_key, meta_value] | Array[meta_value] | meta_content
+    type meta_content = String? | Symbol | Integer | bool | (_Timish & Object) | (_Stringish & Object)
+
+    attr_reader meta_tags: MetaTagsCollection
+    attr_reader normalized_meta_tags: Hash[Symbol, meta_value]
+
+    def initialize: (MetaTagsCollection meta_tags) -> void
+
+    def render: (_ActionViewBase view) -> String
+
+    def render_charset: (Array[Tag] tags) -> void
+
+    def render_title: (Array[Tag] tags) -> void
+
+    def render_icon: (Array[Tag] tags) -> void
+
+    def render_with_normalization: (Array[Tag] tags, Symbol name) -> void
+
+    def render_noindex: (Array[Tag] tags) -> void
+
+    def render_refresh: (Array[Tag] tags) -> void
+
+    def render_alternate: (Array[Tag] tags) -> void
+
+    def render_open_search: (Array[Tag] tags) -> void
+
+    def render_links: (Array[Tag] tags) -> void
+
+    def render_canonical_link: (Array[Tag] tags) -> void
+
+    def render_hashes: (Array[Tag] tags, **untyped opts) -> void
+
+    def render_hash: (Array[Tag] tags, untyped key, **untyped opts) -> void
+
+    def render_custom: (Array[Tag] tags) -> void
+
+    def process_tree: (Array[Tag] tags, meta_key property, meta_value content, ?itemprop: meta_key? itemprop, **untyped opts) -> void
+
+    def process_hash: (Array[Tag] tags, meta_key property, Hash[meta_key, meta_value] content, **untyped opts) -> void
+
+    def process_array: (Array[Tag] tags, meta_key property, Array[meta_value] content, **untyped opts) -> void
+
+    def render_tag: (Array[Tag] tags, meta_key name, meta_content value, ?itemprop: meta_key? itemprop) -> void
+
+    def configured_name_key: (meta_key name) -> Symbol
+  end
+end

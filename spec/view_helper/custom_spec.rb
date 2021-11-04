@@ -2,9 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::ViewHelper do
-  subject { ActionView::Base.new }
-
+RSpec.describe MetaTags::ViewHelper do
   describe 'display any named meta tag that you want to' do
     it 'displays testing meta tag' do
       subject.display_meta_tags(testing: 'this is a test').tap do |meta|
@@ -37,6 +35,32 @@ describe MetaTags::ViewHelper do
       end
     end
 
+    it 'allows to specify itemprop' do
+      subject.set_meta_tags(
+        og: {
+          image: {
+            _:        'image.png',
+            type:     'image/jpeg',
+            width:    200,
+            height:   {
+              _:        200,
+              itemprop: 'custom',
+            },
+            itemprop: 'image',
+          },
+        },
+      )
+
+      meta = subject.display_meta_tags
+      aggregate_failures 'meta tags' do
+        expect(meta).to have_tag('meta', with: { property: "og:image", content: "image.png", itemprop: "image" })
+        expect(meta).to have_tag('meta', with: { property: "og:image:type", content: "image/jpeg" }, without: { itemprop: "image" })
+        expect(meta).to have_tag('meta', with: { property: "og:image:width", content: "200" }, without: { itemprop: "image" })
+        expect(meta).to have_tag('meta', with: { property: "og:image:height", content: "200", itemprop: "custom" })
+        expect(meta).not_to have_tag('meta', with: { property: "og:image:itemprop" })
+      end
+    end
+
     it 'displays meta tags with hashes and arrays' do
       test_hashes_and_arrays
     end
@@ -44,15 +68,15 @@ describe MetaTags::ViewHelper do
     it 'uses `property` attribute instead of `name` for custom tags listed under `property_tags` in config' do
       MetaTags.config.property_tags.push(:testing1, 'testing2', 'namespace:')
 
-      subject.display_meta_tags('testing1': 'test').tap do |meta|
+      subject.display_meta_tags('testing1' => 'test').tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "test", property: "testing1" })
       end
 
-      subject.display_meta_tags('testing2:nested': 'nested test').tap do |meta|
+      subject.display_meta_tags('testing2:nested' => 'nested test').tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "nested test", property: "testing2:nested" })
       end
 
-      subject.display_meta_tags('namespace:thing': 'namespace test').tap do |meta|
+      subject.display_meta_tags('namespace:thing' => 'namespace test').tap do |meta|
         expect(meta).to have_tag('meta', with: { content: "namespace test", property: "namespace:thing" })
       end
     end

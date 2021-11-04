@@ -8,6 +8,8 @@ end
 require 'meta_tags'
 require 'rspec-html-matchers'
 
+Dir[File.expand_path("support/**/*.rb", __dir__)].sort.each { |f| require f }
+
 RSpec.configure do |config|
   if config.files_to_run.one?
     # RSpec filters the backtrace by default so as not to be so noisy.
@@ -20,6 +22,17 @@ RSpec.configure do |config|
     # (e.g. via a command-line flag).
     config.formatter = 'doc' if config.formatters.none?
   end
+
+  # Limits the available syntax to the non-monkey patched
+  # syntax that is recommended. For more details, see:
+  #   - http://rspec.info/blog/2012/06/rspecs-new-expectation-syntax/
+  #   - http://www.teaisaweso.me/blog/2013/05/27/rspecs-new-message-expectation-syntax/
+  #   - http://rspec.info/blog/2014/05/notable-changes-in-rspec-3/#zero-monkey-patching-mode
+  config.disable_monkey_patching!
+
+  # This setting enables warnings. It's recommended, but in
+  # some cases may be too noisy due to issues in dependencies.
+  config.warnings = true
 
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing
@@ -61,46 +74,5 @@ RSpec.configure do |config|
     # Prevents you from mocking or stubbing a method that does not exist on
     # a real object. This is generally recommended.
     mocks.verify_partial_doubles = true
-  end
-end
-
-shared_examples_for '.set_meta_tags' do
-  context 'with a Hash parameter' do
-    it 'updates meta tags' do
-      subject.set_meta_tags(title: 'hello')
-      expect(subject.meta_tags[:title]).to eq('hello')
-
-      subject.set_meta_tags(title: 'world')
-      expect(subject.meta_tags[:title]).to eq('world')
-    end
-  end
-
-  context 'with an Object responding to #to_meta_tags parameter' do
-    it 'updates meta tags' do
-      object1 = double(to_meta_tags: { title: 'hello' })
-      object2 = double(to_meta_tags: { title: 'world' })
-
-      subject.set_meta_tags(object1)
-      expect(subject.meta_tags[:title]).to eq('hello')
-
-      subject.set_meta_tags(object2)
-      expect(subject.meta_tags[:title]).to eq('world')
-    end
-  end
-
-  it 'uses deep merge when updating meta tags' do
-    subject.set_meta_tags(og: { title: 'hello' })
-    expect(subject.meta_tags[:og]).to eq('title' => 'hello')
-
-    subject.set_meta_tags(og: { description: 'world' })
-    expect(subject.meta_tags[:og]).to eq('title' => 'hello', 'description' => 'world')
-
-    subject.set_meta_tags(og: { admin: { id: 1 } })
-    expect(subject.meta_tags[:og]).to eq('title' => 'hello', 'description' => 'world', 'admin' => { 'id' => 1 })
-  end
-
-  it 'normalizes :open_graph to :og' do
-    subject.set_meta_tags(open_graph: { title: 'hello' })
-    expect(subject.meta_tags[:og]).to eq('title' => 'hello')
   end
 end

@@ -2,9 +2,7 @@
 
 require 'spec_helper'
 
-describe MetaTags::ViewHelper do
-  subject { ActionView::Base.new }
-
+RSpec.describe MetaTags::ViewHelper do
   describe 'displaying canonical url' do
     it 'does not display canonical url by default' do
       subject.display_meta_tags(site: 'someSite').tap do |meta|
@@ -22,6 +20,37 @@ describe MetaTags::ViewHelper do
     it 'displays default canonical url' do
       subject.display_meta_tags(site: 'someSite', canonical: 'http://example.com/base/url').tap do |meta|
         expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "canonical" })
+      end
+    end
+
+    it 'does display canonical url when page is marked as noindex per default' do
+      subject.set_meta_tags(canonical: 'http://example.com/base/url', noindex: true)
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "canonical" })
+      end
+    end
+
+    describe 'with config.skip_canonical_links_on_noindex is set' do
+      around do |example|
+        default = MetaTags.config.skip_canonical_links_on_noindex
+        MetaTags.config.skip_canonical_links_on_noindex = true
+        example.run
+        MetaTags.config.skip_canonical_links_on_noindex = default
+      end
+
+      it 'does display canonical url when page is marked as index' do
+        subject.set_meta_tags(canonical: 'http://example.com/base/url', index: true)
+        subject.display_meta_tags(site: 'someSite').tap do |meta|
+          expect(meta).to have_tag('link', with: { href: "http://example.com/base/url", rel: "canonical" })
+        end
+      end
+
+      it 'does not display canonical url when page is marked as noindex' do
+        subject.set_meta_tags(canonical: 'http://example.com/base/url', noindex: true)
+        subject.display_meta_tags(site: 'someSite').tap do |meta|
+          expect(meta).not_to have_tag('link', with: { href: "http://example.com/base/url", rel: "canonical" })
+          expect(meta).not_to have_tag('meta', with: { content: "http://example.com/base/url", name: "canonical" })
+        end
       end
     end
   end
@@ -148,6 +177,27 @@ describe MetaTags::ViewHelper do
     it 'displays default amphtml url' do
       subject.display_meta_tags(site: 'someSite', amphtml: 'http://example.com/base/url.amp').tap do |meta|
         expect(meta).to have_tag('link', with: { href: "http://example.com/base/url.amp", rel: "amphtml" })
+      end
+    end
+  end
+
+  describe 'displaying manifest url' do
+    it 'does not display manifest url by default' do
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).not_to have_tag('link', with: { rel: "manifest" })
+      end
+    end
+
+    it 'displays manifest url when "set_meta_tags" used' do
+      subject.set_meta_tags(manifest: '/manifest.webmanifest')
+      subject.display_meta_tags(site: 'someSite').tap do |meta|
+        expect(meta).to have_tag('link', with: { href: "/manifest.webmanifest", rel: "manifest" })
+      end
+    end
+
+    it 'displays default manifest url' do
+      subject.display_meta_tags(site: 'someSite', manifest: '/manifest.webmanifest').tap do |meta|
+        expect(meta).to have_tag('link', with: { href: "/manifest.webmanifest", rel: "manifest" })
       end
     end
   end

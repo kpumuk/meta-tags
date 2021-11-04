@@ -1,0 +1,4 @@
+module MetaTags
+  # Gem version.
+  VERSION: ::String
+end

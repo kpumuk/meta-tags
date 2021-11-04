@@ -4,30 +4,35 @@
 #
 <%
   builds = [
-    # 2.4
-    ['2.4', '4.2.10'],
-    ['2.4', '5.0.7'],
-    ['2.4', '5.1.6'],
-    ['2.4', '5.2.2'],
-
     # 2.5
-    ['2.5', '4.2.10'],
-    ['2.5', '5.0.7'],
-    ['2.5', '5.1.6'],
-    ['2.5', '5.2.2', true],
-    ['2.5', '6.0.0.beta1'],
+    ['2.5', '5.1.7'],
+    ['2.5', '5.2.6'],
+    ['2.5', '6.0.4'],
+    ['2.5', '6.1.0'],
 
     # 2.6
-    ['2.6', '5.0.7'],
-    ['2.6', '5.1.6'],
-    ['2.6', '5.2.2'],
-    ['2.6', '6.0.0.beta1'],
+    ['2.6', '5.1.7'],
+    ['2.6', '5.2.6'],
+    ['2.6', '6.0.4'],
+    ['2.6', '6.1.4'],
+
+    # 2.7
+    ['2.7', '5.1.7'],
+    ['2.7', '5.2.6'],
+    ['2.7', '6.0.4'],
+    ['2.7', '6.1.4'],
+    ['2.7', '7.0.0.alpha2'],
+
+    # 3.0
+    ['3.0', '6.0.4'],
+    ['3.0', '6.1.4', true],
+    ['3.0', '7.0.0.alpha2'],
   ]
 
-  cc_build = builds.find { |_, _, submit_cc| submit_cc }
+  main_build = builds.find { |_, _, is_main_build| is_main_build }
 %>
 
-version: 2
+version: 2.1
 
 shared_build_steps: &shared_build_steps
   - checkout
@@ -78,6 +83,19 @@ shared_build_steps: &shared_build_steps
                           --format progress \
                           $TEST_FILES
 
+  - when:
+      condition: << parameters.is_main_build >>
+      steps:
+        - run:
+            name: Verify Ruby Types (Static)
+            command: |
+              bundle exec rake steep
+
+        - run:
+            name: Verify Ruby Types (Runtime)
+            command: |
+              bundle exec rake rbs:spec
+
   - run:
       name: Formatting Coverage
       command: |
@@ -97,20 +115,25 @@ shared_build_steps: &shared_build_steps
         - "*/cc-test-reporter"
 
 jobs:
-  <% builds.each do |ruby_version, rails_version, submit_cc| %>
-  build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version %>:
+  <% builds.each do |ruby_version, rails_version, is_main_build| %>
+  build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version.tr('.', '_') %>:
+    parameters:
+      is_main_build:
+        type: boolean
+        default: false
     docker:
       - image: circleci/ruby:<%= ruby_version %>
         environment:
           RAILS_VERSION: <%= rails_version %>
           ENABLE_CODE_COVERAGE: 1
+          NO_STEEP: <%= is_main_build ? 0 : 1  %>
     working_directory: ~/meta-tags/ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version %>
     steps: *shared_build_steps
   <% end %>
 
   upload-coverage:
     docker:
-      - image: circleci/ruby:<%= cc_build[0] %>
+      - image: circleci/ruby:<%= main_build[0] %>
         environment:
           CC_TEST_REPORTER_ID: 8792cbc0d1780830ddd3dd7eb1c25f09f386ba8f04449ad830039469406a6ab3
     steps:
@@ -120,7 +143,7 @@ jobs:
       - run:
           name: Uploading Code Coverage
           command: |
-            cd /tmp/workspace/ruby<%= cc_build[0].tr('.', '') %>-rails-<%= cc_build[1] %>
+            cd /tmp/workspace/ruby<%= main_build[0].tr('.', '') %>-rails-<%= main_build[1] %>
             ./cc-test-reporter upload-coverage --input coverage/codeclimate.coverage.json || true
   tests:
     docker:
@@ -134,16 +157,17 @@ workflows:
   version: 2
   test:
     jobs:
-      <% builds.each do |ruby_version, rails_version| %>
-      - build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version %>
+      <% builds.each do |ruby_version, rails_version, is_main_build| %>
+      - build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version.tr('.', '_') %>:
+          is_main_build: <%= !!is_main_build %>
       <% end %>
 
       - upload-coverage:
           requires:
-            - build-ruby<%= cc_build[0].tr('.', '') %>-rails-<%= cc_build[1] %>
+            - build-ruby<%= main_build[0].tr('.', '') %>-rails-<%= main_build[1].tr('.', '_') %>
 
       - tests:
           requires:
-            <% builds.each do |ruby_version, rails_version, submit_cc| %>
-            - build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version %>
+            <% builds.each do |ruby_version, rails_version| %>
+            - build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version.tr('.', '_') %>
             <% end %>
