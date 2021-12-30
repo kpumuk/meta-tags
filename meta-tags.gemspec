@@ -33,10 +33,11 @@ Gem::Specification.new do |spec|
   spec.signing_key   = File.expand_path("~/.ssh/gem-kpumuk.pem") if $PROGRAM_NAME.end_with?('gem')
 
   spec.metadata = {
-    "bug_tracker_uri"   => "https://github.com/kpumuk/meta-tags/issues/",
-    "changelog_uri"     => "https://github.com/kpumuk/meta-tags/blob/main/CHANGELOG.md",
-    "documentation_uri" => "https://rubydoc.info/github/kpumuk/meta-tags/",
-    "homepage_uri"      => "https://github.com/kpumuk/meta-tags/",
-    "source_code_uri"   => "https://github.com/kpumuk/meta-tags/",
+    "bug_tracker_uri"       => "https://github.com/kpumuk/meta-tags/issues/",
+    "changelog_uri"         => "https://github.com/kpumuk/meta-tags/blob/main/CHANGELOG.md",
+    "documentation_uri"     => "https://rubydoc.info/github/kpumuk/meta-tags/",
+    "homepage_uri"          => "https://github.com/kpumuk/meta-tags/",
+    "source_code_uri"       => "https://github.com/kpumuk/meta-tags/",
+    "rubygems_mfa_required" => "true",
   }
 end
