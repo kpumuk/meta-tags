@@ -67,12 +67,13 @@ shared_build_steps: &shared_build_steps
   - run:
       name: Installing Dependencies
       command: |
-        bundle check || (bundle install --jobs=4 --retry=3 --path vendor/bundle && bundle clean)
+        bundle config set --local path vendor/bundle
+        bundle check || (bundle install --jobs=4 --retry=3 && bundle clean)
 
   - save_cache:
       paths:
         - ./vendor/bundle
-        - /usr/local/bundle/config
+        # - /usr/local/bundle/config
       key: dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "RAILS_VERSION" }}-{{ checksum "Gemfile" }}-{{ checksum "meta-tags.gemspec" }}
 
   # run tests!
@@ -127,7 +128,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:<%= ruby_version %>
+      - image: cimg/ruby:<%= ruby_version %>
         environment:
           RAILS_VERSION: <%= rails_version %>
           ENABLE_CODE_COVERAGE: 1
@@ -138,7 +139,7 @@ jobs:
 
   upload-coverage:
     docker:
-      - image: circleci/ruby:<%= main_build[0] %>
+      - image: cimg/ruby:<%= main_build[0] %>
         environment:
           CC_TEST_REPORTER_ID: 8792cbc0d1780830ddd3dd7eb1c25f09f386ba8f04449ad830039469406a6ab3
     steps:

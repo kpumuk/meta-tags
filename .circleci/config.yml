@@ -34,12 +34,13 @@ shared_build_steps: &shared_build_steps
   - run:
       name: Installing Dependencies
       command: |
-        bundle check || (bundle install --jobs=4 --retry=3 --path vendor/bundle && bundle clean)
+        bundle config set --local path vendor/bundle
+        bundle check || (bundle install --jobs=4 --retry=3 && bundle clean)
 
   - save_cache:
       paths:
         - ./vendor/bundle
-        - /usr/local/bundle/config
+        # - /usr/local/bundle/config
       key: dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "RAILS_VERSION" }}-{{ checksum "Gemfile" }}-{{ checksum "meta-tags.gemspec" }}
 
   # run tests!
@@ -94,7 +95,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:2.5
+      - image: cimg/ruby:2.5
         environment:
           RAILS_VERSION: 5.1.7
           ENABLE_CODE_COVERAGE: 1
@@ -108,7 +109,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:2.5
+      - image: cimg/ruby:2.5
         environment:
           RAILS_VERSION: 5.2.6
           ENABLE_CODE_COVERAGE: 1
@@ -122,7 +123,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:2.5
+      - image: cimg/ruby:2.5
         environment:
           RAILS_VERSION: 6.0.4
           ENABLE_CODE_COVERAGE: 1
@@ -136,7 +137,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:2.5
+      - image: cimg/ruby:2.5
         environment:
           RAILS_VERSION: 6.1.0
           ENABLE_CODE_COVERAGE: 1
@@ -150,7 +151,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:2.6
+      - image: cimg/ruby:2.6
         environment:
           RAILS_VERSION: 5.1.7
           ENABLE_CODE_COVERAGE: 1
@@ -164,7 +165,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:2.6
+      - image: cimg/ruby:2.6
         environment:
           RAILS_VERSION: 5.2.6
           ENABLE_CODE_COVERAGE: 1
@@ -178,7 +179,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:2.6
+      - image: cimg/ruby:2.6
         environment:
           RAILS_VERSION: 6.0.4
           ENABLE_CODE_COVERAGE: 1
@@ -192,7 +193,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:2.6
+      - image: cimg/ruby:2.6
         environment:
           RAILS_VERSION: 6.1.4
           ENABLE_CODE_COVERAGE: 1
@@ -206,7 +207,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:2.7
+      - image: cimg/ruby:2.7
         environment:
           RAILS_VERSION: 5.1.7
           ENABLE_CODE_COVERAGE: 1
@@ -220,7 +221,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:2.7
+      - image: cimg/ruby:2.7
         environment:
           RAILS_VERSION: 5.2.6
           ENABLE_CODE_COVERAGE: 1
@@ -234,7 +235,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:2.7
+      - image: cimg/ruby:2.7
         environment:
           RAILS_VERSION: 6.0.4
           ENABLE_CODE_COVERAGE: 1
@@ -248,7 +249,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:2.7
+      - image: cimg/ruby:2.7
         environment:
           RAILS_VERSION: 6.1.4
           ENABLE_CODE_COVERAGE: 1
@@ -262,7 +263,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:2.7
+      - image: cimg/ruby:2.7
         environment:
           RAILS_VERSION: 7.0.0
           ENABLE_CODE_COVERAGE: 1
@@ -276,7 +277,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:3.0
+      - image: cimg/ruby:3.0
         environment:
           RAILS_VERSION: 6.0.4
           ENABLE_CODE_COVERAGE: 1
@@ -290,7 +291,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:3.0
+      - image: cimg/ruby:3.0
         environment:
           RAILS_VERSION: 6.1.4
           ENABLE_CODE_COVERAGE: 1
@@ -304,7 +305,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:3.0
+      - image: cimg/ruby:3.0
         environment:
           RAILS_VERSION: 7.0.0
           ENABLE_CODE_COVERAGE: 1
@@ -318,7 +319,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:3.1
+      - image: cimg/ruby:3.1
         environment:
           RAILS_VERSION: 6.0.4
           ENABLE_CODE_COVERAGE: 1
@@ -332,7 +333,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:3.1
+      - image: cimg/ruby:3.1
         environment:
           RAILS_VERSION: 6.1.4
           ENABLE_CODE_COVERAGE: 1
@@ -346,7 +347,7 @@ jobs:
         type: boolean
         default: false
     docker:
-      - image: circleci/ruby:3.1
+      - image: cimg/ruby:3.1
         environment:
           RAILS_VERSION: 7.0.0
           ENABLE_CODE_COVERAGE: 1
@@ -357,7 +358,7 @@ jobs:
 
   upload-coverage:
     docker:
-      - image: circleci/ruby:3.1
+      - image: cimg/ruby:3.1
         environment:
           CC_TEST_REPORTER_ID: 8792cbc0d1780830ddd3dd7eb1c25f09f386ba8f04449ad830039469406a6ab3
     steps:
