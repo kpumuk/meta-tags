@@ -245,7 +245,7 @@ module MetaTags
         end
 
         normalized_value = if value.kind_of?(Symbol)
-                             normalized_meta_tags[value]
+                             normalized_meta_tags[value] || meta_tags.extract(value)
                            else
                              value
                            end

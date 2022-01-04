@@ -59,9 +59,9 @@ RSpec.describe MetaTags::ViewHelper, 'displaying Open Graph meta tags' do
   end
 
   it "displays mirrored content" do
-    subject.set_meta_tags(title: 'someTitle')
-    subject.display_meta_tags(open_graph: { title: :title }).tap do |meta|
-      expect(meta).to have_tag('meta', with: { content: "someTitle", property: "og:title" })
+    subject.set_meta_tags(canonical_link: 'https://example.org')
+    subject.display_meta_tags(open_graph: { url: :canonical_link }).tap do |meta|
+      expect(meta).to have_tag('meta', with: { content: "https://example.org", property: "og:url" })
     end
   end
 
