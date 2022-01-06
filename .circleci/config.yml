@@ -40,7 +40,6 @@ shared_build_steps: &shared_build_steps
   - save_cache:
       paths:
         - ./vendor/bundle
-        # - /usr/local/bundle/config
       key: dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "RAILS_VERSION" }}-{{ checksum "Gemfile" }}-{{ checksum "meta-tags.gemspec" }}
 
   # run tests!
@@ -257,7 +256,7 @@ jobs:
     working_directory: ~/meta-tags/ruby27-rails-6.1.4
     steps: *shared_build_steps
   
-  build-ruby27-rails-7_0_0:
+  build-ruby27-rails-7_0_1:
     parameters:
       is_main_build:
         type: boolean
@@ -265,10 +264,10 @@ jobs:
     docker:
       - image: cimg/ruby:2.7
         environment:
-          RAILS_VERSION: 7.0.0
+          RAILS_VERSION: 7.0.1
           ENABLE_CODE_COVERAGE: 1
           NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby27-rails-7.0.0
+    working_directory: ~/meta-tags/ruby27-rails-7.0.1
     steps: *shared_build_steps
   
   build-ruby30-rails-6_0_4:
@@ -299,7 +298,7 @@ jobs:
     working_directory: ~/meta-tags/ruby30-rails-6.1.4
     steps: *shared_build_steps
   
-  build-ruby30-rails-7_0_0:
+  build-ruby30-rails-7_0_1:
     parameters:
       is_main_build:
         type: boolean
@@ -307,10 +306,10 @@ jobs:
     docker:
       - image: cimg/ruby:3.0
         environment:
-          RAILS_VERSION: 7.0.0
+          RAILS_VERSION: 7.0.1
           ENABLE_CODE_COVERAGE: 1
           NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby30-rails-7.0.0
+    working_directory: ~/meta-tags/ruby30-rails-7.0.1
     steps: *shared_build_steps
   
   build-ruby31-rails-6_0_4:
@@ -341,7 +340,7 @@ jobs:
     working_directory: ~/meta-tags/ruby31-rails-6.1.4
     steps: *shared_build_steps
   
-  build-ruby31-rails-7_0_0:
+  build-ruby31-rails-7_0_1:
     parameters:
       is_main_build:
         type: boolean
@@ -349,10 +348,10 @@ jobs:
     docker:
       - image: cimg/ruby:3.1
         environment:
-          RAILS_VERSION: 7.0.0
+          RAILS_VERSION: 7.0.1
           ENABLE_CODE_COVERAGE: 1
           NO_STEEP: 0
-    working_directory: ~/meta-tags/ruby31-rails-7.0.0
+    working_directory: ~/meta-tags/ruby31-rails-7.0.1
     steps: *shared_build_steps
   
 
@@ -368,7 +367,7 @@ jobs:
       - run:
           name: Uploading Code Coverage
           command: |
-            cd /tmp/workspace/ruby31-rails-7.0.0
+            cd /tmp/workspace/ruby31-rails-7.0.1
             ./cc-test-reporter upload-coverage --input coverage/codeclimate.coverage.json || true
   tests:
     docker:
@@ -419,7 +418,7 @@ workflows:
       - build-ruby27-rails-6_1_4:
           is_main_build: false
       
-      - build-ruby27-rails-7_0_0:
+      - build-ruby27-rails-7_0_1:
           is_main_build: false
       
       - build-ruby30-rails-6_0_4:
@@ -428,7 +427,7 @@ workflows:
       - build-ruby30-rails-6_1_4:
           is_main_build: false
       
-      - build-ruby30-rails-7_0_0:
+      - build-ruby30-rails-7_0_1:
           is_main_build: false
       
       - build-ruby31-rails-6_0_4:
@@ -437,13 +436,13 @@ workflows:
       - build-ruby31-rails-6_1_4:
           is_main_build: false
       
-      - build-ruby31-rails-7_0_0:
+      - build-ruby31-rails-7_0_1:
           is_main_build: true
       
 
       - upload-coverage:
           requires:
-            - build-ruby31-rails-7_0_0
+            - build-ruby31-rails-7_0_1
 
       - tests:
           requires:
@@ -472,17 +471,17 @@ workflows:
             
             - build-ruby27-rails-6_1_4
             
-            - build-ruby27-rails-7_0_0
+            - build-ruby27-rails-7_0_1
             
             - build-ruby30-rails-6_0_4
             
             - build-ruby30-rails-6_1_4
             
-            - build-ruby30-rails-7_0_0
+            - build-ruby30-rails-7_0_1
             
             - build-ruby31-rails-6_0_4
             
             - build-ruby31-rails-6_1_4
             
-            - build-ruby31-rails-7_0_0
+            - build-ruby31-rails-7_0_1
             
