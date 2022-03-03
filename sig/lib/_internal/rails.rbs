@@ -1,0 +1,10 @@
+class ::Hash[unchecked out K, unchecked out V]
+  def with_indifferent_access: () -> instance
+  def deep_merge!: (instance other) -> self
+end
+
+class ::Object
+  def presence: () -> String?
+  def blank?: () -> bool
+  def present?: () -> bool
+end
