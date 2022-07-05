@@ -205,7 +205,7 @@ module MetaTags
       # What should we truncate first: site title or page title?
       main_title = MetaTags.config.truncate_site_title_first ? title : [site_title]
 
-      main_length = main_title.map(&:length).sum + (main_title.size - 1) * separator.length
+      main_length = main_title.map(&:length).sum + ((main_title.size - 1) * separator.length)
       main_limited_length = global_limit
 
       secondary_limited_length = global_limit - (main_length > 0 ? main_length + separator.length : 0)

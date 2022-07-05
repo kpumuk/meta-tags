@@ -10,13 +10,15 @@ if ENV['RAILS_VERSION']
   gem 'railties', "~> #{ENV['RAILS_VERSION']}"
 end
 
-# Ruby typings
-gem 'steep', platform: :mri unless ENV["NO_STEEP"] == '1'
+unless ENV["NO_STEEP"] == '1'
+  # Ruby typings
+  gem 'steep', '~> 1.0.1', platform: :mri
+end
 
 group :test do
   # Lock rubocop to a specific version we use on CI. If you update this,
   # don't forget to switch rubocop channel in the .codeclimate.yml
-  gem 'rubocop', '~> 1.18.0'
+  gem 'rubocop', '= 1.31.0'
   # Cops for rails apps
   gem 'rubocop-rails'
   # Apply RSpec rubocop cops
