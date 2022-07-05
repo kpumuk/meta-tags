@@ -24,7 +24,7 @@ group :test do
   # Apply RSpec rubocop cops
   gem 'rubocop-rspec', require: false
   # We use this gem on CI to calculate code coverage.
-  gem 'simplecov', '>= 0.17.0', '< 0.18'
+  gem 'simplecov', '~> 0.21.2'
   # Format RSpec output for CircleCI
   gem 'rspec_junit_formatter'
 end
