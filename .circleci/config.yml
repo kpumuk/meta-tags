@@ -102,7 +102,7 @@ jobs:
     working_directory: ~/meta-tags/ruby25-rails-5.1.7
     steps: *shared_build_steps
   
-  build-ruby25-rails-5_2_6:
+  build-ruby25-rails-5_2_8:
     parameters:
       is_main_build:
         type: boolean
@@ -110,13 +110,13 @@ jobs:
     docker:
       - image: cimg/ruby:2.5
         environment:
-          RAILS_VERSION: 5.2.6
+          RAILS_VERSION: 5.2.8
           ENABLE_CODE_COVERAGE: 1
           NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby25-rails-5.2.6
+    working_directory: ~/meta-tags/ruby25-rails-5.2.8
     steps: *shared_build_steps
   
-  build-ruby25-rails-6_0_4:
+  build-ruby25-rails-6_0_5:
     parameters:
       is_main_build:
         type: boolean
@@ -124,13 +124,13 @@ jobs:
     docker:
       - image: cimg/ruby:2.5
         environment:
-          RAILS_VERSION: 6.0.4
+          RAILS_VERSION: 6.0.5
           ENABLE_CODE_COVERAGE: 1
           NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby25-rails-6.0.4
+    working_directory: ~/meta-tags/ruby25-rails-6.0.5
     steps: *shared_build_steps
   
-  build-ruby25-rails-6_1_0:
+  build-ruby25-rails-6_1_6:
     parameters:
       is_main_build:
         type: boolean
@@ -138,10 +138,10 @@ jobs:
     docker:
       - image: cimg/ruby:2.5
         environment:
-          RAILS_VERSION: 6.1.0
+          RAILS_VERSION: 6.1.6
           ENABLE_CODE_COVERAGE: 1
           NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby25-rails-6.1.0
+    working_directory: ~/meta-tags/ruby25-rails-6.1.6
     steps: *shared_build_steps
   
   build-ruby26-rails-5_1_7:
@@ -256,7 +256,7 @@ jobs:
     working_directory: ~/meta-tags/ruby27-rails-6.1.6
     steps: *shared_build_steps
   
-  build-ruby27-rails-7_0_1:
+  build-ruby27-rails-7_0_3:
     parameters:
       is_main_build:
         type: boolean
@@ -264,10 +264,10 @@ jobs:
     docker:
       - image: cimg/ruby:2.7
         environment:
-          RAILS_VERSION: 7.0.1
+          RAILS_VERSION: 7.0.3
           ENABLE_CODE_COVERAGE: 1
           NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby27-rails-7.0.1
+    working_directory: ~/meta-tags/ruby27-rails-7.0.3
     steps: *shared_build_steps
   
   build-ruby30-rails-6_0_5:
@@ -284,7 +284,7 @@ jobs:
     working_directory: ~/meta-tags/ruby30-rails-6.0.5
     steps: *shared_build_steps
   
-  build-ruby30-rails-6_1_4:
+  build-ruby30-rails-6_1_6:
     parameters:
       is_main_build:
         type: boolean
@@ -292,13 +292,13 @@ jobs:
     docker:
       - image: cimg/ruby:3.0
         environment:
-          RAILS_VERSION: 6.1.4
+          RAILS_VERSION: 6.1.6
           ENABLE_CODE_COVERAGE: 1
           NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby30-rails-6.1.4
+    working_directory: ~/meta-tags/ruby30-rails-6.1.6
     steps: *shared_build_steps
   
-  build-ruby30-rails-7_0_1:
+  build-ruby30-rails-7_0_3:
     parameters:
       is_main_build:
         type: boolean
@@ -306,10 +306,10 @@ jobs:
     docker:
       - image: cimg/ruby:3.0
         environment:
-          RAILS_VERSION: 7.0.1
+          RAILS_VERSION: 7.0.3
           ENABLE_CODE_COVERAGE: 1
           NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby30-rails-7.0.1
+    working_directory: ~/meta-tags/ruby30-rails-7.0.3
     steps: *shared_build_steps
   
   build-ruby31-rails-6_0_5:
@@ -385,13 +385,13 @@ workflows:
       - build-ruby25-rails-5_1_7:
           is_main_build: false
       
-      - build-ruby25-rails-5_2_6:
+      - build-ruby25-rails-5_2_8:
           is_main_build: false
       
-      - build-ruby25-rails-6_0_4:
+      - build-ruby25-rails-6_0_5:
           is_main_build: false
       
-      - build-ruby25-rails-6_1_0:
+      - build-ruby25-rails-6_1_6:
           is_main_build: false
       
       - build-ruby26-rails-5_1_7:
@@ -418,16 +418,16 @@ workflows:
       - build-ruby27-rails-6_1_6:
           is_main_build: false
       
-      - build-ruby27-rails-7_0_1:
+      - build-ruby27-rails-7_0_3:
           is_main_build: false
       
       - build-ruby30-rails-6_0_5:
           is_main_build: false
       
-      - build-ruby30-rails-6_1_4:
+      - build-ruby30-rails-6_1_6:
           is_main_build: false
       
-      - build-ruby30-rails-7_0_1:
+      - build-ruby30-rails-7_0_3:
           is_main_build: false
       
       - build-ruby31-rails-6_0_5:
@@ -449,11 +449,11 @@ workflows:
             
             - build-ruby25-rails-5_1_7
             
-            - build-ruby25-rails-5_2_6
+            - build-ruby25-rails-5_2_8
             
-            - build-ruby25-rails-6_0_4
+            - build-ruby25-rails-6_0_5
             
-            - build-ruby25-rails-6_1_0
+            - build-ruby25-rails-6_1_6
             
             - build-ruby26-rails-5_1_7
             
@@ -471,13 +471,13 @@ workflows:
             
             - build-ruby27-rails-6_1_6
             
-            - build-ruby27-rails-7_0_1
+            - build-ruby27-rails-7_0_3
             
             - build-ruby30-rails-6_0_5
             
-            - build-ruby30-rails-6_1_4
+            - build-ruby30-rails-6_1_6
             
-            - build-ruby30-rails-7_0_1
+            - build-ruby30-rails-7_0_3
             
             - build-ruby31-rails-6_0_5
             
