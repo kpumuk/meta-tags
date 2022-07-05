@@ -302,8 +302,6 @@ jobs:
   upload-coverage:
     docker:
       - image: cimg/ruby:3.1
-        environment:
-          CC_TEST_REPORTER_ID: 8792cbc0d1780830ddd3dd7eb1c25f09f386ba8f04449ad830039469406a6ab3
     steps:
       - attach_workspace:
           at: /tmp/workspace
