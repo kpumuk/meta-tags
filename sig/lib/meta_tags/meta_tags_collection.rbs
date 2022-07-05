@@ -28,7 +28,7 @@ module MetaTags
 
     def extract_robots: () -> Hash[String, String]
 
-    def normalize_open_graph: (Hash[String | Symbol, untyped] meta_tags) -> Hash[String | Symbol, untyped]
+    def normalize_open_graph: (Hash[String | Symbol, untyped] meta_tags) -> ActiveSupport::HashWithIndifferentAccess[String | Symbol, untyped]
 
     def extract_separator_section: (String | Symbol name, String default) -> String
 
