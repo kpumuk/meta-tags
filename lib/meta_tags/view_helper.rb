@@ -27,7 +27,7 @@ module MetaTags
     #
     # @see #display_meta_tags
     #
-    def set_meta_tags(meta_tags = {}) # rubocop:disable Naming/AccessorMethodName
+    def set_meta_tags(meta_tags = {})
       self.meta_tags.update(meta_tags)
     end
 

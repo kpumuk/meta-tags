@@ -10,7 +10,8 @@ engines:
 
   rubocop:
     enabled: true
-    channel: rubocop-1-23-0
+    # Check https://github.com/codeclimate/codeclimate-rubocop/branches/all?query=channel%2Frubocop
+    channel: rubocop-1-31-0
 
 ratings:
   paths:
