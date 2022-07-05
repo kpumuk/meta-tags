@@ -88,62 +88,6 @@ shared_build_steps: &shared_build_steps
 
 jobs:
   
-  build-ruby25-rails-5_1_7:
-    parameters:
-      is_main_build:
-        type: boolean
-        default: false
-    docker:
-      - image: cimg/ruby:2.5
-        environment:
-          RAILS_VERSION: 5.1.7
-          ENABLE_CODE_COVERAGE: 1
-          NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby25-rails-5.1.7
-    steps: *shared_build_steps
-  
-  build-ruby25-rails-5_2_8:
-    parameters:
-      is_main_build:
-        type: boolean
-        default: false
-    docker:
-      - image: cimg/ruby:2.5
-        environment:
-          RAILS_VERSION: 5.2.8
-          ENABLE_CODE_COVERAGE: 1
-          NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby25-rails-5.2.8
-    steps: *shared_build_steps
-  
-  build-ruby25-rails-6_0_5:
-    parameters:
-      is_main_build:
-        type: boolean
-        default: false
-    docker:
-      - image: cimg/ruby:2.5
-        environment:
-          RAILS_VERSION: 6.0.5
-          ENABLE_CODE_COVERAGE: 1
-          NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby25-rails-6.0.5
-    steps: *shared_build_steps
-  
-  build-ruby25-rails-6_1_6:
-    parameters:
-      is_main_build:
-        type: boolean
-        default: false
-    docker:
-      - image: cimg/ruby:2.5
-        environment:
-          RAILS_VERSION: 6.1.6
-          ENABLE_CODE_COVERAGE: 1
-          NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby25-rails-6.1.6
-    steps: *shared_build_steps
-  
   build-ruby26-rails-5_1_7:
     parameters:
       is_main_build:
@@ -382,18 +326,6 @@ workflows:
   test:
     jobs:
       
-      - build-ruby25-rails-5_1_7:
-          is_main_build: false
-      
-      - build-ruby25-rails-5_2_8:
-          is_main_build: false
-      
-      - build-ruby25-rails-6_0_5:
-          is_main_build: false
-      
-      - build-ruby25-rails-6_1_6:
-          is_main_build: false
-      
       - build-ruby26-rails-5_1_7:
           is_main_build: false
       
@@ -446,14 +378,6 @@ workflows:
 
       - tests:
           requires:
-            
-            - build-ruby25-rails-5_1_7
-            
-            - build-ruby25-rails-5_2_8
-            
-            - build-ruby25-rails-6_0_5
-            
-            - build-ruby25-rails-6_1_6
             
             - build-ruby26-rails-5_1_7
             

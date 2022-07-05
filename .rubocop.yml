@@ -14,7 +14,7 @@ AllCops:
   # We do not specify Ruby version, because CodeClimate should by default
   # read .ruby-version, and send it down to Rubocop
   # (see https://github.com/codeclimate/codeclimate-rubocop/pull/68)
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.6
   # We will lock Rails version to the newest we have in the company, so we're
   # always looking to the future.
   TargetRailsVersion: 5.1

@@ -5,7 +5,7 @@
 Changes:
 
 - Separate RBS files to _internal directory to avoid exposing RBS ([237](https://github.com/kpumuk/meta-tags/pull/237))
-- Added Ruby 3.1 to supported versions ([235](https://github.com/kpumuk/meta-tags/pull/235/))
+- Added Ruby 3.1 to supported versions, Ruby 2.6 is minimum supported version ([235](https://github.com/kpumuk/meta-tags/pull/235/))
 
 ## 2.16.0 (September 24, 2021) [☰](https://github.com/kpumuk/meta-tags/compare/v2.15.0...v2.16.0)
 
