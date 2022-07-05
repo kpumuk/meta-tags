@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.17.0 (Development) [☰](https://github.com/kpumuk/meta-tags/compare/v2.16.0...HEAD)
+## 2.17.0 (July 5, 2022) [☰](https://github.com/kpumuk/meta-tags/compare/v2.16.0...v2.17.0)
 
 Changes:
 
