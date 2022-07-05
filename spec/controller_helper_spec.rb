@@ -36,6 +36,12 @@ RSpec.describe MetaTags::ControllerHelper do
       expect(subject.response.body).to eq('_rendered_')
       expect(subject.meta_tags.meta_tags).to eq({})
     end
+
+    it 'does not fail when instance variables are not set' do
+      subject.hide
+      expect(subject.response.body).to eq('_rendered_')
+      expect(subject.meta_tags.meta_tags).to eq({})
+    end
   end
 
   it_behaves_like '.set_meta_tags'
