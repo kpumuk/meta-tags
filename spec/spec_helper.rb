@@ -2,7 +2,9 @@
 
 if ENV['ENABLE_CODE_COVERAGE']
   require 'simplecov'
-  SimpleCov.start
+  SimpleCov.start do
+    enable_coverage :branch
+  end
 end
 
 require 'meta_tags'

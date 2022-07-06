@@ -49,11 +49,16 @@ shared_build_steps: &shared_build_steps
         mkdir /tmp/test-results
         TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
 
-        bundle exec rspec --format progress \
-                          --format RspecJunitFormatter \
-                          --out /tmp/test-results/rspec.xml \
-                          --format progress \
+        bundle exec rspec --format RspecJunitFormatter \
+                          --out /tmp/test-results/rspec/results.xml \
+                          --format documentation \
                           $TEST_FILES
+
+  - run:
+      name: Formatting Coverage
+      condition: << parameters.is_main_build >>
+      command: |
+        ./cc-test-reporter format-coverage --input-type simplecov --output coverage/codeclimate.coverage.json
 
   - when:
       condition: << parameters.is_main_build >>
@@ -68,10 +73,6 @@ shared_build_steps: &shared_build_steps
             command: |
               bundle exec rake rbs:spec
 
-  - run:
-      name: Formatting Coverage
-      command: |
-        ./cc-test-reporter format-coverage --input-type simplecov --output coverage/codeclimate.coverage.json
 
   # collect reports
   - store_test_results:
@@ -302,8 +303,6 @@ jobs:
   upload-coverage:
     docker:
       - image: cimg/ruby:3.1
-        environment:
-          CC_TEST_REPORTER_ID: 8792cbc0d1780830ddd3dd7eb1c25f09f386ba8f04449ad830039469406a6ab3
     steps:
       - attach_workspace:
           at: /tmp/workspace
