@@ -50,7 +50,7 @@ shared_build_steps: &shared_build_steps
         TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
 
         bundle exec rspec --format RspecJunitFormatter \
-                          --out /tmp/test-results/rspec.xml \
+                          --out /tmp/test-results/rspec/results.xml \
                           --format documentation \
                           $TEST_FILES
 
