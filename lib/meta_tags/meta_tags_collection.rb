@@ -9,7 +9,7 @@ module MetaTags
     # Initializes a new instance of MetaTagsCollection.
     #
     def initialize
-      @meta_tags = HashWithIndifferentAccess.new
+      @meta_tags = ActiveSupport::HashWithIndifferentAccess.new
     end
 
     # Returns meta tag value by name.
@@ -170,10 +170,10 @@ module MetaTags
     # Converts input hash to HashWithIndifferentAccess and renames :open_graph to :og.
     #
     # @param [Hash] meta_tags list of meta tags.
-    # @return [HashWithIndifferentAccess] normalized meta tags list.
+    # @return [ActiveSupport::HashWithIndifferentAccess] normalized meta tags list.
     #
     def normalize_open_graph(meta_tags)
-      meta_tags = meta_tags.kind_of?(HashWithIndifferentAccess) ? meta_tags.dup : meta_tags.with_indifferent_access
+      meta_tags = meta_tags.with_indifferent_access
       meta_tags[:og] = meta_tags.delete(:open_graph) if meta_tags.key?(:open_graph)
       meta_tags
     end

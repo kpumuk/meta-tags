@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'set'
+require 'active_support/core_ext/hash/indifferent_access'
+
 # MetaTags gem namespace.
 module MetaTags
   # Returns MetaTags gem configuration.

@@ -1,0 +1,56 @@
+class ::Hash[unchecked out K, unchecked out V]
+  def with_indifferent_access: () -> ActiveSupport::HashWithIndifferentAccess[K, V]
+  def deep_merge!: (instance | ActiveSupport::HashWithIndifferentAccess[K, V] other) -> self
+end
+
+class ::Object
+  def presence: () -> self?
+  def blank?: () -> bool
+  def present?: () -> bool
+end
+
+class ::Loofah
+  module TextBehavior
+    def text: (?Hash[Symbol, untyped]? options) -> String
+  end
+
+  class DocumentFragment
+    include TextBehavior
+  end
+
+  def self.fragment: (String tags, ?String? encoding) -> DocumentFragment
+end
+
+class ::Rails
+end
+
+module ActionController
+  class Base
+    include _ActionControllerBase
+
+    def self.helpers: () -> _ActionViewBase
+  end
+end
+
+module ActiveSupport
+  class HashWithIndifferentAccess[unchecked out K, unchecked out V] < Hash[K, V]
+    def with_indifferent_access: () -> self
+    def deep_merge!: (instance | Hash[K, V] other) -> self
+  end
+end
+
+interface _ActionControllerBase
+  def render: (*untyped args) { () -> untyped } -> untyped
+end
+
+interface _ActionViewBase
+  def tag: (String name, ?Hash[String | Symbol, untyped] options, ?bool open) -> void
+
+  def content_tag: (String name, String content, ?Hash[String | Symbol, untyped] options, ?bool open) -> void
+
+  def safe_join: (Array[String], String) -> String
+
+  def truncate: (String text, ?Hash[Symbol, untyped] options) -> String
+
+  def strip_tags: (String html) -> String
+end

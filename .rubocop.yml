@@ -14,7 +14,7 @@ AllCops:
   # We do not specify Ruby version, because CodeClimate should by default
   # read .ruby-version, and send it down to Rubocop
   # (see https://github.com/codeclimate/codeclimate-rubocop/pull/68)
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.6
   # We will lock Rails version to the newest we have in the company, so we're
   # always looking to the future.
   TargetRailsVersion: 5.1
@@ -40,10 +40,7 @@ Layout/DotPosition:
 Layout/LineLength:
   Max: 120
   Exclude:
-    - "db/migrate/*"
     - "spec/**/*"
-  IgnoredPatterns:
-    - "^#.*"
 
 Layout/MultilineAssignmentLayout:
   EnforcedStyle: same_line
@@ -58,13 +55,9 @@ Layout/SpaceInsideArrayLiteralBrackets:
 
 Metrics/AbcSize:
   Max: 25
-  Exclude:
-    - "db/migrate/*.rb"
 
 Metrics/BlockLength:
   Exclude:
-    - "db/migrate/*.rb"
-    - "config/routes.rb"
     - "**/*.rake"
     - "spec/**/*_spec.rb"
     - "spec/spec_helper.rb"
@@ -76,20 +69,10 @@ Metrics/ClassLength:
 
 Metrics/MethodLength:
   Max: 30
-  Exclude:
-    - "db/migrate/*"
 
 Metrics/ModuleLength:
   Max: 250
   CountComments: false
-
-Rails/UnknownEnv:
-  Environments:
-    - development
-    - test
-    - production
-    - staging
-    - migration
 
 Rails/SafeNavigation:
   ConvertTry: true

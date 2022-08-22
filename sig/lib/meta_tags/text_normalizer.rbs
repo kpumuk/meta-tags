@@ -21,7 +21,7 @@ module MetaTags
 
     def cleanup_strings: (keywords? strings, ?strip: bool strip) -> Array[String]
 
-    def truncate: (String string, ?Integer limit, ?String natural_separator) -> String
+    def truncate: (String string, ?Integer? limit, ?String natural_separator) -> String
 
     def truncate_array: (Array[String] string_array, ?Integer? limit, ?String separator, ?String natural_separator) -> Array[String]
 

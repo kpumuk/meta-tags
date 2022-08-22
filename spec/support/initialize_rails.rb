@@ -32,6 +32,14 @@ module MetaTagsRailsApp
       render plain: '_rendered_'
     end
 
+    def hide
+      @page_title       = nil
+      @page_keywords    = nil
+      @page_description = nil
+
+      render plain: '_rendered_'
+    end
+
     public :set_meta_tags, :meta_tags
   end
 

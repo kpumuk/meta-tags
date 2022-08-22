@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-shared_examples_for '.set_meta_tags' do # rubocop:disable Metrics/BlockLength
+shared_examples_for '.set_meta_tags' do
   context 'with a Hash parameter' do
     it 'updates meta tags' do
       subject.set_meta_tags(title: 'hello')
