@@ -47,25 +47,25 @@ module MetaTags
     def default_property_tags
       [
         # App Link metadata https://developers.facebook.com/docs/applinks/metadata-reference
-        'al',
+        "al",
         # Open Graph Markup https://developers.facebook.com/docs/sharing/webmasters#markup
-        'fb',
-        'og',
+        "fb",
+        "og",
         # Facebook OpenGraph Object Types https://developers.facebook.com/docs/reference/opengraph
         # Note that these tags are used in a regex, so including e.g. 'restaurant' will affect
         # 'restaurant:category', 'restaurant:price_rating', and anything else under that namespace.
-        'article',
-        'book',
-        'books',
-        'business',
-        'fitness',
-        'game',
-        'music',
-        'place',
-        'product',
-        'profile',
-        'restaurant',
-        'video',
+        "article",
+        "book",
+        "books",
+        "business",
+        "fitness",
+        "game",
+        "music",
+        "place",
+        "product",
+        "profile",
+        "restaurant",
+        "video"
       ].freeze
     end
 
@@ -78,7 +78,7 @@ module MetaTags
       @truncate_site_title_first = false
       @description_limit = 300
       @keywords_limit = 255
-      @keywords_separator = ', '
+      @keywords_separator = ", "
       @keywords_lowercase = true
       @property_tags = default_property_tags.dup
       @open_meta_tags = true

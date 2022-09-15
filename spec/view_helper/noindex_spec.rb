@@ -1,222 +1,222 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe MetaTags::ViewHelper do
-  describe 'displaying noindex' do
+  describe "displaying noindex" do
     it 'displays noindex when "noindex" used' do
       subject.noindex(true)
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "noindex", name: "robots" })
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "noindex", name: "robots"})
       end
     end
 
     it 'displays noindex when "set_meta_tags" used' do
       subject.set_meta_tags(noindex: true)
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "noindex", name: "robots" })
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "noindex", name: "robots"})
       end
     end
 
-    it 'uses custom noindex if given' do
-      subject.noindex('some-noindex')
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "noindex", name: "some-noindex" })
+    it "uses custom noindex if given" do
+      subject.noindex("some-noindex")
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "noindex", name: "some-noindex"})
       end
     end
 
-    it 'accepts multiple custom noindex robots in an array' do
-      subject.noindex(['some-noindex', 'another-noindex'])
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "noindex", name: "some-noindex" })
-        expect(meta).to have_tag('meta', with: { content: "noindex", name: "another-noindex" })
+    it "accepts multiple custom noindex robots in an array" do
+      subject.noindex(["some-noindex", "another-noindex"])
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "noindex", name: "some-noindex"})
+        expect(meta).to have_tag("meta", with: {content: "noindex", name: "another-noindex"})
       end
     end
 
-    it 'displays nothing by default' do
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).not_to have_tag('meta', with: { content: "noindex" })
+    it "displays nothing by default" do
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).not_to have_tag("meta", with: {content: "noindex"})
       end
     end
 
     it "displays nothing if given false" do
       subject.set_meta_tags(noindex: false)
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).not_to have_tag('meta', with: { content: "robots" })
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).not_to have_tag("meta", with: {content: "robots"})
       end
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).not_to have_tag('meta', with: { content: "noindex" })
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).not_to have_tag("meta", with: {content: "noindex"})
       end
     end
   end
 
-  describe 'displaying nofollow' do
+  describe "displaying nofollow" do
     it 'displays nofollow when "nofollow" used' do
       subject.nofollow(true)
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "nofollow", name: "robots" })
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "nofollow", name: "robots"})
       end
     end
 
     it 'displays nofollow when "set_meta_tags" used' do
       subject.set_meta_tags(nofollow: true)
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "nofollow", name: "robots" })
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "nofollow", name: "robots"})
       end
     end
 
-    it 'uses custom nofollow if given' do
-      subject.nofollow('some-nofollow')
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "nofollow", name: "some-nofollow" })
+    it "uses custom nofollow if given" do
+      subject.nofollow("some-nofollow")
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "nofollow", name: "some-nofollow"})
       end
     end
 
-    it 'accepts multiple custom nofollow robots in an array' do
-      subject.nofollow(['some-nofollow', 'another-nofollow'])
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "nofollow", name: "some-nofollow" })
-        expect(meta).to have_tag('meta', with: { content: "nofollow", name: "another-nofollow" })
+    it "accepts multiple custom nofollow robots in an array" do
+      subject.nofollow(["some-nofollow", "another-nofollow"])
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "nofollow", name: "some-nofollow"})
+        expect(meta).to have_tag("meta", with: {content: "nofollow", name: "another-nofollow"})
       end
     end
 
-    it 'displays nothing by default' do
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).not_to have_tag('meta', with: { content: "nofollow" })
+    it "displays nothing by default" do
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).not_to have_tag("meta", with: {content: "nofollow"})
       end
     end
   end
 
-  describe 'displaying both nofollow and noindex' do
-    it 'is displayed when set using helpers' do
+  describe "displaying both nofollow and noindex" do
+    it "is displayed when set using helpers" do
       subject.noindex(true)
       subject.nofollow(true)
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "noindex, nofollow", name: "robots" })
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "noindex, nofollow", name: "robots"})
       end
     end
 
     it 'is displayed when "set_meta_tags" used' do
       subject.set_meta_tags(nofollow: true, noindex: true)
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "noindex, nofollow", name: "robots" })
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "noindex, nofollow", name: "robots"})
       end
     end
 
     it 'displays two meta tags when different names used with "set_meta_tags"' do
-      subject.set_meta_tags(noindex: 'robots', nofollow: 'googlebot')
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: 'noindex', name: 'robots' })
-        expect(meta).to have_tag('meta', with: { content: 'nofollow', name: 'googlebot' })
+      subject.set_meta_tags(noindex: "robots", nofollow: "googlebot")
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "noindex", name: "robots"})
+        expect(meta).to have_tag("meta", with: {content: "nofollow", name: "googlebot"})
       end
     end
 
-    it 'uses custom name if string is used' do
-      subject.noindex('some-name')
-      subject.nofollow('some-name')
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "noindex, nofollow", name: "some-name" })
+    it "uses custom name if string is used" do
+      subject.noindex("some-name")
+      subject.nofollow("some-name")
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "noindex, nofollow", name: "some-name"})
       end
     end
 
-    it 'displays two meta tags when different names used' do
-      subject.noindex('some-noindex')
-      subject.nofollow('some-nofollow')
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "noindex", name: "some-noindex" })
-        expect(meta).to have_tag('meta', with: { content: "nofollow", name: "some-nofollow" })
+    it "displays two meta tags when different names used" do
+      subject.noindex("some-noindex")
+      subject.nofollow("some-nofollow")
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "noindex", name: "some-noindex"})
+        expect(meta).to have_tag("meta", with: {content: "nofollow", name: "some-nofollow"})
       end
     end
   end
 
-  context 'when displaying both follow and index' do
+  context "when displaying both follow and index" do
     it 'renders when "set_meta_tags" used' do
       subject.set_meta_tags(follow: true, index: true)
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "index, follow", name: "robots" })
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "index, follow", name: "robots"})
       end
     end
 
-    it 'uses custom name if string is used' do
-      subject.set_meta_tags(follow: 'some-name123', index: 'some-name123')
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "index, follow", name: "some-name123" })
+    it "uses custom name if string is used" do
+      subject.set_meta_tags(follow: "some-name123", index: "some-name123")
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "index, follow", name: "some-name123"})
       end
     end
 
-    it 'renders two meta tags when different names used' do
-      subject.set_meta_tags(follow: 'some-follow', index: 'some-index')
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "index", name: "some-index" })
-        expect(meta).to have_tag('meta', with: { content: "follow", name: "some-follow" })
+    it "renders two meta tags when different names used" do
+      subject.set_meta_tags(follow: "some-follow", index: "some-index")
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "index", name: "some-index"})
+        expect(meta).to have_tag("meta", with: {content: "follow", name: "some-follow"})
       end
     end
   end
 
-  context 'when displaying both follow and noindex when nofollow and index set by mistake' do
+  context "when displaying both follow and noindex when nofollow and index set by mistake" do
     it 'renders when "set_meta_tags" used' do
       subject.set_meta_tags(follow: true, index: true, nofollow: true, noindex: true)
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "noindex, follow", name: "robots" })
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "noindex, follow", name: "robots"})
       end
     end
 
-    it 'uses custom name if string is used' do
-      subject.set_meta_tags(follow: 'some-name', index: 'some-name', nofollow: 'some-name', noindex: 'some-name')
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "noindex, follow", name: "some-name" })
+    it "uses custom name if string is used" do
+      subject.set_meta_tags(follow: "some-name", index: "some-name", nofollow: "some-name", noindex: "some-name")
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "noindex, follow", name: "some-name"})
       end
     end
 
-    it 'renders two meta tags when different names used' do
-      subject.set_meta_tags(follow: 'some-follow', index: 'some-index', nofollow: 'some-nofollow', noindex: 'some-noindex')
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "index", name: "some-index" })
-        expect(meta).to have_tag('meta', with: { content: "follow", name: "some-follow" })
-        expect(meta).to have_tag('meta', with: { content: "noindex", name: "some-noindex" })
-        expect(meta).to have_tag('meta', with: { content: "nofollow", name: "some-nofollow" })
+    it "renders two meta tags when different names used" do
+      subject.set_meta_tags(follow: "some-follow", index: "some-index", nofollow: "some-nofollow", noindex: "some-noindex")
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "index", name: "some-index"})
+        expect(meta).to have_tag("meta", with: {content: "follow", name: "some-follow"})
+        expect(meta).to have_tag("meta", with: {content: "noindex", name: "some-noindex"})
+        expect(meta).to have_tag("meta", with: {content: "nofollow", name: "some-nofollow"})
       end
     end
   end
 
-  context 'when displaying noarchive' do
+  context "when displaying noarchive" do
     it 'renders noarchive when "set_meta_tags" used' do
       subject.set_meta_tags(noarchive: true)
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "noarchive", name: "robots" })
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "noarchive", name: "robots"})
       end
     end
 
-    it 'renders nothing if given false' do
+    it "renders nothing if given false" do
       subject.set_meta_tags(noarchive: false)
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).not_to have_tag('meta', with: { content: "noarchive", name: "robots" })
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).not_to have_tag("meta", with: {content: "noarchive", name: "robots"})
       end
     end
 
-    it 'uses custom noarchive if given' do
-      subject.set_meta_tags(noarchive: 'some-robots')
-      subject.display_meta_tags(site: 'someSite').tap do |meta|
-        expect(meta).to have_tag('meta', with: { content: "noarchive", name: "some-robots" })
+    it "uses custom noarchive if given" do
+      subject.set_meta_tags(noarchive: "some-robots")
+      subject.display_meta_tags(site: "someSite").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "noarchive", name: "some-robots"})
       end
     end
   end
 
-  it 'properly handles priorities and multiple robot names' do
+  it "properly handles priorities and multiple robot names" do
     subject.set_meta_tags(
-      noindex:   true,
-      index:     'yahoo',
-      follow:    ['google', 'yahoo', 'github'],
-      nofollow:  ['yandex', :google],
-      noarchive: ['yahoo', 'bing'],
+      noindex: true,
+      index: "yahoo",
+      follow: ["google", "yahoo", "github"],
+      nofollow: ["yandex", :google],
+      noarchive: ["yahoo", "bing"]
     )
-    subject.display_meta_tags(site: 'someSite').tap do |meta|
-      expect(meta).to have_tag('meta', with: { name: "robots", content: "noindex" })
-      expect(meta).to have_tag('meta', with: { name: "yahoo", content: "index, follow, noarchive" })
-      expect(meta).to have_tag('meta', with: { name: "google", content: "follow" })
-      expect(meta).to have_tag('meta', with: { name: "github", content: "follow" })
-      expect(meta).to have_tag('meta', with: { name: "yandex", content: "nofollow" })
-      expect(meta).to have_tag('meta', with: { name: "bing", content: "noarchive" })
+    subject.display_meta_tags(site: "someSite").tap do |meta|
+      expect(meta).to have_tag("meta", with: {name: "robots", content: "noindex"})
+      expect(meta).to have_tag("meta", with: {name: "yahoo", content: "index, follow, noarchive"})
+      expect(meta).to have_tag("meta", with: {name: "google", content: "follow"})
+      expect(meta).to have_tag("meta", with: {name: "github", content: "follow"})
+      expect(meta).to have_tag("meta", with: {name: "yandex", content: "nofollow"})
+      expect(meta).to have_tag("meta", with: {name: "bing", content: "noarchive"})
     end
   end
 end

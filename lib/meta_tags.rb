@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'set'
-require 'active_support/core_ext/hash/indifferent_access'
+require "set"
+require "active_support/core_ext/hash/indifferent_access"
 
 # MetaTags gem namespace.
 module MetaTags
@@ -24,15 +24,15 @@ module MetaTags
   end
 end
 
-require 'meta_tags/version'
+require "meta_tags/version"
 
-require 'meta_tags/configuration'
-require 'meta_tags/controller_helper'
-require 'meta_tags/meta_tags_collection'
-require 'meta_tags/renderer'
-require 'meta_tags/tag'
-require 'meta_tags/content_tag'
-require 'meta_tags/text_normalizer'
-require 'meta_tags/view_helper'
+require "meta_tags/configuration"
+require "meta_tags/controller_helper"
+require "meta_tags/meta_tags_collection"
+require "meta_tags/renderer"
+require "meta_tags/tag"
+require "meta_tags/content_tag"
+require "meta_tags/text_normalizer"
+require "meta_tags/view_helper"
 
-require 'meta_tags/railtie' if defined?(Rails)
+require "meta_tags/railtie" if defined?(Rails)

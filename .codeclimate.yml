@@ -12,7 +12,7 @@ plugins:
   rubocop:
     enabled: true
     # Check https://github.com/codeclimate/codeclimate-rubocop/branches/all?query=channel%2Frubocop
-    channel: rubocop-1-31-0
+    channel: rubocop-1-35-1
 
 exclude_patterns:
 - spec/**/*

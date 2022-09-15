@@ -15,8 +15,8 @@ module MetaTags
     # Processes the <tt>@page_title</tt>, <tt>@page_keywords</tt>, and
     # <tt>@page_description</tt> instance variables and calls +render+.
     def render(*args, &block)
-      meta_tags[:title]       = @page_title       if defined?(@page_title) && @page_title
-      meta_tags[:keywords]    = @page_keywords    if defined?(@page_keywords) && @page_keywords
+      meta_tags[:title] = @page_title if defined?(@page_title) && @page_title
+      meta_tags[:keywords] = @page_keywords if defined?(@page_keywords) && @page_keywords
       meta_tags[:description] = @page_description if defined?(@page_description) && @page_description
 
       super
@@ -25,7 +25,7 @@ module MetaTags
     # Set meta tags for the page.
     #
     # See <tt>MetaTags::ViewHelper#set_meta_tags</tt> for details.
-    def set_meta_tags(meta_tags) # rubocop:disable Naming/AccessorMethodName
+    def set_meta_tags(meta_tags)
       self.meta_tags.update(meta_tags)
     end
     protected :set_meta_tags

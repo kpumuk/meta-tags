@@ -71,12 +71,12 @@ module MetaTags
       return unless icon
 
       # String? Value is an href
-      icon = [{ href: icon }] if icon.kind_of?(String)
+      icon = [{href: icon}] if icon.is_a?(String)
       # Hash? Single icon instead of a list of icons
-      icon = [icon] if icon.kind_of?(Hash)
+      icon = [icon] if icon.is_a?(Hash)
 
       icon.each do |icon_params|
-        icon_params = { rel: 'icon', type: 'image/x-icon' }.with_indifferent_access.merge(icon_params)
+        icon_params = {rel: "icon", type: "image/x-icon"}.with_indifferent_access.merge(icon_params)
         tags << Tag.new(:link, icon_params)
       end
     end
@@ -109,7 +109,7 @@ module MetaTags
     #
     def render_refresh(tags)
       refresh = meta_tags.extract(:refresh)
-      tags << Tag.new(:meta, 'http-equiv' => 'refresh', content: refresh.to_s) if refresh.present?
+      tags << Tag.new(:meta, "http-equiv" => "refresh", :content => refresh.to_s) if refresh.present?
     end
 
     # Renders alternate link tags.
@@ -120,13 +120,13 @@ module MetaTags
       alternate = meta_tags.extract(:alternate)
       return unless alternate
 
-      if alternate.kind_of?(Hash)
+      if alternate.is_a?(Hash)
         alternate.each do |hreflang, href|
-          tags << Tag.new(:link, rel: 'alternate', href: href, hreflang: hreflang) if href.present?
+          tags << Tag.new(:link, rel: "alternate", href: href, hreflang: hreflang) if href.present?
         end
-      elsif alternate.kind_of?(Array)
+      elsif alternate.is_a?(Array)
         alternate.each do |link_params|
-          tags << Tag.new(:link, { rel: 'alternate' }.with_indifferent_access.merge(link_params))
+          tags << Tag.new(:link, {rel: "alternate"}.with_indifferent_access.merge(link_params))
         end
       end
     end
@@ -143,7 +143,7 @@ module MetaTags
       title = open_search[:title]
 
       type = "application/opensearchdescription+xml"
-      tags << Tag.new(:link, rel: 'search', type: type, href: href, title: title) if href.present?
+      tags << Tag.new(:link, rel: "search", type: type, href: href, title: title) if href.present?
     end
 
     # Renders links.
@@ -151,7 +151,7 @@ module MetaTags
     # @param [Array<Tag>] tags a buffer object to store tag in.
     #
     def render_links(tags)
-      [ :amphtml, :prev, :next, :image_src, :manifest ].each do |tag_name|
+      [:amphtml, :prev, :next, :image_src, :manifest].each do |tag_name|
         href = meta_tags.extract(tag_name)
         if href.present?
           @normalized_meta_tags[tag_name] = href
@@ -189,7 +189,7 @@ module MetaTags
     #
     def render_hash(tags, key, **opts)
       data = meta_tags.meta_tags[key]
-      return unless data.kind_of?(Hash)
+      return unless data.is_a?(Hash)
 
       process_hash(tags, key, data, **opts)
       meta_tags.extract(key)
@@ -202,7 +202,7 @@ module MetaTags
     def render_custom(tags)
       meta_tags.meta_tags.each do |name, data|
         Array(data).each do |val|
-          tags << Tag.new(:meta, configured_name_key(name) => name, content: val)
+          tags << Tag.new(:meta, configured_name_key(name) => name, :content => val)
         end
         meta_tags.extract(name)
       end
@@ -217,14 +217,14 @@ module MetaTags
     #
     def process_tree(tags, property, content, itemprop: nil, **opts)
       method = case content
-               when Hash
-                 :process_hash
-               when Array
-                 :process_array
-               else
-                 iprop = itemprop
-                 :render_tag
-               end
+      when Hash
+        :process_hash
+      when Array
+        :process_array
+      else
+        iprop = itemprop
+        :render_tag
+      end
       __send__(method, tags, property, content, itemprop: iprop, **opts)
     end
 
@@ -237,18 +237,18 @@ module MetaTags
     def process_hash(tags, property, content, **opts)
       itemprop = content.delete(:itemprop)
       content.each do |key, value|
-        if key.to_s == '_'
+        if key.to_s == "_"
           iprop = itemprop
           key = property
         else
           key = "#{property}:#{key}"
         end
 
-        normalized_value = if value.kind_of?(Symbol)
-                             normalized_meta_tags[value]
-                           else
-                             value
-                           end
+        normalized_value = if value.is_a?(Symbol)
+          normalized_meta_tags[value]
+        else
+          value
+        end
         process_tree(tags, key, normalized_value, **opts.merge(itemprop: iprop))
       end
     end
@@ -273,7 +273,7 @@ module MetaTags
     #
     def render_tag(tags, name, value, itemprop: nil)
       name_key ||= configured_name_key(name)
-      tags << Tag.new(:meta, name_key => name.to_s, content: value, itemprop: itemprop) if value.present?
+      tags << Tag.new(:meta, name_key => name.to_s, :content => value, :itemprop => itemprop) if value.present?
     end
 
     # Returns meta tag property name for a give meta tag based on the

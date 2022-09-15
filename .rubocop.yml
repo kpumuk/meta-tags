@@ -1,6 +1,11 @@
 require:
+  - standard
   - rubocop-rails
+  - rubocop-rake
   - rubocop-rspec
+
+inherit_gem:
+  standard: config/base.yml
 
 AllCops:
   # Enable all the rules by default
@@ -11,92 +16,8 @@ AllCops:
   DisplayCopNames: true
   SuggestExtensions: false
   # Target versions
-  # We do not specify Ruby version, because CodeClimate should by default
-  # read .ruby-version, and send it down to Rubocop
-  # (see https://github.com/codeclimate/codeclimate-rubocop/pull/68)
   TargetRubyVersion: 2.6
-  # We will lock Rails version to the newest we have in the company, so we're
-  # always looking to the future.
   TargetRailsVersion: 5.1
-  # Exclude auto-generated and vendored files
-  Exclude:
-    - "db/schema.rb"
-
-#-------------------------------------------------------------------------------
-# Rules configuration
-#-------------------------------------------------------------------------------
-
-Bundler/OrderedGems:
-  TreatCommentsAsGroupSeparators: true
-
-Layout/HashAlignment:
-  EnforcedColonStyle: table
-  EnforcedHashRocketStyle: table
-  EnforcedLastArgumentHashStyle: always_inspect
-
-Layout/DotPosition:
-  EnforcedStyle: trailing
-
-Layout/LineLength:
-  Max: 120
-  Exclude:
-    - "spec/**/*"
-
-Layout/MultilineAssignmentLayout:
-  EnforcedStyle: same_line
-
-Layout/MultilineMethodCallIndentation:
-  EnforcedStyle: indented_relative_to_receiver
-
-# Requere spaces inside of brackets, e.g. [ 1, 2, 3 ]
-Layout/SpaceInsideArrayLiteralBrackets:
-  Enabled: false
-  EnforcedStyle: compact
-
-Metrics/AbcSize:
-  Max: 25
-
-Metrics/BlockLength:
-  Exclude:
-    - "**/*.rake"
-    - "spec/**/*_spec.rb"
-    - "spec/spec_helper.rb"
-    - "meta-tags.gemspec"
-
-Metrics/ClassLength:
-  Max: 250
-  CountComments: false
-
-Metrics/MethodLength:
-  Max: 30
-
-Metrics/ModuleLength:
-  Max: 250
-  CountComments: false
-
-Rails/SafeNavigation:
-  ConvertTry: true
-
-Style/Alias:
-  EnforcedStyle: prefer_alias_method
-
-Style/ClassCheck:
-  EnforcedStyle: kind_of?
-
-Style/Lambda:
-  EnforcedStyle: literal
-
-Style/TrailingCommaInArguments:
-  EnforcedStyleForMultiline: consistent_comma
-
-Style/TrailingCommaInArrayLiteral:
-  EnforcedStyleForMultiline: consistent_comma
-
-Style/TrailingCommaInHashLiteral:
-  EnforcedStyleForMultiline: consistent_comma
-
-Style/BlockDelimiters:
-  EnforcedStyle: braces_for_chaining
 
 #-------------------------------------------------------------------------------
 # RSpec rules
@@ -130,97 +51,10 @@ RSpec/VerifiedDoubles:
 # Disabled rules
 #-------------------------------------------------------------------------------
 
-# Yes, we have meta-tags.rb for simplicity
-Naming/FileName:
-  Enabled: false
-
-# Allow not null columns without a default value
-Rails/NotNullColumn:
-  Enabled: false
-
 # Do not require loading Rails enviroment for Rake tasks as we are not a Rails application.
 Rails/RakeEnvironment:
   Enabled: false
 
 # Do not require subclassing from ApplicationController as we're not a rails application
 Rails/ApplicationController:
-  Enabled: false
-
-# This check does not distinguish between "private :x" and "private def x"
-Style/AccessModifierDeclarations:
-  Enabled: false
-
-Style/ClassAndModuleChildren:
-  Enabled: false
-
-# Do not require copyright information
-Style/Copyright:
-  Enabled: false
-
-# Do not require class and module documentation
-Style/Documentation:
-  Enabled: false
-
-# Do not require method documentation
-Style/DocumentationMethod:
-  Enabled: false
-
-# Allow double negation (!!@var)
-Style/DoubleNegation:
-  Enabled: false
-
-# Do not enforce if modifier, sometimes it is better to split for long lines
-Style/IfUnlessModifier:
-  Enabled: false
-
-# Allow trailing comments
-Style/InlineComment:
-  Enabled: false
-
-# Do not require parentheses around method arguments
-Style/MethodCallWithArgsParentheses:
-  Enabled: false
-
-# Do not enforce `else` on conditions
-Style/MissingElse:
-  Enabled: false
-
-# Allow both `.positive?` and `> 0` variants
-Style/NumericPredicate:
-  Enabled: false
-
-# Do not enforce using symbols for hash keys
-Style/StringHashKeys:
-  Enabled: false
-
-# Do not enforce usage of single quotes on strings
-Style/StringLiterals:
-  Enabled: false
-
-# Do not require to use %i[] around symbol arrays
-Style/SymbolArray:
-  Enabled: false
-
-# Do not require to use %w[] around word arrays
-Style/WordArray:
-  Enabled: false
-
-# Do not prohibit explicit Rubocop enable/disable directives
-Style/DisableCopsWithinSourceCodeDirective:
-  Enabled: false
-
-# Do not require keyword arguments when defining method with boolean argument (historical API)
-Style/OptionalBooleanParameter:
-  Enabled: false
-
-# Do not require fully qualified constants
-Lint/ConstantResolution:
-  Enabled: false
-
-# Bundler is only used for gem development
-Bundler/GemVersion:
-  Enabled: false
-
-# Developers can decide where to put their line breaks, thank you very much
-Layout/RedundantLineBreak:
   Enabled: false

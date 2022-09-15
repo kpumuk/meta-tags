@@ -55,7 +55,7 @@ module MetaTags
     #
     # @see #display_meta_tags
     #
-    def title(title = nil, headline = '')
+    def title(title = nil, headline = "")
       set_meta_tags(title: title) unless title.nil?
       headline.presence || meta_tags[:title]
     end
