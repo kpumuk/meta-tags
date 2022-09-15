@@ -79,7 +79,7 @@ module MetaTags
       old_site = @meta_tags[:site]
       @meta_tags[:site] = nil
       full_title = with_defaults(defaults) { extract_full_title }
-      full_title.presence || old_site
+      full_title.presence || old_site || ''
     ensure
       @meta_tags[:site] = old_site
     end
