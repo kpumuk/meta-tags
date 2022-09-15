@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.18.0 (September 15, 2022) [☰](https://github.com/kpumuk/meta-tags/compare/v2.17.0...v2.18.0)
+
+Changes:
+
+- Fallback to site name when title is empty in mirrored tags ([243](https://github.com/kpumuk/meta-tags/pull/243))
+
 ## 2.17.0 (July 5, 2022) [☰](https://github.com/kpumuk/meta-tags/compare/v2.16.0...v2.17.0)
 
 Changes:
