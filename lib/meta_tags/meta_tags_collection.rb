@@ -70,14 +70,16 @@ module MetaTags
       with_defaults(defaults) { extract_full_title }
     end
 
-    # Constructs the title without site title (for normalized parameters).
+    # Constructs the title without site title (for normalized parameters). When title is empty,
+    # use the site title instead.
     #
     # @return [String] page title.
     #
     def page_title(defaults = {})
       old_site = @meta_tags[:site]
       @meta_tags[:site] = nil
-      with_defaults(defaults) { extract_full_title }
+      full_title = with_defaults(defaults) { extract_full_title }
+      full_title.presence || old_site
     ensure
       @meta_tags[:site] = old_site
     end
