@@ -1,5 +1,7 @@
 module MetaTags
   module ViewHelper : Module, _ActionViewBase
+    @meta_tags: MetaTagsCollection?
+
     # type meta_tags = {
     #     site: String?,
     #     title: Array[String] | String?,

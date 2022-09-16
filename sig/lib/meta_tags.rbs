@@ -1,4 +1,6 @@
 module MetaTags
+  self.@config: Configuration
+
   def self.config: () -> Configuration
   def self.configure: () { (Configuration) -> void } -> void
 
