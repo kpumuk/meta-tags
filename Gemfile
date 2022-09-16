@@ -12,7 +12,7 @@ end
 
 unless ENV["NO_STEEP"] == '1'
   # Ruby typings
-  gem 'steep', '~> 1.0.1', platform: :mri
+  gem 'steep', '~> 1.1.1', platform: :mri
 end
 
 group :test do

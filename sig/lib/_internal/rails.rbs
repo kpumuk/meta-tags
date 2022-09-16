@@ -4,6 +4,8 @@ class ::Hash[unchecked out K, unchecked out V]
 end
 
 class ::Object
+  $OFS: String
+
   def presence: () -> self?
   def blank?: () -> bool
   def present?: () -> bool

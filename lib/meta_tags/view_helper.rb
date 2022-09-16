@@ -203,7 +203,7 @@ module MetaTags
     #   <div data-page-container="true" title="<%= display_title title: 'My Page', site: 'PJAX Site' %>">
     #
     def display_title(defaults = {})
-      @meta_tags.full_title(defaults)
+      meta_tags.full_title(defaults)
     end
   end
 end

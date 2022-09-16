@@ -1,5 +1,6 @@
 module MetaTags
   module ControllerHelper : _ActionControllerBase
+    @meta_tags: MetaTagsCollection?
     @page_title: String?
     @page_description: String?
     @page_keywords: String? | Array[String]
