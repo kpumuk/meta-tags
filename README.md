@@ -2,6 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/kpumuk/meta-tags.svg?style=shield)](https://circleci.com/gh/kpumuk/meta-tags)
 [![Gem Version](https://badge.fury.io/rb/meta-tags.svg)](https://badge.fury.io/rb/meta-tags)
+[![Ruby Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://github.com/testdouble/standard)
 [![Code Climate](https://codeclimate.com/github/kpumuk/meta-tags/badges/gpa.svg)](https://codeclimate.com/github/kpumuk/meta-tags)
 [![Test Coverage](https://codeclimate.com/github/kpumuk/meta-tags/badges/coverage.svg)](https://codeclimate.com/github/kpumuk/meta-tags/coverage)
 [![Gem Downloads](https://img.shields.io/gem/dt/meta-tags.svg)](https://badge.fury.io/rb/meta-tags)
