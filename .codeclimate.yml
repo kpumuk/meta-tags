@@ -4,16 +4,11 @@ plugins:
     enabled: true
     config:
       languages:
-      - ruby
+        - ruby
 
   fixme:
     enabled: true
 
-  rubocop:
-    enabled: true
-    # Check https://github.com/codeclimate/codeclimate-rubocop/branches/all?query=channel%2Frubocop
-    channel: rubocop-1-31-0
-
 exclude_patterns:
-- spec/**/*
-- certs/**/*
+  - spec/**/*
+  - certs/**/*

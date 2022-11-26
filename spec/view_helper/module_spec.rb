@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe MetaTags::ViewHelper, 'module' do
-  it 'is mixed into ActionView::Base' do
+RSpec.describe MetaTags::ViewHelper, "module" do
+  it "is mixed into ActionView::Base" do
     expect(ActionView::Base.included_modules).to include(described_class)
   end
 

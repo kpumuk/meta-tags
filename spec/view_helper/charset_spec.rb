@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe MetaTags::ViewHelper, 'displaying charset' do
-  it 'does not display charset if blank' do
-    expect(subject.display_meta_tags).to eq('')
-    expect(subject.display_meta_tags(charset: '')).to eq('')
+RSpec.describe MetaTags::ViewHelper, "displaying charset" do
+  it "does not display charset if blank" do
+    expect(subject.display_meta_tags).to eq("")
+    expect(subject.display_meta_tags(charset: "")).to eq("")
   end
 
-  it 'displays charset' do
-    subject.display_meta_tags(charset: 'UTF-8').tap do |meta|
+  it "displays charset" do
+    subject.display_meta_tags(charset: "UTF-8").tap do |meta|
       expect(meta).to eq('<meta charset="UTF-8">')
     end
   end

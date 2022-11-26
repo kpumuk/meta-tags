@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe MetaTags::ViewHelper, 'meta tags' do
+RSpec.describe MetaTags::ViewHelper, "meta tags" do
   context "with open_meta_tags=true" do
-    it 'generates open charset tag' do
-      subject.display_meta_tags(charset: 'UTF-8').tap do |meta|
+    it "generates open charset tag" do
+      subject.display_meta_tags(charset: "UTF-8").tap do |meta|
         expect(meta).to eq('<meta charset="UTF-8">')
       end
     end
 
-    it 'generates open meta tags' do
-      subject.display_meta_tags(open_graph: { title: 'someSite' }).tap do |meta|
+    it "generates open meta tags" do
+      subject.display_meta_tags(open_graph: {title: "someSite"}).tap do |meta|
         expect(meta).to eq('<meta property="og:title" content="someSite">')
       end
     end
 
-    it 'generates open link tags' do
-      subject.display_meta_tags(canonical: 'http://example.com/base/url').tap do |meta|
+    it "generates open link tags" do
+      subject.display_meta_tags(canonical: "http://example.com/base/url").tap do |meta|
         expect(meta).to eq('<link rel="canonical" href="http://example.com/base/url">')
       end
     end
@@ -28,20 +28,20 @@ RSpec.describe MetaTags::ViewHelper, 'meta tags' do
       MetaTags.config.open_meta_tags = false
     end
 
-    it 'generates closed charset tag' do
-      subject.display_meta_tags(charset: 'UTF-8').tap do |meta|
+    it "generates closed charset tag" do
+      subject.display_meta_tags(charset: "UTF-8").tap do |meta|
         expect(meta).to eq('<meta charset="UTF-8" />')
       end
     end
 
-    it 'generates closed meta tags' do
-      subject.display_meta_tags(open_graph: { title: 'someSite' }).tap do |meta|
+    it "generates closed meta tags" do
+      subject.display_meta_tags(open_graph: {title: "someSite"}).tap do |meta|
         expect(meta).to eq('<meta property="og:title" content="someSite" />')
       end
     end
 
-    it 'generates closed link tags' do
-      subject.display_meta_tags(canonical: 'http://example.com/base/url').tap do |meta|
+    it "generates closed link tags" do
+      subject.display_meta_tags(canonical: "http://example.com/base/url").tap do |meta|
         expect(meta).to eq('<link rel="canonical" href="http://example.com/base/url" />')
       end
     end

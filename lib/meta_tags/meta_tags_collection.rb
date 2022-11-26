@@ -39,12 +39,12 @@ module MetaTags
     #
     def update(object = {})
       meta_tags = if object.respond_to?(:to_meta_tags)
-                    # @type var object: (_MetaTagish & Object)
-                    object.to_meta_tags
-                  else
-                    # @type var object: Hash[String | Symbol, untyped]
-                    object
-                  end
+        # @type var object: (_MetaTagish & Object)
+        object.to_meta_tags
+      else
+        # @type var object: Hash[String | Symbol, untyped]
+        object
+      end
       @meta_tags.deep_merge! normalize_open_graph(meta_tags)
     end
 
@@ -79,7 +79,7 @@ module MetaTags
       old_site = @meta_tags[:site]
       @meta_tags[:site] = nil
       full_title = with_defaults(defaults) { extract_full_title }
-      full_title.presence || old_site || ''
+      full_title.presence || old_site || ""
     ensure
       @meta_tags[:site] = old_site
     end
@@ -106,10 +106,10 @@ module MetaTags
     # @return [String] page title.
     #
     def extract_full_title
-      site_title = extract(:site) || ''
-      title      = extract_title
-      separator  = extract_separator
-      reverse    = extract(:reverse) == true
+      site_title = extract(:site) || ""
+      title = extract_title
+      separator = extract_separator
+      reverse = extract(:reverse) == true
 
       TextNormalizer.normalize_title(site_title, title, separator, reverse)
     end
@@ -136,15 +136,15 @@ module MetaTags
     def extract_separator
       if meta_tags[:separator] == false
         # Special case: if separator is hidden, do not display suffix/prefix
-        prefix = separator = suffix = ''
+        prefix = separator = suffix = ""
       else
-        prefix    = extract_separator_section(:prefix, ' ')
-        separator = extract_separator_section(:separator, '|')
-        suffix    = extract_separator_section(:suffix, ' ')
+        prefix = extract_separator_section(:prefix, " ")
+        separator = extract_separator_section(:separator, "|")
+        suffix = extract_separator_section(:suffix, " ")
       end
       delete(:separator, :prefix, :suffix)
 
-      TextNormalizer.safe_join([prefix, separator, suffix], '')
+      TextNormalizer.safe_join([prefix, separator, suffix], "")
     end
 
     # Extracts noindex settings as a Hash mapping noindex tag name to value.
@@ -159,12 +159,12 @@ module MetaTags
         [:noindex, :index],
         # follow has higher priority than nofollow
         [:follow, :nofollow],
-        :noarchive,
+        :noarchive
       ].each do |attributes|
         calculate_robots_attributes(result, attributes)
       end
 
-      result.transform_values { |v| v.join(', ') }
+      result.transform_values { |v| v.join(", ") }
     end
 
     protected
@@ -188,7 +188,7 @@ module MetaTags
     # @return [String] separator segment value.
     #
     def extract_separator_section(name, default)
-      meta_tags[name] == false ? '' : (meta_tags[name] || default)
+      (meta_tags[name] == false) ? "" : (meta_tags[name] || default)
     end
 
     # Extracts robots attribute (noindex, nofollow, etc) name and value.
@@ -197,11 +197,11 @@ module MetaTags
     # @return [Array<String>] pair of noindex attribute name and value.
     #
     def extract_robots_attribute(name)
-      noindex       = extract(name)
-      noindex_name  = noindex.kind_of?(String) || noindex.kind_of?(Array) ? noindex : 'robots'
+      noindex = extract(name)
+      noindex_name = (noindex.is_a?(String) || noindex.is_a?(Array)) ? noindex : "robots"
       noindex_value = noindex ? name.to_s : nil
 
-      [ noindex_name, noindex_value ]
+      [noindex_name, noindex_value]
     end
 
     def calculate_robots_attributes(result, attributes)

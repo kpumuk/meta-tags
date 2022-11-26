@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-if ENV['ENABLE_CODE_COVERAGE']
-  require 'simplecov'
+if ENV["ENABLE_CODE_COVERAGE"]
+  require "simplecov"
   SimpleCov.start do
     enable_coverage :branch
   end
 end
 
-require 'meta_tags'
-require 'rspec-html-matchers'
+require "meta_tags"
+require "rspec-html-matchers"
 
 Dir[File.expand_path("support/**/*.rb", __dir__)].sort.each { |f| require f }
 
@@ -22,7 +22,7 @@ RSpec.configure do |config|
     # Use the documentation formatter for detailed output,
     # unless a formatter has already been configured
     # (e.g. via a command-line flag).
-    config.formatter = 'doc' if config.formatters.none?
+    config.formatter = "doc" if config.formatters.none?
   end
 
   # Limits the available syntax to the non-monkey patched

@@ -1,42 +1,42 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe MetaTags::ViewHelper, 'displaying Open Search meta tags' do
-  it 'displays meta tags specified with :open_search' do
+RSpec.describe MetaTags::ViewHelper, "displaying Open Search meta tags" do
+  it "displays meta tags specified with :open_search" do
     subject.set_meta_tags(
       open_search: {
-        title: 'Open Search Title',
-        href:  '/open_search_path.xml',
-      },
+        title: "Open Search Title",
+        href: "/open_search_path.xml"
+      }
     )
-    subject.display_meta_tags(site: 'someSite').tap do |meta|
+    subject.display_meta_tags(site: "someSite").tap do |meta|
       expect(meta).to have_tag(
-        'link',
+        "link",
         with: {
-          href:  '/open_search_path.xml',
-          rel:   'search',
-          title: 'Open Search Title',
-          type:  'application/opensearchdescription+xml',
-        },
+          href: "/open_search_path.xml",
+          rel: "search",
+          title: "Open Search Title",
+          type: "application/opensearchdescription+xml"
+        }
       )
     end
   end
 
-  it 'does not display meta tags without content' do
+  it "does not display meta tags without content" do
     subject.set_meta_tags(
       open_search: {
-        title: '',
-        href:  '',
-      },
+        title: "",
+        href: ""
+      }
     )
-    subject.display_meta_tags(site: 'someSite').tap do |meta|
+    subject.display_meta_tags(site: "someSite").tap do |meta|
       expect(meta).not_to have_tag(
-        'link',
+        "link",
         with: {
-          rel:  'search',
-          type: 'application/opensearchdescription+xml',
-        },
+          rel: "search",
+          type: "application/opensearchdescription+xml"
+        }
       )
     end
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe MetaTags::ControllerHelper do
   subject do
@@ -14,8 +14,8 @@ RSpec.describe MetaTags::ControllerHelper do
     skip("Does not work properly with RBS") if ENV["RBS_TEST_TARGET"] # rubocop:disable RSpec/Pending
   end
 
-  describe 'module' do
-    it 'is mixed into ActionController::Base' do
+  describe "module" do
+    it "is mixed into ActionController::Base" do
       expect(ActionController::Base.included_modules).to include(described_class)
     end
 
@@ -24,25 +24,25 @@ RSpec.describe MetaTags::ControllerHelper do
     end
   end
 
-  describe '.render' do
-    it 'sets meta tags from instance variables' do
+  describe ".render" do
+    it "sets meta tags from instance variables" do
       subject.index
-      expect(subject.response.body).to eq('_rendered_')
-      expect(subject.meta_tags.meta_tags).to eq('title' => 'title', 'keywords' => 'key1, key2, key3', 'description' => 'description')
+      expect(subject.response.body).to eq("_rendered_")
+      expect(subject.meta_tags.meta_tags).to eq("title" => "title", "keywords" => "key1, key2, key3", "description" => "description")
     end
 
-    it 'does not require instance variables' do
+    it "does not require instance variables" do
       subject.show
-      expect(subject.response.body).to eq('_rendered_')
+      expect(subject.response.body).to eq("_rendered_")
       expect(subject.meta_tags.meta_tags).to eq({})
     end
 
-    it 'does not fail when instance variables are not set' do
+    it "does not fail when instance variables are not set" do
       subject.hide
-      expect(subject.response.body).to eq('_rendered_')
+      expect(subject.response.body).to eq("_rendered_")
       expect(subject.meta_tags.meta_tags).to eq({})
     end
   end
 
-  it_behaves_like '.set_meta_tags'
+  it_behaves_like ".set_meta_tags"
 end
