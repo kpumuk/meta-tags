@@ -188,7 +188,7 @@ module MetaTags
     # @return [String] separator segment value.
     #
     def extract_separator_section(name, default)
-      meta_tags[name] == false ? "" : (meta_tags[name] || default)
+      (meta_tags[name] == false) ? "" : (meta_tags[name] || default)
     end
 
     # Extracts robots attribute (noindex, nofollow, etc) name and value.
@@ -198,7 +198,7 @@ module MetaTags
     #
     def extract_robots_attribute(name)
       noindex = extract(name)
-      noindex_name = noindex.is_a?(String) || noindex.is_a?(Array) ? noindex : "robots"
+      noindex_name = (noindex.is_a?(String) || noindex.is_a?(Array)) ? noindex : "robots"
       noindex_value = noindex ? name.to_s : nil
 
       [noindex_name, noindex_value]

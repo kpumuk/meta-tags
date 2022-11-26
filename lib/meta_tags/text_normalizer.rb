@@ -194,8 +194,8 @@ module MetaTags
           site_title, title, separator, global_limit
         )
 
-        title = title_limited_length > 0 ? truncate_array(title, title_limited_length, separator) : []
-        site_title = site_title_limited_length > 0 ? truncate(site_title, site_title_limited_length) : nil
+        title = (title_limited_length > 0) ? truncate_array(title, title_limited_length, separator) : []
+        site_title = (site_title_limited_length > 0) ? truncate(site_title, site_title_limited_length) : nil
       end
 
       [site_title, title]
@@ -208,7 +208,7 @@ module MetaTags
       main_length = main_title.map(&:length).sum + ((main_title.size - 1) * separator.length)
       main_limited_length = global_limit
 
-      secondary_limited_length = global_limit - (main_length > 0 ? main_length + separator.length : 0)
+      secondary_limited_length = global_limit - ((main_length > 0) ? main_length + separator.length : 0)
       secondary_limited_length = [0, secondary_limited_length].max
 
       if MetaTags.config.truncate_site_title_first
