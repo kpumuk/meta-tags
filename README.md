@@ -25,7 +25,7 @@ Ruby on Rails older than 5.1, because they reached their [End of Life](https://e
 Add the "meta-tags" gem to your `Gemfile`.
 
 ```ruby
-gem 'meta-tags'
+gem "meta-tags"
 ```
 
 And run `bundle install` command.
@@ -56,14 +56,14 @@ First, add this code to your main layout:
 
 ```erb
 <head>
-  <%= display_meta_tags site: 'My website' %>
+  <%= display_meta_tags site: "My website" %>
 </head>
 ```
 
 Then, to set the page title, add this to each of your views (see below for other options):
 
 ```erb
-<h1><%= title 'My page title' %></h1>
+<h1><%= title "My page title" %></h1>
 ```
 
 When views are rendered, the page title will be included in the right spots:
@@ -84,17 +84,19 @@ You can find allowed options for `display_meta_tags` method below.
 You can define following instance variables:
 
 ```ruby
-@page_title       = 'Member Login'
-@page_description = 'Member login page.'
-@page_keywords    = 'Site, Login, Members'
+@page_title = "Member Login"
+@page_description = "Member login page."
+@page_keywords = "Site, Login, Members"
 ```
 
 Also you could use `set_meta_tags` method to define all meta tags simultaneously:
 
 ```ruby
-set_meta_tags title: 'Member Login',
-              description: 'Member login page.',
-              keywords: 'Site, Login, Members'
+set_meta_tags(
+  title: "Member Login",
+  description: "Member login page.",
+  keywords: "Site, Login, Members"
+)
 ```
 
 You can find allowed options for `set_meta_tags` method below.
@@ -104,9 +106,9 @@ You can find allowed options for `set_meta_tags` method below.
 To set meta tags you can use following methods:
 
 ```erb
-<% title 'Member Login' %>
-<% description 'Member login page.' %>
-<% keywords 'Site, Login, Members' %>
+<% title "Member Login" %>
+<% description "Member login page." %>
+<% keywords "Site, Login, Members" %>
 <% nofollow %>
 <% noindex %>
 <% refresh 3 %>
@@ -115,9 +117,13 @@ To set meta tags you can use following methods:
 Also there is `set_meta_tags` method exists:
 
 ```erb
-<% set_meta_tags title: 'Member Login',
-                 description: 'Member login page.',
-                 keywords: 'Site, Login, Members' %>
+<%
+  set_meta_tags(
+    title: "Member Login",
+    description: "Member login page.",
+    keywords: "Site, Login, Members"
+  )
+%>
 ```
 
 You can pass an object that implements `#to_meta_tags` method and returns a Hash:
@@ -127,7 +133,7 @@ class Document < ApplicationRecord
   def to_meta_tags
     {
       title: title,
-      description: summary,
+      description: summary
     }
   end
 end
@@ -140,13 +146,13 @@ The `title` method returns title itself, so you can use it to show the title
 somewhere on the page:
 
 ```erb
-<h1><%= title 'Member Login' %></h1>
+<h1><%= title "Member Login" %></h1>
 ```
 
 If you want to set the title and display another text, use this:
 
 ```erb
-<h1><%= title 'Member Login', 'Here you can login to the site:' %></h1>
+<h1><%= title "Member Login", "Here you can login to the site:" %></h1>
 ```
 
 ### Allowed options for `display_meta_tags` and `set_meta_tags` methods
@@ -165,11 +171,11 @@ Use these options to customize the title format:
 | `:suffix`      | text between separator and page title                                                                                |
 | `:lowercase`   | when true, the page name will be lowercase                                                                           |
 | `:reverse`     | when true, the page and site names will be reversed                                                                  |
-| `:noindex`     | add noindex meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings   |
-| `:index`       | add index meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings     |
-| `:nofollow`    | add nofollow meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings  |
-| `:follow`      | add follow meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings    |
-| `:noarchive`   | add noarchive meta tag; when true, 'robots' will be used; accepts a string with a robot name, or an array of strings |
+| `:noindex`     | add noindex meta tag; when true, "robots" will be used; accepts a string with a robot name, or an array of strings   |
+| `:index`       | add index meta tag; when true, "robots" will be used; accepts a string with a robot name, or an array of strings     |
+| `:nofollow`    | add nofollow meta tag; when true, "robots" will be used; accepts a string with a robot name, or an array of strings  |
+| `:follow`      | add follow meta tag; when true, "robots" will be used; accepts a string with a robot name, or an array of strings    |
+| `:noarchive`   | add noarchive meta tag; when true, "robots" will be used; accepts a string with a robot name, or an array of strings |
 | `:canonical`   | add canonical link tag                                                                                               |
 | `:prev`        | add prev link tag                                                                                                    |
 | `:next`        | add next link tag                                                                                                    |
@@ -185,8 +191,8 @@ And here are a few examples to give you ideas.
 <%= display_meta_tags prefix: false, separator: ":" %>
 <%= display_meta_tags lowercase: true %>
 <%= display_meta_tags reverse: true, prefix: false %>
-<%= display_meta_tags og: { title: 'The Rock', type: 'video.movie' } %>
-<%= display_meta_tags alternate: { 'zh-Hant' => 'http://example.com.tw/base/url' } %>
+<%= display_meta_tags og: { title: "The Rock", type: "video.movie" } %>
+<%= display_meta_tags alternate: { "zh-Hant" => "http://example.com.tw/base/url" } %>
 ```
 
 ### Allowed values
@@ -194,16 +200,16 @@ And here are a few examples to give you ideas.
 You can specify `:title` as a string or array:
 
 ```ruby
-set_meta_tags title: ['part1', 'part2'], site: 'site'
+set_meta_tags title: ["part1", "part2"], site: "site"
 # site | part1 | part2
-set_meta_tags title: ['part1', 'part2'], reverse: true, site: 'site'
+set_meta_tags title: ["part1", "part2"], reverse: true, site: "site"
 # part2 | part1 | site
 ```
 
 Keywords can be passed as string of comma-separated values, or as an array:
 
 ```ruby
-set_meta_tags keywords: ['tag1', 'tag2']
+set_meta_tags keywords: ["tag1", "tag2"]
 # tag1, tag2
 ```
 
@@ -220,7 +226,7 @@ Say, you have the following in your application layout:
 ```ruby
 display_meta_tags og: {
   title: :title,
-  site_name: :site,
+  site_name: :site
 }
 ```
 
@@ -228,7 +234,7 @@ The value of `og[:title]` is a symbol and therefore references the value of the
 top level `title` meta tag. With the following in any view:
 
 ```ruby
-title 'my great view'
+title "my great view"
 ```
 
 You get this open graph meta tag for free:
@@ -262,10 +268,10 @@ code duplication, you can define a helper in `application_helper.rb`:
 ```ruby
 def default_meta_tags
   {
-    title:       'Member Login',
-    description: 'Member login page.',
-    keywords:    'Site, Login, Members',
-    separator:   "&mdash;".html_safe,
+    title: "Member Login",
+    description: "Member login page.",
+    keywords: "Site, Login, Members",
+    separator: "&mdash;".html_safe
   }
 end
 ```
@@ -296,11 +302,11 @@ browser are displayed in the title bar. The search engines look at
 the title bar to determine what the page is all about.
 
 ```ruby
-set_meta_tags title: 'Member Login'
+set_meta_tags title: "Member Login"
 # <title>Member Login</title>
-set_meta_tags site: 'Site Title', title: 'Member Login'
+set_meta_tags site: "Site Title", title: "Member Login"
 # <title>Site Title | Member Login</title>
-set_meta_tags site: 'Site Title', title: 'Member Login', reverse: true
+set_meta_tags site: "Site Title", title: "Member Login", reverse: true
 # <title>Member Login | Site Title</title>
 ```
 
@@ -353,7 +359,7 @@ include specific pages in their indexes.
 ```ruby
 set_meta_tags noindex: true
 # <meta name="robots" content="noindex">
-set_meta_tags noindex: 'googlebot'
+set_meta_tags noindex: "googlebot"
 # <meta name="googlebot" content="noindex">
 ```
 
@@ -366,7 +372,7 @@ Further reading:
 
 ### Index
 
-Although it is not required to add 'index' to 'robots' as it is default value for Google, some SEO specialists recommend to add it to website
+Although it is not required to add "index" to "robots" as it is default value for Google, some SEO specialists recommend to add it to website
 
 ```ruby
 set_meta_tags index: true
@@ -383,7 +389,7 @@ still arrives at your undesired page.
 ```ruby
 set_meta_tags nofollow: true
 # <meta name="robots" content="nofollow">
-set_meta_tags nofollow: 'googlebot'
+set_meta_tags nofollow: "googlebot"
 # <meta name="googlebot" content="nofollow">
 ```
 
@@ -430,13 +436,13 @@ icon, tab icon or bookmark icon, is a file containing one or more small icons,
 most commonly 16×16 pixels, associated with a particular website or web page.
 
 ```ruby
-set_meta_tags icon: '/favicon.ico'
+set_meta_tags icon: "/favicon.ico"
 # <link rel="icon" href="/favicon.ico" type="image/x-icon">
-set_meta_tags icon: '/favicon.png', type: 'image/png'
+set_meta_tags icon: "/favicon.png", type: "image/png"
 # <link rel="icon" href="/favicon.png" type="image/png">
 set_meta_tags icon: [
-  { href: '/images/icons/icon_96.png', sizes: '32x32 96x96', type: 'image/png' },
-  { href: '/images/icons/icon_itouch_precomp_32.png', rel: 'apple-touch-icon-precomposed', sizes: '32x32', type: 'image/png' },
+  {href: "/images/icons/icon_96.png", sizes: "32x32 96x96", type: "image/png"},
+  {href: "/images/icons/icon_itouch_precomp_32.png", rel: "apple-touch-icon-precomposed", sizes: "32x32", type: "image/png"}
 ]
 # <link rel="icon" href="/images/icons/icon_96.png" type="image/png" sizes="32x32 96x96">
 # <link rel="apple-touch-icon-precomposed" href="/images/icons/icon_itouch_precomp_32.png" type="image/png" sizes="32x32">
@@ -453,11 +459,11 @@ Alternate link elements tell a search engine when there is content that's
 translated or targeted to users in a certain region.
 
 ```ruby
-set_meta_tags alternate: { "fr" => "http://yoursite.fr/alternate/url" }
+set_meta_tags alternate: {"fr" => "http://yoursite.fr/alternate/url"}
 # <link rel="alternate" href="http://yoursite.fr/alternate/url" hreflang="fr">
 
-set_meta_tags alternate: { "fr" => "http://yoursite.fr/alternate/url",
-                           "de" => "http://yoursite.de/alternate/url" }
+set_meta_tags alternate: {"fr" => "http://yoursite.fr/alternate/url",
+                          "de" => "http://yoursite.de/alternate/url"}
 # <link rel="alternate" href="http://yoursite.fr/alternate/url" hreflang="fr">
 # <link rel="alternate" href="http://yoursite.de/alternate/url" hreflang="de">
 ```
@@ -466,10 +472,10 @@ If you need more than just multi-lingual links, you can use an alternative synta
 
 ```ruby
 set_meta_tags alternate: [
-    { href: 'http://example.fr/base/url', hreflang: 'fr' },
-    { href: 'http://example.com/feed.rss', type: 'application/rss+xml', title: 'RSS' },
-    { href: 'http://m.example.com/page-1', media: 'only screen and (max-width: 640px)'},
-  ]
+  {href: "http://example.fr/base/url", hreflang: "fr"},
+  {href: "http://example.com/feed.rss", type: "application/rss+xml", title: "RSS"},
+  {href: "http://m.example.com/page-1", media: "only screen and (max-width: 640px)"}
+]
 ```
 
 Further reading:
@@ -527,7 +533,7 @@ To link back to normal version, use `canonical`.
 ### Manifest links
 
 ```ruby
-set_meta_tags manifest: 'manifest.json'
+set_meta_tags manifest: "manifest.json"
 # <link rel="manifest" href="manifest.json">
 ```
 
@@ -545,7 +551,7 @@ meta refresh to be used as a method of URL redirection.
 ```ruby
 set_meta_tags refresh: 5
 # <meta content="5" http-equiv="refresh">
-set_meta_tags refresh: '5;url=http://example.com'
+set_meta_tags refresh: "5;url=http://example.com"
 # <meta content="5;url=http://example.com" http-equiv="refresh">
 ```
 
@@ -561,7 +567,7 @@ Open Search link element to describe a search engine in a standard and accessibl
 ```ruby
 set_meta_tags open_search: {
   title: "Open Search",
-  href:  "/opensearch.xml"
+  href: "/opensearch.xml"
 }
 # <link href="/opensearch.xml" rel="search" title="Open Search" type="application/opensearchdescription+xml">
 ```
@@ -592,7 +598,7 @@ Repeated meta tags can be built just using an Array inside a Hash. For example:
 
 ```ruby
 set_meta_tags og: {
-    image: ["http://example.com/rock.jpg", "http://example.com/rock2.jpg"]
+  image: ["http://example.com/rock.jpg", "http://example.com/rock2.jpg"]
 }
 # <meta property="og:image" content="http://example.com/rock.jpg">
 # <meta property="og:image" content="http://example.com/rock2.jpg">
@@ -607,13 +613,13 @@ and in the future. Here's an example for a movie page:
 
 ```ruby
 set_meta_tags og: {
-  title:    'The Rock',
-  type:     'video.movie',
-  url:      'http://www.imdb.com/title/tt0117500/',
-  image:    'http://ia.media-imdb.com/rock.jpg',
-  video:    {
-    director: 'http://www.imdb.com/name/nm0000881/',
-    writer:   ['http://www.imdb.com/name/nm0918711/', 'http://www.imdb.com/name/nm0177018/']
+  title: "The Rock",
+  type: "video.movie",
+  url: "http://www.imdb.com/title/tt0117500/",
+  image: "http://ia.media-imdb.com/rock.jpg",
+  video: {
+    director: "http://www.imdb.com/name/nm0000881/",
+    writer: ["http://www.imdb.com/name/nm0918711/", "http://www.imdb.com/name/nm0177018/"]
   }
 }
 # <meta property="og:title" content="The Rock">
@@ -629,19 +635,21 @@ Multiple images declared as an **array** (look at the `_` character):
 
 ```ruby
 set_meta_tags og: {
-  title:    'Two structured image properties',
-  type:     'website',
-  url:      'view-source:http://examples.opengraphprotocol.us/image-array.html',
-  image:    [{
-    _: 'http://examples.opengraphprotocol.us/media/images/75.png',
-    width: 75,
-    height: 75,
-  },
-  {
-    _: 'http://examples.opengraphprotocol.us/media/images/50.png',
-    width: 50,
-    height: 50,
-  }]
+  title: "Two structured image properties",
+  type: "website",
+  url: "view-source:http://examples.opengraphprotocol.us/image-array.html",
+  image: [
+    {
+      _: "http://examples.opengraphprotocol.us/media/images/75.png",
+      width: 75,
+      height: 75
+    },
+    {
+      _: "http://examples.opengraphprotocol.us/media/images/50.png",
+      width: 50,
+      height: 50
+    }
+  ]
 }
 # <meta property="og:title" content="Two structured image properties">
 # <meta property="og:type" content="website">
@@ -658,10 +666,10 @@ Article meta tags are supported too:
 
 ```ruby
 set_meta_tags article: {
-  published_time:    '2013-09-17T05:59:00+01:00',
-  modified_time:     '2013-09-16T19:08:47+01:00',
-  section:           'Article Section',
-  tag:               'Article Tag',
+  published_time: "2013-09-17T05:59:00+01:00",
+  modified_time: "2013-09-16T19:08:47+01:00",
+  section: "Article Section",
+  tag: "Article Tag"
 }
 # <meta property="article:published_time" content="2013-09-17T05:59:00+01:00">
 # <meta property="article:modified_time" content="2013-09-16T19:08:47+01:00">
@@ -694,11 +702,11 @@ When you need to generate a [Twitter Photo card](https://dev.twitter.com/docs/ca
 
 ```ruby
 set_meta_tags twitter: {
-  card:  "photo",
+  card: "photo",
   image: {
-    _:      "http://example.com/1.png",
-    width:  100,
-    height: 100,
+    _: "http://example.com/1.png",
+    width: 100,
+    height: 100
   }
 }
 # <meta name="twitter:card" content="photo">
@@ -711,12 +719,12 @@ Special parameter `itemprop` can be used on a "anonymous" tag "\_" to generate "
 
 ```ruby
 set_meta_tags twitter: {
-  card:  "photo",
+  card: "photo",
   image: {
-    _:        "http://example.com/1.png",
-    width:    100,
-    height:   100,
-    itemprop: "image",
+    _: "http://example.com/1.png",
+    width: 100,
+    height: 100,
+    itemprop: "image"
   }
 }
 # <meta name="twitter:card" content="photo">
@@ -766,7 +774,7 @@ You can also specify value as an Array, and values will be displayed as a list
 of `meta` tags:
 
 ```ruby
-set_meta_tags author: [ "Dmytro Shteflyuk", "John Doe" ]
+set_meta_tags author: ["Dmytro Shteflyuk", "John Doe"]
 # <meta name="author" content="Dmytro Shteflyuk">
 # <meta name="author" content="John Doe">
 ```
