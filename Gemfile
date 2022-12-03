@@ -2,13 +2,10 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in meta-tags.gemspec
+# Specify gem's dependencies in meta-tags.gemspec
 gemspec
 
-if ENV["RAILS_VERSION"]
-  # Install specified version of actionpack if requested
-  gem "railties", "~> #{ENV["RAILS_VERSION"]}"
-end
+gem "railties", "~> 7.0.4"
 
 unless ENV["NO_STEEP"] == "1"
   # Ruby typings
