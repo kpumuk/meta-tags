@@ -2,6 +2,7 @@
 .DS_Store
 .bundle
 Gemfile.lock
+gemfiles/*.gemfile.lock
 .ruby-gemset
 coverage
 doc

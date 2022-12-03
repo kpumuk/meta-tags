@@ -3,35 +3,32 @@
 #   rake circleci
 #
 <%
-  rails51 = '5.1.7'
-  rails52 = '5.2.8'
-  rails60 = '6.0.5'
-  rails61 = '6.1.6'
-  rails70 = '7.0.3'
-
   builds = [
     # 2.6
-    ['2.6', rails51],
-    ['2.6', rails52],
-    ['2.6', rails60],
-    ['2.6', rails61],
+    %w[2.6 5.1],
+    %w[2.6 5.2],
+    %w[2.6 6.0],
+    %w[2.6 6.1],
 
     # 2.7
-    ['2.7', rails51],
-    ['2.7', rails52],
-    ['2.7', rails60],
-    ['2.7', rails61],
-    ['2.7', rails70],
+    %w[2.7 5.1],
+    %w[2.7 5.2],
+    %w[2.7 6.0],
+    %w[2.7 6.1],
+    %w[2.7 7.0],
+    %w[2.7 7.1],
 
     # 3.0
-    ['3.0', rails60],
-    ['3.0', rails61],
-    ['3.0', rails70],
+    %w[3.0 6.0],
+    %w[3.0 6.1],
+    %w[3.0 7.0],
+    %w[3.0 7.1],
 
     # 3.1
-    ['3.1', rails60],
-    ['3.1', rails61],
-    ['3.1', rails70, true],
+    %w[3.1 6.0],
+    %w[3.1 6.1],
+    ["3.1", "7.0", true],
+    %w[3.1 7.1],
   ]
 
   main_build = builds.find { |_, _, is_main_build| is_main_build }
@@ -54,26 +51,30 @@ shared_build_steps: &shared_build_steps
   - run:
       name: Storing Rails Version
       command: |
-        echo "$RUBY_VERSION/$RAILS_VERSION" > RAILS_VERSION
-        cat RAILS_VERSION
+        echo "$RUBY_VERSION/$BUNDLE_GEMFILE" > CACHE_ENV_VERSION
+        cat CACHE_ENV_VERSION
+        # To generate cache checksum, we need a static file, but Gemfile is
+        # based on the Rails version we are testing against. This step just puts
+        # a dynamically identified file into a known path.
+        cat "$BUNDLE_GEMFILE" > CACHE_GEMFILE
 
   # Download and cache dependencies
   - restore_cache:
       keys:
-      - dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "RAILS_VERSION" }}-{{ checksum "Gemfile" }}-{{ checksum "meta-tags.gemspec" }}
+      - dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "CACHE_ENV_VERSION" }}-{{ checksum "CACHE_GEMFILE" }}-{{ checksum "meta-tags.gemspec" }}
       # fallback to using the latest cache if no exact match is found
-      - dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "RAILS_VERSION" }}
+      - dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "CACHE_ENV_VERSION" }}
 
   - run:
       name: Installing Dependencies
       command: |
-        bundle config set --local path vendor/bundle
+        bundle config set --local path "${PWD}/vendor/bundle"
         bundle check || (bundle install --jobs=4 --retry=3 && bundle clean)
 
   - save_cache:
       paths:
         - ./vendor/bundle
-      key: dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "RAILS_VERSION" }}-{{ checksum "Gemfile" }}-{{ checksum "meta-tags.gemspec" }}
+      key: dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "CACHE_ENV_VERSION" }}-{{ checksum "CACHE_GEMFILE" }}-{{ checksum "meta-tags.gemspec" }}
 
   # run tests!
   - run:
@@ -122,7 +123,7 @@ shared_build_steps: &shared_build_steps
 
 jobs:
   <% builds.each do |ruby_version, rails_version, is_main_build| %>
-  build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version.tr('.', '_') %>:
+  build-ruby<%= ruby_version.delete(".") %>-rails-<%= rails_version.delete(".") %>:
     parameters:
       is_main_build:
         type: boolean
@@ -130,10 +131,10 @@ jobs:
     docker:
       - image: cimg/ruby:<%= ruby_version %>
         environment:
-          RAILS_VERSION: <%= rails_version %>
+          BUNDLE_GEMFILE: gemfiles/rails_<%= rails_version %>.gemfile
           ENABLE_CODE_COVERAGE: 1
           NO_STEEP: <%= is_main_build ? 0 : 1  %>
-    working_directory: ~/meta-tags/ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version %>
+    working_directory: ~/meta-tags/ruby<%= ruby_version.delete(".") %>-rails-<%= rails_version.delete(".") %>
     steps: *shared_build_steps
   <% end %>
 
@@ -147,7 +148,7 @@ jobs:
       - run:
           name: Uploading Code Coverage
           command: |
-            cd /tmp/workspace/ruby<%= main_build[0].tr('.', '') %>-rails-<%= main_build[1] %>
+            cd /tmp/workspace/ruby<%= main_build[0].delete(".") %>-rails-<%= main_build[1].delete(".") %>
             ./cc-test-reporter upload-coverage --input coverage/codeclimate.coverage.json || true
   tests:
     docker:
@@ -155,23 +156,23 @@ jobs:
     steps:
       - run:
           name: All tests succeeded
-          command: ':'
+          command: ":"
 
 workflows:
   version: 2
   test:
     jobs:
       <% builds.each do |ruby_version, rails_version, is_main_build| %>
-      - build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version.tr('.', '_') %>:
+      - build-ruby<%= ruby_version.delete(".") %>-rails-<%= rails_version.delete(".") %>:
           is_main_build: <%= !!is_main_build %>
       <% end %>
 
       - upload-coverage:
           requires:
-            - build-ruby<%= main_build[0].tr('.', '') %>-rails-<%= main_build[1].tr('.', '_') %>
+            - build-ruby<%= main_build[0].delete(".") %>-rails-<%= main_build[1].delete(".") %>
 
       - tests:
           requires:
             <% builds.each do |ruby_version, rails_version| %>
-            - build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version.tr('.', '_') %>
+            - build-ruby<%= ruby_version.delete(".") %>-rails-<%= rails_version.delete(".") %>
             <% end %>
