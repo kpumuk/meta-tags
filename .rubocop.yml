@@ -1,5 +1,6 @@
 require:
   - standard
+  - rubocop-performance
   - rubocop-rails
   - rubocop-rake
   - rubocop-rspec
@@ -46,6 +47,10 @@ RSpec/ExampleLength:
 
 RSpec/VerifiedDoubles:
   Enabled: false
+
+RSpec/NoExpectationExample:
+  AllowedPatterns:
+    - test_hashes_and_arrays
 
 #-------------------------------------------------------------------------------
 # Disabled rules
