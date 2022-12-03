@@ -23,11 +23,15 @@ shared_build_steps: &shared_build_steps
       command: |
         echo "$RUBY_VERSION/$BUNDLE_GEMFILE" > CACHE_ENV_VERSION
         cat CACHE_ENV_VERSION
+        # To generate cache checksum, we need a static file, but Gemfile is
+        # based on the Rails version we're testing against. This step just puts
+        # a dynamicly identified file into a known path.
+        cat "$BUNDLE_GEMFILE" > CACHE_GEMFILE
 
   # Download and cache dependencies
   - restore_cache:
       keys:
-      - dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "CACHE_ENV_VERSION" }}-{{ checksum .Environment.BUNDLE_GEMFILE }}-{{ checksum "meta-tags.gemspec" }}
+      - dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "CACHE_ENV_VERSION" }}-{{ checksum "CACHE_GEMFILE" }}-{{ checksum "meta-tags.gemspec" }}
       # fallback to using the latest cache if no exact match is found
       - dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "CACHE_ENV_VERSION" }}
 
@@ -40,7 +44,7 @@ shared_build_steps: &shared_build_steps
   - save_cache:
       paths:
         - ./vendor/bundle
-      key: dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "CACHE_ENV_VERSION" }}-{{ checksum .Environment.BUNDLE_GEMFILE }}-{{ checksum "meta-tags.gemspec" }}
+      key: dependencies-{{ .Environment.CACHE_VERSION }}-{{ checksum "CACHE_ENV_VERSION" }}-{{ checksum "CACHE_GEMFILE" }}-{{ checksum "meta-tags.gemspec" }}
 
   # run tests!
   - run:
