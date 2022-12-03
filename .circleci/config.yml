@@ -219,6 +219,20 @@ jobs:
     working_directory: ~/meta-tags/ruby27-rails-70
     steps: *shared_build_steps
   
+  build-ruby27-rails-71:
+    parameters:
+      is_main_build:
+        type: boolean
+        default: false
+    docker:
+      - image: cimg/ruby:2.7
+        environment:
+          BUNDLE_GEMFILE: gemfiles/rails_7.1.gemfile
+          ENABLE_CODE_COVERAGE: 1
+          NO_STEEP: 1
+    working_directory: ~/meta-tags/ruby27-rails-71
+    steps: *shared_build_steps
+  
   build-ruby30-rails-60:
     parameters:
       is_main_build:
@@ -261,6 +275,20 @@ jobs:
     working_directory: ~/meta-tags/ruby30-rails-70
     steps: *shared_build_steps
   
+  build-ruby30-rails-71:
+    parameters:
+      is_main_build:
+        type: boolean
+        default: false
+    docker:
+      - image: cimg/ruby:3.0
+        environment:
+          BUNDLE_GEMFILE: gemfiles/rails_7.1.gemfile
+          ENABLE_CODE_COVERAGE: 1
+          NO_STEEP: 1
+    working_directory: ~/meta-tags/ruby30-rails-71
+    steps: *shared_build_steps
+  
   build-ruby31-rails-60:
     parameters:
       is_main_build:
@@ -301,6 +329,20 @@ jobs:
           ENABLE_CODE_COVERAGE: 1
           NO_STEEP: 0
     working_directory: ~/meta-tags/ruby31-rails-70
+    steps: *shared_build_steps
+  
+  build-ruby31-rails-71:
+    parameters:
+      is_main_build:
+        type: boolean
+        default: false
+    docker:
+      - image: cimg/ruby:3.1
+        environment:
+          BUNDLE_GEMFILE: gemfiles/rails_7.1.gemfile
+          ENABLE_CODE_COVERAGE: 1
+          NO_STEEP: 1
+    working_directory: ~/meta-tags/ruby31-rails-71
     steps: *shared_build_steps
   
 
@@ -356,6 +398,9 @@ workflows:
       - build-ruby27-rails-70:
           is_main_build: false
       
+      - build-ruby27-rails-71:
+          is_main_build: false
+      
       - build-ruby30-rails-60:
           is_main_build: false
       
@@ -363,6 +408,9 @@ workflows:
           is_main_build: false
       
       - build-ruby30-rails-70:
+          is_main_build: false
+      
+      - build-ruby30-rails-71:
           is_main_build: false
       
       - build-ruby31-rails-60:
@@ -373,6 +421,9 @@ workflows:
       
       - build-ruby31-rails-70:
           is_main_build: true
+      
+      - build-ruby31-rails-71:
+          is_main_build: false
       
 
       - upload-coverage:
@@ -400,15 +451,21 @@ workflows:
             
             - build-ruby27-rails-70
             
+            - build-ruby27-rails-71
+            
             - build-ruby30-rails-60
             
             - build-ruby30-rails-61
             
             - build-ruby30-rails-70
             
+            - build-ruby30-rails-71
+            
             - build-ruby31-rails-60
             
             - build-ruby31-rails-61
             
             - build-ruby31-rails-70
+            
+            - build-ruby31-rails-71
             

@@ -19,3 +19,7 @@ end
 appraise "rails-7.0" do
   gem "railties", "7.0.4"
 end
+
+appraise "rails-7.1" do
+  gem "railties", github: "rails"
+end
