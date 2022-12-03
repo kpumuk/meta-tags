@@ -28,8 +28,15 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.12.0"
   spec.add_development_dependency "rspec-html-matchers", "~> 0.10.0"
-  spec.add_development_dependency "standard", "~> 1.18.1"
   spec.add_development_dependency "appraisal", "~> 2.4.1"
+  spec.add_development_dependency "simplecov", "~> 0.21.2"
+  # Code style
+  spec.add_development_dependency "standard", "~> 1.18.1"
+  spec.add_development_dependency "rubocop-rails", "~> 2.17.3"
+  spec.add_development_dependency "rubocop-rake", "~> 0.6.0"
+  spec.add_development_dependency "rubocop-rspec", "~> 2.15.0"
+  # Format RSpec output for CircleCI
+  spec.add_development_dependency "rspec_junit_formatter", "~> 0.6.0"
 
   spec.cert_chain = ["certs/kpumuk.pem"]
   spec.signing_key = File.expand_path("~/.ssh/gem-kpumuk.pem") if $PROGRAM_NAME.end_with?("gem")
