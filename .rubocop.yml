@@ -48,6 +48,10 @@ RSpec/ExampleLength:
 RSpec/VerifiedDoubles:
   Enabled: false
 
+RSpec/NoExpectationExample:
+  AllowedPatterns:
+    - test_hashes_and_arrays
+
 #-------------------------------------------------------------------------------
 # Disabled rules
 #-------------------------------------------------------------------------------
