@@ -27,7 +27,7 @@
     # 3.1
     %w[3.1 6.0],
     %w[3.1 6.1],
-    ['3.1', '7.0', true],
+    ["3.1", "7.0", true],
     %w[3.1 7.1],
   ]
 
@@ -54,8 +54,8 @@ shared_build_steps: &shared_build_steps
         echo "$RUBY_VERSION/$BUNDLE_GEMFILE" > CACHE_ENV_VERSION
         cat CACHE_ENV_VERSION
         # To generate cache checksum, we need a static file, but Gemfile is
-        # based on the Rails version we're testing against. This step just puts
-        # a dynamicly identified file into a known path.
+        # based on the Rails version we are testing against. This step just puts
+        # a dynamically identified file into a known path.
         cat "$BUNDLE_GEMFILE" > CACHE_GEMFILE
 
   # Download and cache dependencies
@@ -123,7 +123,7 @@ shared_build_steps: &shared_build_steps
 
 jobs:
   <% builds.each do |ruby_version, rails_version, is_main_build| %>
-  build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version.tr('.', '') %>:
+  build-ruby<%= ruby_version.delete(".") %>-rails-<%= rails_version.delete(".") %>:
     parameters:
       is_main_build:
         type: boolean
@@ -134,7 +134,7 @@ jobs:
           BUNDLE_GEMFILE: gemfiles/rails_<%= rails_version %>.gemfile
           ENABLE_CODE_COVERAGE: 1
           NO_STEEP: <%= is_main_build ? 0 : 1  %>
-    working_directory: ~/meta-tags/ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version.tr('.', '') %>
+    working_directory: ~/meta-tags/ruby<%= ruby_version.delete(".") %>-rails-<%= rails_version.delete(".") %>
     steps: *shared_build_steps
   <% end %>
 
@@ -148,7 +148,7 @@ jobs:
       - run:
           name: Uploading Code Coverage
           command: |
-            cd /tmp/workspace/ruby<%= main_build[0].tr('.', '') %>-rails-<%= main_build[1].tr('.', '') %>
+            cd /tmp/workspace/ruby<%= main_build[0].delete(".") %>-rails-<%= main_build[1].delete(".") %>
             ./cc-test-reporter upload-coverage --input coverage/codeclimate.coverage.json || true
   tests:
     docker:
@@ -156,23 +156,23 @@ jobs:
     steps:
       - run:
           name: All tests succeeded
-          command: ':'
+          command: ":"
 
 workflows:
   version: 2
   test:
     jobs:
       <% builds.each do |ruby_version, rails_version, is_main_build| %>
-      - build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version.tr('.', '') %>:
+      - build-ruby<%= ruby_version.delete(".") %>-rails-<%= rails_version.delete(".") %>:
           is_main_build: <%= !!is_main_build %>
       <% end %>
 
       - upload-coverage:
           requires:
-            - build-ruby<%= main_build[0].tr('.', '') %>-rails-<%= main_build[1].tr('.', '') %>
+            - build-ruby<%= main_build[0].delete(".") %>-rails-<%= main_build[1].delete(".") %>
 
       - tests:
           requires:
             <% builds.each do |ruby_version, rails_version| %>
-            - build-ruby<%= ruby_version.tr('.', '') %>-rails-<%= rails_version.tr('.', '') %>
+            - build-ruby<%= ruby_version.delete(".") %>-rails-<%= rails_version.delete(".") %>
             <% end %>

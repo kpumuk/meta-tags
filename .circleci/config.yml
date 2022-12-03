@@ -24,8 +24,8 @@ shared_build_steps: &shared_build_steps
         echo "$RUBY_VERSION/$BUNDLE_GEMFILE" > CACHE_ENV_VERSION
         cat CACHE_ENV_VERSION
         # To generate cache checksum, we need a static file, but Gemfile is
-        # based on the Rails version we're testing against. This step just puts
-        # a dynamicly identified file into a known path.
+        # based on the Rails version we are testing against. This step just puts
+        # a dynamically identified file into a known path.
         cat "$BUNDLE_GEMFILE" > CACHE_GEMFILE
 
   # Download and cache dependencies
@@ -364,7 +364,7 @@ jobs:
     steps:
       - run:
           name: All tests succeeded
-          command: ':'
+          command: ":"
 
 workflows:
   version: 2
