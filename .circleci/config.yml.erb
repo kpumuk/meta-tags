@@ -68,7 +68,7 @@ shared_build_steps: &shared_build_steps
   - run:
       name: Installing Dependencies
       command: |
-        bundle config set --local path vendor/bundle
+        bundle config set --local path "${PWD}/vendor/bundle"
         bundle check || (bundle install --jobs=4 --retry=3 && bundle clean)
 
   - save_cache:
