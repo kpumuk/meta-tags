@@ -1,0 +1,17 @@
+require:
+  - rubocop-rails
+
+inherit_gem:
+  rubocop-rails:
+    - config/default.yml
+
+AllCops:
+  TargetRailsVersion: 5.1
+
+# Do not require loading Rails environment for Rake tasks as we are not a Rails application.
+Rails/RakeEnvironment:
+  Enabled: false
+
+# Do not require subclassing from ApplicationController as we're not a rails application
+Rails/ApplicationController:
+  Enabled: false

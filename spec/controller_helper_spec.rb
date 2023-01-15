@@ -11,7 +11,7 @@ RSpec.describe MetaTags::ControllerHelper do
   end
 
   before do
-    skip("Does not work properly with RBS") if ENV["RBS_TEST_TARGET"] # rubocop:disable RSpec/Pending
+    skip("Does not work properly with RBS") if ENV["RBS_TEST_TARGET"]
   end
 
   describe "module" do

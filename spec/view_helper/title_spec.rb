@@ -183,7 +183,7 @@ RSpec.describe MetaTags::ViewHelper do
     end
 
     it "fails when title is not a String-like object" do
-      skip("Fails RBS") if ENV["RBS_TEST_TARGET"] # rubocop:disable RSpec/Pending
+      skip("Fails RBS") if ENV["RBS_TEST_TARGET"]
 
       expect {
         subject.display_meta_tags(site: "someSite", title: 5)

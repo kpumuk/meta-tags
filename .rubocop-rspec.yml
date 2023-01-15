@@ -1,28 +1,9 @@
 require:
-  - standard
-  - rubocop-performance
-  - rubocop-rails
-  - rubocop-rake
   - rubocop-rspec
 
 inherit_gem:
-  standard: config/base.yml
-
-AllCops:
-  # Enable all the rules by default
-  EnabledByDefault: true
-  # Command line rubocop options
-  ExtraDetails: true
-  DisplayStyleGuide: true
-  DisplayCopNames: true
-  SuggestExtensions: false
-  # Target versions
-  TargetRubyVersion: 2.6
-  TargetRailsVersion: 5.1
-
-#-------------------------------------------------------------------------------
-# RSpec rules
-#-------------------------------------------------------------------------------
+  rubocop-rspec:
+    - config/default.yml
 
 RSpec/MultipleExpectations:
   Max: 7
@@ -51,15 +32,3 @@ RSpec/VerifiedDoubles:
 RSpec/NoExpectationExample:
   AllowedPatterns:
     - test_hashes_and_arrays
-
-#-------------------------------------------------------------------------------
-# Disabled rules
-#-------------------------------------------------------------------------------
-
-# Do not require loading Rails enviroment for Rake tasks as we are not a Rails application.
-Rails/RakeEnvironment:
-  Enabled: false
-
-# Do not require subclassing from ApplicationController as we're not a rails application
-Rails/ApplicationController:
-  Enabled: false
