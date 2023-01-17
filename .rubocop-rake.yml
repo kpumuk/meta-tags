@@ -1,0 +1,6 @@
+require:
+  - rubocop-rake
+
+inherit_gem:
+  rubocop-rake:
+    - config/default.yml

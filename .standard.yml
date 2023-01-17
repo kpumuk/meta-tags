@@ -1,0 +1,7 @@
+ruby_version: 2.6.0
+extend_config:
+  - .rubocop-rake.yml
+  - .rubocop-rails.yml
+  - .rubocop-rspec.yml
+ignore:
+  - "gemfiles/vendor/**/*"
