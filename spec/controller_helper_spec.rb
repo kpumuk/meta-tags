@@ -5,8 +5,8 @@ require "spec_helper"
 RSpec.describe MetaTags::ControllerHelper do
   subject do
     MetaTagsRailsApp::MetaTagsController.new.tap do |c|
-      c.request = ActionDispatch::TestRequest.create
-      c.response = ActionDispatch::TestResponse.new
+      c.set_request! ActionDispatch::TestRequest.create
+      c.set_response! ActionDispatch::TestResponse.new
     end
   end
 
