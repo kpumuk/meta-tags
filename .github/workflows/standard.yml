@@ -20,7 +20,7 @@ jobs:
       - name: Cache gems
         uses: actions/cache@v3
         with:
-          path: vendor/bundle
+          path: gemfiles/vendor/bundle
           key: ${{ runner.os }}-rubocop-${{ hashFiles('gemfiles/rails_7.0.gemfile') }}
           restore-keys: |
             ${{ runner.os }}-rubocop-
@@ -29,4 +29,5 @@ jobs:
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
       - name: Run StandardRB
-        run: bundle exec standardrb --parallel
+        run: |
+          bundle exec standardrb
