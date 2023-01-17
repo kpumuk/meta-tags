@@ -17,9 +17,10 @@ module MetaTagsRailsApp
     config.eager_load = false
   end
 
-  class MetaTagsController < ActionController::Base
-    include MetaTags::ControllerHelper
+  # Alright, we're all set. Let's boot!
+  Rails.application.initialize!
 
+  class MetaTagsController < ActionController::Base
     def index
       @page_title = "title"
       @page_keywords = "key1, key2, key3"
@@ -47,6 +48,3 @@ module MetaTagsRailsApp
     include MetaTags::ViewHelper
   end
 end
-
-# Alright, we're all set. Let's boot!
-Rails.application.initialize!
