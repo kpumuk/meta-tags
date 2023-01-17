@@ -3,3 +3,5 @@ extend_config:
   - .rubocop-rake.yml
   - .rubocop-rails.yml
   - .rubocop-rspec.yml
+ignore:
+  - "gemfiles/vendor/**/*"
