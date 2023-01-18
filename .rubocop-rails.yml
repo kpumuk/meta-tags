@@ -1,10 +1,6 @@
 require:
   - rubocop-rails
 
-inherit_gem:
-  rubocop-rails:
-    - config/default.yml
-
 AllCops:
   TargetRailsVersion: 5.1
 

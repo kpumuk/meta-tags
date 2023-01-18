@@ -9,3 +9,5 @@ unless ENV["NO_STEEP"] == "1"
   # Ruby typings
   gem "steep", "~> 1.3.0", platform: :mri
 end
+
+gem "standard", github: "palkan/standard", branch: "fix/extend-config-default-configuration-extensions"
