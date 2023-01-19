@@ -9,5 +9,3 @@ unless ENV["NO_STEEP"] == "1"
   # Ruby typings
   gem "steep", "~> 1.3.0", platform: :mri
 end
-
-gem "standard", github: "testdouble/standard"
