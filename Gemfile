@@ -10,4 +10,4 @@ unless ENV["NO_STEEP"] == "1"
   gem "steep", "~> 1.3.0", platform: :mri
 end
 
-gem "standard", github: "palkan/standard", branch: "fix/extend-config-default-configuration-extensions"
+gem "standard", github: "testdouble/standard"
