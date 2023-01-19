@@ -1,10 +1,6 @@
 require:
   - rubocop-rspec
 
-inherit_gem:
-  rubocop-rspec:
-    - config/default.yml
-
 RSpec/MultipleExpectations:
   Max: 7
 
