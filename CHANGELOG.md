@@ -6,6 +6,7 @@ Changes:
 
 - Switched code style from custom rules to Standard ([246](https://github.com/kpumuk/meta-tags/pull/251)).
 - Switched from testing Rails using environment variables to Appraisal gem ([251](https://github.com/kpumuk/meta-tags/pull/247)).
+- Ruby 2.7 is minimum supported version ([257](https://github.com/kpumuk/meta-tags/pull/257/))
 
 ## 2.18.0 (September 15, 2022) [☰](https://github.com/kpumuk/meta-tags/compare/v2.17.0...v2.18.0)
 

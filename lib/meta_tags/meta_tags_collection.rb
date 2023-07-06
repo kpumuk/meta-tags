@@ -39,7 +39,7 @@ module MetaTags
     #
     def update(object = {})
       meta_tags = if object.respond_to?(:to_meta_tags)
-        # @type var object: (_MetaTagish & Object)
+        # @type var object: _MetaTagish & Object
         object.to_meta_tags
       else
         # @type var object: Hash[String | Symbol, untyped]
