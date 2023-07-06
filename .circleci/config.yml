@@ -93,62 +93,6 @@ shared_build_steps: &shared_build_steps
 
 jobs:
   
-  build-ruby26-rails-51:
-    parameters:
-      is_main_build:
-        type: boolean
-        default: false
-    docker:
-      - image: cimg/ruby:2.6
-        environment:
-          BUNDLE_GEMFILE: gemfiles/rails_5.1.gemfile
-          ENABLE_CODE_COVERAGE: 1
-          NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby26-rails-51
-    steps: *shared_build_steps
-  
-  build-ruby26-rails-52:
-    parameters:
-      is_main_build:
-        type: boolean
-        default: false
-    docker:
-      - image: cimg/ruby:2.6
-        environment:
-          BUNDLE_GEMFILE: gemfiles/rails_5.2.gemfile
-          ENABLE_CODE_COVERAGE: 1
-          NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby26-rails-52
-    steps: *shared_build_steps
-  
-  build-ruby26-rails-60:
-    parameters:
-      is_main_build:
-        type: boolean
-        default: false
-    docker:
-      - image: cimg/ruby:2.6
-        environment:
-          BUNDLE_GEMFILE: gemfiles/rails_6.0.gemfile
-          ENABLE_CODE_COVERAGE: 1
-          NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby26-rails-60
-    steps: *shared_build_steps
-  
-  build-ruby26-rails-61:
-    parameters:
-      is_main_build:
-        type: boolean
-        default: false
-    docker:
-      - image: cimg/ruby:2.6
-        environment:
-          BUNDLE_GEMFILE: gemfiles/rails_6.1.gemfile
-          ENABLE_CODE_COVERAGE: 1
-          NO_STEEP: 1
-    working_directory: ~/meta-tags/ruby26-rails-61
-    steps: *shared_build_steps
-  
   build-ruby27-rails-51:
     parameters:
       is_main_build:
@@ -371,18 +315,6 @@ workflows:
   test:
     jobs:
       
-      - build-ruby26-rails-51:
-          is_main_build: false
-      
-      - build-ruby26-rails-52:
-          is_main_build: false
-      
-      - build-ruby26-rails-60:
-          is_main_build: false
-      
-      - build-ruby26-rails-61:
-          is_main_build: false
-      
       - build-ruby27-rails-51:
           is_main_build: false
       
@@ -432,14 +364,6 @@ workflows:
 
       - tests:
           requires:
-            
-            - build-ruby26-rails-51
-            
-            - build-ruby26-rails-52
-            
-            - build-ruby26-rails-60
-            
-            - build-ruby26-rails-61
             
             - build-ruby27-rails-51
             
