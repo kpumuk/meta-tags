@@ -31,10 +31,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "appraisal", "~> 2.4.1"
   spec.add_development_dependency "simplecov", "~> 0.22.0"
   # Code style
-  spec.add_development_dependency "standard", "~> 1.22.1"
-  spec.add_development_dependency "rubocop-rails", "~> 2.17.3"
+  spec.add_development_dependency "standard", "~> 1.29"
+  spec.add_development_dependency "rubocop-rails", "~> 2.20.2"
   spec.add_development_dependency "rubocop-rake", "~> 0.6.0"
-  spec.add_development_dependency "rubocop-rspec", "~> 2.18.0"
+  spec.add_development_dependency "rubocop-rspec", "~> 2.22.0"
   # Format RSpec output for CircleCI
   spec.add_development_dependency "rspec_junit_formatter", "~> 0.6.0"
 
