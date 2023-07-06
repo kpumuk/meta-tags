@@ -10,6 +10,4 @@ target :lib do
   # (because we don't have RBS files for it)
   ignore "lib/meta_tags/railtie.rb"
   ignore "lib/generators"
-
-  library "set"
 end

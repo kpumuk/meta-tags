@@ -7,5 +7,5 @@ gemspec
 
 unless ENV["NO_STEEP"] == "1"
   # Ruby typings
-  gem "steep", "~> 1.3.0", platform: :mri
+  gem "steep", "~> 1.4.0", platform: :mri
 end
