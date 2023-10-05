@@ -271,7 +271,7 @@ jobs:
         environment:
           BUNDLE_GEMFILE: gemfiles/rails_7.0.gemfile
           ENABLE_CODE_COVERAGE: 1
-          NO_STEEP: 0
+          NO_STEEP: 1
     working_directory: ~/meta-tags/ruby31-rails-70
     steps: *shared_build_steps
   
@@ -289,10 +289,66 @@ jobs:
     working_directory: ~/meta-tags/ruby31-rails-71
     steps: *shared_build_steps
   
+  build-ruby32-rails-60:
+    parameters:
+      is_main_build:
+        type: boolean
+        default: false
+    docker:
+      - image: cimg/ruby:3.2
+        environment:
+          BUNDLE_GEMFILE: gemfiles/rails_6.0.gemfile
+          ENABLE_CODE_COVERAGE: 1
+          NO_STEEP: 1
+    working_directory: ~/meta-tags/ruby32-rails-60
+    steps: *shared_build_steps
+  
+  build-ruby32-rails-61:
+    parameters:
+      is_main_build:
+        type: boolean
+        default: false
+    docker:
+      - image: cimg/ruby:3.2
+        environment:
+          BUNDLE_GEMFILE: gemfiles/rails_6.1.gemfile
+          ENABLE_CODE_COVERAGE: 1
+          NO_STEEP: 1
+    working_directory: ~/meta-tags/ruby32-rails-61
+    steps: *shared_build_steps
+  
+  build-ruby32-rails-70:
+    parameters:
+      is_main_build:
+        type: boolean
+        default: false
+    docker:
+      - image: cimg/ruby:3.2
+        environment:
+          BUNDLE_GEMFILE: gemfiles/rails_7.0.gemfile
+          ENABLE_CODE_COVERAGE: 1
+          NO_STEEP: 1
+    working_directory: ~/meta-tags/ruby32-rails-70
+    steps: *shared_build_steps
+  
+  build-ruby32-rails-71:
+    parameters:
+      is_main_build:
+        type: boolean
+        default: false
+    docker:
+      - image: cimg/ruby:3.2
+        environment:
+          BUNDLE_GEMFILE: gemfiles/rails_7.1.gemfile
+          ENABLE_CODE_COVERAGE: 1
+          NO_STEEP: 0
+    working_directory: ~/meta-tags/ruby32-rails-71
+    steps: *shared_build_steps
+  
 
   upload-coverage:
     docker:
-      - image: cimg/ruby:3.1
+      - image: cimg/ruby:3.2
     steps:
       - attach_workspace:
           at: /tmp/workspace
@@ -300,7 +356,7 @@ jobs:
       - run:
           name: Uploading Code Coverage
           command: |
-            cd /tmp/workspace/ruby31-rails-70
+            cd /tmp/workspace/ruby32-rails-71
             ./cc-test-reporter upload-coverage --input coverage/codeclimate.coverage.json || true
   tests:
     docker:
@@ -352,15 +408,27 @@ workflows:
           is_main_build: false
       
       - build-ruby31-rails-70:
-          is_main_build: true
+          is_main_build: false
       
       - build-ruby31-rails-71:
           is_main_build: false
       
+      - build-ruby32-rails-60:
+          is_main_build: false
+      
+      - build-ruby32-rails-61:
+          is_main_build: false
+      
+      - build-ruby32-rails-70:
+          is_main_build: false
+      
+      - build-ruby32-rails-71:
+          is_main_build: true
+      
 
       - upload-coverage:
           requires:
-            - build-ruby31-rails-70
+            - build-ruby32-rails-71
 
       - tests:
           requires:
@@ -392,4 +460,12 @@ workflows:
             - build-ruby31-rails-70
             
             - build-ruby31-rails-71
+            
+            - build-ruby32-rails-60
+            
+            - build-ruby32-rails-61
+            
+            - build-ruby32-rails-70
+            
+            - build-ruby32-rails-71
             
