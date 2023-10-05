@@ -2,6 +2,7 @@
 
 if ENV["ENABLE_CODE_COVERAGE"]
   require "simplecov"
+  SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
   SimpleCov.start do
     enable_coverage :branch
   end
