@@ -21,5 +21,5 @@ appraise "rails-7.0" do
 end
 
 appraise "rails-7.1" do
-  gem "railties", github: "rails"
+  gem "railties", "7.1.0"
 end
