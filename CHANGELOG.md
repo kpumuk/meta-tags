@@ -1,12 +1,13 @@
 # Changelog
 
-## 2.19.0 (Development)
+## 2.19.0 (October 5, 2023) [☰](https://github.com/kpumuk/meta-tags/compare/v2.18.0...v2.19.0)
 
 Changes:
 
 - Switched code style from custom rules to Standard ([246](https://github.com/kpumuk/meta-tags/pull/251)).
 - Switched from testing Rails using environment variables to Appraisal gem ([251](https://github.com/kpumuk/meta-tags/pull/247)).
 - Ruby 2.7 is minimum supported version ([257](https://github.com/kpumuk/meta-tags/pull/257/))
+- Added support for Rails 7.1 ([267](https://github.com/kpumuk/meta-tags/pull/267))
 
 ## 2.18.0 (September 15, 2022) [☰](https://github.com/kpumuk/meta-tags/compare/v2.17.0...v2.18.0)
 
