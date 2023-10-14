@@ -1,6 +1,6 @@
 # MetaTags: a gem to make your Rails application SEO-friendly
 
-[![CircleCI](https://circleci.com/gh/kpumuk/meta-tags.svg?style=shield)](https://circleci.com/gh/kpumuk/meta-tags)
+[![Tests](https://github.com/kpumuk/meta-tags/actions/workflows/tests.yml/badge.svg)](https://github.com/kpumuk/meta-tags/actions/workflows/tests.yml)
 [![Gem Version](https://badge.fury.io/rb/meta-tags.svg)](https://badge.fury.io/rb/meta-tags)
 [![Ruby Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://github.com/testdouble/standard)
 [![Code Climate](https://codeclimate.com/github/kpumuk/meta-tags/badges/gpa.svg)](https://codeclimate.com/github/kpumuk/meta-tags)

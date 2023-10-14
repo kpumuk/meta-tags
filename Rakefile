@@ -10,14 +10,6 @@ desc "Run RSpec tests"
 task test: :spec
 task default: :spec
 
-desc "Rebuild Circle CI configuration based on the build matrix template .circleci/config.yml.erb"
-task :circleci do
-  require "erb"
-  template_path = File.expand_path(".circleci/config.yml.erb", __dir__)
-  config_path = File.expand_path(".circleci/config.yml", __dir__)
-  File.write config_path, ERB.new(File.read(template_path)).result
-end
-
 module SteepRunner
   def self.run(*command)
     require "steep"
