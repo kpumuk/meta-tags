@@ -28,7 +28,7 @@ jobs:
           - ruby-version: "2.7"
             rails-version: "5.2"
           - ruby-version: "3.2"
-            rails-version: "7.2"
+            rails-version: "7.1"
             code-coverage: true
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails-version }}.gemfile
@@ -47,7 +47,6 @@ jobs:
           ENABLE_CODE_COVERAGE: true
         run: |
           bundle exec rspec --format RspecJunitFormatter --out ${{github.workspace}}/rspec-results.xml --format documentation
-          find .
 
       - uses: paambaati/codeclimate-action@v5
         if: matrix.code-coverage
