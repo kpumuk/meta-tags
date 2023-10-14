@@ -1,4 +1,4 @@
-name: Tests
+name: Steep
 
 on:
   push:
@@ -6,39 +6,29 @@ on:
     types: [opened, reopened]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         ruby-version:
-          - "2.7"
-          - "3.0"
-          - "3.1"
           - "3.2"
         rails-version:
-          - "6.0"
-          - "6.1"
-          - "7.0"
           - "7.1"
-          - "7.2"
-        include:
-          - ruby-version: "2.7"
-            rails-version: "5.1"
-          - ruby-version: "2.7"
-            rails-version: "5.2"
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails-version }}.gemfile
 
-    name: Specs - Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
+    name: Steep - Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Ruby
+      - name: Set up Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
-      - name: Run RSpec
+      - name: Verify Ruby Types (Static)
         run: |
-          bundle exec rspec
-
+          bundle exec rake steep
+      - name: Verify Ruby Types (Runtime)
+        run: |
+          bundle exec rake rbs:spec
