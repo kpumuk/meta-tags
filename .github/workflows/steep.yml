@@ -1,4 +1,4 @@
-name: StandardRB
+name: Steep
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails-version }}.gemfile
 
-    name: StandardRB - Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
+    name: Steep - Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
@@ -26,6 +26,9 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
-      - name: Run StandardRB
+      - name: Verify Ruby Types (Static)
         run: |
-          bundle exec standardrb
+          bundle exec rake steep
+      - name: Verify Ruby Types (Runtime)
+        run: |
+          bundle exec rake rbs:spec

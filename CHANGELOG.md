@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.20.0 (Development)
+
+Changes:
+
+- Switched builds from CircleCI to Github Actions ([273](https://github.com/kpumuk/meta-tags/pull/273))
+
 ## 2.19.0 (October 5, 2023) [☰](https://github.com/kpumuk/meta-tags/compare/v2.18.0...v2.19.0)
 
 Changes:
