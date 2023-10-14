@@ -27,6 +27,9 @@ jobs:
             rails-version: "5.1"
           - ruby-version: "2.7"
             rails-version: "5.2"
+          - ruby-version: "3.2"
+            rails-version: "7.2"
+            code-coverage: true
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails-version }}.gemfile
 
@@ -39,6 +42,18 @@ jobs:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
       - name: Run RSpec
+        env:
+          CC_TEST_REPORTER_ID: ${{ vars.CC_TEST_REPORTER_ID }}
+          ENABLE_CODE_COVERAGE: true
         run: |
-          bundle exec rspec
+          bundle exec rspec --format RspecJunitFormatter --out ${{github.workspace}}/rspec-results.xml --format documentation
+          find .
+
+      - uses: paambaati/codeclimate-action@v5
+        if: matrix.code-coverage
+        env:
+          CC_TEST_REPORTER_ID: ${{ vars.CC_TEST_REPORTER_ID }}
+        with:
+          coverageLocations: |
+            ${{github.workspace}}/coverage/coverage.json:simplecov
 
