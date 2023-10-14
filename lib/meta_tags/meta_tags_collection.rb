@@ -164,6 +164,13 @@ module MetaTags
         calculate_robots_attributes(result, attributes)
       end
 
+      [:robots, :googlebot, :bingbot].each do |bot|
+        values = extract(bot).presence
+        if values
+          result[bot.to_s].concat(values.map { |k, v| "#{k}:#{v}" })
+        end
+      end
+
       result.transform_values { |v| v.join(", ") }
     end
 

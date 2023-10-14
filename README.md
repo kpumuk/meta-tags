@@ -183,6 +183,9 @@ Use these options to customize the title format:
 | `:og`          | add Open Graph tags (Hash)                                                                                           |
 | `:twitter`     | add Twitter tags (Hash)                                                                                              |
 | `:refresh`     | refresh interval and optionally url to redirect to                                                                   |
+| `:robots`      | add custom robots tags (Hash)                                                                                        |
+| `:googlebot`   | add custom googlebot tags (Hash)                                                                                        |
+| `:bingbot`     | add custom bingbot tags (Hash)                                                                                        |
 
 And here are a few examples to give you ideas.
 
@@ -757,6 +760,36 @@ set_meta_tags al: {
 Further reading:
 
 - [App Links Documentation](https://developers.facebook.com/docs/applinks)
+
+### Robots
+
+Besides using noindex, there's still other custom robots met tags options to instruct search engine to serve crawled site content in specific ways.
+
+```ruby
+set_meta_tags robots: {
+  "max-snippet": -1,
+  "max-video-preview": -1
+}
+
+#　<meta name="robots" content="max-snippet:-1, max-video-preview:-1">
+
+set_meta_tags googlebot: {
+  "unavailable_after": "2020-09-21"
+}
+
+#　<meta name="googlebot" content="unavailable_after:2020-09-21">
+
+set_meta_tags bingbot: {
+  "max-image-preview": "large"
+}
+
+# <meta name="bingbot" content="max-image-preview:large" />
+```
+
+Further reading:
+
+* [Robots meta tag, data-nosnippet, and X-Robots-Tag specifications](https://developers.google.com/search/reference/robots_meta_tag)
+* [Robots Metatags](https://www.bing.com/webmasters/help/which-robots-metatags-does-bing-support-5198d240)
 
 ### Custom meta tags
 
