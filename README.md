@@ -235,12 +235,9 @@ You will get this open graph meta tag automatically:
 > ![NOTE]
 > Please note that the `title` does not include the site name. If you need to reference the exact value rendered in the `<title>` meta tag, use `:full_title`.
 
-### Using with Turbolinks
+### Using with Turbo
 
-[Turbolinks](https://github.com/turbolinks/turbolinks) is a simple solution for getting
-the performance benefits of a single-page application without the added complexity of a
-client-side JavaScript framework. MetaTags supports Turbolinks out of the box, no
-configuration is necessary.
+[Turbo](https://github.com/hotwired/turbo) is a simple solution for getting the performance benefits of a single-page application without the added complexity of a client-side JavaScript framework. MetaTags supports Turbo out of the box, so no configuration is necessary.
 
 ### Using with pjax
 
