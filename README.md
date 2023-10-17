@@ -79,6 +79,9 @@ When views are rendered, the page title will be included in the right spots:
 
 You can find allowed options for `display_meta_tags` method below.
 
+> [!IMPORTANT]
+> You **must** use `display_meta_tags` in the layout files to render the meta tags. In the views, you will instead use `set_meta_tags`, which accepts the same arguments but does not render anything in the place where it is called.
+
 ### Using MetaTags in controller
 
 You can define following instance variables:
