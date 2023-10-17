@@ -14,8 +14,8 @@ Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 
 The MetaTags main branch fully supports Ruby on Rails 5.1+ and is tested against all major Ruby on Rails releases.
 
-> ![NOTE]
-> Please note that we no longer support Ruby versions older than 2.7 and Ruby on Rails older than 5.1 since they reached their [End of Life](https://endoflife.date/ruby).
+> [!NOTE]
+> We no longer support Ruby versions older than 2.7 and Ruby on Rails older than 5.1 since they reached their [End of Life](https://endoflife.date/ruby).
 
 ## Installation
 
@@ -232,8 +232,8 @@ You will get this open graph meta tag automatically:
 <meta property="og:title" content="my great view"></meta>
 ```
 
-> ![NOTE]
-> Please note that the `title` does not include the site name. If you need to reference the exact value rendered in the `<title>` meta tag, use `:full_title`.
+> [!NOTE]
+> The `title` does not include the site name. If you need to reference the exact value rendered in the `<title>` meta tag, use `:full_title`.
 
 ### Using with Turbo
 
@@ -323,8 +323,8 @@ set_meta_tags keywords: %w[keyword1 keyword2 keyword3]
 
 It is recommended to keep the length of the keywords tag under **255 characters** or **20 words**.
 
-> ![NOTE]
-> Please note that both Google and Bing have publicly stated that they completely ignore keywords meta tags.
+> [!NOTE]
+> Both Google and Bing have publicly stated that they completely ignore keywords meta tags.
 
 ### Noindex
 
@@ -384,8 +384,8 @@ This tag will prevent search engines from indexing this specific page, but it wi
 
 Canonical link elements tell search engines what the canonical or main URL is for content that has multiple URLs. The search engine will always return that URL, and link popularity and authority will be applied to that URL.
 
-> ![NOTE]
-> Please note: If you follow John Mueller's suggestion not to mix canonical with noindex, then you can set `MetaTags.config.skip_canonical_links_on_noindex = true` and we'll handle it for you.
+> [!NOTE]
+> If you follow John Mueller's suggestion not to mix canonical with noindex, then you can set `MetaTags.config.skip_canonical_links_on_noindex = true` and we'll handle it for you.
 
 ```ruby
 set_meta_tags canonical: "http://yoursite.com/canonical/url"
