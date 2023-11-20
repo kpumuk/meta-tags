@@ -34,7 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "standard", "~> 1.31"
   spec.add_development_dependency "rubocop-rails", "~> 2.21.2"
   spec.add_development_dependency "rubocop-rake", "~> 0.6.0"
-  spec.add_development_dependency "rubocop-rspec", "~> 2.24.1"
+  spec.add_development_dependency "rubocop-rspec", "~> 2.25.0"
   # Format RSpec output for CircleCI
   spec.add_development_dependency "rspec_junit_formatter", "~> 0.6.0"
 
