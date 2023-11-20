@@ -9,7 +9,13 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    labels:
+      - dependencies
+      - bundler
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
+    labels:
+      - dependencies
+      - github-actions
