@@ -35,7 +35,7 @@ RSpec.describe MetaTags::TextNormalizer, ".normalize_description" do
 
     context "when natural separator is set to nil" do
       before do
-        MetaTags.config.truncation_natural_separator = nil
+        MetaTags.config.truncate_on_natural_separator = nil
       end
 
       it "truncates description on unicode codepoint" do

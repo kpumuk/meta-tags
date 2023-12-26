@@ -142,7 +142,7 @@ module MetaTags
       helpers.truncate(
         string,
         length: limit,
-        separator: MetaTags.config.truncation_natural_separator,
+        separator: MetaTags.config.truncate_on_natural_separator,
         omission: "",
         escape: true
       )

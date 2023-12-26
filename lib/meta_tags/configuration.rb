@@ -13,7 +13,7 @@ module MetaTags
     attr_accessor :truncate_site_title_first
 
     # A string or regexp separator to truncate text at a natural break.
-    attr_accessor :truncation_natural_separator
+    attr_accessor :truncate_on_natural_separator
 
     # How many characters to truncate description to.
     attr_accessor :description_limit
@@ -82,7 +82,7 @@ module MetaTags
     def reset_defaults!
       @title_limit = 70
       @truncate_site_title_first = false
-      @truncation_natural_separator = " "
+      @truncate_on_natural_separator = " "
       @title_tag_attributes = {}
       @description_limit = 300
       @keywords_limit = 255
