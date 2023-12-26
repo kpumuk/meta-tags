@@ -2,6 +2,10 @@
 
 ## 2.20.0 (Development)
 
+Features:
+
+- Introduced `title_tag_attributes` configuration option to add HTML attributes to the title tag ([284](https://github.com/kpumuk/meta-tags/pull/284)).
+
 Changes:
 
 - Switched builds from CircleCI to Github Actions ([273](https://github.com/kpumuk/meta-tags/pull/273))
