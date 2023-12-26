@@ -4,6 +4,7 @@
 
 Features:
 
+- Introduced `truncate_on_natural_separator` configuration option to change or disable truncation on natural separator ([283](https://github.com/kpumuk/meta-tags/pull/283)).
 - Introduced `title_tag_attributes` configuration option to add HTML attributes to the title tag ([284](https://github.com/kpumuk/meta-tags/pull/284)).
 
 Changes:

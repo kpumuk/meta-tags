@@ -134,16 +134,15 @@ module MetaTags
     #
     # @param [String] string input strings.
     # @param [Integer,nil] limit characters number to truncate to.
-    # @param [String] natural_separator natural separator to truncate at.
     # @return [String] truncated string.
     #
-    def truncate(string, limit = nil, natural_separator = " ")
+    def truncate(string, limit = nil)
       return string if limit.to_i == 0
 
       helpers.truncate(
         string,
         length: limit,
-        separator: natural_separator,
+        separator: MetaTags.config.truncate_on_natural_separator,
         omission: "",
         escape: true
       )
@@ -154,10 +153,9 @@ module MetaTags
     # @param [Array<String>] string_array input strings.
     # @param [Integer,nil] limit characters number to truncate to.
     # @param [String] separator separator that will be used to join array later.
-    # @param [String] natural_separator natural separator to truncate at.
     # @return [Array<String>] truncated array of strings.
     #
-    def truncate_array(string_array, limit = nil, separator = "", natural_separator = " ")
+    def truncate_array(string_array, limit = nil, separator = "")
       return string_array if limit.nil? || limit <= 0
 
       length = 0
@@ -167,7 +165,7 @@ module MetaTags
         limit_left = calculate_limit_left(limit, length, result, separator)
 
         if string.length > limit_left
-          result << truncate(string, limit_left, natural_separator)
+          result << truncate(string, limit_left)
           break string_array
         end
 
