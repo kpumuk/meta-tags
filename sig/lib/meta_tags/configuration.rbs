@@ -7,6 +7,7 @@ module MetaTags
 
     attr_accessor title_limit: Integer?
     attr_accessor truncate_site_title_first: bool
+    attr_accessor truncation_natural_separator: String?|Regexp
     attr_accessor title_tag_attributes: Hash[html_tag_key, html_tag_value]?
     attr_accessor description_limit: Integer
     attr_accessor keywords_limit: Integer

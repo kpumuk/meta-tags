@@ -12,6 +12,9 @@ MetaTags.configure do |config|
   # Add HTML attributes to the <title> HTML tag. Default is {}.
   # config.title_tag_attributes = {}
 
+  # Add HTML attributes to the <title> HTML tag. Default is {}.
+  # config.title_tag_attributes = {}
+
   # Maximum length of the page description. Default is 300.
   # Set to nil or 0 to remove limits.
   # config.description_limit = 300

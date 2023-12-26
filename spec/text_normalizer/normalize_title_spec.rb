@@ -122,4 +122,31 @@ RSpec.describe MetaTags::TextNormalizer, ".normalize_title" do
       expect(subject.normalize_title(site_title, title, "-")).to eq("#{site_title}-#{title}")
     end
   end
+
+  context "with text in Japanese" do
+    let(:title) do
+      "Microsoft Copilotは、あなたの言葉をパワフルなコンテンツに変える AI アシスタントです。あなたのニーズに合わせて、文章を生成、要約、編集、変換したり、コードや詩などの創造的なコンテンツを作成したりします。"
+    end
+
+    before do
+      MetaTags.config.title_limit = 50
+    end
+
+    context "when natural separator has default value" do
+      it "truncates description on space character" do
+        expect(subject.normalize_title(nil, title, "-"))
+          .to eq("Microsoft Copilotは、あなたの言葉をパワフルなコンテンツに変える AI")
+      end
+    end
+
+    context "when natural separator is set to nil" do
+      before do
+        MetaTags.config.truncation_natural_separator = nil
+      end
+
+      it "truncates description on unicode codepoint" do
+        expect(subject.normalize_title(nil, title, "-")).to eq(title[0, 50])
+      end
+    end
+  end
 end
