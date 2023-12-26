@@ -9,6 +9,9 @@ MetaTags.configure do |config|
   # When true, site title will be truncated instead of title. Default is false.
   # config.truncate_site_title_first = false
 
+  # Add HTML attributes to the <title> HTML tag. Default is {}.
+  # config.title_tag_attributes = {}
+
   # Maximum length of the page description. Default is 300.
   # Set to nil or 0 to remove limits.
   # config.description_limit = 300

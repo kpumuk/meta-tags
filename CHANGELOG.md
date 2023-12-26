@@ -2,9 +2,17 @@
 
 ## 2.20.0 (Development)
 
+Features:
+
+- Introduced `title_tag_attributes` configuration option to add HTML attributes to the title tag ([284](https://github.com/kpumuk/meta-tags/pull/284)).
+
 Changes:
 
 - Switched builds from CircleCI to Github Actions ([273](https://github.com/kpumuk/meta-tags/pull/273))
+
+Changes:
+
+- Ruby on Rails < 6.0 is no longer supported.
 
 ## 2.19.0 (October 5, 2023) [☰](https://github.com/kpumuk/meta-tags/compare/v2.18.0...v2.19.0)
 
@@ -190,7 +198,7 @@ Features:
 
 Changes:
 
-- Rails < 3.2 is not longer supported
+- Ruby on Rails < 3.2 is no longer supported
 
 Features:
 
@@ -209,7 +217,7 @@ Bugfixes:
 
 Changes:
 
-- Ruby < 2.0 is not longer supported
+- Ruby < 2.0 is no longer supported
 
 Features:
 

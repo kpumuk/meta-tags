@@ -12,10 +12,10 @@ Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 
 ## Ruby on Rails
 
-The MetaTags main branch fully supports Ruby on Rails 5.1+ and is tested against all major Ruby on Rails releases.
+The MetaTags main branch fully supports Ruby on Rails 6.0+ and is tested against all major Ruby on Rails releases.
 
 > [!NOTE]
-> We no longer support Ruby versions older than 2.7 and Ruby on Rails older than 5.1 since they reached their [End of Life](https://endoflife.date/ruby).
+> We no longer support Ruby versions older than 2.7 and Ruby on Rails older than 6.0 since they reached their end of life (see [Ruby](https://endoflife.date/ruby) and [Ruby on Rails](https://endoflife.date/rails)).
 
 ## Installation
 
@@ -238,6 +238,24 @@ You will get this open graph meta tag automatically:
 ### Using with Turbo
 
 [Turbo](https://github.com/hotwired/turbo) is a simple solution for getting the performance benefits of a single-page application without the added complexity of a client-side JavaScript framework. MetaTags supports Turbo out of the box, so no configuration is necessary.
+
+In order to update the page title, you can use the following trick. First, set the ID for the `<title>` HTML tag using MetaTags configuration in your initializer `config/initializers/meta_tags.rb`:
+
+```ruby
+MetaTags.configure do |config|
+  config.title_tag_attributes = {id: "page-title"}
+end
+````
+
+Now in your turbo frame, you can update the title using a turbo stream:
+
+```html
+<turbo-frame ...>
+    <turbo-stream action="update" target="page-title">
+        <template>My new title</template>
+    </turbo-stream>
+</turbo-frame>
+```
 
 ### Using with pjax
 

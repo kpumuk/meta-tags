@@ -6,6 +6,9 @@ module MetaTags
     # How many characters to truncate title to.
     attr_accessor :title_limit
 
+    # HTML attributes for the title tag.
+    attr_accessor :title_tag_attributes
+
     # Truncate site_title instead of title.
     attr_accessor :truncate_site_title_first
 
@@ -76,6 +79,7 @@ module MetaTags
     def reset_defaults!
       @title_limit = 70
       @truncate_site_title_first = false
+      @title_tag_attributes = {}
       @description_limit = 300
       @keywords_limit = 255
       @keywords_separator = ", "
