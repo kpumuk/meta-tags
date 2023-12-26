@@ -12,10 +12,10 @@ Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 
 ## Ruby on Rails
 
-The MetaTags main branch fully supports Ruby on Rails 5.1+ and is tested against all major Ruby on Rails releases.
+The MetaTags main branch fully supports Ruby on Rails 6.0+ and is tested against all major Ruby on Rails releases.
 
 > [!NOTE]
-> We no longer support Ruby versions older than 2.7 and Ruby on Rails older than 5.1 since they reached their [End of Life](https://endoflife.date/ruby).
+> We no longer support Ruby versions older than 2.7 and Ruby on Rails older than 6.0 since they reached their end of life (see [Ruby](https://endoflife.date/ruby) and [Ruby on Rails](https://endoflife.date/rails)).
 
 ## Installation
 

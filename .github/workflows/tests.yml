@@ -23,10 +23,6 @@ jobs:
           - "7.1"
           - "7.2"
         include:
-          - ruby-version: "2.7"
-            rails-version: "5.1"
-          - ruby-version: "2.7"
-            rails-version: "5.2"
           - ruby-version: "3.2"
             rails-version: "7.1"
             code-coverage: true
