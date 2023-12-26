@@ -1,6 +1,7 @@
 class ::Hash[unchecked out K, unchecked out V]
   def with_indifferent_access: () -> ActiveSupport::HashWithIndifferentAccess[K, V]
   def deep_merge!: (instance | ActiveSupport::HashWithIndifferentAccess[K, V] other) -> self
+  def with_defaults: (instance | ActiveSupport::HashWithIndifferentAccess[K, V] other) -> self
 end
 
 class ::Object

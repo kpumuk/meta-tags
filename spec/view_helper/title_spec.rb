@@ -213,6 +213,13 @@ RSpec.describe MetaTags::ViewHelper do
         expect(meta).to eq("<title>hello</title><meta name=\"description\" content=\"world\">")
       end
     end
+
+    it "renders additional HTML attributes when configured" do
+      MetaTags.config.title_tag_attributes = {id: "page-title", data: {testid: "test-title"}}
+      subject.display_meta_tags(title: "hello").tap do |meta|
+        expect(meta).to eq("<title id=\"page-title\" data-testid=\"test-title\">hello</title>")
+      end
+    end
   end
 
   describe ".display_title" do

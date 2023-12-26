@@ -59,7 +59,11 @@ module MetaTags
       normalized_meta_tags[:site] = meta_tags[:site]
       title = meta_tags.extract_full_title
       normalized_meta_tags[:full_title] = title
-      tags << ContentTag.new(:title, content: title) if title.present?
+      default_attributes = MetaTags.config.title_tag_attributes || {}
+
+      if title.present?
+        tags << ContentTag.new(:title, {content: title}.with_defaults(default_attributes))
+      end
     end
 
     # Renders icon(s) tag.
