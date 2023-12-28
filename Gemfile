@@ -6,4 +6,4 @@ source "https://rubygems.org"
 gemspec
 
 # Ruby typings
-gem "steep", "~> 1.5.2", platform: :mri_32
+gem "steep", "~> 1.6.0", platform: :mri_32

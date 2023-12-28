@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.homepage = "https://github.com/kpumuk/meta-tags"
   spec.license = "MIT"
   spec.platform = Gem::Platform::RUBY
-  spec.required_ruby_version = ">= 2.7.0"
+  spec.required_ruby_version = ">= 3.0.0"
 
   spec.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(\.|Gemfile|Appraisals|Steepfile|(bin|spec|gemfiles)/)}) }
   spec.bindir = "exe"

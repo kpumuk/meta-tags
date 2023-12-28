@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.21.0 (Development)
+
+Changes:
+
+- Ruby older than 3.0 is no longer supported.
+
 ## 2.20.0 (December 26, 2023)
 
 Features:
