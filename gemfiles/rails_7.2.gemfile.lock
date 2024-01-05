@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 354d1c42b45a380f201a24d060a3d1bc71010327
+  revision: 614ec5f8a0b8079ae05647af445f17e7efbaebe1
   specs:
     actionpack (7.2.0.alpha)
       actionview (= 7.2.0.alpha)
@@ -12,6 +12,7 @@ GIT
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
+      useragent (~> 0.16)
     actionview (7.2.0.alpha)
       activesupport (= 7.2.0.alpha)
       builder (~> 3.1)
@@ -152,9 +153,9 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.30.0)
       parser (>= 3.2.1.0)
-    rubocop-capybara (2.19.0)
+    rubocop-capybara (2.20.0)
       rubocop (~> 1.41)
-    rubocop-factory_bot (2.24.0)
+    rubocop-factory_bot (2.25.0)
       rubocop (~> 1.33)
     rubocop-performance (1.20.1)
       rubocop (>= 1.48.1, < 2.0)
@@ -166,7 +167,7 @@ GEM
       rubocop-ast (>= 1.30.0, < 2.0)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
-    rubocop-rspec (2.25.0)
+    rubocop-rspec (2.26.0)
       rubocop (~> 1.40)
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
@@ -214,6 +215,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
+    useragent (0.16.10)
     webrick (1.8.1)
     zeitwerk (2.6.12)
 
@@ -231,7 +233,7 @@ DEPENDENCIES
   rspec_junit_formatter (~> 0.6.0)
   rubocop-rails (~> 2.23.0)
   rubocop-rake (~> 0.6.0)
-  rubocop-rspec (~> 2.25.0)
+  rubocop-rspec (~> 2.26.0)
   simplecov (~> 0.22.0)
   standard (~> 1.31)
   steep (~> 1.6.0)
