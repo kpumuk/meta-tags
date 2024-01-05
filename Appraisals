@@ -16,6 +16,6 @@ appraise "rails-7.1" do
   gem "railties", "~> 7.1.2"
 end
 
-appraise "rails-7.2" do
+appraise "rails-edge" do
   gem "railties", github: "rails"
 end
