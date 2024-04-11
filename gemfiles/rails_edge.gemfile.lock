@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: ee4a37164509bb04fa59adf8a8b717461bbbcb06
+  revision: 84c4598c93f04d00383e5e27cdffd65fb31ae5e7
   specs:
     actionpack (7.2.0.alpha)
       actionview (= 7.2.0.alpha)
@@ -71,7 +71,7 @@ GEM
     irb (1.12.0)
       rdoc
       reline (>= 0.4.2)
-    json (2.7.1)
+    json (2.7.2)
     language_server-protocol (3.17.0.3)
     lint_roller (1.1.0)
     listen (3.9.0)
@@ -117,7 +117,7 @@ GEM
       loofah (~> 2.21)
       nokogiri (~> 1.14)
     rainbow (3.1.1)
-    rake (13.1.0)
+    rake (13.2.0)
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
@@ -174,7 +174,7 @@ GEM
       rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
-    rubocop-rspec (2.28.0)
+    rubocop-rspec (2.29.1)
       rubocop (~> 1.40)
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
@@ -246,7 +246,7 @@ DEPENDENCIES
   rspec_junit_formatter (~> 0.6.0)
   rubocop-rails (~> 2.24.0)
   rubocop-rake (~> 0.6.0)
-  rubocop-rspec (~> 2.28.0)
+  rubocop-rspec (~> 2.29.1)
   simplecov (~> 0.22.0)
   standard (~> 1.31)
   steep (~> 1.6.0)
