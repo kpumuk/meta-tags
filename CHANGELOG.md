@@ -1,10 +1,15 @@
 # Changelog
 
-## 2.21.0 (Development)
+## 2.21.0 (April 11, 2024)
+
+Bugfixes:
+
+- Removed a duplicated `title_tag_attributes` configuration from the initializer ([287](https://github.com/kpumuk/meta-tags/pull/287)).
 
 Changes:
 
 - Ruby older than 3.0 is no longer supported.
+- Added `truncate_on_natural_separator` configuration option to the initializer ([287](https://github.com/kpumuk/meta-tags/pull/287)).
 
 ## 2.20.0 (December 26, 2023)
 

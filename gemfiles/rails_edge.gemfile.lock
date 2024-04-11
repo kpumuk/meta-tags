@@ -40,7 +40,7 @@ GIT
 PATH
   remote: ..
   specs:
-    meta-tags (2.20.0)
+    meta-tags (2.21.0)
       actionpack (>= 6.0.0, < 7.2)
 
 GEM
@@ -82,15 +82,7 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     minitest (5.21.2)
-    nokogiri (1.16.3-aarch64-linux)
-      racc (~> 1.4)
-    nokogiri (1.16.3-arm-linux)
-      racc (~> 1.4)
     nokogiri (1.16.3-arm64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.16.3-x86-linux)
-      racc (~> 1.4)
-    nokogiri (1.16.3-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.16.3-x86_64-linux)
       racc (~> 1.4)
@@ -229,11 +221,7 @@ GEM
     zeitwerk (2.6.13)
 
 PLATFORMS
-  aarch64-linux
-  arm-linux
   arm64-darwin
-  x86-linux
-  x86_64-darwin
   x86_64-linux
 
 DEPENDENCIES
