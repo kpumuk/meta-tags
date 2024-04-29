@@ -47,7 +47,7 @@ jobs:
         run: |
           bundle exec rspec --format RspecJunitFormatter --out ${{github.workspace}}/rspec-results.xml --format documentation
 
-      - uses: paambaati/codeclimate-action@v5
+      - uses: paambaati/codeclimate-action@v6
         if: matrix.code-coverage
         env:
           CC_TEST_REPORTER_ID: ${{ vars.CC_TEST_REPORTER_ID }}
