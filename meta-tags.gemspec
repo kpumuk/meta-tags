@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "simplecov", "~> 0.22.0"
   # Code style
   spec.add_development_dependency "standard", "~> 1.31"
-  spec.add_development_dependency "rubocop-rails", "~> 2.24.0"
+  spec.add_development_dependency "rubocop-rails", "~> 2.25.0"
   spec.add_development_dependency "rubocop-rake", "~> 0.6.0"
   spec.add_development_dependency "rubocop-rspec", "~> 2.29.1"
   # Format RSpec output for CircleCI
