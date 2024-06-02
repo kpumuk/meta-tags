@@ -17,24 +17,26 @@ Gem::Specification.new do |spec|
   spec.platform = Gem::Platform::RUBY
   spec.required_ruby_version = ">= 3.0.0"
 
-  spec.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(\.|Gemfile|Appraisals|Steepfile|(bin|spec|gemfiles)/)}) }
+  spec.files = `git ls-files -z`.split("\x0").reject do |f|
+    f.match(%r{^(\.|Gemfile|Appraisals|Steepfile|(bin|spec|gemfiles)/)})
+  end
   spec.bindir = "exe"
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "actionpack", ">= 6.0.0", "< 7.2"
+  spec.add_runtime_dependency "actionpack", ">= 6.0.0", "< 8.0"
 
-  spec.add_development_dependency "railties", ">= 3.2.0", "< 7.2"
+  spec.add_development_dependency "appraisal", "~> 2.5.0"
+  spec.add_development_dependency "railties", ">= 3.2.0", "< 8.0"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.13.0"
   spec.add_development_dependency "rspec-html-matchers", "~> 0.10.0"
-  spec.add_development_dependency "appraisal", "~> 2.5.0"
   spec.add_development_dependency "simplecov", "~> 0.22.0"
   # Code style
-  spec.add_development_dependency "standard", "~> 1.31"
-  spec.add_development_dependency "rubocop-rails", "~> 2.24.0"
+  spec.add_development_dependency "rubocop-rails", "~> 2.25.0"
   spec.add_development_dependency "rubocop-rake", "~> 0.6.0"
   spec.add_development_dependency "rubocop-rspec", "~> 2.29.1"
+  spec.add_development_dependency "standard", "~> 1.31"
   # Format RSpec output for CircleCI
   spec.add_development_dependency "rspec_junit_formatter", "~> 0.6.0"
 
