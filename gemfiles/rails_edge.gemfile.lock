@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 8336aa7f0bfb9f87aa510e4e7aeae08a2089d206
+  revision: 3769f1eee6a1ec4f6438155d67477db6d192577f
   specs:
     actionpack (8.0.0.alpha)
       actionview (= 8.0.0.alpha)
@@ -168,7 +168,7 @@ GEM
       rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
-    rubocop-rspec (2.29.2)
+    rubocop-rspec (2.30.0)
       rubocop (~> 1.40)
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
@@ -236,7 +236,7 @@ DEPENDENCIES
   rspec_junit_formatter (~> 0.6.0)
   rubocop-rails (~> 2.25.0)
   rubocop-rake (~> 0.6.0)
-  rubocop-rspec (~> 2.29.1)
+  rubocop-rspec (~> 2.30.0)
   simplecov (~> 0.22.0)
   standard (~> 1.31)
   steep (~> 1.6.0)
