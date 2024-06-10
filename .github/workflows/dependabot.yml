@@ -5,7 +5,7 @@ on:
     types: [labeled]
 permissions:
   contents: write
-
+  pull-requests: write
 jobs:
   build:
     if: contains(github.event.pull_request.labels.*.name, 'bundler')
@@ -35,4 +35,7 @@ jobs:
           git config --global user.email "kpumuk@users.noreply.github.com"
           git add gemfiles/*
           git commit -am "Updated Appraisal gemfiles"
-          git push
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: ${{ github.head_ref }}
