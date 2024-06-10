@@ -21,6 +21,7 @@ jobs:
           - "6.1"
           - "7.0"
           - "7.1"
+          - "7.2"
           - "edge"
         include:
           - ruby-version: "3.3"
