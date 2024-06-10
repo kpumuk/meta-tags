@@ -21,12 +21,15 @@ jobs:
           - "6.1"
           - "7.0"
           - "7.1"
+          - "7.2"
           - "edge"
         include:
           - ruby-version: "3.3"
             rails-version: "7.1"
             code-coverage: true
         exclude:
+          - ruby-version: "3.0"
+            rails-version: "7.2"
           - ruby-version: "3.0"
             rails-version: "edge"
     env:
