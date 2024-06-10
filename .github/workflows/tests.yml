@@ -29,6 +29,8 @@ jobs:
             code-coverage: true
         exclude:
           - ruby-version: "3.0"
+            rails-version: "7.2"
+          - ruby-version: "3.0"
             rails-version: "edge"
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails-version }}.gemfile
