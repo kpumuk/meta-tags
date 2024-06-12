@@ -10,7 +10,7 @@ RSpec/NamedSubject:
 
 # Spec path should end with _spec (http://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/FilePath)
 # example: meta_tags/view_helper*displayingdescription*_spec.rb.
-RSpec/FilePath:
+RSpec/SpecFilePathFormat:
   Enabled: false
 
 # The second argument to describe should be the method being tested. '#instance' or '.class'. (http://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/DescribeMethod)
