@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    meta-tags (2.21.0)
+    meta-tags (2.22.0)
       actionpack (>= 6.0.0, < 8.1)
 
 GEM

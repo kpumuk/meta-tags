@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.22.0 (July 15, 2024)
+
+Changes:
+
+- Added support for Ruby on Rails 7.2 ([303](https://github.com/kpumuk/meta-tags/pull/303))
+
 ## 2.21.0 (April 11, 2024)
 
 Bugfixes:
