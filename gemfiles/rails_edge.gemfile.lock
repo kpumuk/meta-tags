@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 4867559a10a342e7c27dacdf0ec42702455b29be
+  revision: 099776069c4be64be8be7e3fdb0232d7824a38a9
   specs:
     actionpack (8.0.0.alpha)
       actionview (= 8.0.0.alpha)
@@ -41,7 +41,7 @@ GIT
 PATH
   remote: ..
   specs:
-    meta-tags (2.21.0)
+    meta-tags (2.22.0)
       actionpack (>= 6.0.0, < 8.1)
 
 GEM
