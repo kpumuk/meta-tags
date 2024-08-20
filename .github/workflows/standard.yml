@@ -2,12 +2,16 @@ name: StandardRB
 
 on:
   push:
+    branches: [ main ]
   pull_request:
-    types: [opened, reopened]
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: read
     strategy:
       fail-fast: true
       matrix:
@@ -20,12 +24,8 @@ jobs:
 
     name: StandardRB - Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
-        uses: ruby/setup-ruby@v1
+      - name: Run StandardRB
+        uses: standardrb/standard-ruby-action@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true
-      - name: Run StandardRB
-        run: |
-          bundle exec standardrb
+          autofix: false
