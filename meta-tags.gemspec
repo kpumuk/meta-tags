@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.0.0"
 
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(\.|Gemfile|Appraisals|Steepfile|(bin|spec|gemfiles)/)})
+    f.match(%r{^(\.|Gemfile|Appraisals|Steepfile|Rakefile|meta-tags.gemspec|(bin|spec|gemfiles)/)})
   end
   spec.bindir = "exe"
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
