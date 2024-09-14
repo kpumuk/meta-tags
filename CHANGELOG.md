@@ -1,12 +1,18 @@
 # Changelog
 
-## 2.22.0 (July 15, 2024)
+## Development
+
+Changes:
+
+- Removed `meta-tags.gemspec` and `Rakefile` from the gem package ([312](https://github.com/kpumuk/meta-tags/pull/312)
+
+## 2.22.0 (July 15, 2024) [☰](https://github.com/kpumuk/meta-tags/compare/v2.21.0...v2.22.0)
 
 Changes:
 
 - Added support for Ruby on Rails 7.2 ([303](https://github.com/kpumuk/meta-tags/pull/303))
 
-## 2.21.0 (April 11, 2024)
+## 2.21.0 (April 11, 2024) [☰](https://github.com/kpumuk/meta-tags/compare/v2.20.0...v2.21.0)
 
 Bugfixes:
 
@@ -17,7 +23,7 @@ Changes:
 - Ruby older than 3.0 is no longer supported.
 - Added `truncate_on_natural_separator` configuration option to the initializer ([287](https://github.com/kpumuk/meta-tags/pull/287)).
 
-## 2.20.0 (December 26, 2023)
+## 2.20.0 (December 26, 2023) [☰](https://github.com/kpumuk/meta-tags/compare/v2.19.0...v2.20.0)
 
 Features:
 
