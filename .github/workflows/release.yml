@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  push:
+  release:
     runs-on: ubuntu-latest
 
     permissions:
@@ -36,3 +36,9 @@ jobs:
       - uses: rubygems/release-gem@v1
         env:
           GEM_PRIVATE_KEY_PASSPHRASE: "${{ secrets.GEM_PRIVATE_KEY_PASSPHRASE }}"
+      - name: Create GitHub release
+        run: |
+          tag_name="$(git describe --tags --abbrev=0)"
+          gh release create "${tag_name}" --verify-tag --generate-notes --latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
