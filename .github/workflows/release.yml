@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      passphrase:
+        description: "Private key passphrase for signing the gem"
+        required: true
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      id-token: write
+    strategy:
+      fail-fast: true
+      matrix:
+        ruby-version:
+          - "3.2"
+        rails-version:
+          - "7.1"
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails-version }}.gemfile
+    environment: release
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+      - name: Setup private key
+        env:
+          GEM_PRIVATE_KEY: ${{ secrets.GEM_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.gem
+          echo "${GEM_PRIVATE_KEY}" > ~/.gem/gem-private_key.pem
+      - uses: rubygems/release-gem@v1
+        env:
+          GEM_PRIVATE_KEY_PASSPHRASE: "${{ inputs.passphrase }}"

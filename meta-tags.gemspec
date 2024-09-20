@@ -41,7 +41,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec_junit_formatter", "~> 0.6.0"
 
   spec.cert_chain = ["certs/kpumuk.pem"]
-  spec.signing_key = File.expand_path("~/.ssh/gem-kpumuk.pem") if $PROGRAM_NAME.end_with?("gem")
+  spec.signing_key = File.expand_path("~/.gem/gem-private_key.pem") if $PROGRAM_NAME.end_with?("gem")
 
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/kpumuk/meta-tags/issues/",
