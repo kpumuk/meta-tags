@@ -2,10 +2,6 @@ name: Release
 
 on:
   workflow_dispatch:
-    inputs:
-      passphrase:
-        description: "Private key passphrase for signing the gem"
-        required: true
 
 jobs:
   push:
@@ -39,4 +35,4 @@ jobs:
           echo "${GEM_PRIVATE_KEY}" > ~/.gem/gem-private_key.pem
       - uses: rubygems/release-gem@v1
         env:
-          GEM_PRIVATE_KEY_PASSPHRASE: "${{ inputs.passphrase }}"
+          GEM_PRIVATE_KEY_PASSPHRASE: "${{ secrets.GEM_PRIVATE_KEY_PASSPHRASE }}"
