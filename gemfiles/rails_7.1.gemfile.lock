@@ -202,7 +202,7 @@ GEM
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.6.0)
     webrick (1.8.2)
-    zeitwerk (2.7.1)
+    zeitwerk (2.6.18)
 
 PLATFORMS
   arm64-darwin
@@ -211,7 +211,7 @@ PLATFORMS
 DEPENDENCIES
   appraisal (~> 2.5.0)
   meta-tags!
-  railties (~> 7.1.2)
+  railties (~> 7.1.4)
   rake (~> 13.0)
   rspec (~> 3.13.0)
   rspec-html-matchers (~> 0.10.0)
@@ -222,6 +222,7 @@ DEPENDENCIES
   simplecov (~> 0.22.0)
   standard (~> 1.31)
   steep (~> 1.7.1)
+  zeitwerk (~> 2.6.18)
 
 BUNDLED WITH
    2.4.19

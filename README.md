@@ -12,10 +12,10 @@ Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
 
 ## Ruby on Rails
 
-The MetaTags main branch fully supports Ruby on Rails 6.0+ and is tested against all major Ruby on Rails releases.
+The MetaTags main branch fully supports Ruby on Rails 6.1+ and is tested against all major Ruby on Rails releases.
 
 > [!NOTE]
-> We no longer support Ruby versions older than 3.0 and Ruby on Rails older than 6.0 since they reached their end of life (see [Ruby](https://endoflife.date/ruby) and [Ruby on Rails](https://endoflife.date/rails)).
+> We no longer support Ruby versions older than 3.0 and Ruby on Rails older than 6.1 since they reached their end of life (see [Ruby](https://endoflife.date/ruby) and [Ruby on Rails](https://endoflife.date/rails)).
 
 ## Installation
 
@@ -245,15 +245,15 @@ In order to update the page title, you can use the following trick. First, set t
 MetaTags.configure do |config|
   config.title_tag_attributes = {id: "page-title"}
 end
-````
+```
 
 Now in your turbo frame, you can update the title using a turbo stream:
 
 ```html
 <turbo-frame ...>
-    <turbo-stream action="update" target="page-title">
-        <template>My new title</template>
-    </turbo-stream>
+  <turbo-stream action="update" target="page-title">
+    <template>My new title</template>
+  </turbo-stream>
 </turbo-frame>
 ```
 

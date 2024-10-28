@@ -172,7 +172,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.6.0)
-    zeitwerk (2.7.1)
+    zeitwerk (2.6.18)
 
 PLATFORMS
   arm64-darwin
@@ -192,6 +192,7 @@ DEPENDENCIES
   simplecov (~> 0.22.0)
   standard (~> 1.31)
   steep (~> 1.7.1)
+  zeitwerk (~> 2.6.18)
 
 BUNDLED WITH
    2.4.19
