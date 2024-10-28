@@ -245,15 +245,15 @@ In order to update the page title, you can use the following trick. First, set t
 MetaTags.configure do |config|
   config.title_tag_attributes = {id: "page-title"}
 end
-````
+```
 
 Now in your turbo frame, you can update the title using a turbo stream:
 
 ```html
 <turbo-frame ...>
-    <turbo-stream action="update" target="page-title">
-        <template>My new title</template>
-    </turbo-stream>
+  <turbo-stream action="update" target="page-title">
+    <template>My new title</template>
+  </turbo-stream>
 </turbo-frame>
 ```
 

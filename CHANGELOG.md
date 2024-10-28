@@ -1,10 +1,16 @@
 # Changelog
 
+## Development
+
+Changes:
+
+- Added Ruby on Rails 8.0 to the build matrix, removed Rails 6.0 ([321](https://github.com/kpumuk/meta-tags/pull/321))
+
 ## 2.22.1 (September 20, 2024) [☰](https://github.com/kpumuk/meta-tags/compare/v2.22.0...v2.22.1)
 
 Changes:
 
-- Removed `meta-tags.gemspec` and `Rakefile` from the gem package ([312](https://github.com/kpumuk/meta-tags/pull/312)
+- Removed `meta-tags.gemspec` and `Rakefile` from the gem package ([312](https://github.com/kpumuk/meta-tags/pull/312))
 - Use GitHub actions to build, sign and publish the gem ([314](https://github.com/kpumuk/meta-tags/pull/314), [315](https://github.com/kpumuk/meta-tags/pull/315), [316](https://github.com/kpumuk/meta-tags/pull/316))
 
 ## 2.22.0 (July 15, 2024) [☰](https://github.com/kpumuk/meta-tags/compare/v2.21.0...v2.22.0)
