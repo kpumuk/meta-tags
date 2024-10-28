@@ -17,11 +17,11 @@ jobs:
           - "3.2"
           - "3.3"
         rails-version:
-          - "6.0"
           - "6.1"
           - "7.0"
           - "7.1"
           - "7.2"
+          - "8.0"
           - "edge"
         include:
           - ruby-version: "3.3"
@@ -30,6 +30,10 @@ jobs:
         exclude:
           - ruby-version: "3.0"
             rails-version: "7.2"
+          - ruby-version: "3.0"
+            rails-version: "8.0"
+          - ruby-version: "3.1"
+            rails-version: "8.0"
           - ruby-version: "3.0"
             rails-version: "edge"
           - ruby-version: "3.1"
