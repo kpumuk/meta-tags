@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: ef4201c204e6ad37537d76cc471de27a8fd53d32
+  revision: 1f9b696eb5d2f907cdb637e19989964bb9c3bd59
   specs:
     actionpack (8.1.0.alpha)
       actionview (= 8.1.0.alpha)
@@ -82,7 +82,7 @@ GEM
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    logger (1.6.2)
+    logger (1.6.3)
     loofah (2.23.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -120,7 +120,7 @@ GEM
       ffi (~> 1.0)
     rbs (3.7.0)
       logger
-    rdoc (6.8.1)
+    rdoc (6.9.0)
       psych (>= 4.0.0)
     regexp_parser (2.9.3)
     reline (0.5.12)
@@ -153,7 +153,7 @@ GEM
       rubocop-ast (>= 1.36.2, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.36.2)
+    rubocop-ast (1.37.0)
       parser (>= 3.3.1.0)
     rubocop-performance (1.23.0)
       rubocop (>= 1.48.1, < 2.0)
@@ -234,4 +234,4 @@ DEPENDENCIES
   steep (~> 1.7.1)
 
 BUNDLED WITH
-   2.4.19
+   2.5.23

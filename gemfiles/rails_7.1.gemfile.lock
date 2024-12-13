@@ -69,7 +69,7 @@ GEM
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    logger (1.6.2)
+    logger (1.6.3)
     loofah (2.23.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -116,7 +116,7 @@ GEM
       ffi (~> 1.0)
     rbs (3.7.0)
       logger
-    rdoc (6.8.1)
+    rdoc (6.9.0)
       psych (>= 4.0.0)
     regexp_parser (2.9.3)
     reline (0.5.12)
@@ -149,7 +149,7 @@ GEM
       rubocop-ast (>= 1.36.2, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.36.2)
+    rubocop-ast (1.37.0)
       parser (>= 3.3.1.0)
     rubocop-performance (1.23.0)
       rubocop (>= 1.48.1, < 2.0)
@@ -164,7 +164,7 @@ GEM
     rubocop-rspec (3.3.0)
       rubocop (~> 1.61)
     ruby-progressbar (1.13.0)
-    securerandom (0.4.0)
+    securerandom (0.3.0)
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -223,10 +223,11 @@ DEPENDENCIES
   rubocop-rails (~> 2.27.0)
   rubocop-rake (~> 0.6.0)
   rubocop-rspec (~> 3.3.0)
+  securerandom (= 0.3.0)
   simplecov (~> 0.22.0)
   standard (~> 1.31)
   steep (~> 1.7.1)
   zeitwerk (~> 2.6.18)
 
 BUNDLED WITH
-   2.4.19
+   2.5.23
