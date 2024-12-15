@@ -5,7 +5,7 @@ module MetaTags
 
     def initialize: (String | Symbol name, ?Hash[String | Symbol, untyped] attributes) -> void
 
-    def render: (_ActionViewBase view) -> void
+    def render: (_ActionViewBase view) -> String
 
     def prepare_attributes: (Hash[String | Symbol, untyped] attributes) -> Hash[String | Symbol, untyped]
   end

@@ -161,7 +161,7 @@ GEM
     standard-performance (1.6.0)
       lint_roller (~> 1.1)
       rubocop-performance (~> 1.23.0)
-    steep (1.7.1)
+    steep (1.9.1)
       activesupport (>= 5.1)
       concurrent-ruby (>= 1.1.10)
       csv (>= 3.0.9)
@@ -172,7 +172,7 @@ GEM
       logger (>= 1.3.0)
       parser (>= 3.1)
       rainbow (>= 2.2.2, < 4.0)
-      rbs (>= 3.5.0.pre)
+      rbs (~> 3.7.0)
       securerandom (>= 0.1)
       strscan (>= 1.0.0)
       terminal-table (>= 2, < 4)
@@ -205,7 +205,7 @@ DEPENDENCIES
   rubocop-rspec (~> 3.3.0)
   simplecov (~> 0.22.0)
   standard (~> 1.31)
-  steep (~> 1.7.1)
+  steep (~> 1.9.1)
   zeitwerk (~> 2.6.18)
 
 BUNDLED WITH
