@@ -1,5 +1,5 @@
 module MetaTags
   class ContentTag < Tag
-    def render: (_ActionViewBase view) -> untyped
+    def render: (_ActionViewBase view) -> String
   end
 end

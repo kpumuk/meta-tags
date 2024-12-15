@@ -14,7 +14,7 @@ jobs:
       fail-fast: true
       matrix:
         ruby-version:
-          - "3.2"
+          - "3.3"
         rails-version:
           - "7.1"
     env:

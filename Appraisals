@@ -13,6 +13,7 @@ end
 appraise "rails-7.1" do
   gem "railties", "~> 7.1.4"
   gem "zeitwerk", "~> 2.6.18" # 2.7+ requires Ruby 3.2, and we still support Ruby 3.0
+  gem "securerandom", "0.3.0" # 0.4.0 requires ruby version >= 3.1.0
 end
 
 appraise "rails-7.2" do

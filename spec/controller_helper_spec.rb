@@ -10,10 +10,6 @@ RSpec.describe MetaTags::ControllerHelper do
     end
   end
 
-  before do
-    skip("Does not work properly with RBS") if ENV["RBS_TEST_TARGET"]
-  end
-
   describe "module" do
     it "is mixed into ActionController::Base" do
       expect(ActionController::Base.included_modules).to include(described_class)
