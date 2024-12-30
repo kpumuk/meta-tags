@@ -5,5 +5,6 @@ source "https://rubygems.org"
 gem "steep", "~> 1.9.1", platform: :mri_33
 gem "railties", "~> 7.0.8"
 gem "zeitwerk", "~> 2.6.18"
+gem "base64"
 
 gemspec path: "../"
