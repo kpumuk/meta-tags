@@ -4,12 +4,16 @@ appraise "rails-6.1" do
   gem "railties", "~> 6.1.7"
   gem "zeitwerk", "~> 2.6.18" # 2.7+ requires Ruby 3.2, and we still support Ruby 3.0
   gem "base64" # not part of the default gems starting from Ruby 3.4.0
+  gem "bigdecimal" # not part of the default gems starting from Ruby 3.4.0
+  gem "logger" # not part of the default gems starting from Ruby 3.5.0
 end
 
 appraise "rails-7.0" do
   gem "railties", "~> 7.0.8"
   gem "zeitwerk", "~> 2.6.18" # 2.7+ requires Ruby 3.2, and we still support Ruby 3.0
   gem "base64" # not part of the default gems starting from Ruby 3.4.0
+  gem "bigdecimal" # not part of the default gems starting from Ruby 3.4.0
+  gem "logger" # not part of the default gems starting from Ruby 3.5.0
 end
 
 appraise "rails-7.1" do
