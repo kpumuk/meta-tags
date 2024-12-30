@@ -6,6 +6,7 @@ appraise "rails-6.1" do
   gem "base64" # not part of the default gems starting from Ruby 3.4.0
   gem "bigdecimal" # not part of the default gems starting from Ruby 3.4.0
   gem "logger" # not part of the default gems starting from Ruby 3.5.0
+  gem "mutex_m" # not part of the default gems starting from Ruby 3.4.0
 end
 
 appraise "rails-7.0" do
@@ -14,6 +15,7 @@ appraise "rails-7.0" do
   gem "base64" # not part of the default gems starting from Ruby 3.4.0
   gem "bigdecimal" # not part of the default gems starting from Ruby 3.4.0
   gem "logger" # not part of the default gems starting from Ruby 3.5.0
+  gem "mutex_m" # not part of the default gems starting from Ruby 3.4.0
 end
 
 appraise "rails-7.1" do

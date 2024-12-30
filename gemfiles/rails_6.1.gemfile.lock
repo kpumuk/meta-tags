@@ -61,6 +61,7 @@ GEM
     method_source (1.1.0)
     mini_portile2 (2.8.8)
     minitest (5.25.4)
+    mutex_m (0.3.0)
     nokogiri (1.18.1)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
@@ -202,6 +203,7 @@ DEPENDENCIES
   bigdecimal
   logger
   meta-tags!
+  mutex_m
   railties (~> 6.1.7)
   rake (~> 13.0)
   rspec (~> 3.13.0)
