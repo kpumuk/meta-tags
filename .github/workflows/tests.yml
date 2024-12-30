@@ -24,7 +24,7 @@ jobs:
           - "8.0"
           - "edge"
         include:
-          - ruby-version: "3.4"
+          - ruby-version: "3.3"
             rails-version: "8.0"
             code-coverage: true
         exclude:

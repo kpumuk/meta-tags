@@ -209,7 +209,7 @@ DEPENDENCIES
   rubocop-rspec (~> 3.3.0)
   simplecov (~> 0.22.0)
   standard (~> 1.31)
-  steep (~> 1.9.1)
+  steep (~> 1.9.3)
   zeitwerk (~> 2.6.18)
 
 BUNDLED WITH

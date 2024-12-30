@@ -14,7 +14,7 @@ jobs:
         ruby-version:
           - "3.3"
         rails-version:
-          - "7.1"
+          - "8.0"
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails-version }}.gemfile
 
