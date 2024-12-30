@@ -18,7 +18,7 @@ module MetaTags
     #
     # @param [ActionView::Base] view Rails view object.
     def render(view)
-      tags = [] #: Array[Tag]
+      tags = [] # : Array[Tag]
 
       render_charset(tags)
       render_title(tags)
