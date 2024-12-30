@@ -159,7 +159,7 @@ module MetaTags
       return string_array if limit.nil? || limit <= 0
 
       length = 0
-      result = []
+      result = [] # : Array[String]
 
       string_array.each do |string|
         limit_left = calculate_limit_left(limit, length, result, separator)
@@ -192,7 +192,7 @@ module MetaTags
           site_title, title, separator, global_limit
         )
 
-        title = (title_limited_length > 0) ? truncate_array(title, title_limited_length, separator) : []
+        title = (title_limited_length > 0) ? truncate_array(title, title_limited_length, separator) : [] # : Array[String]
         site_title = (site_title_limited_length > 0) ? truncate(site_title, site_title_limited_length) : nil
       end
 

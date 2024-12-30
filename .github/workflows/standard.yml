@@ -2,9 +2,9 @@ name: StandardRB
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -16,9 +16,9 @@ jobs:
       fail-fast: true
       matrix:
         ruby-version:
-          - "3.2"
+          - "3.3"
         rails-version:
-          - "7.1"
+          - "8.0"
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails-version }}.gemfile
 

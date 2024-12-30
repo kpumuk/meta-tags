@@ -18,7 +18,7 @@ module MetaTags
     #
     # @param [ActionView::Base] view Rails view object.
     def render(view)
-      tags = []
+      tags = [] # : Array[Tag]
 
       render_charset(tags)
       render_title(tags)
@@ -35,8 +35,8 @@ module MetaTags
       render_hashes(tags)
       render_custom(tags)
 
-      tags.tap(&:compact!).map! { |tag| tag.render(view) }
-      view.safe_join tags, MetaTags.config.minify_output ? "" : "\n"
+      rendered_tags = tags.tap(&:compact!).map { |tag| tag.render(view) }
+      view.safe_join rendered_tags, MetaTags.config.minify_output ? "" : "\n"
     end
 
     protected

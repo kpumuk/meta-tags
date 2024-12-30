@@ -43,13 +43,13 @@ module ActiveSupport
 end
 
 interface _ActionControllerBase
-  def render: (*untyped args) { () -> untyped } -> untyped
+  def render: (*untyped args) ?{ () -> untyped } -> untyped
 end
 
 interface _ActionViewBase
-  def tag: (String name, ?Hash[String | Symbol, untyped] options, ?bool open) -> void
+  def tag: (String name, ?Hash[String | Symbol, untyped] options, ?bool open) -> String
 
-  def content_tag: (String name, String content, ?Hash[String | Symbol, untyped] options, ?bool open) -> void
+  def content_tag: (String name, String content, ?Hash[String | Symbol, untyped] options, ?bool open) -> String
 
   def safe_join: (Array[String], String) -> String
 
