@@ -6,6 +6,7 @@
 #
 # TLDR. This is a real Rails application
 
+require "logger" # Required for Rails <= 7.0 on Ruby >= 3.1
 require "rails"
 require "action_controller/railtie"
 require "action_view/railtie"
