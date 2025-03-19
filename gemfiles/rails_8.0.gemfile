@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "steep", "~> 1.9.3", platform: :mri_33
+gem "steep", "~> 1.10.0", platform: :mri_33
 gem "railties", "~> 8.0.0.rc1"
 
 gemspec path: "../"
