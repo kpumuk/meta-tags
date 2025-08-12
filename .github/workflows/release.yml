@@ -21,7 +21,7 @@ jobs:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails-version }}.gemfile
     environment: release
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
