@@ -44,7 +44,7 @@ PATH
   remote: ..
   specs:
     meta-tags (2.22.1)
-      actionpack (>= 6.0.0, < 8.1)
+      actionpack (>= 6.0.0, < 8.2)
 
 GEM
   remote: https://rubygems.org/

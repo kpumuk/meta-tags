@@ -24,10 +24,10 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "actionpack", ">= 6.0.0", "< 8.1"
+  spec.add_runtime_dependency "actionpack", ">= 6.0.0", "< 8.2"
 
   spec.add_development_dependency "appraisal", "~> 2.5.0"
-  spec.add_development_dependency "railties", ">= 3.2.0", "< 8.1"
+  spec.add_development_dependency "railties", ">= 3.2.0", "< 8.2"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.13.0"
   spec.add_development_dependency "rspec-html-matchers", "~> 0.10.0"

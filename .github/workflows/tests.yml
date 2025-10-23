@@ -22,6 +22,7 @@ jobs:
           - "7.1"
           - "7.2"
           - "8.0"
+          - "8.1"
           - "edge"
         include:
           - ruby-version: "3.3"
@@ -30,6 +31,8 @@ jobs:
         exclude:
           - ruby-version: "3.1"
             rails-version: "8.0"
+          - ruby-version: "3.1"
+            rails-version: "8.1"
           - ruby-version: "3.1"
             rails-version: "edge"
     env:
