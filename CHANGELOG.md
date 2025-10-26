@@ -1,10 +1,11 @@
 # Changelog
 
-## Development
+## 2.22.2 (October 25, 2025) [☰](https://github.com/kpumuk/meta-tags/compare/v2.22.1...v2.22.2)
 
 Changes:
 
 - Added Ruby on Rails 8.0 to the build matrix, removed Rails 6.0 ([321](https://github.com/kpumuk/meta-tags/pull/321))
+- Added support for Ruby on Rails 8.1 ([337](https://github.com/kpumuk/meta-tags/pull/337))
 
 ## 2.22.1 (September 20, 2024) [☰](https://github.com/kpumuk/meta-tags/compare/v2.22.0...v2.22.1)
 
