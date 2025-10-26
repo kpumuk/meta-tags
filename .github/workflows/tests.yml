@@ -52,11 +52,3 @@ jobs:
           ENABLE_CODE_COVERAGE: true
         run: |
           bundle exec rspec --format RspecJunitFormatter --out ${{github.workspace}}/rspec-results.xml --format documentation
-
-      - uses: paambaati/codeclimate-action@v9
-        if: matrix.code-coverage
-        env:
-          CC_TEST_REPORTER_ID: ${{ vars.CC_TEST_REPORTER_ID }}
-        with:
-          coverageLocations: |
-            ${{github.workspace}}/coverage/coverage.json:simplecov
