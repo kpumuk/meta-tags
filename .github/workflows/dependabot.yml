@@ -18,7 +18,7 @@ jobs:
 
     name: Appraisal - Ruby ${{ matrix.ruby-version }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref }}
       - name: Set up Ruby ${{ matrix.ruby-version }}
