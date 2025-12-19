@@ -192,11 +192,12 @@ GEM
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.38.0, < 2.0)
-    rubocop-rails (2.28.0)
+    rubocop-rails (2.34.2)
       activesupport (>= 4.2.0)
+      lint_roller (~> 1.1)
       rack (>= 1.1)
-      rubocop (>= 1.52.0, < 2.0)
-      rubocop-ast (>= 1.31.1, < 2.0)
+      rubocop (>= 1.75.0, < 2.0)
+      rubocop-ast (>= 1.44.0, < 2.0)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
     rubocop-rspec (3.4.0)
@@ -221,6 +222,9 @@ GEM
     standard-performance (1.8.0)
       lint_roller (~> 1.1)
       rubocop-performance (~> 1.25.0)
+    standard-rails (1.6.0)
+      lint_roller (~> 1.0)
+      rubocop-rails (~> 2.34.0)
     steep (1.10.0)
       activesupport (>= 5.1)
       concurrent-ruby (>= 1.1.10)
@@ -276,11 +280,11 @@ DEPENDENCIES
   rspec (~> 3.13.0)
   rspec-html-matchers (~> 0.10.0)
   rspec_junit_formatter (~> 0.6.0)
-  rubocop-rails (~> 2.28)
   rubocop-rake (~> 0.6)
   rubocop-rspec (~> 3.4)
   simplecov (~> 0.22.0)
   standard (~> 1.31)
+  standard-rails (~> 1.6)
   steep (~> 1.10.0)
 
 CHECKSUMS
@@ -369,7 +373,7 @@ CHECKSUMS
   rubocop (1.80.2) sha256=6485f30fefcf5c199db3b91e5e253b1ef43f7e564784e2315255809a3dd9abf4
   rubocop-ast (1.47.1) sha256=592682017855408b046a8190689490763aecea175238232b1b526826349d01ae
   rubocop-performance (1.25.0) sha256=6f7d03568a770054117a78d0a8e191cefeffb703b382871ca7743831b1a52ec1
-  rubocop-rails (2.28.0) sha256=4967bed9ea13e6dcab566fea4265a6dd0381db739b305e48930aba1282da2715
+  rubocop-rails (2.34.2) sha256=10ff246ee48b25ffeabddc5fee86d159d690bb3c7b9105755a9c7508a11d6e22
   rubocop-rake (0.6.0) sha256=56b6f22189af4b33d4f4e490a555c09f1281b02f4d48c3a61f6e8fe5f401d8db
   rubocop-rspec (3.4.0) sha256=8721c13b6a8c9530a7ac481cea9423022f946fcf72428bda8289f8b57e4d4885
   ruby-progressbar (1.13.0) sha256=80fc9c47a9b640d6834e0dc7b3c94c9df37f08cb072b7761e4a71e22cff29b33
@@ -380,6 +384,7 @@ CHECKSUMS
   standard (1.51.1) sha256=6d0d98a1fac26d660393f37b3d9c864632bb934b17abfa23811996b20f87faf2
   standard-custom (1.0.2) sha256=424adc84179a074f1a2a309bb9cf7cd6bfdb2b6541f20c6bf9436c0ba22a652b
   standard-performance (1.8.0) sha256=ed17b7d0e061b2a19a91dd434bef629439e2f32310f22f26acb451addc92b788
+  standard-rails (1.6.0) sha256=8f1d19a402491901ee8148adb431682012838a73bb7d3b0e95aa339ea872497a
   steep (1.10.0) sha256=1b295b55f9aaff1b8d3ee42453ee55bc2a1078fda0268f288edb2dc014f4d7d1
   stringio (3.1.7) sha256=5b78b7cb242a315fb4fca61a8255d62ec438f58da2b90be66048546ade4507fa
   strscan (3.1.5) sha256=f8413b90ea9395a69609a4414a8c88551bcda64337e234272c24fcd4c83e5947

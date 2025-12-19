@@ -1,5 +1,32 @@
-require:
+require: standard
+
+inherit_gem:
+  standard: config/base.yml
+
+plugins:
+  - standard-performance
+  # rubocop-performance is required when using Performance cops
+  - rubocop-performance
+  - standard-rails
+  - rubocop-rake
   - rubocop-rspec
+
+AllCops:
+  NewCops: disable
+  SuggestExtensions: false
+  TargetRubyVersion: 3.0
+
+## standard-rails
+
+# Do not require loading Rails environment for Rake tasks as we are not a Rails application.
+Rails/RakeEnvironment:
+  Enabled: false
+
+# Do not require subclassing from ApplicationController as we're not a rails application
+Rails/ApplicationController:
+  Enabled: false
+
+## rubocop-rspec
 
 RSpec/MultipleExpectations:
   Max: 7
