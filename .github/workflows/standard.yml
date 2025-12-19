@@ -24,8 +24,12 @@ jobs:
 
     name: StandardRB - Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
     steps:
-      - name: Run StandardRB
-        uses: standardrb/standard-ruby-action@v1
+      - uses: actions/checkout@v6
+      - name: Set up Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
-          autofix: false
+          bundler-cache: true
+      - name: Run StandardRB (via Rubocop)
+        run: |
+          bundle exec rubocop --format offenses --format github

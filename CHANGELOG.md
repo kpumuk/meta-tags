@@ -1,5 +1,11 @@
 # Changelog
 
+## Development
+
+Changes:
+
+- Upper limit for Ruby on Rails version is no longer enforced (https://github.com/kpumuk/meta-tags/pull/340)
+
 ## 2.22.2 (October 25, 2025) [☰](https://github.com/kpumuk/meta-tags/compare/v2.22.1...v2.22.2)
 
 Changes:

@@ -3,7 +3,10 @@
 source "https://rubygems.org"
 
 gem "steep", "~> 1.10.0", platform: :mri_33
-gem "railties", "~> 7.2.1"
+gem "railties", "~> 7.2.3"
 gem "zeitwerk", "~> 2.6.18"
+gem "minitest", "< 6.0"
+gem "connection_pool", "< 3.0"
+gem "erb", "< 5.0"
 
 gemspec path: "../"

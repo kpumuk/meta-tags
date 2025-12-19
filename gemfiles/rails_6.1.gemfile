@@ -9,5 +9,6 @@ gem "base64"
 gem "bigdecimal"
 gem "logger"
 gem "mutex_m"
+gem "minitest", "< 6.0"
 
 gemspec path: "../"
