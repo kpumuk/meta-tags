@@ -24,18 +24,18 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "actionpack", ">= 6.0.0", "< 8.2"
+  spec.add_runtime_dependency "actionpack", ">= 6.0.0"
 
   spec.add_development_dependency "appraisal", "~> 2.5.0"
-  spec.add_development_dependency "railties", ">= 3.2.0", "< 8.2"
+  spec.add_development_dependency "railties", ">= 3.2.0"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.13.0"
   spec.add_development_dependency "rspec-html-matchers", "~> 0.10.0"
   spec.add_development_dependency "simplecov", "~> 0.22.0"
   # Code style
-  spec.add_development_dependency "rubocop-rails", "~> 2.28.0"
-  spec.add_development_dependency "rubocop-rake", "~> 0.6.0"
-  spec.add_development_dependency "rubocop-rspec", "~> 3.4.0"
+  spec.add_development_dependency "rubocop-rails", "~> 2.28"
+  spec.add_development_dependency "rubocop-rake", "~> 0.6"
+  spec.add_development_dependency "rubocop-rspec", "~> 3.4"
   spec.add_development_dependency "standard", "~> 1.31"
   # Format RSpec output for CircleCI
   spec.add_development_dependency "rspec_junit_formatter", "~> 0.6.0"

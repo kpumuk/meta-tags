@@ -2,7 +2,7 @@ PATH
   remote: ..
   specs:
     meta-tags (2.22.2)
-      actionpack (>= 6.0.0, < 8.2)
+      actionpack (>= 6.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -269,9 +269,9 @@ DEPENDENCIES
   rspec (~> 3.13.0)
   rspec-html-matchers (~> 0.10.0)
   rspec_junit_formatter (~> 0.6.0)
-  rubocop-rails (~> 2.28.0)
-  rubocop-rake (~> 0.6.0)
-  rubocop-rspec (~> 3.4.0)
+  rubocop-rails (~> 2.28)
+  rubocop-rake (~> 0.6)
+  rubocop-rspec (~> 3.4)
   simplecov (~> 0.22.0)
   standard (~> 1.31)
   steep (~> 1.10.0)
@@ -385,4 +385,4 @@ CHECKSUMS
   zeitwerk (2.6.18) sha256=bd2d213996ff7b3b364cd342a585fbee9797dbc1c0c6d868dc4150cc75739781
 
 BUNDLED WITH
-   2.5.22
+   2.6.3
