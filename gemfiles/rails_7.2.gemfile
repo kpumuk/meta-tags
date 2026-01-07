@@ -8,5 +8,6 @@ gem "zeitwerk", "~> 2.6.18"
 gem "minitest", "< 6.0"
 gem "connection_pool", "< 3.0"
 gem "erb", "< 5.0"
+gem "nokogiri", "< 1.19.0"
 
 gemspec path: "../"

@@ -8,6 +8,7 @@ appraise "rails-6.1" do
   gem "logger" # not part of the default gems starting from Ruby 3.5.0
   gem "mutex_m" # not part of the default gems starting from Ruby 3.4.0
   gem "minitest", "< 6.0" # 6.0+ requires Ruby 3.2, and we still support Ruby 3.1
+  gem "nokogiri", "< 1.19.0" # 1.19.0+ requires Ruby 3.2, and we still support Ruby 3.1
 end
 
 appraise "rails-7.0" do
@@ -18,6 +19,7 @@ appraise "rails-7.0" do
   gem "logger" # not part of the default gems starting from Ruby 3.5.0
   gem "mutex_m" # not part of the default gems starting from Ruby 3.4.0
   gem "minitest", "< 6.0" # 6.0+ requires Ruby 3.2, and we still support Ruby 3.1
+  gem "nokogiri", "< 1.19.0" # 1.19.0+ requires Ruby 3.2, and we still support Ruby 3.1
 end
 
 appraise "rails-7.1" do
@@ -27,6 +29,7 @@ appraise "rails-7.1" do
   gem "minitest", "< 6.0" # 6.0+ requires Ruby 3.2, and we still support Ruby 3.1
   gem "connection_pool", "< 3.0" # 3.0+ requires Ruby 3.2, and we still support Ruby 3.1
   gem "erb", "< 5.0" # 5.0+ requires Ruby 3.2, and we still support Ruby 3.1
+  gem "nokogiri", "< 1.19.0" # 1.19.0+ requires Ruby 3.2, and we still support Ruby 3.1
 end
 
 appraise "rails-7.2" do
@@ -35,6 +38,7 @@ appraise "rails-7.2" do
   gem "minitest", "< 6.0" # 6.0+ requires Ruby 3.2, and we still support Ruby 3.1
   gem "connection_pool", "< 3.0" # 3.0+ requires Ruby 3.2, and we still support Ruby 3.1
   gem "erb", "< 5.0" # 5.0+ requires Ruby 3.2, and we still support Ruby 3.1
+  gem "nokogiri", "< 1.19.0" # 1.19.0+ requires Ruby 3.2, and we still support Ruby 3.1
 end
 
 appraise "rails-8.0" do

@@ -10,5 +10,6 @@ gem "bigdecimal"
 gem "logger"
 gem "mutex_m"
 gem "minitest", "< 6.0"
+gem "nokogiri", "< 1.19.0"
 
 gemspec path: "../"
