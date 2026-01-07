@@ -1,10 +1,11 @@
 # Changelog
 
-## Development
+## 2.22.3 (January 7, 2026) [☰](https://github.com/kpumuk/meta-tags/compare/v2.22.2...v2.22.3)
 
 Changes:
 
 - Upper limit for Ruby on Rails version is no longer enforced (https://github.com/kpumuk/meta-tags/pull/340)
+- Added Ruby 4.0 the build matrix (https://github.com/kpumuk/meta-tags/pull/341)
 
 ## 2.22.2 (October 25, 2025) [☰](https://github.com/kpumuk/meta-tags/compare/v2.22.1...v2.22.2)
 
