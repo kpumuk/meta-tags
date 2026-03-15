@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-if ENV["ENABLE_CODE_COVERAGE"]
+if %w[1 true].include?(ENV["ENABLE_CODE_COVERAGE"])
   require "simplecov"
   require "simplecov_json_formatter"
   SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
