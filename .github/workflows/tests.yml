@@ -2,8 +2,14 @@ name: Tests
 
 on:
   push:
+    branches: [main]
   pull_request:
-    types: [opened, reopened]
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
