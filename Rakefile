@@ -37,10 +37,12 @@ end
 namespace :rbs do
   desc "Run RSpec tests with RBS enabled to test type signatures"
   task :spec do
+    rubyopt = [ENV["RUBYOPT"], "-rrbs/test/setup"].compact.join(" ")
+
     exec(
       {
         "RBS_TEST_TARGET" => "MetaTags::*",
-        "RUBYOPT" => "-rrbs/test/setup"
+        "RUBYOPT" => rubyopt
       },
       "bundle exec rspec"
     )

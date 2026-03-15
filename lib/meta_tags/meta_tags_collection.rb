@@ -76,12 +76,13 @@ module MetaTags
     # @return [String] page title.
     #
     def page_title(defaults = {})
+      had_site = @meta_tags.key?(:site)
       old_site = @meta_tags[:site]
-      @meta_tags[:site] = nil
+      @meta_tags[:site] = nil if had_site
       full_title = with_defaults(defaults) { extract_full_title }
       full_title.presence || old_site || ""
     ensure
-      @meta_tags[:site] = old_site
+      @meta_tags[:site] = old_site if had_site
     end
 
     # Deletes and returns a meta tag value by name.
@@ -152,6 +153,7 @@ module MetaTags
     # @return [Hash<String,String>] noindex attributes.
     #
     def extract_robots
+      # @type var result: Hash[String, Array[String]]
       result = Hash.new { |h, k| h[k] = [] }
 
       [
@@ -207,10 +209,12 @@ module MetaTags
     def calculate_robots_attributes(result, attributes)
       processed = Set.new
       Array(attributes).each do |attribute|
+        # @type var attribute: String | Symbol
         names, value = extract_robots_attribute(attribute)
         next unless value
 
         Array(names).each do |name|
+          # @type var name: String | Symbol
           apply_robots_value(result, name, value, processed)
         end
       end

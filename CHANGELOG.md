@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+Bugfixes:
+
+- Fixed `title` helper to always return a string, joining array titles with the configured separator ([344](https://github.com/kpumuk/meta-tags/pull/344)).
+
 ## 2.22.3 (January 7, 2026) [☰](https://github.com/kpumuk/meta-tags/compare/v2.22.2...v2.22.3)
 
 Changes:
