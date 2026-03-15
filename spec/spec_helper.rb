@@ -6,6 +6,7 @@ if %w[1 true].include?(ENV["ENABLE_CODE_COVERAGE"])
   SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
   SimpleCov.start do
     enable_coverage :branch
+    track_files "lib/**/*.rb"
   end
 end
 
