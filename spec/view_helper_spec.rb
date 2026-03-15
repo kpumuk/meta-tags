@@ -13,6 +13,13 @@ RSpec.describe MetaTags::ViewHelper, type: :view_helper do
       expect(subject.title).to eq("some-title")
     end
 
+    it "returns array titles joined by separator" do
+      subject.set_meta_tags(separator: " / ")
+
+      expect(subject.title(["some-title", "another-title"])).to eq("some-title / another-title")
+      expect(subject.title).to eq("some-title / another-title")
+    end
+
     it "returns description" do
       expect(subject.description("some-description")).to eq("some-description")
     end

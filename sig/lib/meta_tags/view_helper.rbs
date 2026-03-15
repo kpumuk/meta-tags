@@ -38,7 +38,7 @@ module MetaTags
 
     def set_meta_tags: (?meta_tags | (_MetaTagish&Object) meta_tags) -> void
 
-    def title: (?String? title, ?::String? headline) -> String
+    def title: (?(String | (_Stringish & Object) | Array[String | (_Stringish & Object)]) title, ?::String? headline) -> String
 
     def keywords: (Array[String] | String? keywords) -> (Array[String] | String?)
 

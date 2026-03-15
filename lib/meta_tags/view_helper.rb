@@ -57,7 +57,7 @@ module MetaTags
     #
     def title(title = nil, headline = "")
       set_meta_tags(title: title) unless title.nil?
-      headline.presence || meta_tags[:title]
+      headline.presence || meta_tags.page_title
     end
 
     # Set the page keywords.

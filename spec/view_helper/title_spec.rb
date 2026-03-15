@@ -76,8 +76,8 @@ RSpec.describe MetaTags::ViewHelper do
       end
     end
 
-    it "onlies use markup in titles in the view" do
-      expect(subject.title("<b>someTitle</b>")).to eq("<b>someTitle</b>")
+    it "strips markup from titles returned in the view" do
+      expect(subject.title("<b>someTitle</b>")).to eq("someTitle")
       subject.display_meta_tags(site: "someSite").tap do |meta|
         expect(meta).to eq("<title>someSite | someTitle</title>")
       end
