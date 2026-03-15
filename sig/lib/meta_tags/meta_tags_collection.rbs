@@ -34,8 +34,8 @@ module MetaTags
 
     def extract_robots_attribute: (String | Symbol name) -> [String | Array[String | Symbol], String?]
 
-    def calculate_robots_attributes: (untyped result, untyped attributes) -> untyped
+    def calculate_robots_attributes: (Hash[String, Array[String]] result, String | Symbol | Array[String | Symbol] attributes) -> void
 
-    def apply_robots_value: (untyped result, untyped name, untyped value, untyped processed) -> (nil | untyped)
+    def apply_robots_value: (Hash[String, Array[String]] result, String | Symbol name, String value, Set[String] processed) -> void
   end
 end

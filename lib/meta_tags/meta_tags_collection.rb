@@ -152,6 +152,7 @@ module MetaTags
     # @return [Hash<String,String>] noindex attributes.
     #
     def extract_robots
+      # @type var result: Hash[String, Array[String]]
       result = Hash.new { |h, k| h[k] = [] }
 
       [
@@ -207,10 +208,12 @@ module MetaTags
     def calculate_robots_attributes(result, attributes)
       processed = Set.new
       Array(attributes).each do |attribute|
+        # @type var attribute: String | Symbol
         names, value = extract_robots_attribute(attribute)
         next unless value
 
         Array(names).each do |name|
+          # @type var name: String | Symbol
           apply_robots_value(result, name, value, processed)
         end
       end
