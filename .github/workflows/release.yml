@@ -21,9 +21,9 @@ jobs:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails-version }}.gemfile
     environment: release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@dffb23f65a78bba8db45d387d5ea1bbd6be3ef18 # v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
@@ -33,7 +33,7 @@ jobs:
         run: |
           mkdir -p ~/.gem
           echo "${GEM_PRIVATE_KEY}" > ~/.gem/gem-private_key.pem
-      - uses: rubygems/release-gem@v1
+      - uses: rubygems/release-gem@e9a6361a0b14562539327c2a02373edc56dd3169 # v1
         env:
           GEM_PRIVATE_KEY_PASSPHRASE: "${{ secrets.GEM_PRIVATE_KEY_PASSPHRASE }}"
       - name: Create GitHub release

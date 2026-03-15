@@ -1,0 +1,92 @@
+name: Dependabot Push
+
+on:
+  workflow_run:
+    workflows: ["Dependabot"]
+    types: [completed]
+
+concurrency:
+  group: dependabot-push-${{ github.event.workflow_run.id }}
+  cancel-in-progress: true
+
+jobs:
+  push:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Resolve pull request context
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pr_number="$(jq -r '.workflow_run.pull_requests[0].number // empty' "$GITHUB_EVENT_PATH")"
+          if [ -z "$pr_number" ]; then
+            echo "workflow_run payload does not include a pull request number" >&2
+            exit 1
+          fi
+
+          gh api "repos/${GITHUB_REPOSITORY}/pulls/${pr_number}" > "$RUNNER_TEMP/pull-request.json"
+
+          pr_author="$(jq -r '.user.login' "$RUNNER_TEMP/pull-request.json")"
+          head_ref="$(jq -r '.head.ref' "$RUNNER_TEMP/pull-request.json")"
+          head_repo="$(jq -r '.head.repo.full_name' "$RUNNER_TEMP/pull-request.json")"
+
+          if [ "$pr_author" != "dependabot[bot]" ]; then
+            echo "Refusing to push to non-Dependabot PR #$pr_number by $pr_author" >&2
+            exit 1
+          fi
+
+          if [ "$head_repo" != "$GITHUB_REPOSITORY" ]; then
+            echo "Refusing to push to PR head repo $head_repo" >&2
+            exit 1
+          fi
+
+          echo "head_ref=$head_ref" >> "$GITHUB_OUTPUT"
+
+      - name: Download Appraisal lockfiles
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          name: dependabot-appraisal-lockfiles
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ github.event.workflow_run.id }}
+          path: ${{ runner.temp }}/dependabot-lockfiles
+
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+        with:
+          app-id: ${{ secrets.DEPENDABOT_APP_ID }}
+          private-key: ${{ secrets.DEPENDABOT_APP_PRIVATE_KEY }}
+          permission-contents: write
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          token: ${{ steps.app-token.outputs.token }}
+          persist-credentials: false
+
+      - name: Commit regenerated lockfiles
+        env:
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
+          HEAD_REF: ${{ steps.pr.outputs.head_ref }}
+        run: |
+          find "${RUNNER_TEMP}/dependabot-lockfiles" -maxdepth 1 -type f -name '*.lock' -exec cp '{}' gemfiles/ ';'
+
+          git config user.name "meta-tags-ci[bot]"
+          git config user.email "meta-tags-ci[bot]@users.noreply.github.com"
+
+          git add gemfiles/*.lock
+
+          if git diff --cached --quiet; then
+            echo "No lockfile changes to commit"
+            exit 0
+          fi
+
+          git commit -m "Update Appraisal lockfiles"
+          git remote set-url origin "https://x-access-token:${APP_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push origin "HEAD:${HEAD_REF}"
