@@ -6,7 +6,6 @@ require "active_support/core_ext/hash/indifferent_access"
 # MetaTags gem namespace.
 module MetaTags
   # Returns MetaTags gem configuration.
-  #
   def self.config
     @config ||= Configuration.new
   end
@@ -15,7 +14,6 @@ module MetaTags
   #
   # @yield [Configuration] configuration object.
   # @example
-  #
   #   MetaTags.configure do |config|
   #     # config.title_limit = 100
   #   end

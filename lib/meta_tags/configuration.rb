@@ -51,6 +51,9 @@ module MetaTags
       reset_defaults!
     end
 
+    # Returns the default meta tag prefixes and names that use `property`.
+    #
+    # @return [Array<String>] default property tag names.
     def default_property_tags
       [
         # App Links metadata https://developers.facebook.com/docs/applinks/metadata-reference
@@ -77,10 +80,16 @@ module MetaTags
       ].freeze
     end
 
+    # Indicates whether meta tags should be rendered with open tag syntax.
+    #
+    # @return [Boolean] true when open meta tags are enabled.
     def open_meta_tags?
       !!open_meta_tags
     end
 
+    # Restores the default configuration values.
+    #
+    # @return [void]
     def reset_defaults!
       @title_limit = 70
       @truncate_site_title_first = false
