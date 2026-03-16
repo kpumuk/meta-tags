@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 2.23.0 (March 16, 2026) [☰](https://github.com/kpumuk/meta-tags/compare/v2.22.3...v2.23.0)
+
 Bugfixes:
 
 - Fixed `title` helper to always return a string, joining array titles with the configured separator ([344](https://github.com/kpumuk/meta-tags/pull/344)).
