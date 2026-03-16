@@ -6,14 +6,14 @@ module MetaTags
   # You can define several instance variables to set meta tags:
   #   @page_title = 'Member Login'
   #   @page_description = 'Member login page.'
-  #   @page_keywords = 'Site, Login, Members'
+  #   @page_keywords = 'Site, Login, Members' # legacy keywords tag
   #
   # Also you can use {#set_meta_tags} method, that have the same parameters
   # as {ViewHelper#set_meta_tags}.
   #
   module ControllerHelper
-    # Processes the <tt>@page_title</tt>, <tt>@page_keywords</tt>, and
-    # <tt>@page_description</tt> instance variables and calls +render+.
+    # Processes the <tt>@page_title</tt>, <tt>@page_description</tt>, and
+    # legacy <tt>@page_keywords</tt> instance variables and calls +render+.
     def render(*args, &block)
       meta_tags[:title] = @page_title if defined?(@page_title) && @page_title
       meta_tags[:keywords] = @page_keywords if defined?(@page_keywords) && @page_keywords

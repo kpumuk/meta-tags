@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.authors = ["Dmytro Shteflyuk"]
   spec.email = ["kpumuk@kpumuk.info"]
 
-  spec.summary = "Collection of SEO helpers for Ruby on Rails."
-  spec.description = "Search Engine Optimization (SEO) plugin for Ruby on Rails applications."
+  spec.summary = "Collection of metadata helpers for Ruby on Rails."
+  spec.description = "Rails helpers for HTML metadata such as titles, descriptions, canonical links, robots directives, and social tags."
   spec.homepage = "https://github.com/kpumuk/meta-tags"
   spec.license = "MIT"
   spec.platform = Gem::Platform::RUBY

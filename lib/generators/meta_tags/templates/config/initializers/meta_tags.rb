@@ -22,15 +22,16 @@ MetaTags.configure do |config|
   # Set to nil or 0 to remove limits.
   # config.description_limit = 300
 
-  # Maximum length of the keywords meta tag. Default is 255.
+  # Legacy compatibility: maximum length of the keywords meta tag.
+  # Most search engines ignore this tag. Default is 255.
   # config.keywords_limit = 255
 
-  # Default separator for keywords meta tag (used when an Array passed with
-  # the list of keywords). Default is ", ".
+  # Legacy compatibility: default separator for the keywords meta tag
+  # when an Array is passed. Default is ", ".
   # config.keywords_separator = ', '
 
-  # When true, keywords will be converted to lowercase, otherwise they will
-  # appear on the page as is. Default is true.
+  # Legacy compatibility: when true, keywords will be converted to lowercase.
+  # Otherwise they will appear on the page as is. Default is true.
   # config.keywords_lowercase = true
 
   # When true, the output will not include new line characters between meta tags.

@@ -168,9 +168,9 @@ Use these options to customize the title format:
 | `:follow`      | Add follow meta tag; when true, "robots" will be used; accepts a string with a robot name or an array of strings    |
 | `:noarchive`   | Add noarchive meta tag; when true, "robots" will be used; accepts a string with a robot name or an array of strings |
 | `:canonical`   | Add canonical link tag                                                                                              |
-| `:prev`        | Add prev link tag                                                                                                   |
-| `:next`        | Add next link tag                                                                                                   |
-| `:image_src`   | Add image_src link tag                                                                                              |
+| `:prev`        | Add legacy prev pagination link tag                                                                                 |
+| `:next`        | Add legacy next pagination link tag                                                                                 |
+| `:image_src`   | Add legacy image_src share hint                                                                                     |
 | `:og`          | Add Open Graph tags (Hash)                                                                                          |
 | `:twitter`     | Add Twitter tags (Hash)                                                                                             |
 | `:refresh`     | Refresh interval and optionally URL to redirect to                                                                  |
