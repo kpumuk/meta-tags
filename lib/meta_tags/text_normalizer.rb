@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 module MetaTags
-  # Module contains helpers that normalize text meta tag values.
+  # This module contains helpers that normalize text meta tag values.
   module TextNormalizer
     extend self
 
     # Normalize title value.
     #
     # @param [String] site_title site title.
-    # @param [Array<String>] title title string.
+    # @param [Array<String>] title title segments.
     # @param [String] separator a string to join title parts with.
-    # @param [true,false] reverse whether title should be reversed.
+    # @param [Boolean] reverse whether title should be reversed.
     # @return [String] title with HTML tags removed.
     #
     def normalize_title(site_title, title, separator, reverse = false)
@@ -36,8 +36,8 @@ module MetaTags
     # Normalize description value.
     #
     # @param [String] description description string.
-    # @return [String] text with tags removed, squashed spaces, truncated
-    # to 200 characters.
+    # @return [String] text with tags removed, squashed spaces, and truncated
+    #   to the configured description limit.
     #
     def normalize_description(description)
       # description could be another object not a string, but since it probably
@@ -73,10 +73,10 @@ module MetaTags
       ActionController::Base.helpers
     end
 
-    # Strips all HTML tags from the +html+, including comments.
+    # Strips all HTML tags from +string+, including comments.
     #
     # @param [String] string HTML string.
-    # @return [String] html_safe string with no HTML tags.
+    # @return [String] HTML-safe string with no HTML tags.
     #
     def strip_tags(string)
       if defined?(Loofah)
@@ -87,10 +87,10 @@ module MetaTags
       end
     end
 
-    # This method returns a html safe string similar to what <tt>Array#join</tt>
+    # This method returns an HTML-safe string similar to what <tt>Array#join</tt>
     # would return. All items in the array, including the supplied separator, are
-    # html escaped unless they are html safe, and the returned string is marked
-    # as html safe.
+    # HTML-escaped unless they are HTML-safe, and the returned string is marked
+    # as HTML-safe.
     #
     # @param [Array<String>] array list of strings to join.
     # @param [String] sep separator to join strings with.
@@ -103,8 +103,8 @@ module MetaTags
     # Removes HTML tags and squashes down all the spaces.
     #
     # @param [String, nil] string input string.
-    # @return [String] input string with no HTML tags and consequent white
-    # space characters squashed into a single space.
+    # @return [String] input string with no HTML tags and consecutive
+    #   whitespace characters squashed into a single space.
     #
     def cleanup_string(string, strip: true)
       return "" if string.nil?
@@ -118,7 +118,7 @@ module MetaTags
       s
     end
 
-    # Cleans multiple strings up.
+    # Cleans up multiple strings.
     #
     # @param [String, Array<String>] strings input string(s).
     # @return [Array<String>] clean strings.
@@ -130,10 +130,11 @@ module MetaTags
       strings
     end
 
-    # Truncates a string to a specific limit. Return string without truncation when limit 0 or nil
+    # Truncates a string to a specific limit. Returns the string without
+    # truncation when the limit is 0 or nil.
     #
-    # @param [String] string input strings.
-    # @param [Integer,nil] limit characters number to truncate to.
+    # @param [String] string input string.
+    # @param [Integer, nil] limit number of characters to truncate to.
     # @return [String] truncated string.
     #
     def truncate(string, limit = nil)
@@ -151,8 +152,8 @@ module MetaTags
     # Truncates an array of strings to a specific limit.
     #
     # @param [Array<String>] string_array input strings.
-    # @param [Integer,nil] limit characters number to truncate to.
-    # @param [String] separator separator that will be used to join array later.
+    # @param [Integer, nil] limit number of characters to truncate to.
+    # @param [String] separator separator that will be used to join the array later.
     # @return [Array<String>] truncated array of strings.
     #
     def truncate_array(string_array, limit = nil, separator = "")

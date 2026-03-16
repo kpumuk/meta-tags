@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module MetaTags
-  # Class represents a collection of meta tags. Basically a wrapper around
+  # This class represents a collection of meta tags. Basically a wrapper around
   # HashWithIndifferentAccess, with some additional helper methods.
   class MetaTagsCollection
     attr_reader :meta_tags
@@ -31,7 +31,7 @@ module MetaTags
       @meta_tags[name] = value
     end
 
-    # Recursively merges a Hash of meta tag attributes into current list.
+    # Recursively merges a Hash of meta tag attributes into the current list.
     #
     # @param [Hash, #to_meta_tags] object Hash of meta tags (or object responding
     #   to #to_meta_tags and returning a hash) to merge into the current list.
@@ -48,7 +48,7 @@ module MetaTags
       @meta_tags.deep_merge! normalize_open_graph(meta_tags)
     end
 
-    # Temporary merges defaults with current meta tags list and yields the block.
+    # Temporarily merges defaults with the current meta tags list and yields the block.
     #
     # @param [Hash] defaults list of default meta tag attributes.
     # @return result of the block call.
@@ -150,7 +150,7 @@ module MetaTags
 
     # Extracts noindex settings as a Hash mapping noindex tag name to value.
     #
-    # @return [Hash<String,String>] noindex attributes.
+    # @return [Hash<String, String>] noindex attributes.
     #
     def extract_robots
       # @type var result: Hash[String, Array[String]]
@@ -183,7 +183,7 @@ module MetaTags
     end
 
     # Extracts separator segment without deleting it from meta tags list.
-    # If the value is false, empty string will be returned.
+    # If the value is false, an empty string will be returned.
     #
     # @param [Symbol, String] name separator segment name.
     # @param [String] default default value.
@@ -193,10 +193,10 @@ module MetaTags
       (meta_tags[name] == false) ? "" : (meta_tags[name] || default)
     end
 
-    # Extracts robots attribute (noindex, nofollow, etc) name and value.
+    # Extracts a robots attribute name/value pair (noindex, nofollow, etc.).
     #
     # @param [String, Symbol] name noindex attribute name.
-    # @return [Array<String>] pair of noindex attribute name and value.
+    # @return [Array<String>] noindex attribute name and value pair.
     #
     def extract_robots_attribute(name)
       noindex = extract(name)

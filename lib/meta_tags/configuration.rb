@@ -24,7 +24,7 @@ module MetaTags
     # Keywords separator - a string to join keywords with.
     attr_accessor :keywords_separator
 
-    # Should keywords forced into lowercase?
+    # Should keywords be forced into lowercase?
     attr_accessor :keywords_lowercase
 
     # Switches between open (<meta ... >) and closed (<meta ... />) meta tags.
@@ -35,13 +35,14 @@ module MetaTags
     # Default is false.
     attr_accessor :minify_output
 
-    # Custom meta tags that should use `property` attribute instead of `name`
-    # - an array of strings or symbols representing their names or name-prefixes.
+    # Custom meta tags that should use the `property` attribute instead of `name`.
+    # An array of strings or symbols representing their names or name prefixes.
     attr_reader :property_tags
 
-    # Configure whenever Meta-Tags should skip canonicals on pages with noindex: true
-    # "shouldn't mix noindex & rel=canonical comes from: they're very contradictory pieces of information for us."
-    # - John Mueller (Webmaster Trends Analyst at Google)
+    # Configure whether MetaTags should skip canonical links on pages with
+    # `noindex: true`.
+    # John Mueller has noted that mixing `noindex` and `rel=canonical` sends
+    # contradictory signals.
     # https://www.reddit.com/r/TechSEO/comments/8yahdr/2_questions_about_the_canonical_tag/e2dey9i/
     attr_accessor :skip_canonical_links_on_noindex
 
@@ -52,12 +53,12 @@ module MetaTags
 
     def default_property_tags
       [
-        # App Link metadata https://developers.facebook.com/docs/applinks/metadata-reference
+        # App Links metadata https://developers.facebook.com/docs/applinks/metadata-reference
         "al",
         # Open Graph Markup https://developers.facebook.com/docs/sharing/webmasters#markup
         "fb",
         "og",
-        # Facebook OpenGraph Object Types https://developers.facebook.com/docs/reference/opengraph
+        # Facebook Open Graph object types https://developers.facebook.com/docs/reference/opengraph
         # These tags are matched as exact property names or namespace prefixes, so e.g.
         # 'restaurant' affects 'restaurant:category', 'restaurant:price_rating', and other
         # properties under that namespace.

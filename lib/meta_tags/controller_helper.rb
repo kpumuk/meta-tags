@@ -8,8 +8,8 @@ module MetaTags
   #   @page_description = 'Member login page.'
   #   @page_keywords = 'Site, Login, Members' # legacy keywords tag
   #
-  # Also you can use {#set_meta_tags} method, that have the same parameters
-  # as {ViewHelper#set_meta_tags}.
+  # You can also use the {#set_meta_tags} method, which has the same
+  # parameters as {ViewHelper#set_meta_tags}.
   #
   module ControllerHelper
     # Processes the <tt>@page_title</tt>, <tt>@page_description</tt>, and

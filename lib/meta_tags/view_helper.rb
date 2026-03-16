@@ -11,8 +11,8 @@ module MetaTags
 
     # Set meta tags for the page.
     #
-    # Method could be used several times, and all options passed will
-    # be merged. If you will set the same property several times, last one
+    # This method can be used several times, and all passed options will
+    # be merged. If you set the same property several times, the last one
     # will take precedence.
     #
     # Usually you will not call this method directly. Use helpers like
@@ -32,7 +32,7 @@ module MetaTags
       self.meta_tags.update(meta_tags)
     end
 
-    # Set the page title and return it back.
+    # Set the page title and return it.
     #
     # This method is best suited for use in helpers. It sets the page title
     # and returns it (or +headline+ if specified).
@@ -40,12 +40,12 @@ module MetaTags
     # @param [nil, String, Array] title page title. When passed as an
     #   +Array+, parts will be joined using configured separator value
     #   (see {#display_meta_tags}). When nil, current title will be returned.
-    # @param [String] headline the value to return from method. Useful
+    # @param [String] headline the value to return from the method. Useful
     #   for using this method in views to set both page title
-    #   and the content of heading tag.
+    #   and the content of the heading tag.
     # @return [String] returns +title+ value or +headline+ if passed.
     #
-    # @example Set HTML title to "Please login", return "Please login"
+    # @example Set HTML title to "Login Page", return "Login Page"
     #   title 'Login Page'
     # @example Set HTML title to "Login Page", return "Please login"
     #   title 'Login Page', 'Please login'
@@ -66,7 +66,7 @@ module MetaTags
     # Modern search engines ignore this tag, but some older integrations and
     # internal systems may still read it.
     #
-    # @param [String, Array] keywords keywords meta tag value to render in HEAD
+    # @param [String, Array] keywords keywords meta tag value to render in the HEAD
     #   section of the HTML document.
     # @return [String, Array] passed value.
     #
@@ -83,10 +83,10 @@ module MetaTags
 
     # Set the page description.
     #
-    # @param [String] description page description to be set in HEAD section of
-    #   the HTML document. Please note, any HTML tags will be stripped
-    #   from output string, and string will be truncated to 200
-    #   characters.
+    # @param [String] description page description to be set in the HEAD section
+    #   of the HTML document. Please note that any HTML tags will be stripped
+    #   from the output string, and the string will be truncated to the
+    #   configured description limit.
     # @return [String] passed value.
     #
     # @example
@@ -99,7 +99,7 @@ module MetaTags
       description
     end
 
-    # Set the noindex meta tag
+    # Set the noindex meta tag.
     #
     # @param [Boolean, String, Array<String>] noindex a noindex value.
     # @return [Boolean, String, Array<String>] passed value.
@@ -115,7 +115,7 @@ module MetaTags
       noindex
     end
 
-    # Set the nofollow meta tag
+    # Set the nofollow meta tag.
     #
     # @param [Boolean, String, Array<String>] nofollow a nofollow value.
     # @return [Boolean, String, Array<String>] passed value.
@@ -131,7 +131,7 @@ module MetaTags
       nofollow
     end
 
-    # Set the refresh meta tag
+    # Set the refresh meta tag.
     #
     # @param [Integer, String] refresh a refresh value.
     # @return [Integer, String] passed value.
@@ -148,7 +148,7 @@ module MetaTags
     end
 
     # Set default meta tag values and display meta tags. This method
-    # should be used in layout file.
+    # should be used in the layout file.
     #
     # @param [Hash] defaults default meta tag values.
     # @option default [String] :site (nil) site title;
@@ -187,10 +187,10 @@ module MetaTags
 
     # Returns full page title as a string without surrounding <title> tag.
     #
-    # The only case when you may need this helper is when you use pjax. This means
-    # that your layout file (with display_meta_tags helper) will not be rendered,
-    # so you have to pass default arguments like site title in here. You probably
-    # want to define helper with default options to minimize code duplication.
+    # The only case when you may need this helper is when you use PJAX. This means
+    # that your layout file (with the display_meta_tags helper) will not be rendered,
+    # so you have to pass default arguments such as the site title here. You probably
+    # want to define a helper with default options to minimize code duplication.
     #
     # @param [Hash] defaults list of meta tags.
     # @option default [String] :site (nil) site title;
@@ -200,7 +200,7 @@ module MetaTags
     # @option default [String] :separator ("|") text used to separate website name from page title;
     # @option default [String, Boolean] :suffix (" ") text between separator and page title; when +false+,
     #                                   no suffix will be rendered;
-    # @option default [Boolean] :lowercase (false) when true, the page name will be lowercase;
+    # @option default [Boolean] :lowercase (false) when true, the page title will be lowercase;
     # @option default [Boolean] :reverse (false) when true, the page and site names will be reversed;
     #
     # @example

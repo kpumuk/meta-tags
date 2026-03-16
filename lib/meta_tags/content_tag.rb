@@ -4,7 +4,7 @@ module MetaTags
   # Represents an HTML meta tag with content (<tag></tag>).
   # Content should be passed as a `:content` attribute.
   class ContentTag < Tag
-    # Render tag into a Rails view.
+    # Renders the tag in a Rails view.
     #
     # @param [ActionView::Base] view instance of a Rails view.
     # @return [String] HTML string for the tag.
