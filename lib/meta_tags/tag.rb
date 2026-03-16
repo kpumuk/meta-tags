@@ -15,7 +15,7 @@ module MetaTags
       @attributes = attributes
     end
 
-    # Render tag into a Rails view.
+    # Renders the tag in a Rails view.
     #
     # @param [ActionView::Base] view instance of a Rails view.
     # @return [String] HTML string for the tag.
