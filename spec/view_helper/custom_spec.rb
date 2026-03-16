@@ -93,6 +93,23 @@ RSpec.describe MetaTags::ViewHelper do
 
       test_hashes_and_arrays(name_key: :name)
     end
+
+    it "matches configured property tags only by exact name or colon-delimited namespace" do
+      MetaTags.config.property_tags.push(:testing)
+
+      subject.display_meta_tags("testing" => "exact match").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "exact match", property: "testing"})
+      end
+
+      subject.display_meta_tags("testing:nested" => "namespace match").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "namespace match", property: "testing:nested"})
+      end
+
+      subject.display_meta_tags("testing-other" => "hyphen mismatch").tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "hyphen mismatch", name: "testing-other"})
+        expect(meta).not_to have_tag("meta", with: {content: "hyphen mismatch", property: "testing-other"})
+      end
+    end
   end
 
   def test_hashes_and_arrays(name_key: :name)

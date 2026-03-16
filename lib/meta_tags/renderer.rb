@@ -287,10 +287,27 @@ module MetaTags
     # @return [Symbol] meta tag attribute name (:property or :name).
     #
     def configured_name_key(name)
+      name = name.to_s
       is_property_tag = MetaTags.config.property_tags.any? do |tag_name|
-        name.to_s.match(/^#{Regexp.escape(tag_name.to_s)}\b/)
+        property_tag?(name, tag_name.to_s)
       end
       is_property_tag ? :property : :name
+    end
+
+    # Returns true when a configured property tag matches the exact meta tag
+    # name or the start of a colon-delimited namespace.
+    #
+    # @param [String] name rendered meta tag name.
+    # @param [String] tag_name configured property tag name or namespace prefix.
+    # @return [Boolean]
+    def property_tag?(name, tag_name)
+      return false unless name.start_with?(tag_name)
+
+      tag_name_length = tag_name.bytesize
+      return true if name.bytesize == tag_name_length
+      return true if tag_name.getbyte(tag_name_length - 1) == 58
+
+      name.getbyte(tag_name_length) == 58
     end
   end
 end

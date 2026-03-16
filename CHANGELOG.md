@@ -10,6 +10,7 @@ Bugfixes:
 Changes:
 
 - Refreshed README and generated docs to describe modern SEO guidance more accurately, while keeping legacy metadata features documented as compatibility options ([349](https://github.com/kpumuk/meta-tags/pull/349)).
+- Optimized property tag matching to improve metadata rendering performance and reduce allocations and memory use on the hot render path ([350](https://github.com/kpumuk/meta-tags/pull/350)).
 
 ## 2.22.3 (January 7, 2026) [☰](https://github.com/kpumuk/meta-tags/compare/v2.22.2...v2.22.3)
 

@@ -58,8 +58,9 @@ module MetaTags
         "fb",
         "og",
         # Facebook OpenGraph Object Types https://developers.facebook.com/docs/reference/opengraph
-        # Note that these tags are used in a regex, so including e.g. 'restaurant' will affect
-        # 'restaurant:category', 'restaurant:price_rating', and anything else under that namespace.
+        # These tags are matched as exact property names or namespace prefixes, so e.g.
+        # 'restaurant' affects 'restaurant:category', 'restaurant:price_rating', and other
+        # properties under that namespace.
         "article",
         "book",
         "books",
