@@ -60,6 +60,25 @@ RSpec.describe MetaTags::TextNormalizer, ".truncate_array" do
     end
   end
 
+  context "when truncate_array_items_at_boundaries is true" do
+    before do
+      MetaTags.config.truncate_array_items_at_boundaries = true
+    end
+
+    it "keeps only whole items for multi-item arrays" do
+      arr = %w[a a aaaa aa]
+      expect(subject.truncate_array(arr, 5, "-")).to eq(%w[a a])
+    end
+
+    it "still truncates single-item arrays" do
+      expect(subject.truncate_array(["aaaa"], 2, "-")).to eq(["aa"])
+    end
+
+    it "still truncates the first item when nothing fits yet" do
+      expect(subject.truncate_array(%w[aaaa bb], 2, "-")).to eq(["aa"])
+    end
+  end
+
   context "with text in Japanese" do
     let(:title) do
       "Microsoft Copilotは、あなたの言葉をパワフルなコンテンツに変える AI アシスタントです。あなたのニーズに合わせて、文章を生成、要約、編集、変換したり、コードや詩などの創造的なコンテンツを作成したりします。"

@@ -66,4 +66,15 @@ RSpec.describe MetaTags::ViewHelper, "displaying keywords" do
       end
     end
   end
+
+  context "when `truncate_array_items_at_boundaries` is true" do
+    it "keeps only whole keyword items that fit" do
+      MetaTags.config.keywords_limit = 5
+      MetaTags.config.truncate_array_items_at_boundaries = true
+
+      subject.display_meta_tags(site: "someSite", keywords: %w[a a aaaa aa]).tap do |meta|
+        expect(meta).to have_tag("meta", with: {content: "a, a", name: "keywords"})
+      end
+    end
+  end
 end

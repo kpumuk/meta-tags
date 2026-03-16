@@ -18,6 +18,11 @@ MetaTags.configure do |config|
   # a Unicode space (/\p{Space}/).
   # config.truncate_on_natural_separator = " "
 
+  # When true, arrays passed to `title` and `keywords` stop at item
+  # boundaries instead of partially truncating the overflowing item.
+  # Single-item arrays are still truncated normally. Default is false.
+  # config.truncate_array_items_at_boundaries = false
+
   # Maximum length of the page description. Default is 300.
   # Set to nil or 0 to remove limits.
   # config.description_limit = 300
