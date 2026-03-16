@@ -15,15 +15,16 @@ module MetaTags
     # be merged. If you will set the same property several times, last one
     # will take precedence.
     #
-    # Usually you will not call this method directly. Use {#title}, {#keywords},
-    # {#description} for your daily tasks.
+    # Usually you will not call this method directly. Use helpers like
+    # {#title}, {#description}, {#noindex}, and {#canonical} for daily tasks.
+    # {#keywords} remains available for legacy compatibility.
     #
     # @param [Hash] meta_tags list of meta tags. See {#display_meta_tags}
     #   for allowed options.
     #
     # @example
     #   set_meta_tags title: 'Login Page', description: 'Here you can login'
-    #   set_meta_tags keywords: 'authorization, login'
+    #   set_meta_tags canonical: 'https://example.com/login'
     #
     # @see #display_meta_tags
     #
@@ -60,9 +61,12 @@ module MetaTags
       headline.presence || meta_tags.page_title
     end
 
-    # Set the page keywords.
+    # Set the legacy keywords meta tag.
     #
-    # @param [String, Array] keywords meta keywords to render in HEAD
+    # Modern search engines ignore this tag, but some older integrations and
+    # internal systems may still read it.
+    #
+    # @param [String, Array] keywords keywords meta tag value to render in HEAD
     #   section of the HTML document.
     # @return [String, Array] passed value.
     #
@@ -150,7 +154,7 @@ module MetaTags
     # @option default [String] :site (nil) site title;
     # @option default [String] :title ("") page title;
     # @option default [String] :description (nil) page description;
-    # @option default [String] :keywords (nil) page keywords;
+    # @option default [String] :keywords (nil) legacy page keywords;
     # @option default [String, Boolean] :prefix (" ") text between site name and separator;
     #                                   when +false+, no prefix will be rendered;
     # @option default [String] :separator ("|") text used to separate website name from page title;
@@ -164,8 +168,8 @@ module MetaTags
     #                                   otherwise the string will be used;
     # @option default [String] :canonical (nil) add canonical link tag.
     # @option default [Hash] :alternate ({}) add alternate link tag.
-    # @option default [String] :prev (nil) add prev link tag;
-    # @option default [String] :next (nil) add next link tag.
+    # @option default [String] :prev (nil) add legacy prev pagination link tag;
+    # @option default [String] :next (nil) add legacy next pagination link tag.
     # @option default [String, Integer] :refresh (nil) meta refresh tag;
     # @option default [Hash] :open_graph ({}) add Open Graph meta tags.
     # @option default [Hash] :open_search ({}) add Open Search link tag.

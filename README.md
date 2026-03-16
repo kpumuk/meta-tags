@@ -1,4 +1,4 @@
-# MetaTags: a gem to make your Rails application SEO-friendly
+# MetaTags: Rails helpers for SEO metadata, sharing, canonical URLs, and robots
 
 [![Tests](https://github.com/kpumuk/meta-tags/actions/workflows/tests.yml/badge.svg)](https://github.com/kpumuk/meta-tags/actions/workflows/tests.yml)
 [![Gem Version](https://badge.fury.io/rb/meta-tags.svg)](https://badge.fury.io/rb/meta-tags)
@@ -6,7 +6,9 @@
 [![Gem Downloads](https://img.shields.io/gem/dt/meta-tags.svg)](https://badge.fury.io/rb/meta-tags)
 [![Changelog](https://img.shields.io/badge/Changelog-latest-blue.svg)](https://github.com/kpumuk/meta-tags/blob/main/CHANGELOG.md)
 
-Search Engine Optimization (SEO) plugin for Ruby on Rails applications.
+MetaTags helps Ruby on Rails applications render HTML head metadata such as titles, descriptions, canonical links, robots directives, Open Graph tags, X card tags, and hreflang links.
+
+It supports the metadata layer of search engine optimization (SEO), especially for titles, descriptions, canonicalization, robots directives, and social sharing previews.
 
 ## Ruby on Rails
 
@@ -14,6 +16,9 @@ The MetaTags main branch fully supports Ruby on Rails 6.1+ and is tested against
 
 > [!NOTE]
 > We no longer support Ruby versions older than 3.0 and Ruby on Rails older than 6.1 since they reached their end of life (see [Ruby](https://endoflife.date/ruby) and [Ruby on Rails](https://endoflife.date/rails)).
+
+> [!IMPORTANT]
+> MetaTags manages HTML head metadata. It does not generate structured data / JSON-LD, `robots.txt`, sitemaps, internal links, or page content.
 
 ## Installation
 
@@ -27,7 +32,7 @@ And run `bundle install` command.
 
 ## Configuration
 
-MetaTags follows best practices for meta tags. Although default limits for truncation have recommended values, you can change them to reflect your own preferences. Keywords are converted to lowercase by default, but this is also configurable.
+MetaTags ships with practical defaults for truncation and rendering. You can change them to match your application. Legacy fields such as `keywords` are still supported for compatibility, but they are not modern search requirements.
 
 To override the defaults, create an initializer `config/initializers/meta_tags.rb` using the following command:
 
@@ -76,7 +81,6 @@ You can define the following instance variables:
 ```ruby
 @page_title = "Member Login"
 @page_description = "Member login page."
-@page_keywords = "Site, Login, Members"
 ```
 
 Also, you could use the `set_meta_tags` method to define all meta tags simultaneously:
@@ -84,8 +88,7 @@ Also, you could use the `set_meta_tags` method to define all meta tags simultane
 ```ruby
 set_meta_tags(
   title: "Member Login",
-  description: "Member login page.",
-  keywords: "Site, Login, Members"
+  description: "Member login page."
 )
 ```
 
@@ -98,7 +101,6 @@ To set meta tags, you can use the following methods:
 ```erb
 <% title "Member Login" %>
 <% description "Member login page." %>
-<% keywords "Site, Login, Members" %>
 <% nofollow %>
 <% noindex %>
 <% refresh 3 %>
@@ -110,8 +112,7 @@ Also, the `set_meta_tags` method exists:
 <%
   set_meta_tags(
     title: "Member Login",
-    description: "Member login page.",
-    keywords: "Site, Login, Members"
+    description: "Member login page."
   )
 %>
 ```
@@ -154,7 +155,7 @@ Use these options to customize the title format:
 | `:site`        | Site title                                                                                                          |
 | `:title`       | Page title                                                                                                          |
 | `:description` | Page description                                                                                                    |
-| `:keywords`    | Page keywords                                                                                                       |
+| `:keywords`    | Legacy keywords meta tag for compatibility; ignored by Google Search and Bing web search                            |
 | `:charset`     | Page character set                                                                                                  |
 | `:prefix`      | Text between site name and separator                                                                                |
 | `:separator`   | Text used to separate the website name from the page title                                                          |
@@ -167,9 +168,9 @@ Use these options to customize the title format:
 | `:follow`      | Add follow meta tag; when true, "robots" will be used; accepts a string with a robot name or an array of strings    |
 | `:noarchive`   | Add noarchive meta tag; when true, "robots" will be used; accepts a string with a robot name or an array of strings |
 | `:canonical`   | Add canonical link tag                                                                                              |
-| `:prev`        | Add prev link tag                                                                                                   |
-| `:next`        | Add next link tag                                                                                                   |
-| `:image_src`   | Add image_src link tag                                                                                              |
+| `:prev`        | Add legacy prev pagination link tag                                                                                 |
+| `:next`        | Add legacy next pagination link tag                                                                                 |
+| `:image_src`   | Add legacy image_src share hint                                                                                     |
 | `:og`          | Add Open Graph tags (Hash)                                                                                          |
 | `:twitter`     | Add Twitter tags (Hash)                                                                                             |
 | `:refresh`     | Refresh interval and optionally URL to redirect to                                                                  |
@@ -196,7 +197,7 @@ set_meta_tags title: ["part1", "part2"], reverse: true, site: "site"
 # part2 | part1 | site
 ```
 
-Keywords can be passed as a string of comma-separated values or as an array:
+If you still need the legacy `keywords` tag, values can be passed as a string of comma-separated values or as an array:
 
 ```ruby
 set_meta_tags keywords: ["tag1", "tag2"]
@@ -266,7 +267,6 @@ def default_meta_tags
   {
     title: "Member Login",
     description: "Member login page.",
-    keywords: "Site, Login, Members",
     separator: "&mdash;".html_safe
   }
 end
@@ -289,11 +289,13 @@ And in your pjax templates:
 <% end %>
 ```
 
-## SEO Basics and MetaTags
+## Search and Sharing Metadata
+
+These tags still matter for search snippets, canonicalization, robots directives, and social sharing. They are only one part of modern SEO. You should combine them with good page content, internal links, structured data, sitemaps, and crawl controls where appropriate.
 
 ### Titles
 
-Page titles are very important for search engines. The titles in the browser are displayed in the title bar. Search engines look at the title bar to determine what the page is all about.
+Page titles help browsers, social previews, and search engines understand the page. Use unique, descriptive titles that match the visible page content.
 
 ```ruby
 set_meta_tags title: "Member Login"
@@ -304,15 +306,16 @@ set_meta_tags site: "Site Title", title: "Member Login", reverse: true
 # <title>Member Login | Site Title</title>
 ```
 
-Recommended title tag length: up to **70 characters** in **10 words**.
+Google does not publish a fixed title length. Keep titles concise and informative; search results may truncate them based on available width.
 
 Further reading:
 
 - [Title Tag](https://moz.com/learn/seo/title-tag)
+- [Google Search Central: title links](https://developers.google.com/search/docs/appearance/title-link)
 
 ### Description
 
-Description meta tags are not displayed by browsers, unlike titles. However, some search engines may choose to display them. These tags are utilized to provide a concise summary of a webpage's content, typically within 2 or 3 sentences.
+Description meta tags help search engines generate snippets, but search engines may also use visible page text instead. Write a short summary that matches the page.
 
 Below is an example of how to set a description tag using Ruby:
 
@@ -321,26 +324,29 @@ set_meta_tags description: "This is a sample description"
 # <meta name="description" content="This is a sample description">
 ```
 
-It is advisable to limit the length of the description tag to **300 characters**.
+Google does not publish a fixed meta description length. Make the description long enough to be useful and specific, not long enough to hit an arbitrary character count.
 
 Further reading:
 
 - [Meta Description](https://moz.com/learn/seo/meta-description)
 - [How Long Should Your Meta Description Be? (2018 Edition)](https://moz.com/blog/how-long-should-your-meta-description-be-2018)
+- [Google Search Central: control your snippets in search results](https://developers.google.com/search/docs/appearance/snippet)
 
 ### Keywords
 
-Meta keywords tags are used to place keywords that you believe users would search for in search engines. It is important to avoid unnecessary repetition of keywords, as this could be considered spam and may result in a permanent ban from search engine results pages (SERPs).
+The `keywords` tag is a legacy feature. MetaTags still supports it for backwards compatibility and for systems that still read it, but it is not a modern web SEO signal.
 
 ```ruby
 set_meta_tags keywords: %w[keyword1 keyword2 keyword3]
 # <meta name="keywords" content="keyword1, keyword2, keyword3">
 ```
 
-It is recommended to keep the length of the keywords tag under **255 characters** or **20 words**.
-
 > [!NOTE]
-> Both Google and Bing have publicly stated that they completely ignore keywords meta tags.
+> Google Search ignores the `keywords` meta tag, and Bing web search has long treated it the same way. Use this tag only if you have your own downstream consumer for it.
+
+Further reading:
+
+- [Google Search Central: meta tags Google supports](https://developers.google.com/search/docs/crawling-indexing/special-tags)
 
 ### Noindex
 
@@ -353,16 +359,17 @@ set_meta_tags noindex: "googlebot"
 # <meta name="googlebot" content="noindex">
 ```
 
-This is useful for pages like login, password reset, privacy policy, etc.
+This is useful for pages like login, password reset, cart, account settings, or internal search results.
 
 Further reading:
 
 - [Blocking Google](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=93708)
 - [Using meta tags to block access to your site](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=93710)
+- [Google Search Central: robots meta tag and X-Robots-Tag](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag)
 
 ### Index
 
-Although it is not required to add "index" to "robots" as it is the default value for Google, some SEO specialists recommend adding it to the website.
+In most cases, you do not need to emit `index` explicitly because it is already the default for crawlable pages.
 
 ```ruby
 set_meta_tags index: true
@@ -384,10 +391,11 @@ Further reading:
 
 - [About rel="nofollow"](http://www.google.com/support/webmasters/bin/answer.py?answer=96569)
 - [Meta tags](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=79812)
+- [Google Search Central: robots meta tag and X-Robots-Tag](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag)
 
 ### Follow
 
-You can use the Noindex meta tag in conjunction with Follow.
+You can use `follow` with `noindex` if you need that combination, but most pages do not need an explicit `follow` tag because it is also the default behavior.
 
 ```ruby
 set_meta_tags noindex: true, follow: true
@@ -398,10 +406,10 @@ This tag will prevent search engines from indexing this specific page, but it wi
 
 ### Canonical URL
 
-Canonical link elements tell search engines what the canonical or main URL is for content that has multiple URLs. The search engine will always return that URL, and link popularity and authority will be applied to that URL.
+Canonical link elements help search engines consolidate duplicate or near-duplicate URLs under one preferred URL. They are a signal, not a guarantee.
 
 > [!NOTE]
-> If you follow John Mueller's suggestion not to mix canonical with noindex, then you can set `MetaTags.config.skip_canonical_links_on_noindex = true` and we'll handle it for you.
+> If your goal is duplicate consolidation, prefer a canonical URL over `noindex`. If you do not want to mix canonical with `noindex`, set `MetaTags.config.skip_canonical_links_on_noindex = true`.
 
 ```ruby
 set_meta_tags canonical: "http://yoursite.com/canonical/url"
@@ -412,6 +420,7 @@ Further reading:
 
 - [About rel="canonical"](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139394)
 - [Canonicalization](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=139066)
+- [Google Search Central: canonicalization and duplicate URLs](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls)
 
 ### Icon
 
@@ -467,7 +476,7 @@ Further reading:
 
 ### Pagination links
 
-Previous and next links indicate the relationship between individual URLs. Using these attributes is a strong hint to Google that you want us to treat these pages as a logical sequence.
+Previous and next links can describe a paginated sequence for browsers, feed readers, or custom consumers that still read them. Google no longer uses `rel="prev"` and `rel="next"` as an indexing signal, so treat them as optional interoperability metadata, not core SEO guidance.
 
 ```ruby
 set_meta_tags prev: "http://yoursite.com/url?page=1"
@@ -480,10 +489,11 @@ Further reading:
 
 - [Pagination](http://support.google.com/webmasters/bin/answer.py?hl=en&answer=1663744)
 - [Pagination with rel="next" and rel="prev"](http://googlewebmastercentral.blogspot.ca/2011/09/pagination-with-relnext-and-relprev.html)
+- [Google Search Central: pagination, incremental page loading, and infinite scroll](https://developers.google.com/search/docs/specialty/ecommerce/pagination-and-incremental-page-loading)
 
 ### image_src links
 
-Basically, when you submit/share this to Facebook, it helps Facebook determine which image to put next to the link. If this is not present, Facebook tries to put in the first image it finds on the page, which may not be the best one to represent your site.
+`image_src` is a legacy share hint. Modern social sharing generally relies on Open Graph images and platform-specific card tags instead.
 
 ```ruby
 set_meta_tags image_src: "http://yoursite.com/icons/icon_32.png"
@@ -492,7 +502,7 @@ set_meta_tags image_src: "http://yoursite.com/icons/icon_32.png"
 
 ### amphtml links
 
-AMP is a method of building web pages for static content that renders quickly. If you have two versions of a page - non-AMP and AMP - you can link the AMP version from the normal one using the `amphtml` tag:
+If your application still serves AMP pages, you can link the AMP version from the canonical page with `amphtml`. This is an optional legacy integration, not a general SEO requirement.
 
 ```ruby
 set_meta_tags amphtml: url_for(format: :amp, only_path: false)
@@ -501,8 +511,7 @@ set_meta_tags amphtml: url_for(format: :amp, only_path: false)
 
 To link back to the normal version, use the `canonical` tag.
 
-- [What Is AMP?](https://www.ampproject.org/learn/about-amp/)
-- [Make Your Page Discoverable](https://www.ampproject.org/docs/guides/discovery)
+- [AMP documentation](https://amp.dev/documentation/)
 
 ### Manifest links
 
@@ -648,11 +657,13 @@ set_meta_tags article: {
 Further reading:
 
 - [Open Graph protocol](http://developers.facebook.com/docs/opengraph/)
+- [Open Graph protocol](https://ogp.me/)
 - [Must-Have Social Meta Tags for Twitter, Google+, Facebook and More](https://moz.com/blog/meta-data-templates-123)
+- [X for Websites documentation](https://developer.x.com/en/docs/x-for-websites)
 
 ### Twitter Cards
 
-Twitter cards make it possible for you to attach media experiences to Tweets that link to your content. There are 3 card types (summary, photo, and player). Here's an example for summary:
+X cards let links shared on X show richer previews. The metadata namespace is still `twitter:*`. Here is a simple summary card example:
 
 ```ruby
 set_meta_tags twitter: {
@@ -663,46 +674,50 @@ set_meta_tags twitter: {
 # <meta name="twitter:site" content="@username">
 ```
 
-Take into consideration that if you're already using OpenGraph to describe data on your page, it’s easy to generate a Twitter card without duplicating your tags and data. When the Twitter card processor looks for tags on your page, it first checks for the Twitter property, and if not present, falls back to the supported Open Graph property. This allows both to be defined on the page independently and minimizes the amount of duplicate markup required to describe your content and experience.
+If you already publish Open Graph tags, you can often keep the X-specific tags minimal. Many consumers fall back to supported Open Graph fields when X-specific fields are missing.
 
-When you need to generate a [Twitter Photo card](https://dev.twitter.com/docs/cards/types/photo-card), the `twitter:image` property is a string, while image dimensions are specified using `twitter:image:width` and `twitter:image:height`, or a `Hash` object in terms of MetaTags gems. There is a special syntax to make this work:
+When you need to generate nested `twitter:image:*` tags, the `twitter:image` property is a string while sub-properties can be expressed as a `Hash` in MetaTags:
 
 ```ruby
 set_meta_tags twitter: {
-  card: "photo",
+  card: "summary_large_image",
   image: {
     _: "http://example.com/1.png",
     width: 100,
-    height: 100
+    height: 100,
+    alt: "Cover image"
   }
 }
-# <meta name="twitter:card" content="photo">
+# <meta name="twitter:card" content="summary_large_image">
 # <meta name="twitter:image" content="http://example.com/1.png">
 # <meta name="twitter:image:width" content="100">
 # <meta name="twitter:image:height" content="100">
+# <meta name="twitter:image:alt" content="Cover image">
 ```
 
 A special parameter `itemprop` can be used on an "anonymous" tag "\_" to generate the "itemprop" HTML attribute:
 
 ```ruby
 set_meta_tags twitter: {
-  card: "photo",
+  card: "summary_large_image",
   image: {
     _: "http://example.com/1.png",
     width: 100,
     height: 100,
+    alt: "Cover image",
     itemprop: "image"
   }
 }
-# <meta name="twitter:card" content="photo">
+# <meta name="twitter:card" content="summary_large_image">
 # <meta name="twitter:image" content="http://example.com/1.png" itemprop="image">
 # <meta name="twitter:image:width" content="100">
 # <meta name="twitter:image:height" content="100">
+# <meta name="twitter:image:alt" content="Cover image">
 ```
 
 Further reading:
 
-- [Twitter Cards Documentation](https://dev.twitter.com/cards/)
+- [X for Websites documentation](https://developer.x.com/en/docs/x-for-websites)
 
 ### App Links
 
