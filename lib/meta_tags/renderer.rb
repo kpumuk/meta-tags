@@ -301,11 +301,13 @@ module MetaTags
     # @param [String] tag_name configured property tag name or namespace prefix.
     # @return [Boolean]
     def property_tag?(name, tag_name)
-      return true if name == tag_name
-      return name.start_with?(tag_name) if tag_name.end_with?(":")
       return false unless name.start_with?(tag_name)
 
-      name.getbyte(tag_name.bytesize) == 58
+      tag_name_length = tag_name.bytesize
+      return true if name.bytesize == tag_name_length
+      return true if tag_name.getbyte(tag_name_length - 1) == 58
+
+      name.getbyte(tag_name_length) == 58
     end
   end
 end
