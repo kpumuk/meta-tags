@@ -40,6 +40,11 @@ To override the defaults, create an initializer `config/initializers/meta_tags.r
 rails generate meta_tags:install
 ```
 
+When a truncation limit is reached, arrays passed to `title` or `keywords` can
+either partially truncate the last item or stop at item boundaries. Set
+`config.truncate_array_items_at_boundaries = true` to preserve whole items for
+multi-item arrays. Single-item arrays are still truncated normally.
+
 By default, meta tags are rendered with the key `name`. However, some meta tags are required to use `property` instead (like Facebook Open Graph object). The MetaTags gem allows you to configure which tags to render with the `property` attribute. The pre-configured list includes all possible Facebook Open Graph object types by default, but you can add your own in case you need it.
 
 ## MetaTags Usage

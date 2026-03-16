@@ -152,13 +152,14 @@ module MetaTags
       return string_array if limit.nil? || limit <= 0
 
       length = 0
+      preserve_items = string_array.size > 1 && MetaTags.config.truncate_array_items_at_boundaries
       result = [] # : Array[String]
 
       string_array.each do |string|
         limit_left = calculate_limit_left(limit, length, result, separator)
 
         if string.length > limit_left
-          result << truncate(string, limit_left)
+          result << truncate(string, limit_left) if !preserve_items || result.empty?
           break string_array
         end
 

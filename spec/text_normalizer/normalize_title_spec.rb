@@ -149,4 +149,19 @@ RSpec.describe MetaTags::TextNormalizer, ".normalize_title" do
       end
     end
   end
+
+  context "when truncate_array_items_at_boundaries is true" do
+    before do
+      MetaTags.config.title_limit = 5
+      MetaTags.config.truncate_array_items_at_boundaries = true
+    end
+
+    it "keeps only whole parts for multi-part titles" do
+      expect(subject.normalize_title("", %w[a a aaaa aa], "-")).to eq("a-a")
+    end
+
+    it "still truncates single-part titles" do
+      expect(subject.normalize_title("", ["aaaaaa"], "-")).to eq("aaaaa")
+    end
+  end
 end

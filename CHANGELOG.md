@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added `truncate_array_items_at_boundaries` configuration option to preserve whole items in multi-item `title` and `keywords` arrays when truncating ([354](https://github.com/kpumuk/meta-tags/pull/354)).
+
 ## 2.23.0 (March 16, 2026) [☰](https://github.com/kpumuk/meta-tags/compare/v2.22.3...v2.23.0)
 
 Bugfixes:
