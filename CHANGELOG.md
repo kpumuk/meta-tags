@@ -5,6 +5,7 @@
 Bugfixes:
 
 - Fixed `title` helper to always return a string, joining array titles with the configured separator ([344](https://github.com/kpumuk/meta-tags/pull/344)).
+- Fixed packaged RBS interfaces for Rails helpers so `_ActionViewBase` and `_ActionControllerBase` resolve for gem consumers ([345](https://github.com/kpumuk/meta-tags/pull/345)).
 
 ## 2.22.3 (January 7, 2026) [☰](https://github.com/kpumuk/meta-tags/compare/v2.22.2...v2.22.3)
 

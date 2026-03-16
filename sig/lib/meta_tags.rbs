@@ -1,4 +1,6 @@
 module MetaTags
+  type meta_tags = Hash[Renderer::meta_key, Renderer::meta_value]
+
   self.@config: Configuration
 
   def self.config: () -> Configuration
@@ -13,6 +15,6 @@ module MetaTags
   end
 
   interface _MetaTagish
-    def to_meta_tags: () -> Hash[String | Symbol, untyped]
+    def to_meta_tags: () -> meta_tags
   end
 end

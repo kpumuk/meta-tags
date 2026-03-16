@@ -24,9 +24,6 @@ class ::Loofah
   def self.fragment: (String tags, ?String? encoding) -> DocumentFragment
 end
 
-class ::Rails
-end
-
 module ActionController
   class Base
     include _ActionControllerBase
@@ -40,20 +37,4 @@ module ActiveSupport
     def with_indifferent_access: () -> self
     def deep_merge!: (instance | Hash[K, V] other) -> self
   end
-end
-
-interface _ActionControllerBase
-  def render: (*untyped args) ?{ () -> untyped } -> untyped
-end
-
-interface _ActionViewBase
-  def tag: (String name, ?Hash[String | Symbol, untyped] options, ?bool open) -> String
-
-  def content_tag: (String name, String content, ?Hash[String | Symbol, untyped] options, ?bool open) -> String
-
-  def safe_join: (Array[String], String) -> String
-
-  def truncate: (String text, ?Hash[Symbol, untyped] options) -> String
-
-  def strip_tags: (String html) -> String
 end
