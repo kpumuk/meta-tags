@@ -7,36 +7,32 @@ module MetaTags
     attr_reader :meta_tags
 
     # Initializes a new instance of MetaTagsCollection.
-    #
     def initialize
       @meta_tags = ActiveSupport::HashWithIndifferentAccess.new
     end
 
     # Returns meta tag value by name.
     #
-    # @param [String, Symbol] name meta tag name.
+    # @param name [String, Symbol] meta tag name.
     # @return meta tag value.
-    #
     def [](name)
       @meta_tags[name]
     end
 
     # Sets meta tag value by name.
     #
-    # @param [String, Symbol] name meta tag name.
+    # @param name [String, Symbol] meta tag name.
     # @param value meta tag value.
     # @return meta tag value.
-    #
     def []=(name, value)
       @meta_tags[name] = value
     end
 
     # Recursively merges a Hash of meta tag attributes into the current list.
     #
-    # @param [Hash, #to_meta_tags] object Hash of meta tags (or object responding
+    # @param object [Hash, #to_meta_tags] Hash of meta tags (or object responding
     #   to #to_meta_tags and returning a hash) to merge into the current list.
     # @return [Hash] result of the merge.
-    #
     def update(object = {})
       meta_tags = if object.respond_to?(:to_meta_tags)
         # @type var object: _MetaTagish & Object
@@ -50,9 +46,8 @@ module MetaTags
 
     # Temporarily merges defaults with the current meta tags list and yields the block.
     #
-    # @param [Hash] defaults list of default meta tag attributes.
+    # @param defaults [Hash] list of default meta tag attributes.
     # @return result of the block call.
-    #
     def with_defaults(defaults = {})
       old_meta_tags = @meta_tags
       @meta_tags = normalize_open_graph(defaults).deep_merge!(@meta_tags)
@@ -63,9 +58,8 @@ module MetaTags
 
     # Constructs the full title as if it would be rendered in title meta tag.
     #
-    # @param [Hash] defaults list of default meta tag attributes.
+    # @param defaults [Hash] list of default meta tag attributes.
     # @return [String] page title.
-    #
     def full_title(defaults = {})
       with_defaults(defaults) { extract_full_title }
     end
@@ -73,8 +67,8 @@ module MetaTags
     # Constructs the title without site title (for normalized parameters). When title is empty,
     # use the site title instead.
     #
+    # @param defaults [Hash] list of default meta tag attributes.
     # @return [String] page title.
-    #
     def page_title(defaults = {})
       had_site = @meta_tags.key?(:site)
       old_site = @meta_tags[:site]
@@ -87,17 +81,15 @@ module MetaTags
 
     # Deletes and returns a meta tag value by name.
     #
-    # @param [String, Symbol] name meta tag name.
+    # @param name [String, Symbol] meta tag name.
     # @return [Object] meta tag value.
-    #
     def extract(name)
       @meta_tags.delete(name)
     end
 
     # Deletes specified meta tags.
     #
-    # @param [Array<String, Symbol>] names a list of meta tags to delete.
-    #
+    # @param names [Array<String, Symbol>] list of meta tags to delete.
     def delete(*names)
       names.each { |name| @meta_tags.delete(name) }
     end
@@ -105,7 +97,6 @@ module MetaTags
     # Extracts full page title and deletes all related meta tags.
     #
     # @return [String] page title.
-    #
     def extract_full_title
       site_title = extract(:site) || ""
       title = extract_title
@@ -118,7 +109,6 @@ module MetaTags
     # Extracts page title as an array of segments without site title and separators.
     #
     # @return [Array<String>] segments of page title.
-    #
     def extract_title
       title = extract(:title).presence
       return [] unless title
@@ -133,7 +123,6 @@ module MetaTags
     # Extracts title separator as a string.
     #
     # @return [String] page title separator.
-    #
     def extract_separator
       if meta_tags[:separator] == false
         # Special case: if separator is hidden, do not display suffix/prefix
@@ -150,8 +139,7 @@ module MetaTags
 
     # Extracts noindex settings as a Hash mapping noindex tag name to value.
     #
-    # @return [Hash<String, String>] noindex attributes.
-    #
+    # @return [Hash{String => String}] noindex attributes.
     def extract_robots
       # @type var result: Hash[String, Array[String]]
       result = Hash.new { |h, k| h[k] = [] }
@@ -173,9 +161,8 @@ module MetaTags
 
     # Converts input hash to HashWithIndifferentAccess and renames :open_graph to :og.
     #
-    # @param [Hash] meta_tags list of meta tags.
+    # @param meta_tags [Hash] list of meta tags.
     # @return [ActiveSupport::HashWithIndifferentAccess] normalized meta tags list.
-    #
     def normalize_open_graph(meta_tags)
       meta_tags = meta_tags.with_indifferent_access
       meta_tags[:og] = meta_tags.delete(:open_graph) if meta_tags.key?(:open_graph)
@@ -185,19 +172,17 @@ module MetaTags
     # Extracts separator segment without deleting it from meta tags list.
     # If the value is false, an empty string will be returned.
     #
-    # @param [Symbol, String] name separator segment name.
-    # @param [String] default default value.
+    # @param name [Symbol, String] separator segment name.
+    # @param default [String] default value.
     # @return [String] separator segment value.
-    #
     def extract_separator_section(name, default)
       (meta_tags[name] == false) ? "" : (meta_tags[name] || default)
     end
 
     # Extracts a robots attribute name/value pair (noindex, nofollow, etc.).
     #
-    # @param [String, Symbol] name noindex attribute name.
+    # @param name [String, Symbol] noindex attribute name.
     # @return [Array<String>] noindex attribute name and value pair.
-    #
     def extract_robots_attribute(name)
       noindex = extract(name)
       noindex_name = (noindex.is_a?(String) || noindex.is_a?(Array)) ? noindex : "robots"
@@ -206,6 +191,11 @@ module MetaTags
       [noindex_name, noindex_value]
     end
 
+    # Appends resolved robots directives while preserving first-write priority.
+    #
+    # @param result [Hash{String => Array<String>}] robots directives grouped by tag name.
+    # @param attributes [Symbol, Array<Symbol>] robots attributes to resolve.
+    # @return [void]
     def calculate_robots_attributes(result, attributes)
       processed = Set.new
       Array(attributes).each do |attribute|
@@ -220,6 +210,13 @@ module MetaTags
       end
     end
 
+    # Records a robots directive unless it has already been set for the same key.
+    #
+    # @param result [Hash{String => Array<String>}] robots directives grouped by tag name.
+    # @param name [String, Symbol] robots tag name.
+    # @param value [String] robots directive value.
+    # @param processed [Set<String>] names already recorded in this pass.
+    # @return [void]
     def apply_robots_value(result, name, value, processed)
       name = name.to_s
       return if processed.include?(name)

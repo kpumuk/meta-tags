@@ -264,6 +264,10 @@ GEM
     unicode-emoji (4.2.0)
     uri (1.1.1)
     useragent (0.16.11)
+    yard (0.9.38)
+    yard-lint (1.4.0)
+      yard (~> 0.9)
+      zeitwerk (~> 2.6)
     zeitwerk (2.6.18)
 
 PLATFORMS
@@ -299,6 +303,7 @@ DEPENDENCIES
   standard (~> 1.31)
   standard-rails (~> 1.6)
   steep (~> 1.10.0)
+  yard-lint (~> 1.4)
   zeitwerk (~> 2.6.18)
 
 CHECKSUMS
@@ -411,6 +416,8 @@ CHECKSUMS
   unicode-emoji (4.2.0) sha256=519e69150f75652e40bf736106cfbc8f0f73aa3fb6a65afe62fefa7f80b0f80f
   uri (1.1.1) sha256=379fa58d27ffb1387eaada68c749d1426738bd0f654d812fcc07e7568f5c57c6
   useragent (0.16.11) sha256=700e6413ad4bb954bb63547fa098dddf7b0ebe75b40cc6f93b8d54255b173844
+  yard (0.9.38) sha256=721fb82afb10532aa49860655f6cc2eaa7130889df291b052e1e6b268283010f
+  yard-lint (1.4.0) sha256=7dd88fbb08fd77cb840bea899d58812817b36d92291b5693dd0eeb3af9f91f0f
   zeitwerk (2.6.18) sha256=bd2d213996ff7b3b364cd342a585fbee9797dbc1c0c6d868dc4150cc75739781
 
 BUNDLED WITH

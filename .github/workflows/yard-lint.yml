@@ -1,0 +1,39 @@
+name: YARD-Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: true
+      matrix:
+        ruby-version:
+          - "3.3"
+        rails-version:
+          - "8.0"
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails-version }}.gemfile
+
+    name: YARD-Lint - Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - name: Set up Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
+        uses: ruby/setup-ruby@dffb23f65a78bba8db45d387d5ea1bbd6be3ef18 # v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+      - name: Run YARD-Lint
+        run: |
+          bundle exec yard-lint lib/

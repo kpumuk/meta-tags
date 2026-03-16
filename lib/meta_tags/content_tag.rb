@@ -6,11 +6,10 @@ module MetaTags
   class ContentTag < Tag
     # Renders the tag in a Rails view.
     #
-    # @param [ActionView::Base] view instance of a Rails view.
+    # @param view [ActionView::Base] instance of a Rails view.
     # @return [String] HTML string for the tag.
-    #
     def render(view)
-      view.content_tag(name, attributes[:content], prepare_attributes(attributes.except(:content)))
+      view.content_tag(name, attributes[:content], serialize_iso8601_attributes(attributes.except(:content)))
     end
   end
 end

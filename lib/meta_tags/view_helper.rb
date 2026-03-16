@@ -2,7 +2,6 @@
 
 module MetaTags
   # Contains methods to use in views and helpers.
-  #
   module ViewHelper
     # Get meta tags for the page.
     def meta_tags
@@ -19,15 +18,12 @@ module MetaTags
     # {#title}, {#description}, {#noindex}, and {#canonical} for daily tasks.
     # {#keywords} remains available for legacy compatibility.
     #
-    # @param [Hash] meta_tags list of meta tags. See {#display_meta_tags}
+    # @param meta_tags [Hash] list of meta tags. See {#display_meta_tags}
     #   for allowed options.
-    #
+    # @see #display_meta_tags
     # @example
     #   set_meta_tags title: 'Login Page', description: 'Here you can login'
     #   set_meta_tags canonical: 'https://example.com/login'
-    #
-    # @see #display_meta_tags
-    #
     def set_meta_tags(meta_tags = {})
       self.meta_tags.update(meta_tags)
     end
@@ -37,25 +33,22 @@ module MetaTags
     # This method is best suited for use in helpers. It sets the page title
     # and returns it (or +headline+ if specified).
     #
-    # @param [nil, String, Array] title page title. When passed as an
+    # @param title [nil, String, Array] page title. When passed as an
     #   +Array+, parts will be joined using configured separator value
     #   (see {#display_meta_tags}). When nil, current title will be returned.
-    # @param [String] headline the value to return from the method. Useful
+    # @param headline [String] the value to return from the method. Useful
     #   for using this method in views to set both page title
     #   and the content of the heading tag.
     # @return [String] returns +title+ value or +headline+ if passed.
-    #
+    # @see #display_meta_tags
     # @example Set HTML title to "Login Page", return "Login Page"
     #   title 'Login Page'
     # @example Set HTML title to "Login Page", return "Please login"
     #   title 'Login Page', 'Please login'
     # @example Set title as array of strings
-    #   title title: ['part1', 'part2'] # => "part1 | part2"
+    #   title ['part1', 'part2'] # => "part1 | part2"
     # @example Get current title
     #   title
-    #
-    # @see #display_meta_tags
-    #
     def title(title = nil, headline = "")
       set_meta_tags(title: title) unless title.nil?
       headline.presence || meta_tags.page_title
@@ -66,16 +59,13 @@ module MetaTags
     # Modern search engines ignore this tag, but some older integrations and
     # internal systems may still read it.
     #
-    # @param [String, Array] keywords keywords meta tag value to render in the HEAD
+    # @param keywords [String, Array] keywords meta tag value to render in the HEAD
     #   section of the HTML document.
     # @return [String, Array] passed value.
-    #
+    # @see #display_meta_tags
     # @example
     #   keywords 'keyword1, keyword2'
     #   keywords %w(keyword1 keyword2)
-    #
-    # @see #display_meta_tags
-    #
     def keywords(keywords)
       set_meta_tags(keywords: keywords)
       keywords
@@ -83,17 +73,14 @@ module MetaTags
 
     # Set the page description.
     #
-    # @param [String] description page description to be set in the HEAD section
+    # @param description [String] page description to be set in the HEAD section
     #   of the HTML document. Please note that any HTML tags will be stripped
     #   from the output string, and the string will be truncated to the
     #   configured description limit.
     # @return [String] passed value.
-    #
+    # @see #display_meta_tags
     # @example
     #   description 'This is login page'
-    #
-    # @see #display_meta_tags
-    #
     def description(description)
       set_meta_tags(description: description)
       description
@@ -101,15 +88,12 @@ module MetaTags
 
     # Set the noindex meta tag.
     #
-    # @param [Boolean, String, Array<String>] noindex a noindex value.
+    # @param noindex [Boolean, String, Array<String>] a noindex value.
     # @return [Boolean, String, Array<String>] passed value.
-    #
+    # @see #display_meta_tags
     # @example
     #   noindex true
     #   noindex 'googlebot'
-    #
-    # @see #display_meta_tags
-    #
     def noindex(noindex = true)
       set_meta_tags(noindex: noindex)
       noindex
@@ -117,15 +101,12 @@ module MetaTags
 
     # Set the nofollow meta tag.
     #
-    # @param [Boolean, String, Array<String>] nofollow a nofollow value.
+    # @param nofollow [Boolean, String, Array<String>] a nofollow value.
     # @return [Boolean, String, Array<String>] passed value.
-    #
+    # @see #display_meta_tags
     # @example
     #   nofollow true
     #   nofollow 'googlebot'
-    #
-    # @see #display_meta_tags
-    #
     def nofollow(nofollow = true)
       set_meta_tags(nofollow: nofollow)
       nofollow
@@ -133,15 +114,12 @@ module MetaTags
 
     # Set the refresh meta tag.
     #
-    # @param [Integer, String] refresh a refresh value.
+    # @param refresh [Integer, String] a refresh value.
     # @return [Integer, String] passed value.
-    #
+    # @see #display_meta_tags
     # @example
     #   refresh 5
     #   refresh "5;url=http://www.example.com/"
-    #
-    # @see #display_meta_tags
-    #
     def refresh(refresh)
       set_meta_tags(refresh: refresh)
       refresh
@@ -150,7 +128,7 @@ module MetaTags
     # Set default meta tag values and display meta tags. This method
     # should be used in the layout file.
     #
-    # @param [Hash] defaults default meta tag values.
+    # @param defaults [Hash] default meta tag values.
     # @option default [String] :site (nil) site title;
     # @option default [String] :title ("") page title;
     # @option default [String] :description (nil) page description;
@@ -175,12 +153,14 @@ module MetaTags
     # @option default [Hash] :open_search ({}) add Open Search link tag.
     # @return [String] HTML meta tags to render in HEAD section of the
     #   HTML document.
-    #
-    # @example
-    #   <head>
-    #     <%= display_meta_tags site: 'My website' %>
-    #   </head>
-    #
+    # @example Render meta tags in a layout
+    #   display_meta_tags site: 'My website'
+    # @example ERB layout usage
+    #   <<~ERB
+    #     <head>
+    #       <%= display_meta_tags site: 'My website' %>
+    #     </head>
+    #   ERB
     def display_meta_tags(defaults = {})
       meta_tags.with_defaults(defaults) { Renderer.new(meta_tags).render(self) }
     end
@@ -192,7 +172,7 @@ module MetaTags
     # so you have to pass default arguments such as the site title here. You probably
     # want to define a helper with default options to minimize code duplication.
     #
-    # @param [Hash] defaults list of meta tags.
+    # @param defaults [Hash] list of meta tags.
     # @option default [String] :site (nil) site title;
     # @option default [String] :title ("") page title;
     # @option default [String, Boolean] :prefix (" ") text between site name and separator; when +false+,
@@ -202,10 +182,13 @@ module MetaTags
     #                                   no suffix will be rendered;
     # @option default [Boolean] :lowercase (false) when true, the page title will be lowercase;
     # @option default [Boolean] :reverse (false) when true, the page and site names will be reversed;
-    #
-    # @example
-    #   <div data-page-container="true" title="<%= display_title title: 'My Page', site: 'PJAX Site' %>">
-    #
+    # @example Build a PJAX-compatible title string
+    #   display_title title: 'My Page', site: 'PJAX Site'
+    # @example ERB PJAX container usage
+    #   <<~ERB
+    #     <div data-page-container="true" title="<%= display_title title: 'My Page', site: 'PJAX Site' %>">
+    #     </div>
+    #   ERB
     def display_title(defaults = {})
       meta_tags.full_title(defaults)
     end

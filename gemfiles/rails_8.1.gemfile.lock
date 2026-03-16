@@ -253,6 +253,10 @@ GEM
     unicode-emoji (4.2.0)
     uri (1.1.1)
     useragent (0.16.11)
+    yard (0.9.38)
+    yard-lint (1.4.0)
+      yard (~> 0.9)
+      zeitwerk (~> 2.6)
     zeitwerk (2.7.4)
 
 PLATFORMS
@@ -279,6 +283,7 @@ DEPENDENCIES
   standard (~> 1.31)
   standard-rails (~> 1.6)
   steep (~> 1.10.0)
+  yard-lint (~> 1.4)
 
 BUNDLED WITH
    2.6.3

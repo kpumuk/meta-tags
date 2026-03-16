@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module MetaTags
+  # Hooks MetaTags helpers into Rails controllers and views.
   class Railtie < Rails::Railtie
     initializer "meta_tags.setup_action_controller" do
       ActiveSupport.on_load :action_controller do
