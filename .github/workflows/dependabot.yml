@@ -27,7 +27,7 @@ jobs:
           ref: ${{ github.head_ref }}
           persist-credentials: false
       - name: Set up Ruby ${{ matrix.ruby-version }}
-        uses: ruby/setup-ruby@dffb23f65a78bba8db45d387d5ea1bbd6be3ef18 # v1
+        uses: ruby/setup-ruby@c984c1a20bb35a1cbda04477c816cea024418be9 # v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
