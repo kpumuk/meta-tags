@@ -34,6 +34,7 @@ jobs:
           pr_author="$(jq -r '.user.login' "$RUNNER_TEMP/pull-request.json")"
           head_ref="$(jq -r '.head.ref' "$RUNNER_TEMP/pull-request.json")"
           head_repo="$(jq -r '.head.repo.full_name' "$RUNNER_TEMP/pull-request.json")"
+          head_sha="$(jq -r '.head.sha' "$RUNNER_TEMP/pull-request.json")"
 
           if [ "$pr_author" != "dependabot[bot]" ]; then
             echo "Refusing to push to non-Dependabot PR #$pr_number by $pr_author" >&2
@@ -46,6 +47,7 @@ jobs:
           fi
 
           echo "head_ref=$head_ref" >> "$GITHUB_OUTPUT"
+          echo "head_sha=$head_sha" >> "$GITHUB_OUTPUT"
 
       - name: Download Appraisal lockfiles
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
@@ -64,29 +66,86 @@ jobs:
           private-key: ${{ secrets.DEPENDABOT_APP_PRIVATE_KEY }}
           permission-contents: write
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          ref: ${{ github.event.workflow_run.head_sha }}
-          token: ${{ steps.app-token.outputs.token }}
-          persist-credentials: false
-
-      - name: Commit regenerated lockfiles
+      - name: Commit regenerated lockfiles without checking out PR code
         env:
-          APP_TOKEN: ${{ steps.app-token.outputs.token }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          EXPECTED_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
           HEAD_REF: ${{ steps.pr.outputs.head_ref }}
+          HEAD_SHA: ${{ steps.pr.outputs.head_sha }}
         run: |
-          find "${RUNNER_TEMP}/dependabot-lockfiles" -maxdepth 1 -type f -name '*.lock' -exec cp '{}' gemfiles/ ';'
+          if [ "$HEAD_SHA" != "$EXPECTED_HEAD_SHA" ]; then
+            echo "PR head moved from $EXPECTED_HEAD_SHA to $HEAD_SHA; skipping stale lockfiles"
+            exit 0
+          fi
 
-          git config user.name "meta-tags-ci[bot]"
-          git config user.email "meta-tags-ci[bot]@users.noreply.github.com"
+          lock_dir="${RUNNER_TEMP}/dependabot-lockfiles"
+          mapfile -t lockfiles < <(find "$lock_dir" -maxdepth 1 -type f -name '*.lock' -print | sort)
+          if [ "${#lockfiles[@]}" -eq 0 ]; then
+            echo "No lockfiles downloaded" >&2
+            exit 1
+          fi
 
-          git add gemfiles/*.lock
+          allowed_lockfiles="$RUNNER_TEMP/allowed-lockfiles.txt"
+          gh api "repos/${GITHUB_REPOSITORY}/contents/gemfiles?ref=${HEAD_SHA}" \
+            --jq '.[] | select(.type == "file" and (.name | endswith(".lock"))) | .name' \
+            > "$allowed_lockfiles"
 
-          if git diff --cached --quiet; then
+          tree_entries="$RUNNER_TEMP/tree-entries.jsonl"
+          : > "$tree_entries"
+
+          for file in "${lockfiles[@]}"; do
+            filename="$(basename "$file")"
+            case "$filename" in
+              ''|*[!A-Za-z0-9._-]*)
+                echo "Refusing unexpected lockfile name: $filename" >&2
+                exit 1
+                ;;
+            esac
+
+            if ! grep -qxF "$filename" "$allowed_lockfiles"; then
+              echo "Refusing to modify unexpected lockfile: $filename" >&2
+              exit 1
+            fi
+
+            blob_payload="$RUNNER_TEMP/blob.json"
+            base64 < "$file" | tr -d '\n' \
+              | jq -Rn '{content: input, encoding: "base64"}' \
+              > "$blob_payload"
+            blob_sha="$(gh api "repos/${GITHUB_REPOSITORY}/git/blobs" --method POST --input "$blob_payload" --jq .sha)"
+
+            jq -n \
+              --arg path "gemfiles/$filename" \
+              --arg sha "$blob_sha" \
+              '{path: $path, mode: "100644", type: "blob", sha: $sha}' \
+              >> "$tree_entries"
+          done
+
+          base_tree_sha="$(gh api "repos/${GITHUB_REPOSITORY}/git/commits/${HEAD_SHA}" --jq .tree.sha)"
+          tree_payload="$RUNNER_TEMP/tree.json"
+          jq -n \
+            --arg base_tree "$base_tree_sha" \
+            --slurpfile tree "$tree_entries" \
+            '{base_tree: $base_tree, tree: $tree}' \
+            > "$tree_payload"
+          new_tree_sha="$(gh api "repos/${GITHUB_REPOSITORY}/git/trees" --method POST --input "$tree_payload" --jq .sha)"
+
+          if [ "$new_tree_sha" = "$base_tree_sha" ]; then
             echo "No lockfile changes to commit"
             exit 0
           fi
 
-          git commit -m "Update Appraisal lockfiles"
-          git remote set-url origin "https://x-access-token:${APP_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git push origin "HEAD:${HEAD_REF}"
+          commit_payload="$RUNNER_TEMP/commit.json"
+          jq -n \
+            --arg message "Update Appraisal lockfiles" \
+            --arg tree "$new_tree_sha" \
+            --arg parent "$HEAD_SHA" \
+            '{message: $message, tree: $tree, parents: [$parent]}' \
+            > "$commit_payload"
+          new_commit_sha="$(gh api "repos/${GITHUB_REPOSITORY}/git/commits" --method POST --input "$commit_payload" --jq .sha)"
+
+          encoded_head_ref="$(jq -rn --arg value "$HEAD_REF" '$value | @uri')"
+          gh api "repos/${GITHUB_REPOSITORY}/git/refs/heads/${encoded_head_ref}" \
+            --method PATCH \
+            -f sha="$new_commit_sha" \
+            -F force=false \
+            >/dev/null
