@@ -52,6 +52,8 @@ jobs:
     name: Specs - Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
       - name: Set up Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
         uses: ruby/setup-ruby@319994f95fa847cf3fb3cd3dbe89f6dcde9f178f # v1
         with:
@@ -62,3 +64,20 @@ jobs:
           ENABLE_CODE_COVERAGE: ${{ matrix.code-coverage || 'false' }}
         run: |
           bundle exec rspec --format documentation
+
+  required:
+    name: Tests Required
+    if: ${{ always() }}
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check matrix result
+        env:
+          RESULT: ${{ needs.test.result }}
+        run: |
+          if [ "$RESULT" != "success" ]; then
+            echo "Tests matrix result: $RESULT"
+            exit 1
+          fi
