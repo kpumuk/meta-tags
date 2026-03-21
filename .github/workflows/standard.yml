@@ -40,3 +40,20 @@ jobs:
       - name: Run StandardRB (via Rubocop)
         run: |
           bundle exec rubocop --format offenses --format github
+
+  required:
+    name: StandardRB Required
+    if: ${{ always() }}
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check matrix result
+        env:
+          RESULT: ${{ needs.build.result }}
+        run: |
+          if [ "$RESULT" != "success" ]; then
+            echo "StandardRB matrix result: $RESULT"
+            exit 1
+          fi

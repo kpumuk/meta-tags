@@ -42,3 +42,20 @@ jobs:
       - name: Verify Ruby Types (Runtime)
         run: |
           bundle exec rake rbs:spec
+
+  required:
+    name: Steep Required
+    if: ${{ always() }}
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check matrix result
+        env:
+          RESULT: ${{ needs.build.result }}
+        run: |
+          if [ "$RESULT" != "success" ]; then
+            echo "Steep matrix result: $RESULT"
+            exit 1
+          fi

@@ -39,3 +39,20 @@ jobs:
       - name: Run YARD-Lint
         run: |
           bundle exec yard-lint lib/
+
+  required:
+    name: YARD-Lint Required
+    if: ${{ always() }}
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check matrix result
+        env:
+          RESULT: ${{ needs.build.result }}
+        run: |
+          if [ "$RESULT" != "success" ]; then
+            echo "YARD-Lint matrix result: $RESULT"
+            exit 1
+          fi
