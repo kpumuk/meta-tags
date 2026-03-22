@@ -415,7 +415,9 @@ This tag will prevent search engines from indexing this specific page, but it wi
 
 ### Robots
 
-Use `robots`, `googlebot`, or `bingbot` when you need crawler directives beyond `index`, `noindex`, `follow`, `nofollow`, or `noarchive`.
+Use the `robots`, `googlebot`, and `bingbot` hashes when you need directives beyond `index`, `noindex`, `follow`, `nofollow`, and `noarchive`.
+
+This is useful for directives such as `max-snippet`, `max-video-preview`, and `unavailable_after`.
 
 ```ruby
 set_meta_tags robots: {
@@ -435,7 +437,7 @@ set_meta_tags bingbot: {
 # <meta name="bingbot" content="max-image-preview:large">
 ```
 
-These hashes are merged with the existing robots helpers, so `noindex`, `nofollow`, and similar directives still render first for the same bot tag.
+These hashes are merged with the existing robots helpers, so `noindex`, `nofollow`, and similar directives still render first for the same meta tag.
 
 Further reading:
 
