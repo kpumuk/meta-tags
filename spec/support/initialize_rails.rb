@@ -22,6 +22,8 @@ module MetaTagsRailsApp
   Rails.application.initialize!
 
   class MetaTagsController < ActionController::Base
+    protect_from_forgery with: :exception
+
     def index
       @page_title = "title"
       @page_keywords = "key1, key2, key3"
