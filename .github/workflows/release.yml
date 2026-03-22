@@ -3,6 +3,8 @@ name: Release
 on:
   workflow_dispatch:
 
+permissions: {}
+
 jobs:
   release:
     runs-on: ubuntu-latest
