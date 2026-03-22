@@ -154,7 +154,7 @@ If you want to set the title and display another text, use this:
 
 ### Allowed options for `display_meta_tags` and `set_meta_tags` methods
 
-Use these options to customize the title format:
+Use these options to customize the generated tags:
 
 | Option         | Description                                                                                                         |
 | -------------- | ------------------------------------------------------------------------------------------------------------------- |
@@ -173,6 +173,9 @@ Use these options to customize the title format:
 | `:nofollow`    | Add nofollow meta tag; when true, "robots" will be used; accepts a string with a robot name or an array of strings  |
 | `:follow`      | Add follow meta tag; when true, "robots" will be used; accepts a string with a robot name or an array of strings    |
 | `:noarchive`   | Add noarchive meta tag; when true, "robots" will be used; accepts a string with a robot name or an array of strings |
+| `:robots`      | Add custom directives to the `robots` meta tag (Hash)                                                               |
+| `:googlebot`   | Add custom directives to the `googlebot` meta tag (Hash)                                                            |
+| `:bingbot`     | Add custom directives to the `bingbot` meta tag (Hash)                                                              |
 | `:canonical`   | Add canonical link tag                                                                                              |
 | `:prev`        | Add legacy prev pagination link tag                                                                                 |
 | `:next`        | Add legacy next pagination link tag                                                                                 |
@@ -409,6 +412,37 @@ set_meta_tags noindex: true, follow: true
 ```
 
 This tag will prevent search engines from indexing this specific page, but it will still allow them to crawl and index the remaining pages on your website.
+
+### Robots
+
+Use the `robots`, `googlebot`, and `bingbot` hashes when you need directives beyond `index`, `noindex`, `follow`, `nofollow`, and `noarchive`.
+
+This is useful for directives such as `max-snippet`, `max-video-preview`, and `unavailable_after`.
+
+```ruby
+set_meta_tags robots: {
+  "max-snippet" => -1,
+  "max-video-preview" => -1
+}
+# <meta name="robots" content="max-snippet:-1, max-video-preview:-1">
+
+set_meta_tags googlebot: {
+  unavailable_after: "2026-12-31"
+}
+# <meta name="googlebot" content="unavailable_after:2026-12-31">
+
+set_meta_tags bingbot: {
+  "max-image-preview" => "large"
+}
+# <meta name="bingbot" content="max-image-preview:large">
+```
+
+These hashes are merged with the existing robots helpers, so `noindex`, `nofollow`, and similar directives still render first for the same meta tag.
+
+Further reading:
+
+- [Google Search Central: robots meta tag and X-Robots-Tag](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag)
+- [Bing Webmaster Guidelines: robots meta tag support](https://www.bing.com/webmasters/help/which-robots-metatags-does-bing-support-5198d240)
 
 ### Canonical URL
 

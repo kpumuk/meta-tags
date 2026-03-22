@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Added `truncate_array_items_at_boundaries` configuration option to preserve whole items in multi-item `title` and `keywords` arrays when truncating ([354](https://github.com/kpumuk/meta-tags/pull/354)).
+- Added support for custom robots directives via `robots`, `googlebot`, and `bingbot` hashes ([224](https://github.com/kpumuk/meta-tags/pull/224), rebased in [361](https://github.com/kpumuk/meta-tags/pull/361)).
 
 ## 2.23.0 (March 16, 2026) [☰](https://github.com/kpumuk/meta-tags/compare/v2.22.3...v2.23.0)
 
