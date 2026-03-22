@@ -2,6 +2,7 @@
 
 [![Tests](https://github.com/kpumuk/meta-tags/actions/workflows/tests.yml/badge.svg)](https://github.com/kpumuk/meta-tags/actions/workflows/tests.yml)
 [![Gem Version](https://badge.fury.io/rb/meta-tags.svg)](https://badge.fury.io/rb/meta-tags)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/kpumuk/meta-tags/badge)](https://scorecard.dev/viewer/?uri=github.com/kpumuk/meta-tags)
 [![Ruby Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://github.com/testdouble/standard)
 [![Gem Downloads](https://img.shields.io/gem/dt/meta-tags.svg)](https://badge.fury.io/rb/meta-tags)
 [![Changelog](https://img.shields.io/badge/Changelog-latest-blue.svg)](https://github.com/kpumuk/meta-tags/blob/main/CHANGELOG.md)
