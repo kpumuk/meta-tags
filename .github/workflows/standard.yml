@@ -17,7 +17,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      checks: write
+      checks: write # Required for RuboCop's GitHub formatter to annotate checks.
       contents: read
     strategy:
       fail-fast: true

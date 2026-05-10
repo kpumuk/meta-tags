@@ -3,15 +3,20 @@ name: Release
 on:
   workflow_dispatch:
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions: {}
 
 jobs:
   release:
+    name: Publish gem release
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write
-      id-token: write
+      contents: write # Required to create the GitHub release for the published gem tag.
+      id-token: write # Required by RubyGems trusted publishing during gem release.
     strategy:
       fail-fast: true
       matrix:
@@ -31,7 +36,7 @@ jobs:
         uses: ruby/setup-ruby@c4e5b1316158f92e3d49443a9d58b31d25ac0f8f # v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true
+          bundler-cache: false
       - name: Setup private key
         env:
           GEM_PRIVATE_KEY: ${{ secrets.GEM_PRIVATE_KEY }}
