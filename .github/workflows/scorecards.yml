@@ -7,15 +7,20 @@ on:
   schedule:
     - cron: "30 1 * * 6"
 
-permissions: read-all
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
 
 jobs:
   analysis:
     name: scorecards
     runs-on: ubuntu-latest
     permissions:
-      security-events: write
-      id-token: write
+      contents: read # Required by Scorecard to inspect repository contents.
+      security-events: write # Required to upload Scorecard SARIF results.
+      id-token: write # Required by Scorecard to publish signed results.
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
