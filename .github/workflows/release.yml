@@ -43,7 +43,7 @@ jobs:
         run: |
           mkdir -p ~/.gem
           echo "${GEM_PRIVATE_KEY}" > ~/.gem/gem-private_key.pem
-      - uses: rubygems/release-gem@6317d8d1f7e28c24d28f6eff169ea854948bd9f7 # v1.2.0
+      - uses: rubygems/release-gem@f0d7faff26625599a847d40d9fa28ace24c2aacc # v1.3.0
         env:
           GEM_PRIVATE_KEY_PASSPHRASE: "${{ secrets.GEM_PRIVATE_KEY_PASSPHRASE }}"
       - name: Create GitHub release
