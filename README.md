@@ -424,7 +424,7 @@ set_meta_tags nofollow: "googlebot"
 
 Further reading:
 
-- [About rel="nofollow"](http://www.google.com/support/webmasters/bin/answer.py?answer=96569)
+- [About rel="nofollow"](https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links)
 - [Meta tags](http://www.google.com/support/webmasters/bin/answer.py?hl=en&answer=79812)
 - [Google Search Central: robots meta tag and X-Robots-Tag](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag)
 
@@ -565,8 +565,8 @@ set_meta_tags next: "http://yoursite.com/url?page=3"
 
 Further reading:
 
-- [Pagination](http://support.google.com/webmasters/bin/answer.py?hl=en&answer=1663744)
-- [Pagination with rel="next" and rel="prev"](http://googlewebmastercentral.blogspot.ca/2011/09/pagination-with-relnext-and-relprev.html)
+- [Pagination](https://developers.google.com/search/docs/specialty/ecommerce/pagination-and-incremental-page-loading)
+- [Pagination with rel="next" and rel="prev"](https://developers.google.com/search/blog/2011/09/pagination-with-relnext-and-relprev)
 - [Google Search Central: pagination, incremental page loading, and infinite scroll](https://developers.google.com/search/docs/specialty/ecommerce/pagination-and-incremental-page-loading)
 
 ### image_src links
@@ -645,7 +645,7 @@ set_meta_tags open_search: {
 
 Further reading:
 
-- [OpenSearch specs](http://www.opensearch.org/Specifications/OpenSearch/1.1)
+- [OpenSearch specs](https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md)
 - [OpenSearch wiki](http://en.wikipedia.org/wiki/OpenSearch)
 
 ### Hashes
