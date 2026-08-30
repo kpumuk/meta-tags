@@ -160,7 +160,7 @@ module MetaTags
     # @param tags [Array<Tag>] a buffer object to store tags in.
     def render_canonical_link(tags)
       href = meta_tags.extract(:canonical) # extract, so it's not used anywhere else
-      return if MetaTags.config.skip_canonical_links_on_noindex && meta_tags[:noindex]
+      return if MetaTags.config.skip_canonical_links_on_noindex && meta_tags.noindex?
       return if href.blank?
 
       @normalized_meta_tags[:canonical] = href

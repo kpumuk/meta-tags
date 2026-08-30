@@ -164,6 +164,13 @@ module MetaTags
       result.transform_values { |v| v.join(", ") }
     end
 
+    # Returns whether noindex settings produce at least one robots directive.
+    #
+    # @return [Boolean] true when a noindex directive will be rendered.
+    def noindex?
+      robots_attribute_present?(meta_tags[:noindex])
+    end
+
     protected
 
     # Converts input hash to HashWithIndifferentAccess and renames :open_graph to :og.
@@ -193,9 +200,17 @@ module MetaTags
     def extract_robots_attribute(name)
       noindex = extract(name)
       noindex_name = (noindex.is_a?(String) || noindex.is_a?(Array)) ? noindex : "robots"
-      noindex_value = noindex ? name.to_s : nil
+      noindex_value = robots_attribute_present?(noindex) ? name.to_s : nil
 
       [noindex_name, noindex_value]
+    end
+
+    # Returns whether a robots attribute resolves to at least one target.
+    #
+    # @param value [Object] robots attribute value.
+    # @return [Boolean] true when the attribute produces a directive.
+    def robots_attribute_present?(value)
+      !!value && (!value.is_a?(Array) || !value.empty?)
     end
 
     # Appends resolved robots directives while preserving first-write priority.

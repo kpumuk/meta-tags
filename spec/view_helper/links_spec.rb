@@ -45,11 +45,31 @@ RSpec.describe MetaTags::ViewHelper do
         end
       end
 
-      it "does not display canonical url when page is marked as noindex" do
-        subject.set_meta_tags(canonical: "http://example.com/base/url", noindex: true)
-        subject.display_meta_tags(site: "someSite").tap do |meta|
-          expect(meta).not_to have_tag("link", with: {href: "http://example.com/base/url", rel: "canonical"})
-          expect(meta).not_to have_tag("meta", with: {content: "http://example.com/base/url", name: "canonical"})
+      [
+        ["nil", nil, []],
+        ["false", false, []],
+        ["an empty crawler list", [], []],
+        ["true", true, ["robots"]],
+        ["a scalar crawler", "googlebot", ["googlebot"]],
+        ["a nonempty crawler list", ["googlebot", "bingbot"], ["googlebot", "bingbot"]]
+      ].each do |description, noindex, robots_names|
+        it "keeps canonical and robots output aligned for #{description}" do
+          subject.set_meta_tags(canonical: "http://example.com/base/url", noindex: noindex)
+          subject.display_meta_tags(site: "someSite").tap do |meta|
+            if robots_names.empty?
+              expect(meta).not_to have_tag("meta", with: {content: "noindex"})
+              expect(meta).to have_tag("link", with: {href: "http://example.com/base/url", rel: "canonical"})
+              next
+            end
+
+            expect(meta).to have_tag("meta", count: robots_names.size, with: {content: "noindex"})
+
+            robots_names.each do |name|
+              expect(meta).to have_tag("meta", with: {content: "noindex", name: name})
+            end
+
+            expect(meta).not_to have_tag("link", with: {href: "http://example.com/base/url", rel: "canonical"})
+          end
         end
       end
     end
