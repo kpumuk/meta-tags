@@ -7,6 +7,6 @@ module MetaTags
 
     def render: (_ActionViewBase view) -> String
 
-    def prepare_attributes: (Hash[String | Symbol, untyped] attributes) -> Hash[String | Symbol, untyped]
+    def serialize_iso8601_attributes: (Hash[String | Symbol, untyped] attributes) -> Hash[String | Symbol, untyped]
   end
 end

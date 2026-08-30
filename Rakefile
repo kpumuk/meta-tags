@@ -17,6 +17,11 @@ module SteepRunner
 
     Steep::CLI.new(argv: command, stdout: $stdout, stderr: $stderr, stdin: $stdin).run
   end
+
+  def self.run!(*command)
+    status = run(*command)
+    raise "Steep exited with status #{status}" unless status.zero?
+  end
 end
 
 desc "Check type information"
@@ -25,12 +30,12 @@ task steep: "steep:check"
 namespace :steep do
   desc "Check type information"
   task :check do
-    SteepRunner.run("check")
+    SteepRunner.run!("check")
   end
 
   desc "Print type statistics"
   task :stats do
-    SteepRunner.run("stats", "--log-level=fatal")
+    SteepRunner.run!("stats", "--log-level=fatal")
   end
 end
 

@@ -31,20 +31,22 @@ module MetaTags
 
     def render_canonical_link: (Array[Tag] tags) -> void
 
-    def render_hashes: (Array[Tag] tags, **untyped opts) -> void
+    def render_hashes: (Array[Tag] tags) -> void
 
-    def render_hash: (Array[Tag] tags, untyped key, **untyped opts) -> void
+    def render_hash: (Array[Tag] tags, meta_key key) -> void
 
     def render_custom: (Array[Tag] tags) -> void
 
-    def process_tree: (Array[Tag] tags, meta_key property, meta_value content, ?itemprop: meta_key? itemprop, **untyped opts) -> void
+    def process_tree: (Array[Tag] tags, meta_key property, meta_value content, ?itemprop: meta_value itemprop) -> void
 
-    def process_hash: (Array[Tag] tags, meta_key property, Hash[meta_key, meta_value] content, **untyped opts) -> void
+    def process_hash: (Array[Tag] tags, meta_key property, Hash[meta_key, meta_value] content, ?itemprop: meta_value itemprop) -> void
 
-    def process_array: (Array[Tag] tags, meta_key property, Array[meta_value] content, **untyped opts) -> void
+    def process_array: (Array[Tag] tags, meta_key property, Array[meta_value] content, ?itemprop: meta_value itemprop) -> void
 
-    def render_tag: (Array[Tag] tags, meta_key name, meta_content value, ?itemprop: meta_key? itemprop) -> void
+    def render_tag: (Array[Tag] tags, meta_key name, meta_content value, ?itemprop: meta_value itemprop) -> void
 
     def configured_name_key: (meta_key name) -> Symbol
+
+    def property_tag?: (String name, String tag_name) -> bool
   end
 end
