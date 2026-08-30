@@ -3,12 +3,12 @@
 source "https://rubygems.org"
 
 gem "yard-lint", "~> 1.4", platform: :mri_33
-gem "railties", "~> 7.1.6"
+gem "railties", "~> 7.2.3"
 gem "zeitwerk", "~> 2.6.18"
-gem "securerandom", "0.3.0"
 gem "minitest", "< 6.0"
 gem "connection_pool", "< 3.0"
 gem "erb", "< 5.0"
+gem "nokogiri", "< 1.19.0"
 gem "parallel", "< 2.0"
 
 gemspec path: "../"

@@ -4,5 +4,6 @@ source "https://rubygems.org"
 
 gem "yard-lint", "~> 1.4", platform: :mri_33
 gem "railties", "~> 8.1.1"
+gem "parallel", "< 2.0"
 
 gemspec path: "../"
