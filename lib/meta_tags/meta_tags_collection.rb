@@ -155,9 +155,15 @@ module MetaTags
       end
 
       [:robots, :googlebot, :bingbot].each do |bot|
-        values = extract(bot).presence
-        if values
-          result[bot.to_s].concat(values.map { |k, v| "#{k}:#{v}" })
+        values = meta_tags[bot]
+        next unless values.is_a?(Hash)
+
+        extract(bot)
+        values.each do |key, value|
+          next if value == false
+
+          directive = (value.nil? || value == true) ? key.to_s : "#{key}:#{value}"
+          result[bot.to_s] << directive
         end
       end
 
