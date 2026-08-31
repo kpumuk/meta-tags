@@ -2,12 +2,18 @@
 
 require "set"
 require "active_support/core_ext/hash/indifferent_access"
+require "active_support/deprecation"
 
 # MetaTags gem namespace.
 module MetaTags
   # Returns MetaTags gem configuration.
   def self.config
     @config ||= Configuration.new
+  end
+
+  # Returns the deprecator used for MetaTags API warnings.
+  def self.deprecator
+    @deprecator ||= ActiveSupport::Deprecation.new("3.0", "MetaTags")
   end
 
   # Configures MetaTags gem.

@@ -2,8 +2,10 @@ module MetaTags
   type meta_tags = Hash[Renderer::meta_key, Renderer::meta_value]
 
   self.@config: Configuration
+  self.@deprecator: ActiveSupport::Deprecation?
 
   def self.config: () -> Configuration
+  def self.deprecator: () -> ActiveSupport::Deprecation
   def self.configure: () { (Configuration) -> void } -> void
 
   interface _Stringish

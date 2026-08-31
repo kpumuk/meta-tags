@@ -16,6 +16,7 @@ module MetaTags
     attr_accessor keywords_lowercase: bool
     attr_accessor open_meta_tags: bool
     attr_accessor minify_output: bool
+    attr_accessor resolve_symbolic_references_in_arrays: bool
     attr_reader property_tags: Array[String | Symbol]
     attr_accessor skip_canonical_links_on_noindex: bool
 

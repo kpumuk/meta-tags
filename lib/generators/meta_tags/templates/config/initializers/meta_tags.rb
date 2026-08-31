@@ -43,6 +43,11 @@ MetaTags.configure do |config|
   # Default is false.
   # config.minify_output = false
 
+  # When true, Symbols inside nested meta tag arrays resolve as references to
+  # normalized top-level tags. Default is false until MetaTags 3.0, when this
+  # behavior will become the default.
+  # config.resolve_symbolic_references_in_arrays = false
+
   # When false, generated meta tags will be self-closing (<meta ... />) instead
   # of open (`<meta ...>`). Default is true.
   # config.open_meta_tags = true
