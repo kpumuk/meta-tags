@@ -176,6 +176,41 @@ RSpec.describe MetaTags::ViewHelper do
       end
     end
 
+    it "preserves itemprop and collection state across renders" do
+      subject.set_meta_tags(og: {image: {_: "image.png", itemprop: "image"}})
+      original_meta_tags = subject.meta_tags.meta_tags.deep_dup
+
+      first_render = subject.display_meta_tags
+      second_render = subject.display_meta_tags
+
+      expect(first_render).to eq('<meta property="og:image" content="image.png" itemprop="image">')
+      expect(second_render).to eq(first_render)
+      expect(subject.meta_tags.meta_tags).to eq(original_meta_tags)
+    end
+
+    it "inherits itemprop through anonymous containers only" do
+      meta = subject.display_meta_tags(
+        twitter: {
+          image: {
+            _: [
+              "direct.png",
+              {_: "wrapped.png"},
+              {_: "overridden.png", itemprop: "custom"},
+              {alt: {_: "description"}}
+            ],
+            itemprop: "image"
+          }
+        }
+      )
+
+      expect(meta).to eq(<<~HTML.chomp)
+        <meta name="twitter:image" content="direct.png" itemprop="image">
+        <meta name="twitter:image" content="wrapped.png" itemprop="image">
+        <meta name="twitter:image" content="overridden.png" itemprop="custom">
+        <meta name="twitter:image:alt" content="description">
+      HTML
+    end
+
     it "displays meta tags with hashes and arrays" do
       test_hashes_and_arrays
     end
