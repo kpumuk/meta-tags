@@ -43,6 +43,8 @@ module MetaTags
 
     def process_array: (Array[Tag] tags, meta_key property, Array[meta_value] content, ?itemprop: meta_value itemprop) -> void
 
+    def process_reference: (Array[Tag] tags, meta_key property, Symbol reference, ?itemprop: meta_value itemprop) -> void
+
     def render_tag: (Array[Tag] tags, meta_key name, meta_content value, ?itemprop: meta_value itemprop) -> void
 
     def configured_name_key: (meta_key name) -> Symbol

@@ -33,6 +33,11 @@ module ActionController
 end
 
 module ActiveSupport
+  class Deprecation
+    def initialize: (String deprecation_horizon, String gem_name) -> void
+    def warn: (String message) -> void
+  end
+
   class HashWithIndifferentAccess[unchecked out K, unchecked out V] < Hash[K, V]
     def with_indifferent_access: () -> self
     def deep_merge!: (instance | Hash[K, V] other) -> self

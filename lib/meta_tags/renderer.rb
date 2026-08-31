@@ -214,7 +214,11 @@ module MetaTags
       when Array
         process_array(tags, property, content, itemprop: itemprop)
       else
-        render_tag(tags, property, content, itemprop: itemprop)
+        if content.is_a?(Symbol) && MetaTags.config.resolve_symbolic_references_in_arrays
+          process_reference(tags, property, content, itemprop: itemprop)
+        else
+          render_tag(tags, property, content, itemprop: itemprop)
+        end
       end
     end
 
@@ -251,7 +255,39 @@ module MetaTags
     # @param content [Array] array of nested meta tag attributes or values.
     # @param itemprop [String, Symbol, nil] value of the itemprop attribute.
     def process_array(tags, property, content, itemprop: nil)
+      unless MetaTags.config.resolve_symbolic_references_in_arrays
+        symbol_reference = content.find do |value|
+          value.is_a?(Symbol) && normalized_meta_tags.key?(value)
+        end
+        if symbol_reference
+          MetaTags.deprecator.warn(
+            "Passing #{symbol_reference.inspect} directly inside a nested meta tag Array is deprecated. " \
+              "It is rendered literally in MetaTags 2.x but will be interpreted as a mirrored reference in MetaTags 3.0. " \
+              "Set MetaTags.config.resolve_symbolic_references_in_arrays = true to opt in now; this behavior will " \
+              "become the default in MetaTags 3.0. Use a String to keep a literal value."
+          )
+        end
+      end
+
       content.each { |value| process_tree(tags, property, value, itemprop: itemprop) }
+    end
+
+    # Resolves a Symbol reference and processes its normalized value once.
+    #
+    # @param tags [Array<Tag>] a buffer object to store tags in.
+    # @param property [String, Symbol] the meta tag property name.
+    # @param reference [Symbol] normalized top-level meta tag reference.
+    # @param itemprop [String, Symbol, nil] value of the itemprop attribute.
+    def process_reference(tags, property, reference, itemprop: nil)
+      content = normalized_meta_tags[reference]
+      case content
+      when Hash
+        process_hash(tags, property, content, itemprop: itemprop)
+      when Array
+        process_array(tags, property, content, itemprop: itemprop)
+      else
+        render_tag(tags, property, content, itemprop: itemprop)
+      end
     end
 
     # Renders a single meta tag.

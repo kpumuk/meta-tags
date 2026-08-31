@@ -3,6 +3,12 @@
 require "spec_helper"
 
 RSpec.describe MetaTags::ViewHelper, "module" do
+  it "registers the MetaTags deprecator with Rails" do
+    skip "Rails.application.deprecators requires Rails 7.1+" unless Rails.application.respond_to?(:deprecators)
+
+    expect(Rails.application.deprecators[:meta_tags]).to be(MetaTags.deprecator)
+  end
+
   it "is mixed into ActionView::Base" do
     expect(ActionView::Base.included_modules).to include(described_class)
   end

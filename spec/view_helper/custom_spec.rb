@@ -4,6 +4,8 @@ require "spec_helper"
 
 RSpec.describe MetaTags::ViewHelper do
   describe "display any named meta tag that you want to" do
+    before { allow(MetaTags.deprecator).to receive(:warn) }
+
     it "displays testing meta tag" do
       subject.display_meta_tags(testing: "this is a test").tap do |meta|
         expect(meta).to have_tag("meta", with: {content: "this is a test", name: "testing"})
@@ -23,10 +25,108 @@ RSpec.describe MetaTags::ViewHelper do
       end
     end
 
-    it "supports symbolic references in Hash values" do
-      subject.display_meta_tags(title: "my title", testing: {tag: :title}).tap do |meta|
-        expect(meta).to have_tag("meta", with: {content: "my title", name: "testing:tag"})
-      end
+    it "resolves symbolic references in Hash values" do
+      meta = subject.display_meta_tags(title: "my title", testing: {tag: :title})
+
+      expect(meta).to eq(<<~HTML.chomp)
+        <title>my title</title>
+        <meta name="testing:tag" content="my title">
+      HTML
+      expect(MetaTags.deprecator).not_to have_received(:warn)
+    end
+
+    it "warns about symbolic reference candidates in Array values without changing their output" do
+      meta = subject.display_meta_tags(
+        image_src: "https://example.com/image.png",
+        og: {image: [:image_src]}
+      )
+
+      expect(meta).to eq(<<~HTML.chomp)
+        <link rel="image_src" href="https://example.com/image.png">
+        <meta property="og:image" content="image_src">
+      HTML
+      expect(MetaTags.deprecator).to have_received(:warn).once.with(
+        include(
+          ":image_src",
+          "rendered literally in MetaTags 2.x",
+          "MetaTags.config.resolve_symbolic_references_in_arrays = true",
+          "default in MetaTags 3.0"
+        )
+      )
+    end
+
+    it "resolves symbolic references in Array values when configured" do
+      MetaTags.config.resolve_symbolic_references_in_arrays = true
+
+      meta = subject.display_meta_tags(
+        description: "Image description",
+        image_src: "https://example.com/image.png",
+        og: {
+          image: [:image_src, {alt: [:description]}],
+          video: [:missing],
+          audio: :image_src
+        }
+      )
+
+      expect(meta).to eq(<<~HTML.chomp)
+        <meta name="description" content="Image description">
+        <link rel="image_src" href="https://example.com/image.png">
+        <meta property="og:image" content="https://example.com/image.png">
+        <meta property="og:image:alt" content="Image description">
+        <meta property="og:audio" content="https://example.com/image.png">
+      HTML
+      expect(MetaTags.deprecator).not_to have_received(:warn)
+    end
+
+    it "does not warn about literal Symbol values in Array values" do
+      meta = subject.display_meta_tags(article: {tag: [:ruby, :rails]})
+
+      expect(meta).to eq(<<~HTML.chomp)
+        <meta property="article:tag" content="ruby">
+        <meta property="article:tag" content="rails">
+      HTML
+      expect(MetaTags.deprecator).not_to have_received(:warn)
+    end
+
+    it "does not warn about top-level Symbol Array values" do
+      meta = subject.display_meta_tags(title: "my title", testing: [:title])
+
+      expect(meta).to eq(<<~HTML.chomp)
+        <title>my title</title>
+        <meta name="testing" content="title">
+      HTML
+      expect(MetaTags.deprecator).not_to have_received(:warn)
+    end
+
+    it "warns about symbolic reference candidates in nested Array values" do
+      meta = subject.display_meta_tags(
+        description: "Image description",
+        image_src: "https://example.com/image.png",
+        og: {image: [{_: :image_src, alt: [:description]}]}
+      )
+
+      expect(meta).to eq(<<~HTML.chomp)
+        <meta name="description" content="Image description">
+        <link rel="image_src" href="https://example.com/image.png">
+        <meta property="og:image" content="https://example.com/image.png">
+        <meta property="og:image:alt" content="description">
+      HTML
+      expect(MetaTags.deprecator).to have_received(:warn).once.with(
+        include(":description", "rendered literally in MetaTags 2.x", "mirrored reference in MetaTags 3.0")
+      )
+    end
+
+    it "preserves missing symbolic references without warnings" do
+      meta = subject.display_meta_tags(
+        og: {
+          image: :missing,
+          video: [:missing],
+          audio: [{_: :missing}]
+        }
+      )
+
+      expect(meta).to eq('<meta property="og:video" content="missing">')
+      expect(MetaTags.deprecator).not_to have_received(:warn)
     end
 
     it "does not render when value is nil" do

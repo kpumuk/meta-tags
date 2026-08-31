@@ -39,6 +39,10 @@ module MetaTags
     # Default is false.
     attr_accessor :minify_output
 
+    # When true, Symbols inside nested meta tag arrays resolve as references to
+    # normalized top-level tags. Default is false until MetaTags 3.0.
+    attr_accessor :resolve_symbolic_references_in_arrays
+
     # Custom meta tags that should use the `property` attribute instead of `name`.
     # An array of strings or symbols representing their names or name prefixes.
     attr_reader :property_tags
@@ -107,6 +111,7 @@ module MetaTags
       @property_tags = default_property_tags.dup
       @open_meta_tags = true
       @minify_output = false
+      @resolve_symbolic_references_in_arrays = false
       @skip_canonical_links_on_noindex = false
     end
   end

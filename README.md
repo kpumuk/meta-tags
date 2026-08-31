@@ -46,6 +46,19 @@ either partially truncate the last item or stop at item boundaries. Set
 `config.truncate_array_items_at_boundaries = true` to preserve whole items for
 multi-item arrays. Single-item arrays are still truncated normally.
 
+Symbols in nested custom tag arrays are literal values in MetaTags 2.x.
+MetaTags 3.0 will use them to look up normalized top-level tags. You can turn
+on this behavior now:
+
+```ruby
+MetaTags.configure do |config|
+  config.resolve_symbolic_references_in_arrays = true
+end
+```
+
+When this option is on, use Strings for literal array values. MetaTags does not
+render a tag when a Symbol has no match.
+
 By default, meta tags are rendered with the key `name`. However, some meta tags are required to use `property` instead (like Facebook Open Graph object). The MetaTags gem allows you to configure which tags to render with the `property` attribute. The pre-configured list includes all possible Facebook Open Graph object types by default, but you can add your own in case you need it.
 
 ## MetaTags Usage
