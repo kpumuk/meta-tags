@@ -41,4 +41,27 @@ RSpec.describe MetaTags::ViewHelper do
       expect(meta).to have_tag("link", with: {href: "/images/icons/icon_itouch_precomp_32.png", rel: "apple-touch-icon-precomposed", type: "image/png", sizes: "32x32"})
     end
   end
+
+  [
+    ["nil", nil, false],
+    ["an empty string", "", false],
+    ["whitespace", " \t", false],
+    ["a valid URL", "/favicon.ico", true]
+  ].each do |description, href, renders|
+    {
+      "a scalar" => -> { href },
+      "a hash" => -> { {href: href} },
+      "an array" => -> { [{href: href}] }
+    }.each do |representation, icon|
+      it "#{renders ? "displays" : "does not display"} #{representation} icon with #{description}" do
+        subject.display_meta_tags(site: "someSite", icon: icon.call).tap do |meta|
+          if renders
+            expect(meta).to have_tag("link", with: {href: href, rel: "icon", type: "image/x-icon"})
+          else
+            expect(meta).not_to have_tag("link", with: {rel: "icon"})
+          end
+        end
+      end
+    end
+  end
 end

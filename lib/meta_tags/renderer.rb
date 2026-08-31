@@ -77,7 +77,7 @@ module MetaTags
 
       icon.each do |icon_params|
         icon_params = {rel: "icon", type: "image/x-icon"}.with_indifferent_access.merge(icon_params)
-        tags << Tag.new(:link, icon_params)
+        tags << Tag.new(:link, icon_params) if icon_params[:href].present?
       end
     end
 
@@ -123,7 +123,8 @@ module MetaTags
         end
       elsif alternate.is_a?(Array)
         alternate.each do |link_params|
-          tags << Tag.new(:link, {rel: "alternate"}.with_indifferent_access.merge(link_params))
+          link_params = {rel: "alternate"}.with_indifferent_access.merge(link_params)
+          tags << Tag.new(:link, link_params) if link_params[:href].present?
         end
       end
     end
