@@ -48,7 +48,8 @@ multi-item arrays. Single-item arrays are still truncated normally.
 
 Symbols in nested custom tag arrays are literal values in MetaTags 2.x.
 MetaTags 3.0 will use them to look up normalized top-level tags. You can turn
-on this behavior now:
+on this behavior now. Until then, each nested array that contains a direct
+Symbol value emits a deprecation warning:
 
 ```ruby
 MetaTags.configure do |config|

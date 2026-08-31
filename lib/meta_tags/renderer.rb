@@ -239,12 +239,11 @@ module MetaTags
           next_itemprop = nil
         end
 
-        normalized_value = if value.is_a?(Symbol)
-          normalized_meta_tags[value]
+        if value.is_a?(Symbol)
+          process_reference(tags, key, value, itemprop: next_itemprop)
         else
-          value
+          process_tree(tags, key, value, itemprop: next_itemprop)
         end
-        process_tree(tags, key, normalized_value, itemprop: next_itemprop)
       end
     end
 
@@ -256,9 +255,7 @@ module MetaTags
     # @param itemprop [String, Symbol, nil] value of the itemprop attribute.
     def process_array(tags, property, content, itemprop: nil)
       unless MetaTags.config.resolve_symbolic_references_in_arrays
-        symbol_reference = content.find do |value|
-          value.is_a?(Symbol) && normalized_meta_tags.key?(value)
-        end
+        symbol_reference = content.find { |value| value.is_a?(Symbol) }
         if symbol_reference
           MetaTags.deprecator.warn(
             "Passing #{symbol_reference.inspect} directly inside a nested meta tag Array is deprecated. " \

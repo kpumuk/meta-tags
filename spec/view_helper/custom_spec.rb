@@ -35,7 +35,7 @@ RSpec.describe MetaTags::ViewHelper do
       expect(MetaTags.deprecator).not_to have_received(:warn)
     end
 
-    it "warns about symbolic reference candidates in Array values without changing their output" do
+    it "warns about Symbol values in Array values without changing their output" do
       meta = subject.display_meta_tags(
         image_src: "https://example.com/image.png",
         og: {image: [:image_src]}
@@ -78,14 +78,29 @@ RSpec.describe MetaTags::ViewHelper do
       expect(MetaTags.deprecator).not_to have_received(:warn)
     end
 
-    it "does not warn about literal Symbol values in Array values" do
+    it "resolves existing Hash references only once when Array references are configured" do
+      MetaTags.config.resolve_symbolic_references_in_arrays = true
+
+      meta = subject.display_meta_tags(
+        image_src: :asset,
+        og: {image: {alt: :image_src}}
+      )
+
+      expect(meta).to eq(<<~HTML.chomp)
+        <link rel="image_src" href="asset">
+        <meta property="og:image:alt" content="asset">
+      HTML
+      expect(MetaTags.deprecator).not_to have_received(:warn)
+    end
+
+    it "warns about literal Symbol values in Array values" do
       meta = subject.display_meta_tags(article: {tag: [:ruby, :rails]})
 
       expect(meta).to eq(<<~HTML.chomp)
         <meta property="article:tag" content="ruby">
         <meta property="article:tag" content="rails">
       HTML
-      expect(MetaTags.deprecator).not_to have_received(:warn)
+      expect(MetaTags.deprecator).to have_received(:warn).once.with(include(":ruby"))
     end
 
     it "does not warn about top-level Symbol Array values" do
@@ -98,7 +113,7 @@ RSpec.describe MetaTags::ViewHelper do
       expect(MetaTags.deprecator).not_to have_received(:warn)
     end
 
-    it "warns about symbolic reference candidates in nested Array values" do
+    it "warns about Symbol values in nested Array values" do
       meta = subject.display_meta_tags(
         description: "Image description",
         image_src: "https://example.com/image.png",
@@ -116,7 +131,7 @@ RSpec.describe MetaTags::ViewHelper do
       )
     end
 
-    it "preserves missing symbolic references without warnings" do
+    it "warns about missing symbolic references only when nested directly in Arrays" do
       meta = subject.display_meta_tags(
         og: {
           image: :missing,
@@ -126,7 +141,7 @@ RSpec.describe MetaTags::ViewHelper do
       )
 
       expect(meta).to eq('<meta property="og:video" content="missing">')
-      expect(MetaTags.deprecator).not_to have_received(:warn)
+      expect(MetaTags.deprecator).to have_received(:warn).once.with(include(":missing"))
     end
 
     it "does not render when value is nil" do
