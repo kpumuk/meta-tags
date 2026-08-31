@@ -1,0 +1,102 @@
+# frozen_string_literal: true
+
+require "json"
+require "open3"
+
+NOKOGIRI_RUBY_31_EXCEPTIONS = [
+  "GHSA-5prr-v3j2-97mh", # CRuby NodeSet out-of-bounds read; fix needs Nokogiri 1.19.4 / Ruby 3.2+.
+  "GHSA-5v8h-3h3q-446p", # CRuby Document#encoding= use-after-free; fix needs Nokogiri 1.19.4 / Ruby 3.2+.
+  "GHSA-8678-w3jw-xfc2", # JRuby-only NONET bypass; ignored because these Ruby 3.1 locks target MRI.
+  "GHSA-9cv2-cfxc-v4v2", # CRuby null dereference in node wrappers; fix needs Nokogiri 1.19.4 / Ruby 3.2+.
+  "GHSA-c4rq-3m3g-8wgx", # CSS-selector regex DoS; fix needs Nokogiri 1.19.3 / Ruby 3.2+.
+  "GHSA-g9g8-vgvw-g3vf", # CRuby invalid memory read in node copies; fix needs Nokogiri 1.19.4 / Ruby 3.2+.
+  "GHSA-p67v-3w7g-wjg7", # CRuby XPathContext use-after-free; fix needs Nokogiri 1.19.4 / Ruby 3.2+.
+  "GHSA-phwj-rprq-35pp", # CRuby attribute-setter use-after-free; fix needs Nokogiri 1.19.4 / Ruby 3.2+.
+  "GHSA-v2fc-qm4h-8hqv", # XSLT parameter memory leak; fix needs Nokogiri 1.19.3 / Ruby 3.2+.
+  "GHSA-wfpw-mmfh-qq69", # CRuby XInclude use-after-free; fix needs Nokogiri 1.19.4 / Ruby 3.2+.
+  "GHSA-wjv4-x9w8-wm3h", # CRuby Document#root= use-after-free; fix needs Nokogiri 1.19.4 / Ruby 3.2+.
+  "GHSA-wx95-c6cv-8532" # XML canonicalization signature bypass; fix needs Nokogiri 1.19.1 / Ruby 3.2+.
+].freeze
+
+EOL_RAILS_EXCEPTIONS = [
+  "CVE-2026-33168", # Action View tag-helper XSS; no patched Rails 6.1-7.1 release exists.
+  "CVE-2026-33169", # number_to_delimited regex DoS; no patched Rails 6.1-7.1 release exists.
+  "CVE-2026-33170", # SafeBuffer formatting XSS; no patched Rails 6.1-7.1 release exists.
+  "CVE-2026-33176" # Number-helper resource-exhaustion DoS; no patched Rails 6.1-7.1 release exists.
+].freeze
+
+# Rails 6.1, 7.0, and 7.1 have no releases containing the listed Rails fixes.
+# Nokogiri's fixes require Ruby 3.2, so only Ruby 3.1 locks retain exceptions.
+# Sources: https://rubyonrails.org/maintenance and
+# https://rubygems.org/gems/nokogiri/versions/1.19.4.
+# Review by 2027-02-28, or earlier when an affected Rails line or Ruby 3.1 leaves
+# the test matrix. New advisories fail because only these exact IDs are accepted.
+LOCKFILE_EXCEPTIONS = {
+  "gemfiles/rails_6.1.gemfile.lock" => [
+    "CVE-2024-54133", # Content Security Policy bypass; no patched Rails 6.1 release exists.
+    *EOL_RAILS_EXCEPTIONS
+  ],
+  "gemfiles/rails_6.1_ruby_3.1.gemfile.lock" => [
+    "CVE-2024-54133", # Content Security Policy bypass; no patched Rails 6.1 release exists.
+    *EOL_RAILS_EXCEPTIONS,
+    *NOKOGIRI_RUBY_31_EXCEPTIONS
+  ],
+  "gemfiles/rails_7.0.gemfile.lock" => EOL_RAILS_EXCEPTIONS,
+  "gemfiles/rails_7.0_ruby_3.1.gemfile.lock" => [
+    *EOL_RAILS_EXCEPTIONS,
+    *NOKOGIRI_RUBY_31_EXCEPTIONS
+  ],
+  "gemfiles/rails_7.1.gemfile.lock" => EOL_RAILS_EXCEPTIONS,
+  "gemfiles/rails_7.1_ruby_3.1.gemfile.lock" => [
+    *EOL_RAILS_EXCEPTIONS,
+    *NOKOGIRI_RUBY_31_EXCEPTIONS
+  ],
+  "gemfiles/rails_7.2.gemfile.lock" => [],
+  "gemfiles/rails_7.2_ruby_3.1.gemfile.lock" => NOKOGIRI_RUBY_31_EXCEPTIONS,
+  "gemfiles/rails_8.0.gemfile.lock" => [],
+  "gemfiles/rails_8.1.gemfile.lock" => [],
+  "gemfiles/rails_edge.gemfile.lock" => []
+}.freeze
+
+lockfiles = Dir["gemfiles/*.gemfile.lock"].sort
+unless lockfiles == LOCKFILE_EXCEPTIONS.keys
+  warn "Update LOCKFILE_EXCEPTIONS to cover exactly: #{lockfiles.join(", ")}"
+  exit 1
+end
+
+if File.exist?(".bundler-audit.yml")
+  warn "Remove .bundler-audit.yml; declare every exception in LOCKFILE_EXCEPTIONS"
+  exit 1
+end
+
+passed = LOCKFILE_EXCEPTIONS.map do |lockfile, exceptions|
+  stdout, stderr, status = Open3.capture3(
+    "bundle-audit", "check", "--gemfile-lock", lockfile, "--format", "json"
+  )
+  warn stderr unless stderr.empty?
+
+  unless status.success? || status.exitstatus == 1
+    warn "#{lockfile}: bundle-audit failed with exit status #{status.exitstatus}"
+    next false
+  end
+
+  active_advisory_ids = JSON.parse(stdout).fetch("results").map do |result|
+    result.fetch("advisory").fetch("id")
+  end.uniq.sort
+  expected_advisory_ids = exceptions.sort
+
+  if active_advisory_ids == expected_advisory_ids
+    message = if active_advisory_ids.empty?
+      "no vulnerabilities found"
+    else
+      "accepted exceptions: #{active_advisory_ids.join(", ")}"
+    end
+    puts "#{lockfile}: #{message}"
+    true
+  else
+    warn "#{lockfile}: expected #{expected_advisory_ids.inspect}, found #{active_advisory_ids.inspect}"
+    false
+  end
+end.all?
+
+exit(passed)

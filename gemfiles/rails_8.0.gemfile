@@ -4,5 +4,7 @@ source "https://rubygems.org"
 
 gem "yard-lint", "~> 1.4", platform: :mri_33
 gem "railties", "~> 8.0.4"
+gem "parallel", "< 2.0"
+gem "bundler-audit", "0.9.3"
 
 gemspec path: "../"
