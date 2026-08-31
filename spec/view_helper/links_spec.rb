@@ -115,6 +115,26 @@ RSpec.describe MetaTags::ViewHelper do
         expect(meta).to have_tag("link", with: {href: "http://m.example.com/page-1", media: "only screen and (max-width: 640px)", rel: "alternate"})
       end
     end
+
+    [
+      ["nil", nil, false],
+      ["an empty string", "", false],
+      ["whitespace", " \t", false],
+      ["a valid URL", "http://example.fr/base/url", true]
+    ].each do |description, href, renders|
+      it "renders hash and array representations identically with #{description}" do
+        hash_meta = subject.display_meta_tags(site: "someSite", alternate: {"fr" => href})
+        array_meta = subject.display_meta_tags(site: "someSite", alternate: [{href: href, hreflang: "fr"}])
+
+        expect(array_meta).to eq(hash_meta)
+
+        if renders
+          expect(array_meta).to have_tag("link", with: {href: href, hreflang: "fr", rel: "alternate"})
+        else
+          expect(array_meta).not_to have_tag("link", with: {rel: "alternate"})
+        end
+      end
+    end
   end
 
   describe "displaying prev url" do
