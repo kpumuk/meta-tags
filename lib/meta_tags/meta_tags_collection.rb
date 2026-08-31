@@ -70,13 +70,10 @@ module MetaTags
     # @param defaults [Hash] list of default meta tag attributes.
     # @return [String] page title.
     def page_title(defaults = {})
-      had_site = @meta_tags.key?(:site)
-      old_site = @meta_tags[:site]
-      @meta_tags[:site] = nil if had_site
-      full_title = with_defaults(defaults) { extract_full_title }
-      full_title.presence || old_site || ""
-    ensure
-      @meta_tags[:site] = old_site if had_site
+      with_defaults(defaults) do
+        site = extract(:site)
+        extract_full_title.presence || site || ""
+      end
     end
 
     # Deletes and returns a meta tag value by name.
