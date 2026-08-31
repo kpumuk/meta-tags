@@ -229,8 +229,12 @@ module MetaTags
     # @param content [Hash] nested meta tag attributes.
     # @param itemprop [String, Symbol, nil] inherited itemprop value.
     def process_hash(tags, property, content, itemprop: nil)
-      current_itemprop = content.delete(:itemprop)
+      itemprop_key = content.key?(:itemprop) ? :itemprop : "itemprop"
+      current_itemprop = content.key?(itemprop_key) ? content[itemprop_key] : itemprop
+
       content.each do |key, value|
+        next if key.to_s == "itemprop"
+
         if key.to_s == "_"
           key = property
           next_itemprop = current_itemprop
