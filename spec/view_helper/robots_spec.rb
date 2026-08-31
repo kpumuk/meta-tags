@@ -67,4 +67,37 @@ RSpec.describe MetaTags::ViewHelper, "displaying robots meta tags" do
     expect(subject.display_meta_tags)
       .to eq('<meta name="googlebot" content="noindex, unavailable_after:2026-12-31">')
   end
+
+  it "preserves the legacy extraction contract for dedicated and scalar values" do
+    dedicated = MetaTags::MetaTagsCollection.new
+    dedicated.update(noindex: true)
+    expect(dedicated.extract_robots).to eq("robots" => "noindex")
+
+    scalar = MetaTags::MetaTagsCollection.new
+    scalar.update(robots: "noindex")
+    expect(scalar.extract_robots).to eq({})
+    expect(scalar[:robots]).to eq("noindex")
+  end
+
+  it "keeps scalar custom robots in generic rendering order with configured attributes" do
+    MetaTags.config.property_tags.push(:robots)
+    MetaTags.config.skip_canonical_links_on_noindex = true
+
+    expect(
+      subject.display_meta_tags(
+        canonical: "https://example.test/page",
+        robots: "noindex",
+        alternate: {en: "/en"}
+      )
+    )
+      .to eq(<<~HTML.chomp)
+        <link rel="canonical" href="https://example.test/page">
+        <link rel="alternate" href="/en" hreflang="en">
+        <meta property="robots" content="noindex">
+      HTML
+  end
+
+  it "omits blank structured directives" do
+    expect(subject.display_meta_tags(robots: {"" => nil})).to eq("")
+  end
 end
