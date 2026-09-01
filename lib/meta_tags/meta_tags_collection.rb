@@ -134,10 +134,43 @@ module MetaTags
       TextNormalizer.safe_join([prefix, separator, suffix], "")
     end
 
-    # Extracts noindex settings as a Hash mapping noindex tag name to value.
+    # Extracts robots settings as a Hash mapping tag names to rendered values.
     #
-    # @return [Hash{String => String}] noindex attributes.
+    # @return [Hash{String => String}] robots attributes.
     def extract_robots
+      result = robots
+      delete(:noindex, :index, :follow, :nofollow, :noarchive)
+      [:robots, :googlebot, :bingbot].each do |bot|
+        extract(bot) if meta_tags[bot].is_a?(Hash)
+      end
+
+      result
+    end
+
+    # Returns whether robots settings produce a noindex directive.
+    #
+    # @return [Boolean] true when a noindex directive will be rendered.
+    def noindex?
+      contents = robots.values
+      property_tags = MetaTags.config.property_tags.map(&:to_s)
+      [:robots, :googlebot, :bingbot].each do |bot|
+        values = meta_tags[bot]
+        next if values.is_a?(Hash) || property_tags.include?(bot.to_s)
+
+        contents.concat(Array(values))
+      end
+
+      contents.any? do |content|
+        content.to_s.split(",").any? { |directive| directive.strip.casecmp?("noindex") }
+      end
+    end
+
+    protected
+
+    # Returns robots settings without modifying the collection.
+    #
+    # @return [Hash{String => String}] robots attributes.
+    def robots
       # @type var result: Hash[String, Array[String]]
       result = Hash.new { |h, k| h[k] = [] }
 
@@ -153,28 +186,18 @@ module MetaTags
 
       [:robots, :googlebot, :bingbot].each do |bot|
         values = meta_tags[bot]
-        next unless values.is_a?(Hash)
+        if values.is_a?(Hash)
+          values.each do |key, value|
+            next if value == false
 
-        extract(bot)
-        values.each do |key, value|
-          next if value == false
-
-          directive = (value.nil? || value == true) ? key.to_s : "#{key}:#{value}"
-          result[bot.to_s] << directive
+            directive = (value.nil? || value == true) ? key.to_s : "#{key}:#{value}"
+            result[bot.to_s] << directive
+          end
         end
       end
 
       result.transform_values { |v| v.join(", ") }
     end
-
-    # Returns whether noindex settings produce at least one robots directive.
-    #
-    # @return [Boolean] true when a noindex directive will be rendered.
-    def noindex?
-      robots_attribute_present?(meta_tags[:noindex])
-    end
-
-    protected
 
     # Converts input hash to HashWithIndifferentAccess and renames :open_graph to :og.
     #
@@ -199,10 +222,16 @@ module MetaTags
     # Extracts a robots attribute name/value pair (noindex, nofollow, etc.).
     #
     # @param name [String, Symbol] noindex attribute name.
-    # @return [Array<String>] noindex attribute name and value pair.
+    # @return [Array<Object>] normalized robots tag name(s) and directive value.
     def extract_robots_attribute(name)
-      noindex = extract(name)
-      noindex_name = (noindex.is_a?(String) || noindex.is_a?(Array)) ? noindex : "robots"
+      noindex = meta_tags[name]
+      noindex_name = if noindex.is_a?(Array)
+        noindex.map(&:to_s)
+      elsif noindex.is_a?(String)
+        noindex
+      else
+        "robots"
+      end
       noindex_value = robots_attribute_present?(noindex) ? name.to_s : nil
 
       [noindex_name, noindex_value]
@@ -228,8 +257,8 @@ module MetaTags
         names, value = extract_robots_attribute(attribute)
         next unless value
 
-        Array(names).each do |name|
-          # @type var name: String | Symbol
+        robot_names = names.is_a?(String) ? [names] : names
+        robot_names.each do |name|
           apply_robots_value(result, name, value, processed)
         end
       end
@@ -238,7 +267,7 @@ module MetaTags
     # Records a robots directive unless it has already been set for the same key.
     #
     # @param result [Hash{String => Array<String>}] robots directives grouped by tag name.
-    # @param name [String, Symbol] robots tag name.
+    # @param name [String] robots tag name.
     # @param value [String] robots directive value.
     # @param processed [Set<String>] names already recorded in this pass.
     # @return [void]

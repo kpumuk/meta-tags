@@ -72,6 +72,40 @@ RSpec.describe MetaTags::ViewHelper do
           end
         end
       end
+
+      [
+        ["the dedicated helper", {noindex: true}, '<meta name="robots" content="noindex">'],
+        ["a dedicated nil crawler", {noindex: [nil]}, '<meta name="" content="noindex">'],
+        ["a dedicated false crawler", {noindex: [false]}, '<meta name="false" content="noindex">'],
+        ["a structured directive", {robots: {noindex: true}}, '<meta name="robots" content="noindex">'],
+        ["a scalar directive", {robots: "noindex"}, '<meta name="robots" content="noindex">'],
+        [
+          "an array directive",
+          {robots: ["nofollow", "noindex"]},
+          %(<meta name="robots" content="nofollow">\n<meta name="robots" content="noindex">)
+        ],
+        [
+          "a disabled structured directive",
+          {robots: {noindex: false, follow: true}},
+          %(<link rel="canonical" href="http://example.com/base/url">\n<meta name="robots" content="follow">)
+        ],
+        ["a mixed-case directive", {robots: "NoIndex"}, '<meta name="robots" content="NoIndex">'],
+        ["a comma-separated directive", {robots: "follow, noindex"}, '<meta name="robots" content="follow, noindex">'],
+        [
+          "a bot-specific mixed-case array directive",
+          {googlebot: ["follow, NOINDEX"]},
+          '<meta name="googlebot" content="follow, NOINDEX">'
+        ],
+        [
+          "a near-match directive",
+          {robots: "noindexing"},
+          %(<link rel="canonical" href="http://example.com/base/url">\n<meta name="robots" content="noindexing">)
+        ]
+      ].each do |description, robots, expected|
+        it "keeps canonical and exact robots output aligned for #{description}" do
+          expect(subject.display_meta_tags({canonical: "http://example.com/base/url"}.merge(robots))).to eq(expected)
+        end
+      end
     end
   end
 

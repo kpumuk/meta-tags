@@ -30,16 +30,18 @@ module MetaTags
 
     def noindex?: () -> bool
 
+    def robots: () -> Hash[String, String]
+
     def normalize_open_graph: (Hash[String | Symbol, untyped] meta_tags) -> ActiveSupport::HashWithIndifferentAccess[String | Symbol, untyped]
 
     def extract_separator_section: (String | Symbol name, String default) -> String
 
-    def extract_robots_attribute: (String | Symbol name) -> [String | Array[String | Symbol], String?]
+    def extract_robots_attribute: (String | Symbol name) -> [String | Array[String], String?]
 
     def robots_attribute_present?: (untyped value) -> bool
 
     def calculate_robots_attributes: (Hash[String, Array[String]] result, String | Symbol | Array[String | Symbol] attributes) -> void
 
-    def apply_robots_value: (Hash[String, Array[String]] result, String | Symbol name, String value, Set[String] processed) -> void
+    def apply_robots_value: (Hash[String, Array[String]] result, String name, String value, Set[String] processed) -> void
   end
 end
