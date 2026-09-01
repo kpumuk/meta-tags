@@ -14,6 +14,18 @@ RSpec.describe MetaTags::Configuration do
     end
   end
 
+  it "accepts Rails tag option values for title tag attributes" do
+    attributes = {
+      class: ["page", ["permanent", {highlighted: true}]],
+      data: {page_id: 123, rating: 4.5, visible: false},
+      hidden: true
+    }
+
+    MetaTags.config.title_tag_attributes = attributes
+
+    expect(MetaTags.config.title_tag_attributes).to eq(attributes)
+  end
+
   it "disables symbolic references in Array values by default" do
     config = described_class.new
 
