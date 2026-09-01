@@ -107,12 +107,19 @@ module MetaTags
     #
     # @return [Array<String>] segments of page title.
     def extract_title
+      lowercase = extract(:lowercase) == true
       title = extract(:title).presence
       return [] unless title
 
-      # @type var title: Array[String]
       title = Array(title)
-      return title.map(&:downcase) if extract(:lowercase) == true
+      if lowercase
+        return title.map do |segment|
+          string = String.try_convert(segment)
+          raise ArgumentError, "Expected a string or an object that implements #to_str" unless string
+
+          string.downcase
+        end
+      end
 
       title
     end

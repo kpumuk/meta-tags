@@ -74,4 +74,14 @@ RSpec.describe MetaTags::MetaTagsCollection do
       expect(collection.meta_tags).to eq(original_values)
     end
   end
+
+  describe "#extract_title" do
+    it "only lowercases the raw value of a String-like title" do
+      string = "  <b>MiXeD</b>  "
+      collection.update(title: double(to_str: string), lowercase: true)
+
+      expect(collection.extract_title).to eq(["  <b>mixed</b>  "])
+      expect(string).to eq("  <b>MiXeD</b>  ")
+    end
+  end
 end
