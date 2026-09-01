@@ -10,6 +10,18 @@ RSpec.describe MetaTags::ViewHelper do
       expect(subject.display_meta_tags).to eq("")
     end
 
+    it "does not render :lowercase without a title" do
+      expect(subject.display_meta_tags(lowercase: true)).to eq("")
+    end
+
+    it "does not render :lowercase with a blank title" do
+      expect(subject.display_meta_tags(title: "", lowercase: true)).to eq("")
+    end
+
+    it "preserves site casing when :lowercase has no page title" do
+      expect(subject.display_meta_tags(site: "someSite", lowercase: true)).to eq("<title>someSite</title>")
+    end
+
     it "uses website name if title is empty" do
       subject.display_meta_tags(site: "someSite").tap do |meta|
         expect(meta).to eq("<title>someSite</title>")
@@ -103,6 +115,13 @@ RSpec.describe MetaTags::ViewHelper do
       expect(title).to eq("TITLE")
     end
 
+    it "lowercases a frozen title string" do
+      title = (+"TITLE").freeze
+
+      expect(subject.display_meta_tags(title: title, lowercase: true)).to eq("<title>title</title>")
+      expect(title).to eq("TITLE")
+    end
+
     it "uses custom separator when :separator specified" do
       subject.title("someTitle")
       subject.display_meta_tags(site: "someSite", separator: "-").tap do |meta|
@@ -169,6 +188,14 @@ RSpec.describe MetaTags::ViewHelper do
       end
     end
 
+    it "lowercases Arrays of objects that respond to #to_str in order" do
+      titles = [double(to_str: "FiRsT"), double(to_str: "SeCoNd")]
+
+      subject.display_meta_tags(site: "someSite", title: titles, lowercase: true).tap do |meta|
+        expect(meta).to eq("<title>someSite | first | second</title>")
+      end
+    end
+
     it "treats nil as an empty string" do
       subject.display_meta_tags(title: nil).tap do |meta|
         expect(meta).not_to have_tag("title")
@@ -182,11 +209,27 @@ RSpec.describe MetaTags::ViewHelper do
       end
     end
 
+    it "cleans and lowercases objects that respond to #to_str without changing their string" do
+      string = "<b>MiXeD</b>"
+      title = double(to_str: string)
+
+      expect(subject.display_meta_tags(title: title, lowercase: true)).to eq("<title>mixed</title>")
+      expect(string).to eq("<b>MiXeD</b>")
+    end
+
     it "fails when title is not a String-like object" do
       skip("Fails RBS") if ENV["RBS_TEST_TARGET"]
 
       expect {
         subject.display_meta_tags(site: "someSite", title: 5)
+      }.to raise_error ArgumentError, "Expected a string or an object that implements #to_str"
+    end
+
+    it "fails consistently when lowercasing a title that is not String-like" do
+      skip("Fails RBS") if ENV["RBS_TEST_TARGET"]
+
+      expect {
+        subject.display_meta_tags(site: "someSite", title: 5, lowercase: true)
       }.to raise_error ArgumentError, "Expected a string or an object that implements #to_str"
     end
 
