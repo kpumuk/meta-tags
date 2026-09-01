@@ -717,7 +717,7 @@ Multiple images declared as an **array** (look at the `_` character):
 set_meta_tags og: {
   title: "Two structured image properties",
   type: "website",
-  url: "view-source:http://examples.opengraphprotocol.us/image-array.html",
+  url: "http://examples.opengraphprotocol.us/image-array.html",
   image: [
     {
       _: "http://examples.opengraphprotocol.us/media/images/75.png",
@@ -733,7 +733,7 @@ set_meta_tags og: {
 }
 # <meta property="og:title" content="Two structured image properties">
 # <meta property="og:type" content="website">
-# <meta property="og:url" content="view-source:http://examples.opengraphprotocol.us/image-array.html">
+# <meta property="og:url" content="http://examples.opengraphprotocol.us/image-array.html">
 # <meta property="og:image" content="http://examples.opengraphprotocol.us/media/images/75.png">
 # <meta property="og:image:width" content="75">
 # <meta property="og:image:height" content="75">
