@@ -74,6 +74,20 @@ RSpec.describe MetaTags::ViewHelper do
       end
 
       [
+        ["a blank crawler", "", '<link rel="canonical" href="http://example.com/base/url">'],
+        ["a whitespace-only crawler", " \t", '<link rel="canonical" href="http://example.com/base/url">'],
+        ["a blank crawler list", [""], '<link rel="canonical" href="http://example.com/base/url">'],
+        ["a whitespace-only crawler list", [" \t"], '<link rel="canonical" href="http://example.com/base/url">'],
+        ["blank and valid crawlers", ["", "googlebot", "  "], '<meta name="googlebot" content="noindex">'],
+        ["duplicate crawlers", ["googlebot", "googlebot"], '<meta name="googlebot" content="noindex">'],
+        ["a custom crawler", "examplebot", '<meta name="examplebot" content="noindex">']
+      ].each do |description, noindex, expected|
+        it "filters crawler targets and aligns exact output for #{description}" do
+          expect(subject.display_meta_tags(canonical: "http://example.com/base/url", noindex: noindex)).to eq(expected)
+        end
+      end
+
+      [
         ["the dedicated helper", {noindex: true}, '<meta name="robots" content="noindex">'],
         ["a dedicated nil crawler", {noindex: [nil]}, '<meta name="" content="noindex">'],
         ["a dedicated false crawler", {noindex: [false]}, '<meta name="false" content="noindex">'],

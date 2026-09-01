@@ -233,14 +233,17 @@ module MetaTags
     # @return [Array<Object>] normalized robots tag name(s) and directive value.
     def extract_robots_attribute(name)
       noindex = meta_tags[name]
+      # @type var noindex_name: String | Array[String]
       noindex_name = if noindex.is_a?(Array)
-        noindex.map(&:to_s)
+        noindex.reject { |target| target.is_a?(String) && target.blank? }.map(&:to_s)
       elsif noindex.is_a?(String)
-        noindex
+        noindex.presence || []
       else
         "robots"
       end
-      noindex_value = robots_attribute_present?(noindex) ? name.to_s : nil
+      noindex_value = if robots_attribute_present?(noindex) && noindex_name.present?
+        name.to_s
+      end
 
       [noindex_name, noindex_value]
     end
