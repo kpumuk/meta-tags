@@ -200,12 +200,20 @@ module MetaTags
     end
 
     # Converts input hash to HashWithIndifferentAccess and renames :open_graph to :og.
+    # When both aliases contain hashes, they are deep-merged with :og taking precedence.
     #
     # @param meta_tags [Hash] list of meta tags.
     # @return [ActiveSupport::HashWithIndifferentAccess] normalized meta tags list.
     def normalize_open_graph(meta_tags)
       meta_tags = meta_tags.with_indifferent_access
-      meta_tags[:og] = meta_tags.delete(:open_graph) if meta_tags.key?(:open_graph)
+      if meta_tags.key?(:open_graph)
+        open_graph = meta_tags.delete(:open_graph)
+        if meta_tags.key?(:og)
+          meta_tags[:og] = open_graph.dup.deep_merge!(meta_tags[:og]) if open_graph.is_a?(Hash) && meta_tags[:og].is_a?(Hash)
+        else
+          meta_tags[:og] = open_graph
+        end
+      end
       meta_tags
     end
 
