@@ -25,6 +25,24 @@ RSpec.describe MetaTags::ViewHelper do
       end
     end
 
+    it "supports finite Float values in recursive structures" do
+      meta = subject.display_meta_tags(
+        product: {
+          measurements: {
+            positive: 19.99,
+            negative: -2.5,
+            fractional: [0.125]
+          }
+        }
+      )
+
+      expect(meta).to eq(<<~HTML.chomp)
+        <meta property="product:measurements:positive" content="19.99">
+        <meta property="product:measurements:negative" content="-2.5">
+        <meta property="product:measurements:fractional" content="0.125">
+      HTML
+    end
+
     it "resolves symbolic references in Hash values" do
       meta = subject.display_meta_tags(title: "my title", testing: {tag: :title})
 

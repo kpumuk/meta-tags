@@ -2,7 +2,7 @@ module MetaTags
   class Renderer
     type meta_key = String | Symbol
     type meta_value = Hash[meta_key, meta_value] | Array[meta_value] | meta_content
-    type meta_content = String? | Symbol | Integer | bool | (_Timish & Object) | (_Stringish & Object)
+    type meta_content = String? | Symbol | Integer | Float | bool | (_Timish & Object) | (_Stringish & Object)
 
     attr_reader meta_tags: MetaTagsCollection
     attr_reader normalized_meta_tags: Hash[Symbol, meta_value]
