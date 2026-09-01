@@ -320,6 +320,8 @@ These tags still matter for search snippets, canonicalization, robots directives
 
 Page titles help browsers, social previews, and search engines understand the page. Use unique, descriptive titles that match the visible page content.
 
+<!-- executable-example: titles -->
+
 ```ruby
 set_meta_tags title: "Member Login"
 # <title>Member Login</title>
@@ -342,6 +344,8 @@ Description meta tags help search engines generate snippets, but search engines 
 
 Below is an example of how to set a description tag using Ruby:
 
+<!-- executable-example: description -->
+
 ```ruby
 set_meta_tags description: "This is a sample description"
 # <meta name="description" content="This is a sample description">
@@ -359,6 +363,8 @@ Further reading:
 
 The `keywords` tag is a legacy feature. MetaTags still supports it for backwards compatibility and for systems that still read it, but it is not a modern web SEO signal.
 
+<!-- executable-example: keywords -->
+
 ```ruby
 set_meta_tags keywords: %w[keyword1 keyword2 keyword3]
 # <meta name="keywords" content="keyword1, keyword2, keyword3">
@@ -374,6 +380,8 @@ Further reading:
 ### Noindex
 
 By using the noindex meta tag, you can signal to search engines not to include specific pages in their indexes.
+
+<!-- executable-example: noindex -->
 
 ```ruby
 set_meta_tags noindex: true
@@ -394,6 +402,8 @@ Further reading:
 
 In most cases, you do not need to emit `index` explicitly because it is already the default for crawlable pages.
 
+<!-- executable-example: index -->
+
 ```ruby
 set_meta_tags index: true
 # <meta name="robots" content="index">
@@ -402,6 +412,8 @@ set_meta_tags index: true
 ### Nofollow
 
 Nofollow meta tags tell a search engine not to follow the links on a specific page. It is entirely possible that a robot might find the same links on another page without a nofollow attribute, perhaps on another site, and still arrive at your undesired page.
+
+<!-- executable-example: nofollow -->
 
 ```ruby
 set_meta_tags nofollow: true
@@ -420,6 +432,8 @@ Further reading:
 
 You can use `follow` with `noindex` if you need that combination, but most pages do not need an explicit `follow` tag because it is also the default behavior.
 
+<!-- executable-example: follow -->
+
 ```ruby
 set_meta_tags noindex: true, follow: true
 # <meta name="robots" content="noindex, follow">
@@ -432,6 +446,8 @@ This tag will prevent search engines from indexing this specific page, but it wi
 Use the `robots`, `googlebot`, and `bingbot` hashes when you need directives beyond `index`, `noindex`, `follow`, `nofollow`, and `noarchive`.
 
 This is useful for directives such as `max-snippet`, `max-video-preview`, and `unavailable_after`.
+
+<!-- executable-example: robots -->
 
 ```ruby
 set_meta_tags robots: {
@@ -465,6 +481,8 @@ Canonical link elements help search engines consolidate duplicate or near-duplic
 > [!NOTE]
 > If your goal is duplicate consolidation, prefer a canonical URL over `noindex`. If you do not want to mix canonical with `noindex`, set `MetaTags.config.skip_canonical_links_on_noindex = true`.
 
+<!-- executable-example: canonical -->
+
 ```ruby
 set_meta_tags canonical: "http://yoursite.com/canonical/url"
 # <link rel="canonical" href="http://yoursite.com/canonical/url">
@@ -480,17 +498,19 @@ Further reading:
 
 A favicon (short for Favorite icon), also known as a shortcut icon, website icon, tab icon, or bookmark icon, is a file containing one or more small icons, most commonly 16x16 pixels, associated with a particular website or web page.
 
+<!-- executable-example: icons -->
+
 ```ruby
 set_meta_tags icon: "/favicon.ico"
-# <link rel="icon" href="/favicon.ico" type="image/x-icon">
-set_meta_tags icon: "/favicon.png", type: "image/png"
-# <link rel="icon" href="/favicon.png" type="image/png">
+# <link rel="icon" type="image/x-icon" href="/favicon.ico">
+set_meta_tags icon: {href: "/favicon.png", type: "image/png"}
+# <link rel="icon" type="image/png" href="/favicon.png">
 set_meta_tags icon: [
   {href: "/images/icons/icon_96.png", sizes: "32x32 96x96", type: "image/png"},
   {href: "/images/icons/icon_itouch_precomp_32.png", rel: "apple-touch-icon-precomposed", sizes: "32x32", type: "image/png"}
 ]
-# <link rel="icon" href="/images/icons/icon_96.png" type="image/png" sizes="32x32 96x96">
-# <link rel="apple-touch-icon-precomposed" href="/images/icons/icon_itouch_precomp_32.png" type="image/png" sizes="32x32">
+# <link rel="icon" type="image/png" href="/images/icons/icon_96.png" sizes="32x32 96x96">
+# <link rel="apple-touch-icon-precomposed" type="image/png" href="/images/icons/icon_itouch_precomp_32.png" sizes="32x32">
 ```
 
 Further reading:
@@ -501,6 +521,8 @@ Further reading:
 ### Multi-regional and multilingual URLs, RSS and mobile links
 
 Alternate link elements tell a search engine when there is content that's translated or targeted to users in a certain region.
+
+<!-- executable-example: alternate -->
 
 ```ruby
 set_meta_tags alternate: {"fr" => "http://yoursite.fr/alternate/url"}
@@ -532,6 +554,8 @@ Further reading:
 
 Previous and next links can describe a paginated sequence for browsers, feed readers, or custom consumers that still read them. Google no longer uses `rel="prev"` and `rel="next"` as an indexing signal, so treat them as optional interoperability metadata, not core SEO guidance.
 
+<!-- executable-example: pagination -->
+
 ```ruby
 set_meta_tags prev: "http://yoursite.com/url?page=1"
 # <link rel="prev" href="http://yoursite.com/url?page=1">
@@ -549,6 +573,8 @@ Further reading:
 
 `image_src` is a legacy share hint. Modern social sharing generally relies on Open Graph images and platform-specific card tags instead.
 
+<!-- executable-example: image-src -->
+
 ```ruby
 set_meta_tags image_src: "http://yoursite.com/icons/icon_32.png"
 # <link rel="image_src" href="http://yoursite.com/icons/icon_32.png">
@@ -558,8 +584,13 @@ set_meta_tags image_src: "http://yoursite.com/icons/icon_32.png"
 
 If your application still serves AMP pages, you can link the AMP version from the canonical page with `amphtml`. This is an optional legacy integration, not a general SEO requirement.
 
+In a routed Rails view, you can generate the absolute URL with
+`url_for(format: :amp, only_path: false)`.
+
+<!-- executable-example: amphtml -->
+
 ```ruby
-set_meta_tags amphtml: url_for(format: :amp, only_path: false)
+set_meta_tags amphtml: "https://www.example.com/document.amp"
 # <link rel="amphtml" href="https://www.example.com/document.amp">
 ```
 
@@ -570,6 +601,8 @@ To link back to the normal version, use the `canonical` tag.
 ### Manifest links
 
 By including the `rel="manifest"` attribute in the `<link>` element of an HTML page, you can specify the location of the manifest file that describes the web application. This allows the browser to understand that the web page is an application and to provide features like offline access and the ability to add the application to the home screen of a mobile device.
+
+<!-- executable-example: manifest -->
 
 ```ruby
 set_meta_tags manifest: "manifest.json"
@@ -582,11 +615,13 @@ set_meta_tags manifest: "manifest.json"
 
 Meta refresh is a method of instructing a web browser to automatically refresh the current web page or frame after a given time interval. It is also possible to instruct the browser to fetch a different URL when the page is refreshed, by including the alternative URL in the content parameter. By setting the refresh time interval to zero (or a very low value), this allows meta refresh to be used as a method of URL redirection.
 
+<!-- executable-example: refresh -->
+
 ```ruby
 set_meta_tags refresh: 5
-# <meta content="5" http-equiv="refresh">
+# <meta http-equiv="refresh" content="5">
 set_meta_tags refresh: "5;url=http://example.com"
-# <meta content="5;url=http://example.com" http-equiv="refresh">
+# <meta http-equiv="refresh" content="5;url=http://example.com">
 ```
 
 Further reading:
@@ -598,12 +633,14 @@ Further reading:
 
 Open Search is a link element used to describe a search engine in a standard and accessible format.
 
+<!-- executable-example: open-search -->
+
 ```ruby
 set_meta_tags open_search: {
   title: "Open Search",
   href: "/opensearch.xml"
 }
-# <link href="/opensearch.xml" rel="search" title="Open Search" type="application/opensearchdescription+xml">
+# <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Open Search">
 ```
 
 Further reading:
@@ -615,6 +652,8 @@ Further reading:
 
 Any namespace can be created by simply passing a symbol name and a Hash. For example:
 
+<!-- executable-example: hashes -->
+
 ```ruby
 set_meta_tags foo: {
   bar: "lorem",
@@ -622,13 +661,19 @@ set_meta_tags foo: {
     qux: "ipsum"
   }
 }
-# <meta property="foo:bar" content="lorem">
-# <meta property="foo:baz:qux" content="ipsum">
+# <meta name="foo:bar" content="lorem">
+# <meta name="foo:baz:qux" content="ipsum">
 ```
+
+Arbitrary namespaces use the `name` attribute by default. To render `foo` and
+its colon-delimited children with `property`, add `foo` to
+`MetaTags.config.property_tags` in your initializer.
 
 ### Arrays
 
 Repeated meta tags can be easily created by using an Array within a Hash. For example:
+
+<!-- executable-example: arrays -->
 
 ```ruby
 set_meta_tags og: {
@@ -641,6 +686,8 @@ set_meta_tags og: {
 ### Open Graph
 
 To turn your web pages into graph objects, you'll need to add Open Graph protocol `<meta>` tags to your webpages. The tags allow you to specify structured information about your web pages. The more information you provide, the more opportunities your web pages can be surfaced within Facebook today and in the future. Here's an example for a movie page:
+
+<!-- executable-example: open-graph -->
 
 ```ruby
 set_meta_tags og: {
@@ -664,6 +711,8 @@ set_meta_tags og: {
 
 Multiple images declared as an **array** (look at the `_` character):
 
+<!-- executable-example: open-graph-images -->
+
 ```ruby
 set_meta_tags og: {
   title: "Two structured image properties",
@@ -684,7 +733,7 @@ set_meta_tags og: {
 }
 # <meta property="og:title" content="Two structured image properties">
 # <meta property="og:type" content="website">
-# <meta property="og:url" content="http://examples.opengraphprotocol.us/image-array.html">
+# <meta property="og:url" content="view-source:http://examples.opengraphprotocol.us/image-array.html">
 # <meta property="og:image" content="http://examples.opengraphprotocol.us/media/images/75.png">
 # <meta property="og:image:width" content="75">
 # <meta property="og:image:height" content="75">
@@ -694,6 +743,8 @@ set_meta_tags og: {
 ```
 
 Article meta tags are supported too:
+
+<!-- executable-example: article -->
 
 ```ruby
 set_meta_tags article: {
@@ -719,6 +770,8 @@ Further reading:
 
 X cards let links shared on X show richer previews. The metadata namespace is still `twitter:*`. Here is a simple summary card example:
 
+<!-- executable-example: twitter -->
+
 ```ruby
 set_meta_tags twitter: {
   card: "summary",
@@ -731,6 +784,8 @@ set_meta_tags twitter: {
 If you already publish Open Graph tags, you can often keep the X-specific tags minimal. Many consumers fall back to supported Open Graph fields when X-specific fields are missing.
 
 When you need to generate nested `twitter:image:*` tags, the `twitter:image` property is a string while sub-properties can be expressed as a `Hash` in MetaTags:
+
+<!-- executable-example: twitter-image -->
 
 ```ruby
 set_meta_tags twitter: {
@@ -750,6 +805,8 @@ set_meta_tags twitter: {
 ```
 
 A special parameter `itemprop` can be used on an "anonymous" tag "\_" to generate the "itemprop" HTML attribute:
+
+<!-- executable-example: twitter-itemprop -->
 
 ```ruby
 set_meta_tags twitter: {
@@ -777,6 +834,8 @@ Further reading:
 
 App Links is an open cross-platform solution for deep linking to content in your mobile app. Here's an example of iOS app integration:
 
+<!-- executable-example: app-links -->
+
 ```ruby
 set_meta_tags al: {
   ios: {
@@ -800,12 +859,16 @@ Starting from version 1.3.1, you can specify arbitrary meta tags, and they will 
 
 Example:
 
+<!-- executable-example: custom-author -->
+
 ```ruby
 set_meta_tags author: "Dmytro Shteflyuk"
 # <meta name="author" content="Dmytro Shteflyuk">
 ```
 
 You can also specify the value as an Array, and the values will be displayed as a list of `meta` tags:
+
+<!-- executable-example: custom-author-array -->
 
 ```ruby
 set_meta_tags author: ["Dmytro Shteflyuk", "John Doe"]
