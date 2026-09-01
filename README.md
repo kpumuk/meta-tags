@@ -565,7 +565,6 @@ set_meta_tags next: "http://yoursite.com/url?page=3"
 
 Further reading:
 
-- [Pagination](https://developers.google.com/search/docs/specialty/ecommerce/pagination-and-incremental-page-loading)
 - [Pagination with rel="next" and rel="prev"](https://developers.google.com/search/blog/2011/09/pagination-with-relnext-and-relprev)
 - [Google Search Central: pagination, incremental page loading, and infinite scroll](https://developers.google.com/search/docs/specialty/ecommerce/pagination-and-incremental-page-loading)
 
