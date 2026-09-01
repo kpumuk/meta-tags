@@ -2,8 +2,74 @@
 
 ## Unreleased
 
-- Added `truncate_array_items_at_boundaries` configuration option to preserve whole items in multi-item `title` and `keywords` arrays when truncating ([354](https://github.com/kpumuk/meta-tags/pull/354)).
-- Added support for custom robots directives via `robots`, `googlebot`, and `bingbot` hashes ([224](https://github.com/kpumuk/meta-tags/pull/224), rebased in [361](https://github.com/kpumuk/meta-tags/pull/361)).
+## 2.24.0 (September 1, 2026) [☰](https://github.com/kpumuk/meta-tags/compare/v2.23.0...v2.24.0)
+
+Features:
+
+- Added the `truncate_array_items_at_boundaries` option for `title` and `keywords` arrays. When enabled, multi-item arrays stop before an overflowing item instead of cutting that item in the middle. The first or only item can still be truncated, so a non-empty value does not become empty ([354](https://github.com/kpumuk/meta-tags/pull/354)).
+
+  ```ruby
+  MetaTags.configure do |config|
+    config.title_limit = 12
+    config.truncate_array_items_at_boundaries = true
+  end
+
+  display_meta_tags(title: ["Shoes", "Running", "Men"])
+  # => <title>Shoes</title>
+  # With the option disabled: <title>Shoes | Runn</title>
+  ```
+
+- Added hash-based custom directives for `robots`, `googlebot`, and `bingbot`. `nil` and `true` produce valueless directives, `false` omits a directive, and other values use `name:value`; existing robots helpers and legacy scalar and array values remain supported ([224](https://github.com/kpumuk/meta-tags/pull/224), rebased in [361](https://github.com/kpumuk/meta-tags/pull/361), corrected in [406](https://github.com/kpumuk/meta-tags/pull/406)).
+
+  ```ruby
+  display_meta_tags(
+    robots: {
+      "max-snippet" => -1,
+      "max-video-preview" => -1
+    }
+  )
+  # => <meta name="robots" content="max-snippet:-1, max-video-preview:-1">
+  ```
+
+Bugfixes:
+
+- Made `skip_canonical_links_on_noindex` follow the directives that are actually rendered. Empty crawler lists and blank crawler names no longer suppress canonical links, while effective `noindex` directives in custom `robots`, `googlebot`, and `bingbot` values do ([405](https://github.com/kpumuk/meta-tags/pull/405), [413](https://github.com/kpumuk/meta-tags/pull/413), [416](https://github.com/kpumuk/meta-tags/pull/416)).
+- Preserved legacy scalar and array custom robots values instead of treating every value as a directive hash. This also fixes valueless directives being serialized with a trailing colon and disabled directives being rendered as `name:false` ([406](https://github.com/kpumuk/meta-tags/pull/406)).
+- Preserved an inherited `itemprop` on anonymous values inside recursively structured metadata, including arrays of Open Graph images. Named subproperties still do not inherit the attribute, and an explicit nested value still wins ([410](https://github.com/kpumuk/meta-tags/pull/410)).
+- Suppressed icon and array-form alternate links when their URL is `nil` or blank, instead of rendering unusable `href=""` elements ([411](https://github.com/kpumuk/meta-tags/pull/411)).
+- Fixed `MetaTagsCollection#page_title` when `site` is supplied through method defaults. It now excludes the site while `full_title` continues to include it ([412](https://github.com/kpumuk/meta-tags/pull/412)).
+
+  ```ruby
+  collection.page_title(site: "Site", title: "Page") # => "Page"
+  collection.full_title(site: "Site", title: "Page") # => "Site | Page"
+  ```
+
+- Deep-merged the `og` and `open_graph` aliases when both appear in one input hash, instead of silently discarding the canonical `og` value. `og` wins conflicting leaves in the same input; separate updates retain their existing last-update precedence ([414](https://github.com/kpumuk/meta-tags/pull/414)).
+- Aligned the packaged RBS contracts with existing runtime behavior: `description_limit` accepts `nil`, `title_tag_attributes` accepts Rails-style nested arrays and numeric or boolean values, and recursive metadata accepts finite `Float` values ([415](https://github.com/kpumuk/meta-tags/pull/415), [418](https://github.com/kpumuk/meta-tags/pull/418), [419](https://github.com/kpumuk/meta-tags/pull/419)).
+- Fixed the `lowercase` title option so it is consumed even when the page title is absent, rather than leaking into `<meta name="lowercase">`. String-like title values implementing `#to_str` are now coerced before lowercasing instead of raising `NoMethodError` ([420](https://github.com/kpumuk/meta-tags/pull/420)).
+
+Changes:
+
+- **MetaTags 3.0 migration:** direct Symbols in nested custom-tag arrays now emit a deprecation warning. MetaTags 2.x still renders them literally by default; set `resolve_symbolic_references_in_arrays = true` to opt in to 3.0 reference semantics now, and use Strings for values that should remain literal. Direct hash references, explicit `{_: ...}` references, top-level arrays, and specialized arrays keep their existing behavior ([409](https://github.com/kpumuk/meta-tags/pull/409)).
+
+  ```ruby
+  MetaTags.configure do |config|
+    config.resolve_symbolic_references_in_arrays = true
+  end
+
+  display_meta_tags(
+    image_src: "https://example.com/image.png",
+    og: {image: [:image_src]}
+  )
+  # => <link rel="image_src" href="https://example.com/image.png">
+  #    <meta property="og:image" content="https://example.com/image.png">
+  ```
+
+- Made README rendering examples executable regression tests and repaired confirmed dead reference links, reducing the chance that documented output drifts from the renderer ([404](https://github.com/kpumuk/meta-tags/pull/404), [417](https://github.com/kpumuk/meta-tags/pull/417)).
+- Made the `steep` Rake task propagate type-checking failures and reconciled the RBS signatures with the current Ruby implementation, so CI can no longer report success after Steep errors ([407](https://github.com/kpumuk/meta-tags/pull/407)).
+- Refreshed the supported development lockfiles, split Ruby 3.1 compatibility locks where patched dependencies require newer Ruby, and added an advisory audit covering every committed supported lockfile ([408](https://github.com/kpumuk/meta-tags/pull/408)).
+- Hardened GitHub Actions by removing untrusted checkouts from the privileged Dependabot workflow, declaring token permissions, adding stable required checks and a security policy, and enforcing OpenSSF Scorecards and pedantic zizmor checks ([357](https://github.com/kpumuk/meta-tags/pull/357), [358](https://github.com/kpumuk/meta-tags/pull/358), [359](https://github.com/kpumuk/meta-tags/pull/359), [360](https://github.com/kpumuk/meta-tags/pull/360), [362](https://github.com/kpumuk/meta-tags/pull/362), [374](https://github.com/kpumuk/meta-tags/pull/374)).
+- Updated the GitHub Actions toolchain throughout the release cycle, including `actions/checkout`, artifact upload, GitHub App authentication, `ruby/setup-ruby`, RubyGems release automation, Scorecards, and zizmor ([367](https://github.com/kpumuk/meta-tags/pull/367), [376](https://github.com/kpumuk/meta-tags/pull/376), [397](https://github.com/kpumuk/meta-tags/pull/397), [399](https://github.com/kpumuk/meta-tags/pull/399), [401](https://github.com/kpumuk/meta-tags/pull/401), [402](https://github.com/kpumuk/meta-tags/pull/402), [403](https://github.com/kpumuk/meta-tags/pull/403)).
 
 ## 2.23.0 (March 16, 2026) [☰](https://github.com/kpumuk/meta-tags/compare/v2.22.3...v2.23.0)
 
