@@ -29,6 +29,16 @@ RSpec.describe MetaTags::ViewHelper, "displaying Open Graph meta tags" do
     end
   end
 
+  it "displays merged meta tags when both Open Graph aliases are specified" do
+    subject.display_meta_tags(
+      open_graph: {description: "Facebook Share Description"},
+      og: {title: "Facebook Share Title"}
+    ).tap do |meta|
+      expect(meta).to have_tag("meta", with: {content: "Facebook Share Title", property: "og:title"})
+      expect(meta).to have_tag("meta", with: {content: "Facebook Share Description", property: "og:description"})
+    end
+  end
+
   it "uses deep merge when displaying open graph meta tags" do
     subject.set_meta_tags(og: {title: "Facebook Share Title"})
     subject.display_meta_tags(og: {description: "Facebook Share Description"}).tap do |meta|
