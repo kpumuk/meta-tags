@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Bugfixes:
+
+- Made `skip_canonical_links_on_noindex` treat a standalone robots `none` directive as equivalent to `noindex, nofollow`, while leaving valued directives such as `max-image-preview:none` unaffected ([426](https://github.com/kpumuk/meta-tags/pull/426)).
+
 ## 2.24.0 (September 1, 2026) [☰](https://github.com/kpumuk/meta-tags/compare/v2.23.0...v2.24.0)
 
 Features:
