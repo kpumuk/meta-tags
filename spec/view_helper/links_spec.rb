@@ -30,6 +30,14 @@ RSpec.describe MetaTags::ViewHelper do
       end
     end
 
+    it "does display canonical url with robots none per default" do
+      expect(subject.display_meta_tags(canonical: "http://example.com/base/url", robots: "none"))
+        .to eq(<<~HTML.chomp)
+          <link rel="canonical" href="http://example.com/base/url">
+          <meta name="robots" content="none">
+        HTML
+    end
+
     describe "with config.skip_canonical_links_on_noindex is set" do
       around do |example|
         default = MetaTags.config.skip_canonical_links_on_noindex
@@ -118,6 +126,45 @@ RSpec.describe MetaTags::ViewHelper do
       ].each do |description, robots, expected|
         it "keeps canonical and exact robots output aligned for #{description}" do
           expect(subject.display_meta_tags({canonical: "http://example.com/base/url"}.merge(robots))).to eq(expected)
+        end
+      end
+
+      [:robots, :googlebot, :bingbot].each do |bot|
+        [
+          ["a scalar", "none", %(<meta name="#{bot}" content="none">)],
+          ["mixed case", "NoNe", %(<meta name="#{bot}" content="NoNe">)],
+          ["a comma-separated list", " none , noarchive", %(<meta name="#{bot}" content=" none , noarchive">)],
+          [
+            "an array",
+            ["all", "none"],
+            %(<meta name="#{bot}" content="all">\n<meta name="#{bot}" content="none">)
+          ],
+          ["a structured true value", {none: true}, %(<meta name="#{bot}" content="none">)],
+          ["a structured nil value", {none: nil}, %(<meta name="#{bot}" content="none">)],
+          [
+            "a disabled structured value",
+            {none: false},
+            '<link rel="canonical" href="http://example.com/base/url">'
+          ]
+        ].each do |description, value, expected|
+          it "handles #{description} none directive for #{bot}" do
+            defaults = {canonical: "http://example.com/base/url"}.merge(bot => value)
+            original_defaults = defaults.deep_dup
+
+            expect(Array.new(2) { subject.display_meta_tags(defaults) }).to eq([expected, expected])
+            expect(defaults).to eq(original_defaults)
+            expect(subject.meta_tags.meta_tags).to be_empty
+          end
+        end
+      end
+
+      ["max-image-preview:none", "nonetheless"].each do |directive|
+        it "keeps canonical for the none near-match #{directive}" do
+          expect(subject.display_meta_tags(canonical: "http://example.com/base/url", robots: directive))
+            .to eq(<<~HTML.chomp)
+              <link rel="canonical" href="http://example.com/base/url">
+              <meta name="robots" content="#{directive}">
+            HTML
         end
       end
     end

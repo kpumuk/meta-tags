@@ -168,7 +168,10 @@ module MetaTags
       end
 
       contents.any? do |content|
-        content.to_s.split(",").any? { |directive| directive.strip.casecmp?("noindex") }
+        content.to_s.split(",").any? do |directive|
+          directive = directive.strip
+          directive.casecmp?("noindex") || directive.casecmp?("none")
+        end
       end
     end
 
