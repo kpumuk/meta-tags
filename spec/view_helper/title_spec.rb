@@ -107,6 +107,29 @@ RSpec.describe MetaTags::ViewHelper do
       end
     end
 
+    it "lowercases decoded title text without changing entity symbols" do
+      expect(subject.display_meta_tags(title: "<b>&#65; &Dagger;</b>", lowercase: true))
+        .to eq("<title>a ‡</title>")
+      expect(subject.display_title(title: "<b>&#65; &Dagger;</b>", lowercase: true)).to eq("a ‡")
+    end
+
+    it "lowercases decoded title arrays without changing their input" do
+      markup = (+"<b>&#65; &#x42; &Dagger; &Prime;</b>").freeze
+      escaped = (+"&lt;B&gt; A ‡ ″ &amp; &Aacute;").freeze
+      title = [markup, double(to_str: escaped)].freeze
+
+      expect(subject.display_meta_tags(site: "SomeSite", title: title, lowercase: true))
+        .to eq("<title>SomeSite | a b ‡ ″ | &lt;b&gt; a ‡ ″ &amp; á</title>")
+      expect(markup).to eq("<b>&#65; &#x42; &Dagger; &Prime;</b>")
+      expect(escaped).to eq("&lt;B&gt; A ‡ ″ &amp; &Aacute;")
+    end
+
+    it "truncates lowercased decoded title text" do
+      MetaTags.config.title_limit = 4
+
+      expect(subject.display_meta_tags(title: "&#65;BCDE", lowercase: true)).to eq("<title>abcd</title>")
+    end
+
     it "does not change original title string" do
       title = "TITLE"
       subject.display_meta_tags(title: title, lowercase: true).tap do |meta|

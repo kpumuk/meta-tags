@@ -5,7 +5,7 @@ module MetaTags
     type keyword = String? | (_Stringish & Object)
     type keywords = keyword | Array[keywords]
 
-    def normalize_title: (String? site_title, keywords title, String separator, ?bool reverse) -> String
+    def normalize_title: (String? site_title, keywords title, String separator, ?reverse: bool, ?lowercase: bool) -> String
 
     def normalize_description: (keyword description) -> String
 

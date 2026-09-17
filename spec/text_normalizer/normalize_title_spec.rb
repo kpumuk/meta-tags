@@ -14,7 +14,7 @@ RSpec.describe MetaTags::TextNormalizer, ".normalize_title" do
     end
 
     it "reverses title parts when reverse is true" do
-      expect(subject.normalize_title("", %w[title subtitle], "-", true)).to eq("subtitle-title")
+      expect(subject.normalize_title("", %w[title subtitle], "-", reverse: true)).to eq("subtitle-title")
     end
 
     it "does not truncate title when limit is equal to the title length" do
@@ -32,7 +32,8 @@ RSpec.describe MetaTags::TextNormalizer, ".normalize_title" do
         "a" * (MetaTags.config.title_limit - 20),
         "b" * 40
       ]
-      expect(subject.normalize_title("", title, "-", true)).to eq("#{"b" * 40}-#{"a" * (MetaTags.config.title_limit - 41)}")
+      expect(subject.normalize_title("", title, "-", reverse: true))
+        .to eq("#{"b" * 40}-#{"a" * (MetaTags.config.title_limit - 41)}")
     end
   end
 
@@ -51,7 +52,7 @@ RSpec.describe MetaTags::TextNormalizer, ".normalize_title" do
     end
 
     it "reverses title parts when reverse is true" do
-      expect(subject.normalize_title("site", %w[title subtitle], "-", true)).to eq("subtitle-title-site")
+      expect(subject.normalize_title("site", %w[title subtitle], "-", reverse: true)).to eq("subtitle-title-site")
     end
 
     it "does not add title when site title is longer than limit" do

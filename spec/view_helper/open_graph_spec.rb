@@ -84,6 +84,19 @@ RSpec.describe MetaTags::ViewHelper, "displaying Open Graph meta tags" do
     end
   end
 
+  it "mirrors normalized lowercase title text" do
+    expect(subject.display_meta_tags(
+      site: "SomeSite",
+      title: "<b>&#65; &Dagger;</b>",
+      lowercase: true,
+      open_graph: {title: :title, full_title: :full_title}
+    )).to eq(<<~HTML.chomp)
+      <title>SomeSite | a ‡</title>
+      <meta property="og:title" content="a ‡">
+      <meta property="og:full_title" content="SomeSite | a ‡">
+    HTML
+  end
+
   it "uses site_title for mirrored title, when title is empty" do
     subject.set_meta_tags(title: "", site: "someSite")
     subject.display_meta_tags(open_graph: {title: :title, site_name: :site, full_title: :full_title}).tap do |meta|
