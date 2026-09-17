@@ -96,32 +96,22 @@ module MetaTags
     # @return [String] page title.
     def extract_full_title
       site_title = extract(:site) || ""
+      lowercase = extract(:lowercase) == true
       title = extract_title
       separator = extract_separator
       reverse = extract(:reverse) == true
 
-      TextNormalizer.normalize_title(site_title, title, separator, reverse)
+      TextNormalizer.normalize_title(site_title, title, separator, reverse: reverse, lowercase: lowercase)
     end
 
     # Extracts page title as an array of segments without site title and separators.
     #
     # @return [Array<String>] segments of page title.
     def extract_title
-      lowercase = extract(:lowercase) == true
       title = extract(:title).presence
       return [] unless title
 
-      title = Array(title)
-      if lowercase
-        return title.map do |segment|
-          string = String.try_convert(segment)
-          raise ArgumentError, "Expected a string or an object that implements #to_str" unless string
-
-          string.downcase
-        end
-      end
-
-      title
+      Array(title)
     end
 
     # Extracts title separator as a string.

@@ -11,9 +11,11 @@ module MetaTags
     # @param title [Array<String>] title segments.
     # @param separator [String] a string to join title parts with.
     # @param reverse [Boolean] whether title should be reversed.
+    # @param lowercase [Boolean] whether title segments should be lowercased.
     # @return [String] title with HTML tags removed.
-    def normalize_title(site_title, title, separator, reverse = false)
+    def normalize_title(site_title, title, separator, reverse: false, lowercase: false)
       clean_title = cleanup_strings(title)
+      clean_title.each(&:downcase!) if lowercase
       clean_title.reverse! if reverse
 
       site_title = cleanup_string(site_title)
