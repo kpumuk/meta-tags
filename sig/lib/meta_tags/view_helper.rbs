@@ -10,7 +10,7 @@ module MetaTags
 
     def set_meta_tags: (?meta_tags | (_MetaTagish & Object) meta_tags) -> void
 
-    def title: (?(stringish | Array[stringish]) title, ?::String? headline) -> String
+    def title: (?(stringish | Array[stringish] | nil) title, ?::String? headline) -> String
 
     def keywords: (TextNormalizer::keywords keywords) -> TextNormalizer::keywords
 

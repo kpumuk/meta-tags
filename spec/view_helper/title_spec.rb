@@ -35,6 +35,24 @@ RSpec.describe MetaTags::ViewHelper do
       end
     end
 
+    it "reads the current title when omitted or explicitly nil" do
+      expect(subject.title).to eq("")
+      expect(subject.title(nil)).to eq("")
+
+      subject.title("Saved title")
+
+      expect(subject.title).to eq("Saved title")
+      expect(subject.title(nil)).to eq("Saved title")
+    end
+
+    it "returns a headline for nil without changing stored metadata" do
+      subject.set_meta_tags(title: "Saved title", description: "Saved description")
+      metadata = subject.meta_tags.meta_tags.deep_dup
+
+      expect(subject.title(nil, "Heading")).to eq("Heading")
+      expect(subject.meta_tags.meta_tags).to eq(metadata)
+    end
+
     it 'displays title only when "site" is empty' do
       subject.title("someTitle")
       expect(subject.display_meta_tags).to eq("<title>someTitle</title>")
