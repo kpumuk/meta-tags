@@ -4,7 +4,6 @@ source "https://rubygems.org"
 
 gem "yard-lint", "~> 1.4", platform: :mri_33
 gem "railties", "~> 7.0.8"
-gem "zeitwerk", "~> 2.6.18"
 gem "base64"
 gem "bigdecimal"
 gem "logger"

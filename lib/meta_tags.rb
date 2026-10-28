@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "set"
 require "active_support/core_ext/hash/indifferent_access"
 require "active_support/deprecation"
 

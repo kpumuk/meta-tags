@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Changes:
+
+- Ruby 3.2 is now the minimum supported version. Ruby 3.0 and 3.1 are no longer supported.
+
 Bugfixes:
 
 - Made `skip_canonical_links_on_noindex` treat a standalone robots `none` directive as equivalent to `noindex, nofollow`, while leaving valued directives such as `max-image-preview:none` unaffected ([426](https://github.com/kpumuk/meta-tags/pull/426)).

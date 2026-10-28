@@ -14,7 +14,7 @@ plugins:
 AllCops:
   NewCops: disable
   SuggestExtensions: false
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.2
 
 ## standard-rails
 

@@ -233,7 +233,7 @@ GEM
     yard-lint (1.11.0)
       yard (~> 0.9)
       zeitwerk (~> 2.6)
-    zeitwerk (2.6.18)
+    zeitwerk (2.8.3)
 
 PLATFORMS
   aarch64-linux
@@ -271,7 +271,6 @@ DEPENDENCIES
   standard-rails (~> 1.6)
   steep (~> 1.10.0)
   yard-lint (~> 1.4)
-  zeitwerk (~> 2.6.18)
 
 CHECKSUMS
   actionpack (7.0.10) sha256=4c524b3b401cc828efb3fcd6f3de56ac1ec0180843b74f54357f58b0256f9509
@@ -371,7 +370,7 @@ CHECKSUMS
   uri (1.1.1) sha256=379fa58d27ffb1387eaada68c749d1426738bd0f654d812fcc07e7568f5c57c6
   yard (0.9.45) sha256=52e211493f7cb8a3ebf7e104a25a1e73937a3103092545d34cb88fafebb3dc51
   yard-lint (1.11.0) sha256=98331ffbc7e0b9bbf1872dfba8c628531876cf5011b5f8f0ec2e129083ff8a52
-  zeitwerk (2.6.18) sha256=bd2d213996ff7b3b364cd342a585fbee9797dbc1c0c6d868dc4150cc75739781
+  zeitwerk (2.8.3) sha256=2c85125a8467ce069e20123d1e709a08955c9d29c118c25b46b7b7fafdbb92e5
 
 BUNDLED WITH
    2.6.3
