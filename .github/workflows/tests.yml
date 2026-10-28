@@ -52,6 +52,7 @@ jobs:
             rails-version: "edge"
     env:
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails-version }}.gemfile
+      BUNDLE_FORCE_RUBY_PLATFORM: ${{ matrix.ruby-version == 'ruby-head' && 'true' || 'false' }}
 
     name: Specs - Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
     steps:
