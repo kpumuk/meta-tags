@@ -271,7 +271,6 @@ DEPENDENCIES
   standard-rails (~> 1.6)
   steep (~> 1.10.0)
   yard-lint (~> 1.4)
-  zeitwerk
 
 CHECKSUMS
   actionpack (7.0.10) sha256=4c524b3b401cc828efb3fcd6f3de56ac1ec0180843b74f54357f58b0256f9509

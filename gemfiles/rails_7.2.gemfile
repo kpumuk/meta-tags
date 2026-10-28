@@ -4,7 +4,6 @@ source "https://rubygems.org"
 
 gem "yard-lint", "~> 1.4", platform: :mri_33
 gem "railties", "~> 7.2.3"
-gem "zeitwerk"
 gem "minitest", "< 6.0"
 gem "connection_pool"
 gem "erb"
