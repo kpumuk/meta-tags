@@ -23,18 +23,13 @@ end
 
 appraise "rails-7.1" do
   gem "railties", "~> 7.1.6"
-  gem "securerandom"
   gem "minitest", "< 6.0" # Minitest 6 is incompatible with this Rails version.
-  gem "connection_pool"
-  gem "erb"
   gem "parallel", "< 2.0" # 2.0+ requires Ruby 3.3, and we still support Ruby 3.2
 end
 
 appraise "rails-7.2" do
   gem "railties", "~> 7.2.3"
   gem "minitest", "< 6.0" # Minitest 6 is incompatible with this Rails version.
-  gem "connection_pool"
-  gem "erb"
   gem "parallel", "< 2.0" # 2.0+ requires Ruby 3.3, and we still support Ruby 3.2
 end
 

@@ -287,8 +287,6 @@ PLATFORMS
 
 DEPENDENCIES
   appraisal (~> 2.5.0)
-  connection_pool
-  erb
   meta-tags!
   minitest (< 6.0)
   parallel (< 2.0)
@@ -299,7 +297,6 @@ DEPENDENCIES
   rspec_junit_formatter (~> 0.6.0)
   rubocop-rake (~> 0.6)
   rubocop-rspec (~> 3.4)
-  securerandom
   simplecov (~> 0.22.0)
   standard (~> 1.31)
   standard-rails (~> 1.6)
