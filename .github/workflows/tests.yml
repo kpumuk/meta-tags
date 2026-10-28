@@ -63,6 +63,7 @@ jobs:
         uses: ruby/setup-ruby@b1da4809b005e0178fe08a1d57317bffc00b7b4c # v1.332.0
         with:
           ruby-version: ${{ matrix.ruby-version }}
+          bundler: ${{ matrix.ruby-version == 'ruby-head' && 'latest' || 'Gemfile.lock' }}
           bundler-cache: true
       - name: Run RSpec
         env:
