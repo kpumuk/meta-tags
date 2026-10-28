@@ -16,7 +16,7 @@ It supports the metadata layer of search engine optimization (SEO), especially f
 The MetaTags main branch fully supports Ruby on Rails 6.1+ and is tested against all major Ruby on Rails releases.
 
 > [!NOTE]
-> We no longer support Ruby versions older than 3.0 and Ruby on Rails older than 6.1 since they reached their end of life (see [Ruby](https://endoflife.date/ruby) and [Ruby on Rails](https://endoflife.date/rails)).
+> MetaTags requires Ruby 3.2+ and Ruby on Rails 6.1+.
 
 > [!IMPORTANT]
 > MetaTags manages HTML head metadata. It does not generate structured data / JSON-LD, `robots.txt`, sitemaps, internal links, or page content.
