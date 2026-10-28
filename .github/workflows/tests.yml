@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby-version: ["3.2", "3.3", "3.4", "4.0", "truffleruby"]
+        ruby-version: ["3.2", "3.3", "3.4", "4.0", "ruby-head", "truffleruby"]
         rails-version: ["6.1", "7.0", "7.1", "7.2", "8.0", "8.1", "edge"]
         include:
           - ruby-version: "3.3"
@@ -37,6 +37,14 @@ jobs:
           - ruby-version: "4.0"
             rails-version: "7.1"
           - ruby-version: "4.0"
+            rails-version: "7.2"
+          - ruby-version: "ruby-head"
+            rails-version: "6.1"
+          - ruby-version: "ruby-head"
+            rails-version: "7.0"
+          - ruby-version: "ruby-head"
+            rails-version: "7.1"
+          - ruby-version: "ruby-head"
             rails-version: "7.2"
           - ruby-version: "truffleruby"
             rails-version: "8.1"
