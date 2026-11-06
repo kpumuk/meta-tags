@@ -10,18 +10,34 @@ EOL_RAILS_EXCEPTIONS = [
   "CVE-2026-33176" # Number-helper resource-exhaustion DoS; no patched Rails 6.1-7.1 release exists.
 ].freeze
 
-# Rails 6.1, 7.0, and 7.1 have no releases containing the listed Rails fixes.
+EOL_RAILS_2026_11_EXCEPTIONS = [
+  "GHSA-2586-8ghr-69fj", # Destroyed session restoration.
+  "GHSA-gmj8-hvj3-49mw", # Missing SameSite on session cookies.
+  "GHSA-r9jg-fmfx-2gv6", # Content negotiation cache poisoning.
+  "GHSA-rwvh-fw6r-pwvp", # Live streaming denial of service.
+  "GHSA-wm3x-v3qw-4jh3", # Strong Parameters bypass.
+  "GHSA-x6mj-8jx9-qhqv", # Session information leak in proxy mode.
+  "GHSA-2p2f-4rq4-gjwc", # Text helper XSS.
+  "GHSA-68p9-83h6-5wpj", # Tag helper XSS.
+  "GHSA-rq8q-p985-fjq7", # strip_tags XSS.
+  "GHSA-v6rj-xm57-3p59", # highlight helper XSS.
+  "GHSA-8474-xrp6-wh69" # safe_constantize denial of service.
+].freeze
+
+# Rails 6.1 through 7.2 have no releases containing the November 2026 fixes;
+# Rails 6.1 through 7.1 also lack the earlier fixes above.
 # Source: https://rubyonrails.org/maintenance.
 # Review by 2027-02-28, or earlier when an affected Rails line leaves
 # the test matrix. New advisories fail because only these exact IDs are accepted.
 LOCKFILE_EXCEPTIONS = {
   "gemfiles/rails_6.1.gemfile.lock" => [
     "CVE-2024-54133", # Content Security Policy bypass; no patched Rails 6.1 release exists.
-    *EOL_RAILS_EXCEPTIONS
+    *EOL_RAILS_EXCEPTIONS,
+    *EOL_RAILS_2026_11_EXCEPTIONS
   ],
-  "gemfiles/rails_7.0.gemfile.lock" => EOL_RAILS_EXCEPTIONS,
-  "gemfiles/rails_7.1.gemfile.lock" => EOL_RAILS_EXCEPTIONS,
-  "gemfiles/rails_7.2.gemfile.lock" => [],
+  "gemfiles/rails_7.0.gemfile.lock" => EOL_RAILS_EXCEPTIONS + EOL_RAILS_2026_11_EXCEPTIONS,
+  "gemfiles/rails_7.1.gemfile.lock" => EOL_RAILS_EXCEPTIONS + EOL_RAILS_2026_11_EXCEPTIONS,
+  "gemfiles/rails_7.2.gemfile.lock" => EOL_RAILS_2026_11_EXCEPTIONS,
   "gemfiles/rails_8.0.gemfile.lock" => [],
   "gemfiles/rails_8.1.gemfile.lock" => [],
   "gemfiles/rails_edge.gemfile.lock" => []
