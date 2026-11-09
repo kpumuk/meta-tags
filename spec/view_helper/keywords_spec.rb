@@ -75,6 +75,18 @@ RSpec.describe MetaTags::ViewHelper, "displaying keywords" do
     end
   end
 
+  it "lowercases and truncates plain HTML-safe keywords without trusting or changing them" do
+    MetaTags.config.keywords_limit = 12
+    MetaTags.config.keywords_separator = " > ".html_safe.freeze
+    keywords = [" ALPHA ".html_safe.freeze, '"BETA"'.html_safe.freeze].freeze
+
+    meta = subject.display_meta_tags(keywords: keywords)
+
+    expect(meta).to include('content="alpha &gt; &quot;bet"')
+    expect(keywords).to eq([" ALPHA ", '"BETA"'])
+    expect(MetaTags.config.keywords_separator).to eq(" > ")
+  end
+
   it "does not truncate keywords when limit is 0" do
     MetaTags.config.keywords_limit = 0
 

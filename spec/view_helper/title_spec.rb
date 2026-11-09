@@ -167,6 +167,29 @@ RSpec.describe MetaTags::ViewHelper do
       expect(title).to eq("TITLE")
     end
 
+    it "keeps separate page and full title budgets for plain text" do
+      MetaTags.config.title_limit = 14
+
+      meta = subject.display_meta_tags(
+        site: "Store", title: "Autumn Sale", lowercase: true,
+        og: {title: :title}, twitter: {title: :full_title}
+      )
+
+      expect(meta).to have_tag("title", text: "Store | autumn")
+      expect(meta).to have_tag("meta", with: {property: "og:title", content: "autumn sale"})
+      expect(meta).to have_tag("meta", with: {name: "twitter:title", content: "Store | autumn"})
+    end
+
+    it "escapes quotes and greater-than signs even in HTML-safe plain text" do
+      title = '"Sale" > Stock'.html_safe.freeze
+      separator = ">".html_safe.freeze
+
+      expect(subject.display_meta_tags(site: "Store", title: title, separator: separator))
+        .to eq("<title>Store &gt; &quot;Sale&quot; &gt; Stock</title>")
+      expect(title).to eq('"Sale" > Stock')
+      expect(separator).to eq(">")
+    end
+
     it "lowercases a frozen title string" do
       title = (+"TITLE").freeze
 

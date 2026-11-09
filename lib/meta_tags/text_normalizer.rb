@@ -77,6 +77,14 @@ module MetaTags
     # @return [String] HTML-safe string with no HTML tags.
     def strip_tags(string)
       if defined?(Loofah)
+        # Only plain UTF-8 text can skip parsing without encoding or control changes.
+        if string.encoding == Encoding::UTF_8 && string.ascii_only? && !string.match?(/[<&\x00-\x08\x0B-\x1F\x7F]/)
+          # Loofah returns US-ASCII for an empty fragment, UTF-8 for other text.
+          encoding = string.empty? ? Encoding::US_ASCII : Encoding::UTF_8
+          # Do not retain the caller's HTML-safety flag or mutate its string.
+          return String.new(string, encoding: encoding)
+        end
+
         # Instead of strip_tags we will use Loofah to strip tags from now on
         Loofah.fragment(string).text(encode_special_chars: false)
       else
