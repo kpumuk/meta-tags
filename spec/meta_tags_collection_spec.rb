@@ -36,10 +36,22 @@ RSpec.describe MetaTags::MetaTagsCollection do
     end
 
     it "falls back to the effective site when the page title is empty" do
-      collection.update(site: "Stored Site", title: "")
+      collection.update(site: " <b>Stored &amp; Site</b> ", title: "")
 
-      expect(collection.page_title(site: "Default Site", title: "Default Page")).to eq("Stored Site")
-      expect(described_class.new.page_title(site: "Default Site", title: "")).to eq("Default Site")
+      expect(collection.page_title(site: "Default Site", title: "Default Page")).to eq("Stored &amp; Site")
+      expect(described_class.new.page_title(site: " <b>Default &amp; Site</b> ", title: "")).to eq("Default &amp; Site")
+    end
+
+    it "truncates the normalized site fallback to the title limit" do
+      MetaTags.config.title_limit = 12
+      defaults = {site: " <b>Example &amp; Co Longer</b> ", lowercase: true}
+
+      expect(collection.page_title(defaults)).to eq("Example &amp; Co")
+    end
+
+    it "returns an empty title when the site fallback is blank after normalization" do
+      expect(collection.page_title(site: " \t\n ")).to eq("")
+      expect(collection.page_title(site: " <b></b> ", title: " ")).to eq("")
     end
 
     it "applies reverse ordering and custom separators without including the site" do

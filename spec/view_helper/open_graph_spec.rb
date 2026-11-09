@@ -98,12 +98,21 @@ RSpec.describe MetaTags::ViewHelper, "displaying Open Graph meta tags" do
   end
 
   it "uses site_title for mirrored title, when title is empty" do
-    subject.set_meta_tags(title: "", site: "someSite")
+    subject.set_meta_tags(title: "", site: "<b>Example &amp; Co</b>", lowercase: true)
     subject.display_meta_tags(open_graph: {title: :title, site_name: :site, full_title: :full_title}).tap do |meta|
-      expect(meta).to have_tag("meta", with: {content: "someSite", property: "og:title"})
-      expect(meta).to have_tag("meta", with: {content: "someSite", property: "og:site_name"})
-      expect(meta).to have_tag("meta", with: {content: "someSite", property: "og:full_title"})
+      expect(meta).to have_tag("meta", with: {content: "Example & Co", property: "og:title"})
+      expect(meta).to have_tag("meta", with: {content: "<b>Example &amp; Co</b>", property: "og:site_name"})
+      expect(meta).to have_tag("meta", with: {content: "Example & Co", property: "og:full_title"})
     end
+  end
+
+  it "normalizes the default site for mirrored title when the page title is absent" do
+    html = subject.display_meta_tags(site: "<b>Example &amp; Co</b>", og: {title: :title, full_title: :full_title})
+    document = Nokogiri::HTML.fragment(html)
+
+    expect(document.at('meta[property="og:title"]')["content"]).to eq("Example & Co")
+    expect(document.at('meta[property="og:full_title"]')["content"]).to eq("Example & Co")
+    expect(html).to include('<meta property="og:title" content="Example &amp; Co">')
   end
 
   it "displays open graph meta tags with an array of images" do
