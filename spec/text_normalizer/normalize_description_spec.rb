@@ -93,12 +93,14 @@ RSpec.describe MetaTags::TextNormalizer, ".normalize_description" do
     end
 
     it "keeps the Rails helper fallback when Loofah is unavailable" do
+      expected = subject.helpers.strip_tags("")
       hide_const("Loofah")
 
       result = subject.strip_tags("")
 
-      expect(result).to eq("")
-      expect(result).to be_html_safe
+      expect(result).to eq(expected)
+      expect(result.encoding).to eq(expected.encoding)
+      expect(result.html_safe?).to eq(expected.html_safe?)
     end
   end
 
