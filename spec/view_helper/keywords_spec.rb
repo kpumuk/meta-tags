@@ -67,6 +67,30 @@ RSpec.describe MetaTags::ViewHelper, "displaying keywords" do
     end
   end
 
+  it "truncates keywords when limit is a positive integer" do
+    MetaTags.config.keywords_limit = 10
+
+    subject.display_meta_tags(keywords: "k" * 300).tap do |meta|
+      expect(meta).to have_tag("meta", with: {content: "k" * 10, name: "keywords"})
+    end
+  end
+
+  it "does not truncate keywords when limit is 0" do
+    MetaTags.config.keywords_limit = 0
+
+    subject.display_meta_tags(keywords: "k" * 300).tap do |meta|
+      expect(meta).to have_tag("meta", with: {content: "k" * 300, name: "keywords"})
+    end
+  end
+
+  it "does not truncate keywords when limit is nil" do
+    MetaTags.config.keywords_limit = nil
+
+    subject.display_meta_tags(keywords: "k" * 300).tap do |meta|
+      expect(meta).to have_tag("meta", with: {content: "k" * 300, name: "keywords"})
+    end
+  end
+
   context "when `truncate_array_items_at_boundaries` is true" do
     it "keeps only whole keyword items that fit" do
       MetaTags.config.keywords_limit = 5
