@@ -5,6 +5,7 @@
 Changes:
 
 - Ruby 3.2 is now the minimum supported version. Ruby 3.0 and 3.1 are no longer supported.
+- Avoided HTML parsing for plain UTF-8 ASCII metadata text while preserving normalization and escaping behavior.
 
 Bugfixes:
 
