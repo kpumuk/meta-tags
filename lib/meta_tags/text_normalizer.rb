@@ -54,14 +54,22 @@ module MetaTags
     # @param keywords [String, Array<String>] list of keywords as a string or Array.
     # @return [String] list of keywords joined with comma, with tags removed.
     def normalize_keywords(keywords)
-      keywords = cleanup_strings(keywords)
+      limit = MetaTags.config.keywords_limit
+      lowercase = MetaTags.config.keywords_lowercase
+      keywords = Array(keywords).flatten
+      keywords = keywords.lazy if keywords.size > 32 && limit.to_i > 0
+      keywords = keywords.filter_map do |keyword|
+        string = cleanup_string(keyword)
+        next if string.blank?
+
+        string.downcase! if lowercase
+        string
+      end
       return "" if keywords.blank?
 
-      keywords.each(&:downcase!) if MetaTags.config.keywords_lowercase
       separator = cleanup_string MetaTags.config.keywords_separator, strip: false
-
-      keywords = truncate_array(keywords, MetaTags.config.keywords_limit, separator)
-      safe_join(keywords, separator)
+      keywords = truncate_array(keywords, limit, separator).to_a
+      keywords.empty? ? "" : safe_join(keywords, separator)
     end
 
     # Easy way to get access to Rails helpers.
@@ -154,15 +162,15 @@ module MetaTags
 
     # Truncates an array of strings to a specific limit.
     #
-    # @param string_array [Array<String>] input strings.
+    # @param string_array [Enumerable<String>] input strings.
     # @param limit [Integer, nil] number of characters to truncate to.
     # @param separator [String] separator that will be used to join the array later.
-    # @return [Array<String>] truncated array of strings.
+    # @return [Enumerable<String>] truncated array, or the original input if unlimited.
     def truncate_array(string_array, limit = nil, separator = "")
       return string_array if limit.nil? || limit <= 0
 
       length = 0
-      preserve_items = string_array.size > 1 && MetaTags.config.truncate_array_items_at_boundaries
+      preserve_items = MetaTags.config.truncate_array_items_at_boundaries
       result = [] # : Array[String]
 
       string_array.each do |string|
