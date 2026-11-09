@@ -10,6 +10,8 @@ Bugfixes:
 
 - Made `skip_canonical_links_on_noindex` treat a standalone robots `none` directive as equivalent to `noindex, nofollow`, while leaving valued directives such as `max-image-preview:none` unaffected ([426](https://github.com/kpumuk/meta-tags/pull/426)).
 - Made the `lowercase` title option transform decoded text instead of raw HTML, so numeric character references are lowercased and case-sensitive named entities retain their intended symbols ([427](https://github.com/kpumuk/meta-tags/pull/427)).
+- Normalized site-only title fallbacks for mirrored titles and the `title` helper, applying text cleanup and title length limits while preserving site casing ([450](https://github.com/kpumuk/meta-tags/pull/450)).
+- Allowed `nil` for `keywords_limit` in RBS to match the existing unlimited-keywords runtime behavior ([451](https://github.com/kpumuk/meta-tags/pull/451)).
 
 ## 2.24.0 (September 1, 2026) [☰](https://github.com/kpumuk/meta-tags/compare/v2.23.0...v2.24.0)
 
