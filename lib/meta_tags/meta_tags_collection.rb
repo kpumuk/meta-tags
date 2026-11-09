@@ -72,7 +72,7 @@ module MetaTags
     def page_title(defaults = {})
       with_defaults(defaults) do
         site = extract(:site)
-        extract_full_title.presence || site || ""
+        extract_full_title.presence || TextNormalizer.normalize_title(site, [], "")
       end
     end
 

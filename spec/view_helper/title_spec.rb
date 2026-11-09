@@ -113,6 +113,17 @@ RSpec.describe MetaTags::ViewHelper do
       end
     end
 
+    it "normalizes the site fallback without changing stored metadata" do
+      subject.set_meta_tags(site: " <b>Example &amp; Co</b> ", lowercase: true)
+      metadata = subject.meta_tags.meta_tags.deep_dup
+
+      expect(subject.title).to eq("Example &amp; Co")
+      expect(subject.title).to eq("Example &amp; Co")
+      expect(subject.meta_tags.meta_tags).to eq(metadata)
+      expect(subject.title("")).to eq("Example &amp; Co")
+      expect(subject.meta_tags[:site]).to eq(" <b>Example &amp; Co</b> ")
+    end
+
     it "uses page before website if :reverse" do
       subject.display_meta_tags(site: "someSite", title: "someTitle", reverse: true).tap do |meta|
         expect(meta).to eq("<title>someTitle | someSite</title>")
