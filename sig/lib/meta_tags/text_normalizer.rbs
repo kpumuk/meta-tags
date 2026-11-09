@@ -24,6 +24,7 @@ module MetaTags
     def truncate: (String string, ?Integer? limit) -> String
 
     def truncate_array: (Array[String] string_array, ?Integer? limit, ?String separator) -> Array[String]
+                      | (Enumerable[String] string_array, ?Integer? limit, ?String separator) -> Enumerable[String]
 
     private
 
