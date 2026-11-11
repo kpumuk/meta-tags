@@ -1,5 +1,7 @@
 interface _ActionControllerBase
   def render: (*untyped args) ?{ () -> untyped } -> untyped
+
+  def render_to_string: (*untyped args) ?{ () -> untyped } -> untyped
 end
 
 interface _ActionViewBase
