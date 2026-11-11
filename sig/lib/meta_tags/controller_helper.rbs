@@ -7,8 +7,14 @@ module MetaTags
 
     def render: (*untyped args) ?{ () -> untyped } -> untyped
 
+    def render_to_string: (*untyped args) ?{ () -> untyped } -> untyped
+
     def set_meta_tags: (meta_tags | (_MetaTagish & Object) meta_tags) -> void
 
     def meta_tags: () -> MetaTagsCollection
+
+    private
+
+    def set_meta_tags_from_instance_variables: () -> void
   end
 end
