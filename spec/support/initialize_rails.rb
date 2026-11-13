@@ -21,6 +21,16 @@ module MetaTagsRailsApp
   # Alright, we're all set. Let's boot!
   Rails.application.initialize!
 
+  class MetaTagsText
+    def initialize(controller)
+      @controller = controller
+    end
+
+    def to_text
+      @controller.view_context.display_meta_tags
+    end
+  end
+
   class MetaTagsController < ActionController::Base
     protect_from_forgery with: :exception
 
@@ -42,6 +52,35 @@ module MetaTagsRailsApp
       @page_description = nil
 
       render plain: "_rendered_"
+    end
+
+    attr_reader :buffered_metadata, :response_after_buffer, :title_after_buffer
+
+    def metadata
+      case params[:variables]
+      when "set"
+        @page_title = "Page"
+        @page_description = "Description"
+        @page_keywords = ["First", "Second"]
+      when "nil"
+        @page_title = nil
+        @page_description = nil
+        @page_keywords = nil
+      end
+
+      options = if params[:text_value]
+        {html: MetaTagsText.new(self)}
+      else
+        {inline: params[:template] || "<%= display_meta_tags %>"}
+      end
+      if params[:buffered]
+        @buffered_metadata = render_to_string(options)
+        @response_after_buffer = response_body
+        @title_after_buffer = meta_tags[:title]
+        render html: @buffered_metadata, status: :created
+      else
+        render(**options, status: :created)
+      end
     end
 
     public :set_meta_tags, :meta_tags

@@ -17,9 +17,19 @@ module MetaTags
     # @yield optional block forwarded to +render+.
     # @yieldreturn [Object] result of the render block.
     def render(*args, &block)
-      meta_tags[:title] = @page_title if defined?(@page_title) && @page_title
-      meta_tags[:keywords] = @page_keywords if defined?(@page_keywords) && @page_keywords
-      meta_tags[:description] = @page_description if defined?(@page_description) && @page_description
+      set_meta_tags_from_instance_variables
+
+      super
+    end
+
+    # Processes controller instance-variable metadata before rendering to a string.
+    #
+    # @param args [Array<Object>] positional arguments forwarded to +render_to_string+.
+    # @param block [Proc, nil] optional block forwarded to +render_to_string+.
+    # @yield optional block forwarded to +render_to_string+.
+    # @yieldreturn [Object] result of the render block.
+    def render_to_string(*args, &block)
+      set_meta_tags_from_instance_variables
 
       super
     end
@@ -38,5 +48,14 @@ module MetaTags
       @meta_tags ||= MetaTagsCollection.new
     end
     protected :meta_tags
+
+    private
+
+    # Copies controller instance-variable metadata into the collection.
+    def set_meta_tags_from_instance_variables
+      meta_tags[:title] = @page_title if defined?(@page_title) && @page_title
+      meta_tags[:keywords] = @page_keywords if defined?(@page_keywords) && @page_keywords
+      meta_tags[:description] = @page_description if defined?(@page_description) && @page_description
+    end
   end
 end
