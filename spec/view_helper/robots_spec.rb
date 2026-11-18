@@ -97,6 +97,19 @@ RSpec.describe MetaTags::ViewHelper, "displaying robots meta tags" do
       HTML
   end
 
+  [
+    [:Robots, "Robots", %(<link rel="canonical" href="https://example.test/page">\n<meta property="Robots" content="noindex">)],
+    [:robots, "Robots", '<meta name="Robots" content="noindex">'],
+    ["Googlebot", :googlebot, '<meta name="googlebot" content="noindex">']
+  ].each do |property_tag, key, expected|
+    it "matches the configured #{property_tag.inspect} property against the #{key.inspect} key spelling" do
+      MetaTags.config.property_tags.push(property_tag)
+      MetaTags.config.skip_canonical_links_on_noindex = true
+
+      expect(subject.display_meta_tags(:canonical => "https://example.test/page", key => "noindex")).to eq(expected)
+    end
+  end
+
   it "omits blank structured directives" do
     expect(subject.display_meta_tags(robots: {"" => nil})).to eq("")
   end
