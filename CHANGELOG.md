@@ -10,6 +10,7 @@ Changes:
 
 Bugfixes:
 
+- Allowed `Time`, `Date`, `DateTime`, and `ActiveSupport::TimeWithZone` values in `title_tag_attributes` in RBS, including nested `data` attributes, to match the existing runtime rendering ([456](https://github.com/kpumuk/meta-tags/pull/456)).
 - Made `skip_canonical_links_on_noindex` treat a standalone robots `none` directive as equivalent to `noindex, nofollow`, while leaving valued directives such as `max-image-preview:none` unaffected ([426](https://github.com/kpumuk/meta-tags/pull/426)).
 - Made the `lowercase` title option transform decoded text instead of raw HTML, so numeric character references are lowercased and case-sensitive named entities retain their intended symbols ([427](https://github.com/kpumuk/meta-tags/pull/427)).
 - Normalized site-only title fallbacks for mirrored titles and the `title` helper, applying text cleanup and title length limits while preserving site casing ([450](https://github.com/kpumuk/meta-tags/pull/450)).

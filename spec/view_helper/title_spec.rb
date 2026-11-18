@@ -338,6 +338,36 @@ RSpec.describe MetaTags::ViewHelper do
         expect(meta).to eq("<title id=\"page-title\" data-testid=\"test-title\">hello</title>")
       end
     end
+
+    it "renders date and time HTML attributes when configured" do
+      time = Time.utc(2026, 11, 18, 1, 2, 3)
+      date = Date.new(2026, 11, 18)
+      date_time = DateTime.new(2026, 11, 18, 1, 2, 3)
+      zoned_time = time.in_time_zone("America/Toronto")
+      attributes = {
+        "data-time" => time,
+        "data-date" => date,
+        "data-date-time" => date_time,
+        "data-zoned-time" => zoned_time,
+        :data => {time_json: time, date_json: date, date_time_json: date_time, zoned_time_json: zoned_time}.freeze
+      }.freeze
+
+      MetaTags.config.title_tag_attributes = attributes
+
+      expect(subject.display_meta_tags(title: "Event")).to eq(
+        "<title " \
+        "data-time=\"2026-11-18T01:02:03Z\" " \
+        "data-date=\"2026-11-18\" " \
+        "data-date-time=\"2026-11-18T01:02:03+00:00\" " \
+        "data-zoned-time=\"2026-11-17T20:02:03-05:00\" " \
+        "data-time-json=\"&quot;2026-11-18T01:02:03.000Z&quot;\" " \
+        "data-date-json=\"&quot;2026-11-18&quot;\" " \
+        "data-date-time-json=\"&quot;2026-11-18T01:02:03.000+00:00&quot;\" " \
+        "data-zoned-time-json=\"&quot;2026-11-17T20:02:03.000-05:00&quot;\">Event</title>"
+      )
+      expect(MetaTags.config.title_tag_attributes).to be(attributes)
+      expect(attributes["data-time"]).to be(time)
+    end
   end
 
   describe ".display_title" do
