@@ -158,6 +158,24 @@ RSpec.describe MetaTags::ViewHelper do
         end
       end
 
+      ["Robots", "GoogleBot", "BINGBOT"].each do |name|
+        [name, name.to_sym].each do |key|
+          [
+            ["NoIndex", %(<meta name="#{name}" content="NoIndex">)],
+            ["NoNe", %(<meta name="#{name}" content="NoNe">)],
+            [["follow", "noindex"], %(<meta name="#{name}" content="follow">\n<meta name="#{name}" content="noindex">)]
+          ].each do |value, expected|
+            it "skips canonical for the mixed-case crawler #{key.inspect} with #{value.inspect}" do
+              defaults = {:canonical => "http://example.com/base/url", key => value}
+              original_defaults = defaults.deep_dup
+
+              expect(Array.new(2) { subject.display_meta_tags(defaults) }).to eq([expected, expected])
+              expect(defaults).to eq(original_defaults)
+            end
+          end
+        end
+      end
+
       ["max-image-preview:none", "nonetheless"].each do |directive|
         it "keeps canonical for the none near-match #{directive}" do
           expect(subject.display_meta_tags(canonical: "http://example.com/base/url", robots: directive))

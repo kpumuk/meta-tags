@@ -16,6 +16,7 @@ Bugfixes:
 - Normalized site-only title fallbacks for mirrored titles and the `title` helper, applying text cleanup and title length limits while preserving site casing ([450](https://github.com/kpumuk/meta-tags/pull/450)).
 - Allowed `nil` for `keywords_limit` in RBS to match the existing unlimited-keywords runtime behavior ([451](https://github.com/kpumuk/meta-tags/pull/451)).
 - Applied controller `@page_title`, `@page_description`, and `@page_keywords` metadata during `render_to_string`, matching ordinary template rendering.
+- Compared crawler names case-insensitively in robots handling. Robots helpers now apply `follow` over `nofollow` and `noindex` over `index` when targets differ only in case, using the first spelling supplied, and `skip_canonical_links_on_noindex` recognizes mixed-case custom `robots`, `googlebot`, and `bingbot` tags such as `"Robots" => "noindex"`.
 
 ## 2.24.0 (September 1, 2026) [☰](https://github.com/kpumuk/meta-tags/compare/v2.23.0...v2.24.0)
 

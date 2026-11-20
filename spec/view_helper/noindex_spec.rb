@@ -202,6 +202,23 @@ RSpec.describe MetaTags::ViewHelper do
     end
   end
 
+  context "when crawler names differ only in case" do
+    [
+      ["scalar follow over nofollow", {follow: "Googlebot", nofollow: "googlebot"}, '<meta name="Googlebot" content="follow">'],
+      ["array follow over nofollow", {follow: ["Googlebot"], nofollow: ["googlebot"]}, '<meta name="Googlebot" content="follow">'],
+      ["scalar noindex over index", {noindex: "BingBot", index: "bingbot"}, '<meta name="BingBot" content="noindex">'],
+      ["array noindex over index", {noindex: ["bingbot"], index: ["BINGBOT", "yahoo"]}, %(<meta name="bingbot" content="noindex">\n<meta name="yahoo" content="index">)],
+      ["duplicate targets", {follow: ["Googlebot", "googlebot", "GOOGLEBOT"]}, '<meta name="Googlebot" content="follow">']
+    ].each do |description, settings, expected|
+      it "applies #{description} once using the first spelling" do
+        original_settings = settings.deep_dup
+
+        expect(Array.new(2) { subject.display_meta_tags(settings) }).to eq([expected, expected])
+        expect(settings).to eq(original_settings)
+      end
+    end
+  end
+
   it "properly handles priorities and multiple robot names" do
     subject.set_meta_tags(
       noindex: true,

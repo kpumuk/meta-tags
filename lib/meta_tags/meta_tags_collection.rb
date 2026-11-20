@@ -150,9 +150,11 @@ module MetaTags
     def noindex?
       contents = robots.values
       property_tags = MetaTags.config.property_tags.map(&:to_s)
-      [:robots, :googlebot, :bingbot].each do |bot|
-        values = meta_tags[bot]
-        next if values.is_a?(Hash) || property_tags.include?(bot.to_s)
+      meta_tags.each do |key, values|
+        # Crawler names are case-insensitive, but rendering keeps the key's spelling.
+        key = key.to_s
+        next unless %w[robots googlebot bingbot].any? { |bot| key.casecmp?(bot) }
+        next if values.is_a?(Hash) || property_tags.include?(key)
 
         contents.concat(Array(values))
       end
@@ -275,19 +277,20 @@ module MetaTags
       end
     end
 
-    # Records a robots directive unless it has already been set for the same key.
+    # Records a robots directive unless it has already been set for the same
+    # crawler. Crawler names are compared case-insensitively, while the
+    # directive is recorded under the first spelling supplied.
     #
     # @param result [Hash{String => Array<String>}] robots directives grouped by tag name.
     # @param name [String] robots tag name.
     # @param value [String] robots directive value.
-    # @param processed [Set<String>] names already recorded in this pass.
+    # @param processed [Set<String>] downcased names already recorded in this pass.
     # @return [void]
     def apply_robots_value(result, name, value, processed)
       name = name.to_s
-      return if processed.include?(name)
+      return unless processed.add?(name.downcase)
 
       result[name] << value
-      processed << name
     end
   end
 end
