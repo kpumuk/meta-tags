@@ -105,7 +105,7 @@ jobs:
                 ;;
             esac
 
-            if ! grep -qxF "$filename" "$allowed_lockfiles"; then
+            if ! grep -qxF -- "$filename" "$allowed_lockfiles"; then
               echo "Refusing to modify unexpected lockfile: $filename" >&2
               exit 1
             fi
