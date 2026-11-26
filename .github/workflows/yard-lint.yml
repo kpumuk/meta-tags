@@ -34,7 +34,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up Ruby ${{ matrix.ruby-version }} on Rails ${{ matrix.rails-version }}
-        uses: ruby/setup-ruby@4e97ecde5048e1e0816923020652678063ffbf65 # v1.339.0
+        uses: ruby/setup-ruby@f9c4492e86def3e644ab32a0ef185eda5b0c20d0 # v1.342.0
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
